@@ -1,1 +1,94 @@
-
+grupo,subgrupo,cid,descricao
+01,01.1,A00,Cólera
+01,01.1,A01,Febres tifóide e paratifóide
+01,01.1,A02,Outras infecções por Salmonella
+01,01.1,A03,Shiguelose
+01,01.1,A04,Outras infecções intestinais bacterianas
+01,01.1,A05,Outras intoxicações alimentares bacterianas
+01,01.1,A06,Amebíase
+01,01.1,A07,Outras doenças intestinais por protozoários
+01,01.1,A08,Infecções intestinais virais
+01,01.1,A09,Diarreia e gastroenterite de origem infecciosa presumível
+02,02.1,A15,Tuberculose respiratória
+02,02.1,A16,Tuberculose respiratória sem confirmação bacteriológica
+02,02.1,A17,Tuberculose do sistema nervoso
+02,02.1,A18,Tuberculose de outros órgãos
+02,02.1,A19,Tuberculose miliar
+03,03.1,A33,Tétano neonatal
+03,03.1,A34,Tétano obstétrico
+03,03.1,A35,Outros tipos de tétano
+03,03.2,A36,Difteria
+03,03.3,A37,Coqueluche
+03,03.4,A80,Poliomielite aguda
+03,03.5,B05,Sarampo
+03,03.6,B06,Rubéola
+03,03.7,B26,Caxumba
+03,03.8,B50,Malária por Plasmodium falciparum
+03,03.8,B51,Malária por Plasmodium vivax
+03,03.8,B52,Malária por Plasmodium malariae
+03,03.8,B54,Malária não especificada
+04,04.1,A90,Dengue
+04,04.1,A91,Dengue hemorrágico
+05,05.1,B20,Doença pelo HIV
+05,05.1,B21,Doença pelo HIV com doenças infecciosas
+05,05.1,B22,Doença pelo HIV com outras doenças
+05,05.1,B23,Doença pelo HIV com outras condições
+05,05.1,B24,Doença pelo HIV não especificada
+06,06.1,D50,Anemia por deficiência de ferro
+06,06.1,D51,Anemia por deficiência de vitamina B12
+06,06.1,D52,Anemia por deficiência de folato
+06,06.1,D53,Outras anemias nutricionais
+07,07.1,E10,Diabetes mellitus insulino-dependente
+07,07.1,E11,Diabetes mellitus não insulino-dependente
+07,07.1,E12,Diabetes mellitus relacionado com desnutrição
+07,07.1,E13,Outros tipos especificados de diabetes mellitus
+07,07.1,E14,Diabetes mellitus não especificado
+08,08.1,E40,Kwashiorkor
+08,08.1,E41,Marasmo nutricional
+08,08.1,E42,Kwashiorkor marasmático
+08,08.1,E43,Desnutrição proteico-calórica grave não especificada
+08,08.1,E44,Desnutrição proteico-calórica de graus moderado e leve
+08,08.1,E46,Desnutrição proteico-calórica não especificada
+09,09.1,I10,Hipertensão essencial
+09,09.1,I11,Doença cardíaca hipertensiva
+09,09.1,I12,Doença renal hipertensiva
+09,09.1,I13,Doença cardíaca e renal hipertensiva
+09,09.2,I20,Angina pectoris
+09,09.3,I50,Insuficiência cardíaca
+09,09.4,I63,Infarto cerebral
+09,09.4,I64,Acidente vascular cerebral
+09,09.4,I67,Outras doenças cerebrovasculares
+09,09.4,I69,Sequelas de doenças cerebrovasculares
+10,10.1,J00,Nasofaringite aguda
+10,10.1,J01,Sinusite aguda
+10,10.1,J02,Faringite aguda
+10,10.1,J03,Amigdalite aguda
+10,10.1,J06,Infecções agudas das vias aéreas superiores
+10,10.2,J13,Pneumonia por Streptococcus pneumoniae
+10,10.2,J14,Pneumonia por Haemophilus influenzae
+10,10.2,J15,Pneumonias bacterianas
+10,10.2,J18,Pneumonia por microrganismo não especificado
+10,10.3,J20,Bronquite aguda
+10,10.3,J21,Bronquiolite aguda
+10,10.4,J45,Asma
+10,10.4,J46,Estado de mal asmático
+11,11.1,K25,Úlcera gástrica
+11,11.1,K26,Úlcera duodenal
+11,11.1,K27,Úlcera péptica
+11,11.1,K28,Úlcera gastrojejunal
+12,12.1,K52,Outras gastroenterites e colites
+12,12.1,K57,Doença diverticular do intestino
+12,12.2,K92,Outras doenças do aparelho digestivo
+13,13.1,N10,Nefrite túbulo-intersticial aguda
+13,13.1,N11,Nefrite túbulo-intersticial crônica
+13,13.1,N12,Nefrite túbulo-intersticial não especificada
+13,13.1,N30,Cistite
+13,13.1,N34,Uretrite e síndrome uretral
+13,13.1,N39,Outros transtornos do trato urinário
+14,14.1,O23,Infecções do trato urinário na gravidez
+14,14.1,O86,Outras infecções puerperais
+15,15.1,L01,Impetigo
+15,15.1,L02,Abscesso cutâneo
+15,15.1,L03,Celulite
+15,15.1,L04,Linfadenite aguda
+15,15.1,L08,Outras infecções locais da pele
