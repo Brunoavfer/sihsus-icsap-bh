@@ -1,0 +1,60 @@
+# =============================================================================
+# atualizar_dados.yml
+#
+# O que faz:
+#   - Roda automaticamente todo dia 1º de cada mês
+#   - Baixa os dados mais recentes do DATASUS
+#   - Processa e filtra as internações ICSAP de BH
+#   - Salva os dados tratados no repositório
+#
+# Também pode ser executado manualmente pelo GitHub
+# =============================================================================
+
+name: Atualizar Dados ICSAP-BH
+
+on:
+  # Agendamento: todo dia 1º às 06:00 (horário de Brasília = 09:00 UTC)
+  schedule:
+    - cron: "0 9 1 * *"
+
+  # Permite rodar manualmente pela interface do GitHub
+  workflow_dispatch:
+
+jobs:
+  atualizar:
+    # Usa um servidor Linux gratuito do GitHub
+    runs-on: ubuntu-latest
+
+    steps:
+      # Passo 1: Baixa o código do repositório no servidor
+      - name: Baixar repositório
+        uses: actions/checkout@v4
+
+      # Passo 2: Instala o R no servidor
+      - name: Instalar R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "4.3.0"
+
+      # Passo 3: Instala os pacotes R necessários
+      - name: Instalar pacotes R
+        run: |
+          install.packages(c("read.dbc", "dplyr", "stringr", "readr", "lubridate"))
+        shell: Rscript {0}
+
+      # Passo 4: Roda o script de download dos dados
+      - name: Baixar dados do DATASUS
+        run: Rscript R/01_download.R
+
+      # Passo 5: Roda o script de processamento
+      - name: Processar e filtrar ICSAP
+        run: Rscript R/02_process.R
+
+      # Passo 6: Salva os dados atualizados de volta no repositório
+      - name: Salvar dados atualizados
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/processed/
+          git diff --staged --quiet || git commit -m "Dados atualizados automaticamente - $(date +'%Y-%m-%d')"
+          git push
