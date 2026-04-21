@@ -18,8 +18,8 @@ library(stringr)
 COD_BH <- "310620"
 
 # Período desejado (ano e mês)
-ANO_INICIO  <- 2019
-ANO_FIM     <- 2023
+ANO_INICIO  <- 2025
+ANO_FIM     <- 2025
 MESES       <- str_pad(1:12, 2, pad = "0")  # "01" a "12"
 
 # Pasta de destino
