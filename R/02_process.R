@@ -3,9 +3,19 @@
 #
 # O que faz:
 #   - Lê os arquivos .dbc baixados pelo 01_download.R
-#   - Filtra apenas internações de residentes em BH
+#   - Filtra internações de residentes EM BH E internados EM BH
 #   - Cruza com a lista ICSAP (data/ref/lista_icsap.csv)
+#   - Mantém o total de internações para cálculo da taxa ICSAP (%)
 #   - Salva o resultado tratado em data/processed/
+#
+# Decisão metodológica:
+#   São incluídas APENAS internações que satisfazem os dois critérios:
+#   1. MUNIC_RES == 310620 → paciente RESIDE em Belo Horizonte
+#   2. MUNIC_MOV == 310620 → internação OCORREU em Belo Horizonte
+#   Isso garante que estamos avaliando a efetividade da APS de BH
+#   para sua própria população, excluindo:
+#   - Residentes de BH internados em outros municípios
+#   - Residentes de outros municípios internados em BH
 # =============================================================================
 
 library(read.dbc)
@@ -34,19 +44,18 @@ icsap <- read_csv(
   show_col_types = FALSE
 )
 
-cids_icsap <- icsap$cid  # vetor com todos os CIDs ICSAP
+cids_icsap <- icsap$cid
 
 message("Lista ICSAP carregada: ", length(cids_icsap), " CIDs")
 
 # -----------------------------------------------------------------------------
-# Função: lê um arquivo .dbc e filtra BH + ICSAP
+# Função: lê um arquivo .dbc e processa
 # -----------------------------------------------------------------------------
 
 processar_arquivo <- function(arquivo) {
-  
+
   message("Processando: ", basename(arquivo))
-  
-  # Lê o arquivo .dbc
+
   dados <- tryCatch(
     read.dbc(arquivo),
     error = function(e) {
@@ -54,50 +63,67 @@ processar_arquivo <- function(arquivo) {
       return(NULL)
     }
   )
-  
+
   if (is.null(dados)) return(NULL)
-  
+
   # Padroniza nomes das colunas para minúsculo
   names(dados) <- tolower(names(dados))
-  
-  dados %>%
-    # Filtra apenas residentes de BH
-    filter(munic_res == COD_BH) %>%
-    
-    # Extrai os 3 primeiros caracteres do CID (ex: "I10.0" → "I10")
-    mutate(cid3 = str_sub(diag_princ, 1, 3)) %>%
-    
-    # Filtra apenas internações ICSAP
-    filter(cid3 %in% cids_icsap) %>%
-    
-    # Seleciona e renomeia as colunas mais importantes
-    select(
-      ano_cmpt,          # Ano de competência
-      mes_cmpt,          # Mês de competência
-      cep,               # CEP do paciente
-      munic_res,         # Município de residência
-      diag_princ,        # Diagnóstico principal (CID)
-      cid3,              # CID com 3 caracteres
-      idade,             # Idade do paciente
-      sexo,              # Sexo
-      dias_perm,         # Dias de permanência
-      val_tot            # Valor total da internação
-    ) %>%
-    
-    # Cria coluna de data
+
+  # -------------------------------------------------------------------------
+  # FILTRO DUPLO — decisão metodológica central do projeto
+  # Inclui apenas internações onde o paciente:
+  #   1. Reside em BH (munic_res)
+  #   2. Foi internado em BH (munic_mov)
+  # -------------------------------------------------------------------------
+  dados_bh <- dados %>%
+    filter(
+      munic_res == COD_BH,  # reside em BH
+      munic_mov == COD_BH   # internado em BH
+    )
+
+  # Registra quantos registros foram filtrados
+  message(
+    "  Total no arquivo: ", nrow(dados),
+    " | Residentes E internados em BH: ", nrow(dados_bh)
+  )
+
+  if (nrow(dados_bh) == 0) return(NULL)
+
+  # -------------------------------------------------------------------------
+  # Prepara base completa (denominador para cálculo da taxa ICSAP)
+  # -------------------------------------------------------------------------
+  total_internacoes <- dados_bh %>%
     mutate(
+      cid3 = str_sub(diag_princ, 1, 3),
       data_internacao = make_date(
         year  = as.integer(ano_cmpt),
         month = as.integer(mes_cmpt),
         day   = 1L
-      )
+      ),
+      icsap = cid3 %in% cids_icsap  # TRUE se for ICSAP, FALSE se não for
     ) %>%
-    
-    # Junta com a descrição da lista ICSAP
+    select(
+      ano_cmpt,
+      mes_cmpt,
+      data_internacao,
+      cep,
+      munic_res,
+      munic_mov,
+      diag_princ,
+      cid3,
+      icsap,           # flag indicando se é ICSAP ou não
+      idade,
+      sexo,
+      dias_perm,
+      val_tot
+    ) %>%
+    # Junta descrição ICSAP apenas para as internações ICSAP
     left_join(
       icsap %>% select(cid, grupo, subgrupo, descricao),
       by = c("cid3" = "cid")
     )
+
+  return(total_internacoes)
 }
 
 # -----------------------------------------------------------------------------
@@ -107,27 +133,49 @@ processar_arquivo <- function(arquivo) {
 arquivos <- list.files(DIR_RAW, pattern = "\\.dbc$", full.names = TRUE)
 
 if (length(arquivos) == 0) {
-  stop("Nenhum arquivo .dbc encontrado em ", DIR_RAW, 
+  stop("Nenhum arquivo .dbc encontrado em ", DIR_RAW,
        ". Rode primeiro o script 01_download.R")
 }
 
 message("Arquivos encontrados: ", length(arquivos))
 
-# Processa e empilha todos os arquivos
 dados_completos <- arquivos %>%
   lapply(processar_arquivo) %>%
   bind_rows()
 
-message("Total de internações ICSAP em BH: ", nrow(dados_completos))
+# -----------------------------------------------------------------------------
+# Resumo e cálculo da taxa ICSAP
+# -----------------------------------------------------------------------------
+
+resumo <- dados_completos %>%
+  summarise(
+    total_internacoes = n(),
+    total_icsap       = sum(icsap, na.rm = TRUE),
+    taxa_icsap        = round(total_icsap / total_internacoes * 100, 1)
+  )
+
+message("======================================")
+message("Total de internações em BH: ",    resumo$total_internacoes)
+message("Total de internações ICSAP: ",    resumo$total_icsap)
+message("Taxa ICSAP: ",                    resumo$taxa_icsap, "%")
+message("======================================")
 
 # -----------------------------------------------------------------------------
 # Salva o resultado
 # -----------------------------------------------------------------------------
 
-# Salva em CSV para uso no painel Shiny
+# Base completa (todas as internações, com flag icsap)
 write_csv(
   dados_completos,
+  file.path(DIR_PROC, "internacoes_bh.csv")
+)
+
+# Base apenas ICSAP (para análises específicas)
+write_csv(
+  dados_completos %>% filter(icsap == TRUE),
   file.path(DIR_PROC, "icsap_bh.csv")
 )
 
-message("Dados salvos em: ", file.path(DIR_PROC, "icsap_bh.csv"))
+message("Arquivos salvos em: ", DIR_PROC)
+message("  - internacoes_bh.csv  (todas as internações — denominador)")
+message("  - icsap_bh.csv        (apenas ICSAP — numerador)")
