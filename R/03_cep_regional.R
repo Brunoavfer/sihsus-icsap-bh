@@ -41,14 +41,18 @@ library(rvest)
 DIR_PROC <- "data/processed"
 DIR_REF  <- "data/ref"
 
-CACHE_CEP <- file.path(DIR_REF, "cache_cep.csv")
-LOG_CEP   <- file.path(DIR_PROC, "ceps_nao_encontrados.csv")
-
-# Arquivo local de fallback
+CACHE_CEP     <- file.path(DIR_REF, "cache_cep.csv")
+LOG_CEP       <- file.path(DIR_PROC, "ceps_nao_encontrados.csv")
 ARQUIVO_LOCAL <- file.path(DIR_REF, "area_abrangencia_saude.csv")
 
 PAUSA_VIACEP    <- 0.3
 PAUSA_NOMINATIM <- 1.0
+
+# -----------------------------------------------------------------------------
+# Função auxiliar — garante que o CEP seja sempre texto
+# -----------------------------------------------------------------------------
+
+como_texto <- function(x) as.character(x)
 
 # -----------------------------------------------------------------------------
 # Função: busca automaticamente o arquivo mais recente da PBH
@@ -88,10 +92,8 @@ buscar_url_abrangencia <- function() {
   }
 
   url_recente <- tail(links_csv, 1)
-
   message("Arquivo mais recente: ", basename(url_recente))
   message("URL: ", url_recente)
-
   return(url_recente)
 }
 
@@ -99,7 +101,6 @@ buscar_url_abrangencia <- function() {
 # Carrega polígonos de área de abrangência da PBH
 # -----------------------------------------------------------------------------
 
-# Tenta buscar online — se falhar, usa arquivo local
 URL_ABRANGENCIA <- tryCatch(
   buscar_url_abrangencia(),
   error = function(e) {
@@ -135,6 +136,7 @@ message("Polígonos carregados: ", nrow(abrangencia_sf), " Centros de Saúde")
 
 dados <- read_csv(
   file.path(DIR_PROC, "icsap_bh.csv"),
+  col_types = cols(cep = col_character()),
   show_col_types = FALSE
 )
 
@@ -145,7 +147,11 @@ message("Registros ICSAP carregados: ", nrow(dados))
 # -----------------------------------------------------------------------------
 
 if (file.exists(CACHE_CEP)) {
-  cache <- read_csv(CACHE_CEP, show_col_types = FALSE)
+  cache <- read_csv(
+    CACHE_CEP,
+    col_types = cols(cep = col_character()),
+    show_col_types = FALSE
+  )
   message("Cache carregado: ", nrow(cache), " CEPs já processados")
 } else {
   cache <- tibble(
@@ -164,6 +170,7 @@ if (file.exists(CACHE_CEP)) {
 ceps_dados <- dados %>%
   filter(!is.na(cep), cep != "",
          str_length(str_remove_all(cep, "\\D")) == 8) %>%
+  mutate(cep = como_texto(cep)) %>%
   distinct(cep) %>%
   pull(cep)
 
@@ -178,7 +185,7 @@ message("CEPs novos para consultar: ",  length(ceps_novos))
 # -----------------------------------------------------------------------------
 
 consultar_viacep <- function(cep) {
-  cep_limpo <- str_remove_all(cep, "\\D")
+  cep_limpo <- str_remove_all(como_texto(cep), "\\D")
   resp <- tryCatch(
     GET(paste0("https://viacep.com.br/ws/", cep_limpo, "/json/"), timeout(10)),
     error = function(e) NULL
@@ -223,14 +230,21 @@ if (length(ceps_novos) > 0) {
 
   for (i in seq_along(ceps_novos)) {
 
-    cep <- ceps_novos[i]
+    cep <- como_texto(ceps_novos[i])
 
     if (i %% 50 == 0) {
       message("Processando CEP ", i, " de ", length(ceps_novos),
               " (", round(i / length(ceps_novos) * 100), "%)")
+
       # Salva cache parcial a cada 50 CEPs
-      cache_parcial <- bind_rows(cache, bind_rows(novos_registros[!sapply(novos_registros, is.null)]))
-      write_csv(cache_parcial, CACHE_CEP)
+      registros_ate_agora <- novos_registros[!sapply(novos_registros, is.null)]
+      if (length(registros_ate_agora) > 0) {
+        cache_parcial <- bind_rows(
+          cache,
+          bind_rows(registros_ate_agora) %>% mutate(cep = como_texto(cep))
+        )
+        write_csv(cache_parcial, CACHE_CEP)
+      }
     }
 
     # Passo 1: ViaCEP
@@ -239,7 +253,9 @@ if (length(ceps_novos) > 0) {
 
     if (is.null(dados_cep)) {
       novos_registros[[i]] <- tibble(
-        cep    = cep, lat = NA_real_, lon = NA_real_,
+        cep    = como_texto(cep),
+        lat    = NA_real_,
+        lon    = NA_real_,
         motivo = "CEP não encontrado no ViaCEP"
       )
       next
@@ -248,7 +264,9 @@ if (length(ceps_novos) > 0) {
     # Verifica se é BH
     if (!str_detect(tolower(dados_cep$localidade), "belo horizonte")) {
       novos_registros[[i]] <- tibble(
-        cep    = cep, lat = NA_real_, lon = NA_real_,
+        cep    = como_texto(cep),
+        lat    = NA_real_,
+        lon    = NA_real_,
         motivo = paste0("CEP de outro município: ", dados_cep$localidade)
       )
       next
@@ -260,14 +278,16 @@ if (length(ceps_novos) > 0) {
 
     if (is.null(coords)) {
       novos_registros[[i]] <- tibble(
-        cep    = cep, lat = NA_real_, lon = NA_real_,
+        cep    = como_texto(cep),
+        lat    = NA_real_,
+        lon    = NA_real_,
         motivo = "Endereço não geocodificado"
       )
       next
     }
 
     novos_registros[[i]] <- tibble(
-      cep    = cep,
+      cep    = como_texto(cep),
       lat    = coords$lat,
       lon    = coords$lon,
       motivo = NA_character_
@@ -275,7 +295,10 @@ if (length(ceps_novos) > 0) {
   }
 
   # Salva cache final
-  cache <- bind_rows(cache, bind_rows(novos_registros))
+  cache <- bind_rows(
+    cache,
+    bind_rows(novos_registros) %>% mutate(cep = como_texto(cep))
+  )
   write_csv(cache, CACHE_CEP)
   message("Cache atualizado: ", nrow(cache), " CEPs no total")
 }
@@ -286,16 +309,20 @@ if (length(ceps_novos) > 0) {
 
 message("Cruzando coordenadas com polígonos da PBH...")
 
-cache_valido <- cache %>% filter(!is.na(lat), !is.na(lon))
+cache_valido <- cache %>%
+  filter(!is.na(lat), !is.na(lon)) %>%
+  mutate(cep = como_texto(cep))
 
 pontos_sf <- cache_valido %>%
   st_as_sf(coords = c("lon", "lat"), crs = 4326)
 
 cruzamento <- st_join(pontos_sf, abrangencia_sf) %>%
   st_drop_geometry() %>%
-  select(cep, cod_smsa, nome_cs, regional)
+  select(cep, cod_smsa, nome_cs, regional) %>%
+  mutate(cep = como_texto(cep))
 
 cache_completo <- cache %>%
+  mutate(cep = como_texto(cep)) %>%
   left_join(cruzamento, by = "cep")
 
 # -----------------------------------------------------------------------------
@@ -303,6 +330,7 @@ cache_completo <- cache %>%
 # -----------------------------------------------------------------------------
 
 dados_final <- dados %>%
+  mutate(cep = como_texto(cep)) %>%
   left_join(
     cache_completo %>% select(cep, nome_cs, regional),
     by = "cep"
@@ -329,9 +357,12 @@ message("==========================================")
 
 # Log de CEPs não encontrados
 ceps_nao_encontrados <- cache %>%
+  mutate(cep = como_texto(cep)) %>%
   filter(!is.na(motivo)) %>%
   left_join(
-    dados %>% count(cep, name = "n_pacientes"),
+    dados %>%
+      mutate(cep = como_texto(cep)) %>%
+      count(cep, name = "n_pacientes"),
     by = "cep"
   ) %>%
   arrange(desc(n_pacientes))
