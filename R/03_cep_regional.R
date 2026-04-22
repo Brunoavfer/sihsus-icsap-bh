@@ -3,7 +3,7 @@
 #
 # O que faz:
 #   - Busca automaticamente o arquivo mais recente de área de abrangência
-#     da PBH via API do Portal de Dados Abertos
+#     da PBH via web scraping do Portal de Dados Abertos
 #   - Lê os dados processados (icsap_bh.csv)
 #   - Para cada CEP único consulta o ViaCEP para obter o endereço
 #   - Geocodifica o endereço via Nominatim (OpenStreetMap)
@@ -31,6 +31,7 @@ library(stringr)
 library(httr)
 library(jsonlite)
 library(sf)
+library(rvest)
 
 # -----------------------------------------------------------------------------
 # Configurações
@@ -39,15 +40,11 @@ library(sf)
 DIR_PROC <- "data/processed"
 DIR_REF  <- "data/ref"
 
-# Arquivo de cache (evita reconsultar CEPs já processados)
 CACHE_CEP <- file.path(DIR_REF, "cache_cep.csv")
-
-# Arquivo de log de CEPs não encontrados
 LOG_CEP   <- file.path(DIR_PROC, "ceps_nao_encontrados.csv")
 
-# Pausa entre consultas para respeitar limites das APIs (segundos)
 PAUSA_VIACEP    <- 0.3
-PAUSA_NOMINATIM <- 1.0  # Nominatim exige mínimo 1s entre consultas
+PAUSA_NOMINATIM <- 1.0
 
 # -----------------------------------------------------------------------------
 # Função: busca automaticamente o arquivo mais recente da PBH
@@ -57,35 +54,38 @@ buscar_url_abrangencia <- function() {
 
   message("Buscando arquivo mais recente de área de abrangência da PBH...")
 
-  url_api <- paste0(
-    "https://dados.pbh.gov.br/api/3/action/package_show",
-    "?id=area-de-abrangencia-saude"
-  )
-
   resp <- tryCatch(
-    GET(url_api, timeout(30)),
+    GET(
+      "https://dados.pbh.gov.br/dataset/area-de-abrangencia-saude",
+      add_headers(
+        "User-Agent" = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+        "Accept"     = "text/html"
+      ),
+      timeout(30)
+    ),
     error = function(e) NULL
   )
 
   if (is.null(resp) || status_code(resp) != 200) {
-    stop("Não foi possível acessar a API do Portal de Dados Abertos da PBH.")
+    stop("Não foi possível acessar o Portal de Dados Abertos da PBH.")
   }
 
-  conteudo <- fromJSON(content(resp, "text", encoding = "UTF-8"))
+  html <- read_html(content(resp, "text", encoding = "UTF-8"))
 
-  # Extrai lista de recursos CSV
-  recursos <- as_tibble(conteudo$result$resources) %>%
-    filter(str_detect(tolower(format), "csv")) %>%
-    arrange(desc(created))
+  links <- html %>%
+    html_nodes("a") %>%
+    html_attr("href") %>%
+    .[str_detect(., "download.*\\.csv|download.*abrangencia")]
 
-  if (nrow(recursos) == 0) {
-    stop("Nenhum arquivo CSV encontrado no dataset.")
+  links_csv <- links[str_detect(links, "\\.csv$")]
+
+  if (length(links_csv) == 0) {
+    stop("Nenhum arquivo CSV encontrado na página da PBH.")
   }
 
-  url_recente  <- recursos$url[1]
-  nome_recente <- recursos$name[1]
+  url_recente <- tail(links_csv, 1)
 
-  message("Arquivo mais recente: ", nome_recente)
+  message("Arquivo mais recente: ", basename(url_recente))
   message("URL: ", url_recente)
 
   return(url_recente)
@@ -176,7 +176,9 @@ geocodificar <- function(logradouro, bairro, cidade = "Belo Horizonte") {
     GET(
       "https://nominatim.openstreetmap.org/search",
       query = list(q = endereco, format = "json", limit = 1),
-      add_headers("User-Agent" = "sihsus-icsap-bh/1.0 (github.com/Brunoavfer)")
+      add_headers(
+        "User-Agent" = "sihsus-icsap-bh/1.0 (github.com/Brunoavfer)"
+      )
     ),
     error = function(e) NULL
   )
