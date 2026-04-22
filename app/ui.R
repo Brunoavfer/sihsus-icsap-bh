@@ -1,23 +1,18 @@
 # =============================================================================
-# ui.R
-#
-# O que faz:
-#   - Define a interface visual do painel
-#   - Organiza filtros, gráficos e tabelas
+# ui.R — Interface do painel ICSAP-BH
 # =============================================================================
 
 ui <- fluidPage(
 
-  # Título e estilo
+  # Título
   titlePanel(
     title = div(
       h2("Internações por Condições Sensíveis à Atenção Primária"),
-      h4("Belo Horizonte — por Regional Administrativa"),
+      h4("Belo Horizonte — por Regional e Centro de Saúde"),
       style = "color: #2c3e50;"
     )
   ),
 
-  # Barra lateral com filtros
   sidebarLayout(
     sidebarPanel(
       width = 3,
@@ -42,23 +37,29 @@ ui <- fluidPage(
         selected = "Todas"
       ),
 
+      # Filtro de Centro de Saúde
+      selectInput(
+        inputId  = "filtro_cs",
+        label    = "Centro de Saúde:",
+        choices  = CENTROS_SAUDE,
+        selected = "Todos"
+      ),
+
       # Filtro de condição ICSAP
       selectInput(
         inputId  = "filtro_condicao",
         label    = "Condição ICSAP:",
-        choices  = c("Todas", GRUPOS_ICSAP),
+        choices  = c("Todas", CONDICOES),
         selected = "Todas"
       ),
 
       hr(),
-
-      # Informações sobre os dados
       p("Fonte: SIHSUS/DATASUS"),
+      p("Polígonos: Portal Dados Abertos PBH/SMSA"),
       p("Lista ICSAP: Portaria SAS/MS nº 221/2008"),
-      p(em("Atualizado automaticamente todo mês."))
+      p(em("Atualizado automaticamente todo dia 10."))
     ),
 
-    # Painel principal com abas
     mainPanel(
       width = 9,
 
@@ -70,20 +71,31 @@ ui <- fluidPage(
           br(),
           fluidRow(
             valueBoxOutput("box_total"),
-            valueBoxOutput("box_regional_mais"),
-            valueBoxOutput("box_condicao_mais")
+            valueBoxOutput("box_taxa"),
+            valueBoxOutput("box_regional_mais")
           ),
           br(),
-          plotlyOutput("grafico_evolucao", height = "350px"),
+          plotlyOutput("grafico_evolucao", height = "300px"),
           br(),
-          plotlyOutput("grafico_regional", height = "350px")
+          plotlyOutput("grafico_regional", height = "300px")
         ),
 
-        # Aba 2 — Por Regional
+        # Aba 2 — Mapa
         tabPanel(
-          title = "Por Regional",
+          title = "Mapa",
           br(),
-          plotlyOutput("grafico_mapa_regional", height = "500px")
+          fluidRow(
+            column(12,
+              radioButtons(
+                inputId  = "mapa_nivel",
+                label    = "Visualizar por:",
+                choices  = c("Regional" = "regional", "Centro de Saúde" = "cs"),
+                selected = "regional",
+                inline   = TRUE
+              )
+            )
+          ),
+          leafletOutput("mapa_interativo", height = "550px")
         ),
 
         # Aba 3 — Por Condição
@@ -93,7 +105,14 @@ ui <- fluidPage(
           plotlyOutput("grafico_condicao", height = "500px")
         ),
 
-        # Aba 4 — Dados
+        # Aba 4 — Ranking Centros de Saúde
+        tabPanel(
+          title = "Ranking CS",
+          br(),
+          plotlyOutput("grafico_ranking_cs", height = "600px")
+        ),
+
+        # Aba 5 — Dados
         tabPanel(
           title = "Dados",
           br(),
