@@ -4,6 +4,7 @@
 # O que faz:
 #   - Busca automaticamente o arquivo mais recente de área de abrangência
 #     da PBH via web scraping do Portal de Dados Abertos
+#   - Se a busca online falhar, usa o arquivo local em data/ref/
 #   - Lê os dados processados (icsap_bh.csv)
 #   - Para cada CEP único consulta o ViaCEP para obter o endereço
 #   - Geocodifica o endereço via Nominatim (OpenStreetMap)
@@ -42,6 +43,9 @@ DIR_REF  <- "data/ref"
 
 CACHE_CEP <- file.path(DIR_REF, "cache_cep.csv")
 LOG_CEP   <- file.path(DIR_PROC, "ceps_nao_encontrados.csv")
+
+# Arquivo local de fallback
+ARQUIVO_LOCAL <- file.path(DIR_REF, "area_abrangencia_saude.csv")
 
 PAUSA_VIACEP    <- 0.3
 PAUSA_NOMINATIM <- 1.0
@@ -95,7 +99,23 @@ buscar_url_abrangencia <- function() {
 # Carrega polígonos de área de abrangência da PBH
 # -----------------------------------------------------------------------------
 
-URL_ABRANGENCIA <- buscar_url_abrangencia()
+# Tenta buscar online — se falhar, usa arquivo local
+URL_ABRANGENCIA <- tryCatch(
+  buscar_url_abrangencia(),
+  error = function(e) {
+    message("Busca online falhou — usando arquivo local.")
+    if (!file.exists(ARQUIVO_LOCAL)) {
+      stop(paste0(
+        "Arquivo local não encontrado: ", ARQUIVO_LOCAL,
+        "\nBaixe manualmente em: ",
+        "https://dados.pbh.gov.br/dataset/area-de-abrangencia-saude",
+        "\ne salve em data/ref/area_abrangencia_saude.csv"
+      ))
+    }
+    message("Arquivo local encontrado: ", ARQUIVO_LOCAL)
+    return(ARQUIVO_LOCAL)
+  }
+)
 
 abrangencia_sf <- read_csv2(URL_ABRANGENCIA, show_col_types = FALSE) %>%
   filter(!is.na(GEOMETRIA)) %>%
@@ -159,8 +179,10 @@ message("CEPs novos para consultar: ",  length(ceps_novos))
 
 consultar_viacep <- function(cep) {
   cep_limpo <- str_remove_all(cep, "\\D")
-  url  <- paste0("https://viacep.com.br/ws/", cep_limpo, "/json/")
-  resp <- tryCatch(GET(url, timeout(10)), error = function(e) NULL)
+  resp <- tryCatch(
+    GET(paste0("https://viacep.com.br/ws/", cep_limpo, "/json/"), timeout(10)),
+    error = function(e) NULL
+  )
   if (is.null(resp) || status_code(resp) != 200) return(NULL)
   dados <- tryCatch(
     fromJSON(content(resp, "text", encoding = "UTF-8")),
@@ -206,6 +228,9 @@ if (length(ceps_novos) > 0) {
     if (i %% 50 == 0) {
       message("Processando CEP ", i, " de ", length(ceps_novos),
               " (", round(i / length(ceps_novos) * 100), "%)")
+      # Salva cache parcial a cada 50 CEPs
+      cache_parcial <- bind_rows(cache, bind_rows(novos_registros[!sapply(novos_registros, is.null)]))
+      write_csv(cache_parcial, CACHE_CEP)
     }
 
     # Passo 1: ViaCEP
@@ -249,7 +274,7 @@ if (length(ceps_novos) > 0) {
     )
   }
 
-  # Atualiza cache
+  # Salva cache final
   cache <- bind_rows(cache, bind_rows(novos_registros))
   write_csv(cache, CACHE_CEP)
   message("Cache atualizado: ", nrow(cache), " CEPs no total")
