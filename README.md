@@ -6,6 +6,10 @@ Painel interativo de monitoramento das **Internações por Condições Sensívei
 
 Disponibilizar de forma acessível e visual os dados de internações evitáveis ocorridas em BH, permitindo análises por regional, condição de saúde e período.
 
+## A documentação detalhada do projeto — incluindo metodologia, arquitetura, pipeline de dados e esquemas visuais — está disponível em:
+
+**🌐 https://brunoavfer.github.io/sihsus-icsap-bh/**
+
 ## Fonte de Dados
 
 - **SIHSUS** (Sistema de Informações Hospitalares do SUS) — DATASUS
