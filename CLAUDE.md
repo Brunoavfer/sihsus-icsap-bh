@@ -151,14 +151,18 @@ O filtro de CS é dependente do filtro de regional — ao selecionar uma regiona
 
 ---
 
-## Status Atual (maio de 2025)
+## Status Atual (maio de 2026)
 
-- **Dados baixados:** janeiro a maio de 2025 (`RDMG2501.dbc` a `RDMG2505.dbc`)
-- **Dados processados:** `internacoes_bh.csv`, `icsap_bh.csv`, `icsap_bh_regional.csv` gerados
+- **Dados baixados:** janeiro/2023 a março/2026 — 39 competências (`RDMG2301.dbc` a `RDMG2603.dbc`)
+- **Dados processados:** `internacoes_bh.csv` e `icsap_bh.csv` com série completa jan/2023–mar/2026
+  - 498.246 internações de residentes e internados em BH
+  - 90.869 internações ICSAP | taxa média: 18,2%
+- **`icsap_bh_regional.csv`:** ainda reflete apenas jan–mai/2025 (aguarda re-execução do script 03)
 - **Cobertura de geocodificação:** ~84% (meta: 85–90%)
 - **Pipeline completo** e funcionando (scripts 01 a 04)
 - **App Shiny** implementado com todas as abas
 - **GitHub Actions** configurado para atualização automática dia 10 de cada mês
+- **`01_download.R`** parametrizado para baixar de jan/2023 ao ano corrente automaticamente
 
 ---
 
