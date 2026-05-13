@@ -20,7 +20,7 @@ COD_BH <- "310620"
 # Período desejado (ano e mês)
 # ANO_FIM usa o ano corrente; o script pula arquivos ainda não disponíveis no FTP
 ANO_INICIO  <- 2023
-ANO_FIM     <- as.integer(format(Sys.Date(), "%Y"))
+ANO_FIM     <- 2025
 MESES       <- str_pad(1:12, 2, pad = "0")  # "01" a "12"
 
 # Pasta de destino
