@@ -47,3 +47,13 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+
+# Dados brutos DATASUS (não versionados — baixar via 01_download.R)
+data/raw/*.dbc
+
+# Ferramentas de desenvolvimento local
+.codegate.js
+.githooks/
+
+# Claude Code (configurações locais da sessão)
+.claude/
