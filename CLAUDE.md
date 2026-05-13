@@ -166,6 +166,60 @@ O filtro de CS é dependente do filtro de regional — ao selecionar uma regiona
 
 ---
 
+## Protocolo Científico
+
+O projeto evoluiu de painel de monitoramento para **estudo científico com protocolo formal**, visando publicação em periódico Qualis A1.
+
+### Desenho
+
+**Estudo ecológico longitudinal de séries temporais**
+- Unidade de análise: área de abrangência dos 153 Centros de Saúde de BH
+- Período: jan/2023–dez/2025 (36 competências mensais)
+- Painel: 153 CS × 36 meses = 5.508 observações potenciais
+
+### Desfecho
+
+Taxa ICSAP **padronizada por idade e sexo** por 10.000 habitantes, por área de abrangência de CS (padronização direta, população-padrão: BH Censo 2022).
+
+### Variáveis Independentes
+
+| Variável | Fonte | Status |
+|---|---|---|
+| Cobertura ESF (%) | e-Gestor AB/DAB | ❌ Coletar |
+| Nº equipes ESF | CNES/DATASUS | ❌ Coletar |
+| Médicos de família (CH) | CNES/DATASUS | ❌ Coletar |
+| IVS-BH | SMSA/PBH | ❌ Coletar |
+| População por faixa etária | IBGE Censo 2022 | ❌ Coletar |
+
+### Método Estatístico
+
+- **GLM-Gama** (link log) — replica Oliveira et al. (2025) para o nível de CS
+- **Joinpoint regression** — APC e AAPC para análise de tendência temporal
+- **GEE** (AR-1) — se autocorrelação temporal detectada
+
+### Periódico Alvo
+
+*Cadernos de Saúde Pública* (Fiocruz) — Qualis A1 · 4.000 palavras · Vancouver
+
+### Documentação do Protocolo
+
+| Documento | Localização |
+|---|---|
+| Protocolo completo | `docs/protocolo_pesquisa.md` |
+| Checklist STROBE | `docs/checklist_strobe.md` |
+| Tabela de variáveis | `docs/variaveis_estudo.md` |
+| Referências BibTeX | `docs/referencias.bib` |
+
+### Próximos Passos Metodológicos
+
+1. Coletar variáveis independentes (CNES, e-Gestor AB, IVS-BH, população IBGE por CS)
+2. Criar `R/05_variaveis_aps.R` para coleta e harmonização dos dados de APS
+3. Criar `R/06_padronizacao.R` para cálculo da taxa ICSAP padronizada
+4. Executar análises estatísticas (GLM-Gama + joinpoint)
+5. Redigir manuscrito para submissão ao *Cadernos de Saúde Pública* (meta: jan/2027)
+
+---
+
 ## Próximos Passos
 
 - **Melhorar cobertura para ≥85%** — avaliar uso da API Anthropic/Claude como etapa adicional de geocodificação para os CEPs que falham em todas as APIs open source (estimativa do CS mais provável com base no logradouro + bairro)
