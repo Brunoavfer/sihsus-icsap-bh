@@ -96,8 +96,8 @@ processar_arquivo <- function(arquivo) {
     mutate(
       cid3 = str_sub(diag_princ, 1, 3),
       data_internacao = make_date(
-        year  = as.integer(ano_cmpt),
-        month = as.integer(mes_cmpt),
+        year  = as.integer(as.character(ano_cmpt)),
+        month = as.integer(as.character(mes_cmpt)),
         day   = 1L
       ),
       icsap = cid3 %in% cids_icsap  # TRUE se for ICSAP, FALSE se não for

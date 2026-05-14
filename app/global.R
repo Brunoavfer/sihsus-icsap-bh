@@ -28,6 +28,9 @@ arquivo_dados <- if (file.exists("../data/processed/icsap_bh_regional.csv")) {
   "../data/processed/icsap_bh.csv"
 }
 
+# Denominador da taxa ICSAP: total de internações (não apenas ICSAP)
+arquivo_total <- "../data/processed/internacoes_bh.csv"
+
 dados <- tryCatch(
   read_csv(arquivo_dados, show_col_types = FALSE),
   error = function(e) {
@@ -42,9 +45,27 @@ dados <- tryCatch(
   }
 )
 
+# Total de internações BH (denominador correto da taxa ICSAP)
+total_internacoes_ref <- tryCatch(
+  read_csv(arquivo_total, show_col_types = FALSE) %>%
+    select(ano_cmpt, mes_cmpt),
+  error = function(e) NULL
+)
+
 # Garante que colunas regional e nome_cs existam
 if (!"regional" %in% names(dados)) dados$regional <- NA_character_
 if (!"nome_cs"  %in% names(dados)) dados$nome_cs  <- NA_character_
+
+# Reconstrói data_internacao a partir de ano_cmpt + mes_cmpt
+# (make_date() em 02_process.R converte fatores para índice em vez de valor)
+dados <- dados %>%
+  mutate(
+    data_internacao = as.Date(paste(
+      as.integer(as.character(ano_cmpt)),
+      formatC(as.integer(as.character(mes_cmpt)), width = 2, flag = "0"),
+      "01", sep = "-"
+    ))
+  )
 
 # -----------------------------------------------------------------------------
 # Lê polígonos de área de abrangência dos Centros de Saúde

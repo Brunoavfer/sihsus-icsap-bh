@@ -42,10 +42,12 @@ server <- function(input, output, session) {
 
   # ---------------------------------------------------------------------------
   # Total de internações no período (denominador da taxa)
+  # Usa internacoes_bh.csv (todas as internações), não apenas ICSAP
   # ---------------------------------------------------------------------------
 
   total_periodo <- reactive({
-    dados %>%
+    base <- if (!is.null(total_internacoes_ref)) total_internacoes_ref else dados
+    base %>%
       filter(ano_cmpt >= input$filtro_ano[1],
              ano_cmpt <= input$filtro_ano[2]) %>%
       nrow()
