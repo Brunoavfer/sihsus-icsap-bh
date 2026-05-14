@@ -5,6 +5,9 @@
 #   - Carrega pacotes
 #   - Lê os dados processados e os polígonos da PBH
 #   - Define variáveis globais usadas pelo ui.R e server.R
+#
+# Estratégia de carregamento:
+#   Tenta path local (desenvolvimento) → fallback GitHub raw (shinyapps.io)
 # =============================================================================
 
 library(shiny)
@@ -17,48 +20,70 @@ library(leaflet)
 library(sf)
 library(stringr)
 
-# -----------------------------------------------------------------------------
-# Lê os dados
-# -----------------------------------------------------------------------------
+GITHUB_RAW <- "https://raw.githubusercontent.com/Brunoavfer/sihsus-icsap-bh/main"
 
-# Tenta carregar dados com regional (após rodar 03_cep_regional.R)
-# Se não existir, usa dados sem regional para desenvolvimento
-arquivo_dados <- if (file.exists("../data/processed/icsap_bh_regional.csv")) {
-  "../data/processed/icsap_bh_regional.csv"
-} else {
-  "../data/processed/icsap_bh.csv"
-}
-
-# Denominador da taxa ICSAP: total de internações (não apenas ICSAP)
-arquivo_total <- "../data/processed/internacoes_bh.csv"
+# -----------------------------------------------------------------------------
+# Dados ICSAP com regional e CS (produto final do pipeline)
+# -----------------------------------------------------------------------------
 
 dados <- tryCatch(
-  read_csv(arquivo_dados, show_col_types = FALSE),
-  error = function(e) {
-    # Fallback: lê direto do GitHub
+  read_csv("../data/processed/icsap_bh_regional.csv", show_col_types = FALSE),
+  error = function(e) tryCatch(
     read_csv(
-      paste0(
-        "https://raw.githubusercontent.com/Brunoavfer/",
-        "sihsus-icsap-bh/main/data/processed/icsap_bh.csv"
-      ),
+      paste0(GITHUB_RAW, "/data/processed/icsap_bh_regional.csv"),
+      show_col_types = FALSE
+    ),
+    error = function(e2) read_csv(
+      paste0(GITHUB_RAW, "/data/processed/icsap_bh.csv"),
       show_col_types = FALSE
     )
-  }
+  )
 )
 
-# Total de internações BH (denominador correto da taxa ICSAP)
+# -----------------------------------------------------------------------------
+# Total de internações BH — denominador correto da taxa ICSAP
+# -----------------------------------------------------------------------------
+
 total_internacoes_ref <- tryCatch(
-  read_csv(arquivo_total, show_col_types = FALSE) %>%
+  read_csv("../data/processed/internacoes_bh.csv", show_col_types = FALSE) %>%
     select(ano_cmpt, mes_cmpt),
-  error = function(e) NULL
+  error = function(e) tryCatch(
+    read_csv(
+      paste0(GITHUB_RAW, "/data/processed/internacoes_bh.csv"),
+      show_col_types = FALSE
+    ) %>% select(ano_cmpt, mes_cmpt),
+    error = function(e2) NULL
+  )
 )
 
-# Garante que colunas regional e nome_cs existam
+# -----------------------------------------------------------------------------
+# Polígonos de área de abrangência dos Centros de Saúde
+# -----------------------------------------------------------------------------
+
+poligonos_cs <- tryCatch(
+  st_read("../data/ref/areas_abrangencia_cs.geojson", quiet = TRUE),
+  error = function(e) tryCatch(
+    st_read(
+      paste0(GITHUB_RAW, "/data/ref/areas_abrangencia_cs.geojson"),
+      quiet = TRUE
+    ),
+    error = function(e2) NULL
+  )
+)
+
+# -----------------------------------------------------------------------------
+# Garante colunas regional e nome_cs
+# -----------------------------------------------------------------------------
+
 if (!"regional" %in% names(dados)) dados$regional <- NA_character_
 if (!"nome_cs"  %in% names(dados)) dados$nome_cs  <- NA_character_
 
+# -----------------------------------------------------------------------------
 # Reconstrói data_internacao a partir de ano_cmpt + mes_cmpt
-# (make_date() em 02_process.R converte fatores para índice em vez de valor)
+# (make_date() em 02_process.R lê ano_cmpt como fator e retorna o índice
+#  do nível em vez do valor numérico, gerando ano 1 d.C.)
+# -----------------------------------------------------------------------------
+
 dados <- dados %>%
   mutate(
     data_internacao = as.Date(paste(
@@ -67,21 +92,6 @@ dados <- dados %>%
       "01", sep = "-"
     ))
   )
-
-# -----------------------------------------------------------------------------
-# Lê polígonos de área de abrangência dos Centros de Saúde
-# -----------------------------------------------------------------------------
-
-arquivo_geo <- if (file.exists("../data/ref/areas_abrangencia_cs.geojson")) {
-  "../data/ref/areas_abrangencia_cs.geojson"
-} else {
-  "data/ref/areas_abrangencia_cs.geojson"
-}
-
-poligonos_cs <- tryCatch(
-  st_read(arquivo_geo, quiet = TRUE),
-  error = function(e) NULL
-)
 
 # -----------------------------------------------------------------------------
 # Variáveis globais para os filtros

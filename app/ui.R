@@ -86,6 +86,10 @@ ui <- fluidPage(
           br(),
           fluidRow(
             column(12,
+              h4("Distribuição geográfica das internações ICSAP",
+                 style = "margin-bottom: 4px;"),
+              p("Clique em uma área para ver detalhes. Cores mais escuras indicam maior taxa ICSAP.",
+                style = "color: #666; margin-bottom: 10px;"),
               radioButtons(
                 inputId  = "mapa_nivel",
                 label    = "Visualizar por:",

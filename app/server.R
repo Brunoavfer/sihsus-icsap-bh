@@ -2,6 +2,18 @@
 # server.R — Lógica do painel ICSAP-BH
 # =============================================================================
 
+# Mensagem padrão para gráficos sem dados
+sem_dados_plot <- function(msg = "Sem dados para os filtros selecionados") {
+  plot_ly() %>%
+    layout(
+      title      = msg,
+      xaxis      = list(visible = FALSE),
+      yaxis      = list(visible = FALSE),
+      plot_bgcolor  = "white",
+      paper_bgcolor = "white"
+    )
+}
+
 server <- function(input, output, session) {
 
   # ---------------------------------------------------------------------------
@@ -41,8 +53,9 @@ server <- function(input, output, session) {
   })
 
   # ---------------------------------------------------------------------------
-  # Total de internações no período (denominador da taxa)
-  # Usa internacoes_bh.csv (todas as internações), não apenas ICSAP
+  # Total de internações no período (denominador da taxa ICSAP)
+  # Usa internacoes_bh.csv (todas as internações), não apenas ICSAP.
+  # Fallback para dados ICSAP se internacoes_bh.csv não estiver disponível.
   # ---------------------------------------------------------------------------
 
   total_periodo <- reactive({
@@ -67,7 +80,8 @@ server <- function(input, output, session) {
   })
 
   output$box_taxa <- renderValueBox({
-    taxa <- round(nrow(dados_filtrados()) / total_periodo() * 100, 1)
+    n_total <- total_periodo()
+    taxa <- if (n_total > 0) round(nrow(dados_filtrados()) / n_total * 100, 1) else 0
     valueBox(
       value    = paste0(taxa, "%"),
       subtitle = "Taxa ICSAP",
@@ -99,10 +113,12 @@ server <- function(input, output, session) {
       count(data_internacao) %>%
       arrange(data_internacao)
 
+    if (nrow(df) == 0) return(sem_dados_plot())
+
     plot_ly(df, x = ~data_internacao, y = ~n,
             type = "scatter", mode = "lines",
             line = list(color = "#2980b9")) %>%
-      layout(title  = "Evolução das Internações ICSAP",
+      layout(title  = "Evolução Mensal das Internações ICSAP",
              xaxis  = list(title = ""),
              yaxis  = list(title = "Internações"))
   })
@@ -115,6 +131,8 @@ server <- function(input, output, session) {
     df <- dados_filtrados() %>%
       filter(!is.na(regional)) %>%
       count(regional, sort = TRUE)
+
+    if (nrow(df) == 0) return(sem_dados_plot("Regional não disponível nos dados atuais"))
 
     plot_ly(df, x = ~reorder(regional, n), y = ~n,
             type = "bar", marker = list(color = "#27ae60")) %>%
@@ -130,80 +148,113 @@ server <- function(input, output, session) {
   output$mapa_interativo <- renderLeaflet({
 
     if (is.null(poligonos_cs)) {
-      return(leaflet() %>% addTiles() %>%
-               setView(lng = -43.94, lat = -19.92, zoom = 11))
+      return(
+        leaflet() %>%
+          addTiles() %>%
+          setView(lng = -43.94, lat = -19.92, zoom = 11) %>%
+          addControl(
+            html     = "<b>Polígonos não disponíveis</b><br>Verifique a conexão.",
+            position = "topright"
+          )
+      )
     }
+
+    legenda_titulo <- HTML(
+      "Taxa ICSAP (%)<br>
+       <small style='font-weight:normal'>
+         Quanto mais escuro,<br>maior a taxa ICSAP
+       </small>"
+    )
 
     if (input$mapa_nivel == "regional") {
 
-      # Agrega por regional
       taxa_regional <- dados_filtrados() %>%
         filter(!is.na(regional)) %>%
         group_by(regional) %>%
         summarise(n_icsap = n(), .groups = "drop") %>%
-        mutate(taxa = round(n_icsap / total_periodo() * 100, 1))
+        mutate(taxa = round(n_icsap / max(total_periodo(), 1) * 100, 1))
 
-      # Junta com polígonos — dissolve por regional
       mapa_data <- poligonos_cs %>%
         group_by(regional) %>%
-        summarise(geometry = st_union(geometry)) %>%
+        summarise(geometry = st_union(geometry), .groups = "drop") %>%
         left_join(taxa_regional, by = "regional")
 
-      pal <- colorNumeric("YlOrRd", domain = mapa_data$taxa, na.color = "#cccccc")
+      pal <- colorNumeric("YlOrRd", domain = mapa_data$taxa, na.color = "#dddddd")
 
       leaflet(mapa_data) %>%
         addTiles() %>%
         addPolygons(
           fillColor   = ~pal(taxa),
-          fillOpacity = 0.7,
+          fillOpacity = 0.75,
           color       = "white",
           weight      = 2,
-          popup       = ~paste0(
-            "<b>", regional, "</b><br>",
-            "Internações ICSAP: ", n_icsap, "<br>",
-            "Taxa ICSAP: ", taxa, "%"
+          highlightOptions = highlightOptions(
+            weight      = 3,
+            color       = "#333",
+            fillOpacity = 0.9,
+            bringToFront = TRUE
+          ),
+          popup = ~paste0(
+            "<b>Regional ", regional, "</b><br>",
+            "Internações ICSAP: <b>",
+            ifelse(is.na(n_icsap), "sem dados", format(n_icsap, big.mark = ".")),
+            "</b><br>",
+            "Taxa ICSAP: <b>",
+            ifelse(is.na(taxa), "—", paste0(taxa, "%")),
+            "</b>"
           )
         ) %>%
         addLegend(
           pal      = pal,
           values   = ~taxa,
-          title    = "Taxa ICSAP (%)",
-          position = "bottomright"
+          title    = legenda_titulo,
+          position = "bottomright",
+          na.label = "Sem dados"
         )
 
     } else {
 
-      # Agrega por Centro de Saúde
       taxa_cs <- dados_filtrados() %>%
         filter(!is.na(nome_cs)) %>%
         group_by(nome_cs) %>%
         summarise(n_icsap = n(), .groups = "drop") %>%
-        mutate(taxa = round(n_icsap / total_periodo() * 100, 1))
+        mutate(taxa = round(n_icsap / max(total_periodo(), 1) * 100, 1))
 
       mapa_data <- poligonos_cs %>%
-        left_join(taxa_cs, by = c("nome_cs"))
+        left_join(taxa_cs, by = "nome_cs")
 
-      pal <- colorNumeric("YlOrRd", domain = mapa_data$taxa, na.color = "#cccccc")
+      pal <- colorNumeric("YlOrRd", domain = mapa_data$taxa, na.color = "#dddddd")
 
       leaflet(mapa_data) %>%
         addTiles() %>%
         addPolygons(
           fillColor   = ~pal(taxa),
-          fillOpacity = 0.7,
+          fillOpacity = 0.75,
           color       = "white",
           weight      = 1,
-          popup       = ~paste0(
+          highlightOptions = highlightOptions(
+            weight      = 2,
+            color       = "#333",
+            fillOpacity = 0.9,
+            bringToFront = TRUE
+          ),
+          popup = ~paste0(
             "<b>", nome_cs, "</b><br>",
             "Regional: ", regional, "<br>",
-            "Internações ICSAP: ", ifelse(is.na(n_icsap), 0, n_icsap), "<br>",
-            "Taxa ICSAP: ", ifelse(is.na(taxa), "—", paste0(taxa, "%"))
+            "Internações ICSAP: <b>",
+            ifelse(is.na(n_icsap), "0", format(n_icsap, big.mark = ".")),
+            "</b><br>",
+            "Taxa ICSAP: <b>",
+            ifelse(is.na(taxa), "—", paste0(taxa, "%")),
+            "</b>"
           )
         ) %>%
         addLegend(
           pal      = pal,
           values   = ~taxa,
-          title    = "Taxa ICSAP (%)",
-          position = "bottomright"
+          title    = legenda_titulo,
+          position = "bottomright",
+          na.label = "Sem dados"
         )
     }
   })
@@ -217,6 +268,8 @@ server <- function(input, output, session) {
       filter(!is.na(descricao)) %>%
       count(descricao, sort = TRUE) %>%
       slice_head(n = 15)
+
+    if (nrow(df) == 0) return(sem_dados_plot())
 
     plot_ly(df, x = ~n, y = ~reorder(descricao, n),
             type = "bar", orientation = "h",
@@ -235,9 +288,11 @@ server <- function(input, output, session) {
       filter(!is.na(nome_cs)) %>%
       group_by(nome_cs, regional) %>%
       summarise(n_icsap = n(), .groups = "drop") %>%
-      mutate(taxa = round(n_icsap / total_periodo() * 100, 2)) %>%
+      mutate(taxa = round(n_icsap / max(total_periodo(), 1) * 100, 2)) %>%
       arrange(desc(taxa)) %>%
       slice_head(n = 20)
+
+    if (nrow(df) == 0) return(sem_dados_plot("CS não disponível — dados sem geocodificação de regional"))
 
     plot_ly(df,
             x    = ~taxa,
@@ -245,7 +300,7 @@ server <- function(input, output, session) {
             type = "bar",
             orientation = "h",
             color = ~regional,
-            text  = ~paste0(regional, "<br>", n_icsap, " internações"),
+            text  = ~paste0(regional, "<br>", format(n_icsap, big.mark = "."), " internações"),
             hoverinfo = "text+x") %>%
       layout(
         title  = "Top 20 Centros de Saúde por Taxa ICSAP (%)",
@@ -266,16 +321,16 @@ server <- function(input, output, session) {
         descricao, idade, sexo, dias_perm, val_tot
       ) %>%
       rename(
-        Data           = data_internacao,
-        Regional       = regional,
-        `Centro Saúde` = nome_cs,
-        Condição       = descricao,
-        Idade          = idade,
-        Sexo           = sexo,
+        Data             = data_internacao,
+        Regional         = regional,
+        `Centro de Saúde` = nome_cs,
+        `Condição ICSAP` = descricao,
+        Idade            = idade,
+        Sexo             = sexo,
         `Dias Internado` = dias_perm,
         `Valor (R$)`     = val_tot
       )
-  })
+  }, options = list(pageLength = 15, language = list(url = "//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json")))
 
   # ---------------------------------------------------------------------------
   # Download
