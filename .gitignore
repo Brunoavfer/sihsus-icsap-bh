@@ -48,6 +48,11 @@ rsconnect/
 # Dados brutos DATASUS (não versionados — baixar via 01_download.R)
 data/raw/*.dbc
 
+# Dados brutos CNES (grandes demais para GitHub — baixar via 05_coleta_variaveis.R)
+data/raw/cnes/*.dbc
+data/raw/agsn2022/
+data/raw/agsn2022.zip
+
 # Ferramentas de desenvolvimento local
 .codegate.js
 .githooks/
