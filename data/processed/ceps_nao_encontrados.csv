@@ -1,1508 +1,1463 @@
-cep,lat,lon,motivo,n_pacientes
-30670050,NA,NA,Endereço não geocodificado,45
-31995162,NA,NA,Endereço não geocodificado,29
-30280050,NA,NA,Endereço não geocodificado,20
-30451565,NA,NA,Endereço não geocodificado,20
-30620700,NA,NA,Endereço não geocodificado,20
-30670370,NA,NA,Endereço não geocodificado,18
-30260430,NA,NA,Endereço não geocodificado,18
-31235110,NA,NA,Endereço não geocodificado,18
-31741120,NA,NA,Endereço não geocodificado,18
-30666515,NA,NA,Endereço não geocodificado,17
-31050280,NA,NA,Endereço não geocodificado,17
-31210680,NA,NA,Endereço não geocodificado,17
-31540384,NA,NA,Endereço não geocodificado,17
-30668020,NA,NA,Endereço não geocodificado,17
-30610550,NA,NA,Endereço não geocodificado,17
-30668590,NA,NA,Endereço não geocodificado,16
-31846515,NA,NA,Endereço não geocodificado,16
-30622350,NA,NA,Endereço não geocodificado,16
-31842330,NA,NA,Endereço não geocodificado,16
-30626480,NA,NA,Endereço não geocodificado,15
-30451570,NA,NA,Endereço não geocodificado,14
-31230760,NA,NA,Endereço não geocodificado,14
-30270360,NA,NA,Endereço não geocodificado,14
-30840800,NA,NA,Endereço não geocodificado,14
-31812070,NA,NA,Endereço não geocodificado,14
-30390410,NA,NA,Endereço não geocodificado,13
-31360390,NA,NA,Endereço não geocodificado,13
-30390300,NA,NA,Endereço não geocodificado,13
-30620610,NA,NA,Endereço não geocodificado,13
-30280490,NA,NA,Endereço não geocodificado,12
-30451182,NA,NA,Endereço não geocodificado,12
-30670360,NA,NA,Endereço não geocodificado,12
-30315320,NA,NA,Endereço não geocodificado,12
-30290000,NA,NA,Endereço não geocodificado,12
-30624110,NA,NA,Endereço não geocodificado,12
-30620680,NA,NA,Endereço não geocodificado,11
-30664630,NA,NA,Endereço não geocodificado,11
-31578300,NA,NA,Endereço não geocodificado,11
-30670290,NA,NA,Endereço não geocodificado,11
-30855440,NA,NA,Endereço não geocodificado,11
-31742500,NA,NA,Endereço não geocodificado,11
-30230120,NA,NA,Endereço não geocodificado,11
-30555270,NA,NA,Endereço não geocodificado,11
-30124959,NA,NA,Endereço não geocodificado,10
-30660585,NA,NA,Endereço não geocodificado,10
-31585200,NA,NA,Endereço não geocodificado,10
-30451237,NA,NA,Endereço não geocodificado,10
-31742660,NA,NA,Endereço não geocodificado,10
-31050000,NA,NA,Endereço não geocodificado,9
-31974016,NA,NA,Endereço não geocodificado,9
-30580310,NA,NA,Endereço não geocodificado,9
-30490290,NA,NA,Endereço não geocodificado,9
-31155370,NA,NA,Endereço não geocodificado,9
-31910040,NA,NA,Endereço não geocodificado,9
-30668190,NA,NA,Endereço não geocodificado,9
-31842170,NA,NA,Endereço não geocodificado,9
-31742412,NA,NA,Endereço não geocodificado,9
-31250530,NA,NA,Endereço não geocodificado,9
-30673142,NA,NA,Endereço não geocodificado,9
-30451225,NA,NA,Endereço não geocodificado,9
-30240320,NA,NA,Endereço não geocodificado,9
-30285200,NA,NA,Endereço não geocodificado,9
-30865260,NA,NA,Endereço não geocodificado,9
-30610390,NA,NA,Endereço não geocodificado,9
-30644200,NA,NA,Endereço não geocodificado,9
-30670150,NA,NA,Endereço não geocodificado,9
-30110000,NA,NA,Endereço não geocodificado,9
-30670180,NA,NA,Endereço não geocodificado,8
-31810290,NA,NA,Endereço não geocodificado,8
-30570250,NA,NA,Endereço não geocodificado,8
-31842360,NA,NA,Endereço não geocodificado,8
-31998668,NA,NA,Endereço não geocodificado,8
-30622380,NA,NA,Endereço não geocodificado,8
-30240610,NA,NA,Endereço não geocodificado,8
-30290615,NA,NA,Endereço não geocodificado,8
-30664160,NA,NA,Endereço não geocodificado,8
-30692491,NA,NA,Endereço não geocodificado,8
-30270190,NA,NA,Endereço não geocodificado,8
-30668650,NA,NA,Endereço não geocodificado,8
-30620320,NA,NA,Endereço não geocodificado,8
-30670270,NA,NA,Endereço não geocodificado,8
-30230613,NA,NA,Endereço não geocodificado,8
-31652122,NA,NA,Endereço não geocodificado,8
-30620630,NA,NA,Endereço não geocodificado,8
-31575100,NA,NA,Endereço não geocodificado,8
-31650095,NA,NA,Endereço não geocodificado,8
-30626710,NA,NA,Endereço não geocodificado,8
-31360710,NA,NA,Endereço não geocodificado,8
-30664550,NA,NA,Endereço não geocodificado,8
-31842130,NA,NA,Endereço não geocodificado,8
-31250690,NA,NA,Endereço não geocodificado,8
-30660756,NA,NA,Endereço não geocodificado,8
-30670120,NA,NA,Endereço não geocodificado,7
-31575330,NA,NA,Endereço não geocodificado,7
-31652120,NA,NA,Endereço não geocodificado,7
-31998360,NA,NA,Endereço não geocodificado,7
-31230670,NA,NA,Endereço não geocodificado,7
-30672760,NA,NA,Endereço não geocodificado,7
-30880310,NA,NA,Endereço não geocodificado,7
-30451416,NA,NA,Endereço não geocodificado,7
-31575060,NA,NA,Endereço não geocodificado,7
-31575440,NA,NA,Endereço não geocodificado,7
-31842190,NA,NA,Endereço não geocodificado,7
-30672210,NA,NA,Endereço não geocodificado,7
-31250145,NA,NA,Endereço não geocodificado,7
-31660052,NA,NA,Endereço não geocodificado,7
-30220410,NA,NA,Endereço não geocodificado,7
-30390422,NA,NA,Endereço não geocodificado,7
-31970321,NA,NA,Endereço não geocodificado,7
-30550530,NA,NA,Endereço não geocodificado,7
-30668100,NA,NA,Endereço não geocodificado,7
-30668260,NA,NA,Endereço não geocodificado,7
-30610540,NA,NA,Endereço não geocodificado,7
-31540670,NA,NA,Endereço não geocodificado,7
-31050340,NA,NA,Endereço não geocodificado,7
-30668750,NA,NA,Endereço não geocodificado,7
-30220210,NA,NA,Endereço não geocodificado,7
-30451100,NA,NA,Endereço não geocodificado,7
-30530430,NA,NA,Endereço não geocodificado,7
-30820590,NA,NA,Endereço não geocodificado,7
-30626497,NA,NA,Endereço não geocodificado,7
-30622320,NA,NA,Endereço não geocodificado,7
-30570660,NA,NA,Endereço não geocodificado,7
-30670250,NA,NA,Endereço não geocodificado,7
-30660010,NA,NA,Endereço não geocodificado,7
-31150210,NA,NA,Endereço não geocodificado,7
-30250443,NA,NA,Endereço não geocodificado,7
-31540231,NA,NA,Endereço não geocodificado,7
-31842220,NA,NA,Endereço não geocodificado,7
-30660560,NA,NA,Endereço não geocodificado,7
-30670220,NA,NA,Endereço não geocodificado,7
-30672000,NA,NA,Endereço não geocodificado,7
-31010130,NA,NA,Endereço não geocodificado,7
-30240562,NA,NA,Endereço não geocodificado,7
-31810490,NA,NA,Endereço não geocodificado,7
-30535390,NA,NA,Endereço não geocodificado,7
-30570480,NA,NA,Endereço não geocodificado,7
-30610300,NA,NA,Endereço não geocodificado,7
-30662440,NA,NA,Endereço não geocodificado,7
-31840050,NA,NA,Endereço não geocodificado,6
-30865320,NA,NA,Endereço não geocodificado,6
-30710324,NA,NA,Endereço não geocodificado,6
-31920725,NA,NA,Endereço não geocodificado,6
-30672630,NA,NA,CEP não encontrado no ViaCEP,6
-31998688,NA,NA,Endereço não geocodificado,6
-31842180,NA,NA,Endereço não geocodificado,6
-31975230,NA,NA,Endereço não geocodificado,6
-31630365,NA,NA,Endereço não geocodificado,6
-31575430,NA,NA,Endereço não geocodificado,6
-30670160,NA,NA,Endereço não geocodificado,6
-31575290,NA,NA,Endereço não geocodificado,6
-31872370,NA,NA,Endereço não geocodificado,6
-31812010,NA,NA,Endereço não geocodificado,6
-30750220,NA,NA,Endereço não geocodificado,6
-30668380,NA,NA,Endereço não geocodificado,6
-30451185,NA,NA,Endereço não geocodificado,6
-31741640,NA,NA,CEP não encontrado no ViaCEP,6
-30622530,NA,NA,Endereço não geocodificado,6
-31742655,NA,NA,Endereço não geocodificado,6
-30230010,NA,NA,CEP não encontrado no ViaCEP,6
-30580360,NA,NA,Endereço não geocodificado,6
-31580560,NA,NA,Endereço não geocodificado,6
-30666333,NA,NA,Endereço não geocodificado,6
-30285185,NA,NA,Endereço não geocodificado,6
-31840460,NA,NA,Endereço não geocodificado,6
-31050110,NA,NA,Endereço não geocodificado,6
-30668540,NA,NA,Endereço não geocodificado,6
-31844450,NA,NA,Endereço não geocodificado,6
-30660750,NA,NA,Endereço não geocodificado,6
-31810440,NA,NA,Endereço não geocodificado,6
-31360770,NA,NA,Endereço não geocodificado,6
-30670330,NA,NA,Endereço não geocodificado,6
-30624230,NA,NA,Endereço não geocodificado,6
-30230670,NA,NA,Endereço não geocodificado,6
-31840055,NA,NA,Endereço não geocodificado,6
-30315280,NA,NA,Endereço não geocodificado,6
-30380203,NA,NA,Endereço não geocodificado,6
-31975150,NA,NA,Endereço não geocodificado,6
-30390500,NA,NA,Endereço não geocodificado,6
-30644220,NA,NA,Endereço não geocodificado,6
-30285292,NA,NA,Endereço não geocodificado,6
-30668180,NA,NA,Endereço não geocodificado,6
-31842000,NA,NA,Endereço não geocodificado,6
-30260420,NA,NA,Endereço não geocodificado,6
-30810420,NA,NA,Endereço não geocodificado,6
-31250610,NA,NA,Endereço não geocodificado,6
-31575010,NA,NA,Endereço não geocodificado,6
-31842380,NA,NA,Endereço não geocodificado,6
-31155120,NA,NA,Endereço não geocodificado,6
-30692490,NA,NA,Endereço não geocodificado,6
-31998022,NA,NA,Endereço não geocodificado,6
-31842350,NA,NA,Endereço não geocodificado,6
-30620230,NA,NA,Endereço não geocodificado,5
-30640230,NA,NA,Endereço não geocodificado,5
-31210327,NA,NA,Endereço não geocodificado,5
-30670140,NA,NA,Endereço não geocodificado,5
-30820350,NA,NA,Endereço não geocodificado,5
-31970626,NA,NA,Endereço não geocodificado,5
-30664003,NA,NA,Endereço não geocodificado,5
-30865370,NA,NA,Endereço não geocodificado,5
-30230681,NA,NA,Endereço não geocodificado,5
-30664710,NA,NA,Endereço não geocodificado,5
-31680040,NA,NA,Endereço não geocodificado,5
-31842050,NA,NA,Endereço não geocodificado,5
-31742529,NA,NA,Endereço não geocodificado,5
-30622370,NA,NA,Endereço não geocodificado,5
-31160180,NA,NA,Endereço não geocodificado,5
-30240542,NA,NA,Endereço não geocodificado,5
-31535710,NA,NA,Endereço não geocodificado,5
-31995240,NA,NA,Endereço não geocodificado,5
-30240324,NA,NA,Endereço não geocodificado,5
-30285750,NA,NA,Endereço não geocodificado,5
-30668150,NA,NA,Endereço não geocodificado,5
-31975190,NA,NA,Endereço não geocodificado,5
-31210600,NA,NA,Endereço não geocodificado,5
-31360090,NA,NA,Endereço não geocodificado,5
-30668120,NA,NA,Endereço não geocodificado,5
-31150320,NA,NA,Endereço não geocodificado,5
-31578035,NA,NA,Endereço não geocodificado,5
-30668250,NA,NA,Endereço não geocodificado,5
-30622520,NA,NA,Endereço não geocodificado,5
-30770290,NA,NA,Endereço não geocodificado,5
-30270470,NA,NA,Endereço não geocodificado,5
-31260435,NA,NA,Endereço não geocodificado,5
-30451281,NA,NA,Endereço não geocodificado,5
-30662680,NA,NA,Endereço não geocodificado,5
-31975160,NA,NA,Endereço não geocodificado,5
-31975195,NA,NA,Endereço não geocodificado,5
-30710650,NA,NA,Endereço não geocodificado,5
-31975060,NA,NA,Endereço não geocodificado,5
-31998687,NA,NA,Endereço não geocodificado,5
-30220422,NA,NA,Endereço não geocodificado,5
-31615570,NA,NA,Endereço não geocodificado,5
-31320180,NA,NA,Endereço não geocodificado,5
-31842160,NA,NA,Endereço não geocodificado,5
-30330290,NA,NA,Endereço não geocodificado,5
-30535660,NA,NA,Endereço não geocodificado,5
-31575460,NA,NA,Endereço não geocodificado,5
-31810460,NA,NA,Endereço não geocodificado,5
-30666220,NA,NA,Endereço não geocodificado,5
-31630577,NA,NA,Endereço não geocodificado,5
-30250482,NA,NA,Endereço não geocodificado,5
-30622120,NA,NA,Endereço não geocodificado,5
-31742598,NA,NA,Endereço não geocodificado,5
-31540467,NA,NA,Endereço não geocodificado,5
-31742185,NA,NA,Endereço não geocodificado,5
-31842070,NA,NA,Endereço não geocodificado,5
-30692080,NA,NA,Endereço não geocodificado,5
-30285156,NA,NA,Endereço não geocodificado,5
-30622515,NA,NA,Endereço não geocodificado,5
-31360600,NA,NA,Endereço não geocodificado,5
-31873155,NA,NA,Endereço não geocodificado,5
-31741119,NA,NA,Endereço não geocodificado,5
-30620120,NA,NA,Endereço não geocodificado,5
-30668176,NA,NA,Endereço não geocodificado,5
-30270130,NA,NA,Endereço não geocodificado,5
-31812060,NA,NA,Endereço não geocodificado,5
-30670570,NA,NA,Endereço não geocodificado,5
-30440590,NA,NA,Endereço não geocodificado,5
-30620650,NA,NA,Endereço não geocodificado,5
-30670190,NA,NA,Endereço não geocodificado,5
-31742187,NA,NA,Endereço não geocodificado,5
-30516350,NA,NA,CEP não encontrado no ViaCEP,5
-30810740,NA,NA,Endereço não geocodificado,5
-31050390,NA,NA,Endereço não geocodificado,4
-30530710,NA,NA,Endereço não geocodificado,4
-30270150,NA,NA,Endereço não geocodificado,4
-31050420,NA,NA,Endereço não geocodificado,4
-30532070,NA,NA,Endereço não geocodificado,4
-30240335,NA,NA,Endereço não geocodificado,4
-30860260,NA,NA,Endereço não geocodificado,4
-31060235,NA,NA,CEP não encontrado no ViaCEP,4
-31365000,NA,NA,Endereço não geocodificado,4
-31540479,NA,NA,Endereço não geocodificado,4
-30670240,NA,NA,Endereço não geocodificado,4
-30512420,NA,NA,Endereço não geocodificado,4
-30240096,NA,NA,Endereço não geocodificado,4
-31842560,NA,NA,Endereço não geocodificado,4
-31814540,NA,NA,Endereço não geocodificado,4
-30666331,NA,NA,Endereço não geocodificado,4
-31250320,NA,NA,Endereço não geocodificado,4
-31535410,NA,NA,Endereço não geocodificado,4
-30710240,NA,NA,Endereço não geocodificado,4
-30664440,NA,NA,Endereço não geocodificado,4
-31150000,NA,NA,Endereço não geocodificado,4
-30881080,NA,NA,Endereço não geocodificado,4
-31575370,NA,NA,Endereço não geocodificado,4
-30664520,NA,NA,Endereço não geocodificado,4
-30610625,NA,NA,Endereço não geocodificado,4
-30673150,NA,NA,Endereço não geocodificado,4
-31530700,NA,NA,Endereço não geocodificado,4
-30628186,NA,NA,Endereço não geocodificado,4
-30662280,NA,NA,Endereço não geocodificado,4
-30451240,NA,NA,Endereço não geocodificado,4
-31540480,NA,NA,Endereço não geocodificado,4
-30285552,NA,NA,Endereço não geocodificado,4
-31250144,NA,NA,Endereço não geocodificado,4
-31975272,NA,NA,Endereço não geocodificado,4
-31360550,NA,NA,Endereço não geocodificado,4
-30451067,NA,NA,Endereço não geocodificado,4
-30518320,NA,NA,Endereço não geocodificado,4
-31741310,NA,NA,Endereço não geocodificado,4
-30664390,NA,NA,Endereço não geocodificado,4
-31975410,NA,NA,Endereço não geocodificado,4
-31110620,NA,NA,Endereço não geocodificado,4
-31842010,NA,NA,Endereço não geocodificado,4
-30670706,NA,NA,Endereço não geocodificado,4
-30668892,NA,NA,Endereço não geocodificado,4
-30220335,NA,NA,Endereço não geocodificado,4
-30451720,NA,NA,Endereço não geocodificado,4
-30220365,NA,NA,Endereço não geocodificado,4
-30775160,NA,NA,Endereço não geocodificado,4
-31730683,NA,NA,Endereço não geocodificado,4
-30820370,NA,NA,Endereço não geocodificado,4
-30270340,NA,NA,Endereço não geocodificado,4
-31540371,NA,NA,Endereço não geocodificado,4
-30530600,NA,NA,Endereço não geocodificado,4
-30670210,NA,NA,Endereço não geocodificado,4
-30250220,NA,NA,Endereço não geocodificado,4
-31930570,NA,NA,Endereço não geocodificado,4
-30640390,NA,NA,Endereço não geocodificado,4
-31975120,NA,NA,Endereço não geocodificado,4
-30510402,NA,NA,Endereço não geocodificado,4
-31970155,NA,NA,Endereço não geocodificado,4
-30494100,NA,NA,Endereço não geocodificado,4
-30668726,NA,NA,Endereço não geocodificado,4
-30640330,NA,NA,Endereço não geocodificado,4
-30660050,NA,NA,Endereço não geocodificado,4
-30668270,NA,NA,Endereço não geocodificado,4
-30750120,NA,NA,Endereço não geocodificado,4
-31873648,NA,NA,Endereço não geocodificado,4
-31150390,NA,NA,Endereço não geocodificado,4
-30622490,NA,NA,Endereço não geocodificado,4
-30881060,NA,NA,Endereço não geocodificado,4
-30670340,NA,NA,Endereço não geocodificado,4
-30250222,NA,NA,Endereço não geocodificado,4
-31230420,NA,NA,Endereço não geocodificado,4
-30230100,NA,NA,Endereço não geocodificado,4
-30431405,NA,NA,Endereço não geocodificado,4
-30510240,NA,NA,Endereço não geocodificado,4
-30280466,NA,NA,Endereço não geocodificado,4
-30451198,NA,NA,Endereço não geocodificado,4
-31742715,NA,NA,Endereço não geocodificado,4
-31210650,NA,NA,Endereço não geocodificado,4
-31814320,NA,NA,Endereço não geocodificado,4
-31535522,NA,NA,Endereço não geocodificado,4
-31842250,NA,NA,Endereço não geocodificado,4
-30668690,NA,NA,Endereço não geocodificado,4
-31035160,NA,NA,Endereço não geocodificado,4
-30250210,NA,NA,Endereço não geocodificado,4
-31844200,NA,NA,Endereço não geocodificado,4
-30662302,NA,NA,Endereço não geocodificado,4
-31050700,NA,NA,Endereço não geocodificado,4
-31950141,NA,NA,Endereço não geocodificado,4
-30840721,NA,NA,Endereço não geocodificado,4
-31872780,NA,NA,Endereço não geocodificado,4
-30820460,NA,NA,Endereço não geocodificado,4
-31842090,NA,NA,Endereço não geocodificado,4
-30660690,NA,NA,Endereço não geocodificado,4
-31741188,NA,NA,Endereço não geocodificado,4
-31520130,NA,NA,Endereço não geocodificado,4
-31210624,NA,NA,Endereço não geocodificado,4
-31130080,NA,NA,Endereço não geocodificado,4
-30692400,NA,NA,Endereço não geocodificado,4
-30672770,NA,NA,Endereço não geocodificado,4
-31360440,NA,NA,Endereço não geocodificado,4
-30670230,NA,NA,Endereço não geocodificado,4
-31575030,NA,NA,Endereço não geocodificado,4
-30285192,NA,NA,Endereço não geocodificado,4
-30692010,NA,NA,Endereço não geocodificado,4
-30670110,NA,NA,Endereço não geocodificado,4
-31015013,NA,NA,Endereço não geocodificado,4
-31615200,NA,NA,Endereço não geocodificado,4
-31530720,NA,NA,Endereço não geocodificado,4
-31575450,NA,NA,Endereço não geocodificado,4
-30622470,NA,NA,Endereço não geocodificado,4
-31730700,NA,NA,Endereço não geocodificado,4
-31810360,NA,NA,Endereço não geocodificado,4
-31810320,NA,NA,Endereço não geocodificado,4
-31748734,NA,NA,Endereço não geocodificado,4
-31360510,NA,NA,Endereço não geocodificado,4
-31920670,NA,NA,Endereço não geocodificado,3
-31742594,NA,NA,Endereço não geocodificado,3
-30518280,NA,NA,Endereço não geocodificado,3
-30286150,NA,NA,Endereço não geocodificado,3
-30451138,NA,NA,Endereço não geocodificado,3
-30668670,NA,NA,Endereço não geocodificado,3
-31812240,NA,NA,Endereço não geocodificado,3
-31640322,NA,NA,Endereço não geocodificado,3
-30660570,NA,NA,Endereço não geocodificado,3
-31340250,NA,NA,Endereço não geocodificado,3
-31260470,NA,NA,Endereço não geocodificado,3
-30860020,NA,NA,Endereço não geocodificado,3
-31680230,NA,NA,Endereço não geocodificado,3
-30666340,NA,NA,Endereço não geocodificado,3
-31998664,NA,NA,Endereço não geocodificado,3
-30730490,NA,NA,Endereço não geocodificado,3
-31930460,NA,NA,Endereço não geocodificado,3
-31575300,NA,NA,Endereço não geocodificado,3
-31050125,NA,NA,Endereço não geocodificado,3
-30644204,NA,NA,Endereço não geocodificado,3
-31575090,NA,NA,Endereço não geocodificado,3
-30530110,NA,NA,Endereço não geocodificado,3
-30670195,NA,NA,Endereço não geocodificado,3
-31230721,NA,NA,CEP não encontrado no ViaCEP,3
-31210622,NA,NA,Endereço não geocodificado,3
-31970115,NA,NA,Endereço não geocodificado,3
-30690770,NA,NA,Endereço não geocodificado,3
-31150160,NA,NA,Endereço não geocodificado,3
-30668660,NA,NA,Endereço não geocodificado,3
-30664350,NA,NA,Endereço não geocodificado,3
-30668320,NA,NA,Endereço não geocodificado,3
-30622201,NA,NA,Endereço não geocodificado,3
-30626990,NA,NA,CEP não encontrado no ViaCEP,3
-30660270,NA,NA,Endereço não geocodificado,3
-31230550,NA,NA,Endereço não geocodificado,3
-30295095,NA,NA,Endereço não geocodificado,3
-30421655,NA,NA,Endereço não geocodificado,3
-30285189,NA,NA,Endereço não geocodificado,3
-30295460,NA,NA,Endereço não geocodificado,3
-30510205,NA,NA,Endereço não geocodificado,3
-30230180,NA,NA,Endereço não geocodificado,3
-30250450,NA,NA,Endereço não geocodificado,3
-31970110,NA,NA,Endereço não geocodificado,3
-31540291,NA,NA,Endereço não geocodificado,3
-31210695,NA,NA,Endereço não geocodificado,3
-30240092,NA,NA,Endereço não geocodificado,3
-31050185,NA,NA,Endereço não geocodificado,3
-30350292,NA,NA,Endereço não geocodificado,3
-30644180,NA,NA,Endereço não geocodificado,3
-30660370,NA,NA,Endereço não geocodificado,3
-30626435,NA,NA,Endereço não geocodificado,3
-31998262,NA,NA,Endereço não geocodificado,3
-31540430,NA,NA,Endereço não geocodificado,3
-30670556,NA,NA,Endereço não geocodificado,3
-31950450,NA,NA,Endereço não geocodificado,3
-31810420,NA,NA,Endereço não geocodificado,3
-30660280,NA,NA,Endereço não geocodificado,3
-30626120,NA,NA,Endereço não geocodificado,3
-30628184,NA,NA,Endereço não geocodificado,3
-31230590,NA,NA,Endereço não geocodificado,3
-30421657,NA,NA,Endereço não geocodificado,3
-31255170,NA,NA,Endereço não geocodificado,3
-30580260,NA,NA,Endereço não geocodificado,3
-31842040,NA,NA,Endereço não geocodificado,3
-30516465,NA,NA,Endereço não geocodificado,3
-30660210,NA,NA,Endereço não geocodificado,3
-31310200,NA,NA,Endereço não geocodificado,3
-30666517,NA,NA,Endereço não geocodificado,3
-30662537,NA,NA,CEP não encontrado no ViaCEP,3
-30668165,NA,NA,Endereço não geocodificado,3
-30451092,NA,NA,Endereço não geocodificado,3
-30390005,NA,NA,Endereço não geocodificado,3
-30451041,NA,NA,Endereço não geocodificado,3
-31846320,NA,NA,Endereço não geocodificado,3
-31360620,NA,NA,Endereço não geocodificado,3
-30280250,NA,NA,Endereço não geocodificado,3
-31620390,NA,NA,Endereço não geocodificado,3
-31575150,NA,NA,Endereço não geocodificado,3
-31210623,NA,NA,Endereço não geocodificado,3
-30660410,NA,NA,Endereço não geocodificado,3
-31210701,NA,NA,Endereço não geocodificado,3
-30532060,NA,NA,Endereço não geocodificado,3
-30220359,NA,NA,Endereço não geocodificado,3
-30514510,NA,NA,CEP não encontrado no ViaCEP,3
-31050450,NA,NA,Endereço não geocodificado,3
-30664190,NA,NA,Endereço não geocodificado,3
-30666000,NA,NA,Endereço não geocodificado,3
-30865570,NA,NA,CEP não encontrado no ViaCEP,3
-30451058,NA,NA,Endereço não geocodificado,3
-30240620,NA,NA,Endereço não geocodificado,3
-31842240,NA,NA,Endereço não geocodificado,3
-31210335,NA,NA,Endereço não geocodificado,3
-30532140,NA,NA,Endereço não geocodificado,3
-30315342,NA,NA,Endereço não geocodificado,3
-30451039,NA,NA,Endereço não geocodificado,3
-31870250,NA,NA,Endereço não geocodificado,3
-31810580,NA,NA,Endereço não geocodificado,3
-30775540,NA,NA,Endereço não geocodificado,3
-30640090,NA,NA,Endereço não geocodificado,3
-30220353,NA,NA,Endereço não geocodificado,3
-30642090,NA,NA,Endereço não geocodificado,3
-31250143,NA,NA,Endereço não geocodificado,3
-30664410,NA,NA,Endereço não geocodificado,3
-30668230,NA,NA,Endereço não geocodificado,3
-30624355,NA,NA,Endereço não geocodificado,3
-31873726,NA,NA,Endereço não geocodificado,3
-30380201,NA,NA,Endereço não geocodificado,3
-30662030,NA,NA,Endereço não geocodificado,3
-31580230,NA,NA,Endereço não geocodificado,3
-30520062,NA,NA,CEP não encontrado no ViaCEP,3
-30624150,NA,NA,Endereço não geocodificado,3
-30570740,NA,NA,Endereço não geocodificado,3
-31998686,NA,NA,Endereço não geocodificado,3
-31910750,NA,NA,Endereço não geocodificado,3
-31975170,NA,NA,Endereço não geocodificado,3
-31360560,NA,NA,Endereço não geocodificado,3
-30664590,NA,NA,Endereço não geocodificado,3
-30622025,NA,NA,Endereço não geocodificado,3
-30664270,NA,NA,Endereço não geocodificado,3
-30622000,NA,NA,Endereço não geocodificado,3
-31748724,NA,NA,Endereço não geocodificado,3
-30668315,NA,NA,Endereço não geocodificado,3
-30535106,NA,NA,Endereço não geocodificado,3
-30290300,NA,NA,Endereço não geocodificado,3
-30380210,NA,NA,Endereço não geocodificado,3
-30285143,NA,NA,Endereço não geocodificado,3
-31842280,NA,NA,Endereço não geocodificado,3
-30220431,NA,NA,Endereço não geocodificado,3
-31575320,NA,NA,Endereço não geocodificado,3
-30530590,NA,NA,Endereço não geocodificado,3
-30451520,NA,NA,Endereço não geocodificado,3
-30451655,NA,NA,Endereço não geocodificado,3
-30451201,NA,NA,Endereço não geocodificado,3
-30516320,NA,NA,Endereço não geocodificado,3
-30451608,NA,NA,Endereço não geocodificado,3
-30514320,NA,NA,Endereço não geocodificado,3
-30775140,NA,NA,Endereço não geocodificado,3
-30670310,NA,NA,Endereço não geocodificado,3
-30668200,NA,NA,Endereço não geocodificado,3
-31744121,NA,NA,Endereço não geocodificado,3
-30690410,NA,NA,Endereço não geocodificado,3
-31210625,NA,NA,Endereço não geocodificado,3
-30642585,NA,NA,Endereço não geocodificado,3
-30666105,NA,NA,Endereço não geocodificado,3
-31910090,NA,NA,Endereço não geocodificado,3
-31742645,NA,NA,Endereço não geocodificado,3
-30668070,NA,NA,Endereço não geocodificado,3
-30666280,NA,NA,Endereço não geocodificado,3
-31741245,NA,NA,Endereço não geocodificado,3
-31742360,NA,NA,Endereço não geocodificado,3
-31360460,NA,NA,Endereço não geocodificado,3
-31842600,NA,NA,Endereço não geocodificado,3
-31150220,NA,NA,Endereço não geocodificado,3
-30628164,NA,NA,Endereço não geocodificado,3
-30530350,NA,NA,Endereço não geocodificado,3
-30850350,NA,NA,CEP não encontrado no ViaCEP,3
-31210704,NA,NA,Endereço não geocodificado,3
-31842230,NA,NA,Endereço não geocodificado,3
-30865230,NA,NA,Endereço não geocodificado,3
-30668712,NA,NA,Endereço não geocodificado,3
-31742695,NA,NA,Endereço não geocodificado,3
-30390565,NA,NA,Endereço não geocodificado,3
-31660093,NA,NA,Endereço não geocodificado,3
-30240617,NA,NA,Endereço não geocodificado,3
-31748732,NA,NA,Endereço não geocodificado,3
-31035199,NA,NA,Endereço não geocodificado,3
-30666080,NA,NA,Endereço não geocodificado,3
-31210710,NA,NA,Endereço não geocodificado,3
-30668030,NA,NA,Endereço não geocodificado,3
-30285556,NA,NA,Endereço não geocodificado,3
-31360430,NA,NA,Endereço não geocodificado,3
-31842290,NA,NA,Endereço não geocodificado,3
-30285187,NA,NA,Endereço não geocodificado,3
-31970631,NA,NA,Endereço não geocodificado,3
-31250005,NA,NA,Endereço não geocodificado,3
-31741135,NA,NA,Endereço não geocodificado,3
-31748660,NA,NA,Endereço não geocodificado,3
-31842400,NA,NA,Endereço não geocodificado,3
-31870230,NA,NA,Endereço não geocodificado,3
-31812200,NA,NA,Endereço não geocodificado,3
-30295175,NA,NA,Endereço não geocodificado,3
-30810700,NA,NA,Endereço não geocodificado,3
-31210740,NA,NA,Endereço não geocodificado,3
-31230630,NA,NA,Endereço não geocodificado,3
-30431163,NA,NA,Endereço não geocodificado,3
-30285658,NA,NA,Endereço não geocodificado,3
-31230221,NA,NA,Endereço não geocodificado,3
-30750460,NA,NA,Endereço não geocodificado,3
-31998690,NA,NA,Endereço não geocodificado,3
-30640630,NA,NA,Endereço não geocodificado,3
-30260442,NA,NA,Endereço não geocodificado,3
-30295173,NA,NA,Endereço não geocodificado,3
-30664730,NA,NA,Endereço não geocodificado,3
-30451549,NA,NA,Endereço não geocodificado,3
-31812270,NA,NA,Endereço não geocodificado,3
-30662550,NA,NA,Endereço não geocodificado,2
-30660680,NA,NA,Endereço não geocodificado,2
-30668795,NA,NA,Endereço não geocodificado,2
-30335112,NA,NA,Endereço não geocodificado,2
-30666030,NA,NA,Endereço não geocodificado,2
-30451163,NA,NA,Endereço não geocodificado,2
-30865360,NA,NA,Endereço não geocodificado,2
-30640120,NA,NA,Endereço não geocodificado,2
-30390030,NA,NA,Endereço não geocodificado,2
-30881340,NA,NA,Endereço não geocodificado,2
-31650410,NA,NA,Endereço não geocodificado,2
-31615622,NA,NA,Endereço não geocodificado,2
-31250605,NA,NA,Endereço não geocodificado,2
-31812260,NA,NA,Endereço não geocodificado,2
-31974045,NA,NA,Endereço não geocodificado,2
-31150162,NA,NA,Endereço não geocodificado,2
-30775387,NA,NA,Endereço não geocodificado,2
-31255265,NA,NA,Endereço não geocodificado,2
-31320220,NA,NA,Endereço não geocodificado,2
-30626692,NA,NA,Endereço não geocodificado,2
-31842684,NA,NA,Endereço não geocodificado,2
-30250486,NA,NA,Endereço não geocodificado,2
-30575710,NA,NA,Endereço não geocodificado,2
-31810450,NA,NA,Endereço não geocodificado,2
-30451098,NA,NA,Endereço não geocodificado,2
-31748597,NA,NA,Endereço não geocodificado,2
-30642140,NA,NA,Endereço não geocodificado,2
-30666210,NA,NA,Endereço não geocodificado,2
-30610670,NA,NA,CEP não encontrado no ViaCEP,2
-30626610,NA,NA,Endereço não geocodificado,2
-31230734,NA,NA,Endereço não geocodificado,2
-31210350,NA,NA,Endereço não geocodificado,2
-31744617,NA,NA,Endereço não geocodificado,2
-30660131,NA,NA,Endereço não geocodificado,2
-31742352,NA,NA,Endereço não geocodificado,2
-30668163,NA,NA,Endereço não geocodificado,2
-30580352,NA,NA,Endereço não geocodificado,2
-31575350,NA,NA,Endereço não geocodificado,2
-30642350,NA,NA,Endereço não geocodificado,2
-30664570,NA,NA,Endereço não geocodificado,2
-30240580,NA,NA,Endereço não geocodificado,2
-30451134,NA,NA,Endereço não geocodificado,2
-30720540,NA,NA,Endereço não geocodificado,2
-30290240,NA,NA,Endereço não geocodificado,2
-30668210,NA,NA,Endereço não geocodificado,2
-30270020,NA,NA,Endereço não geocodificado,2
-30670044,NA,NA,Endereço não geocodificado,2
-30666070,NA,NA,Endereço não geocodificado,2
-30220010,NA,NA,CEP não encontrado no ViaCEP,2
-30315340,NA,NA,Endereço não geocodificado,2
-30280469,NA,NA,Endereço não geocodificado,2
-30770540,NA,NA,Endereço não geocodificado,2
-31360530,NA,NA,Endereço não geocodificado,2
-30285145,NA,NA,Endereço não geocodificado,2
-31270100,NA,NA,Endereço não geocodificado,2
-31870412,NA,NA,Endereço não geocodificado,2
-31575040,NA,NA,Endereço não geocodificado,2
-30664070,NA,NA,Endereço não geocodificado,2
-30664784,NA,NA,Endereço não geocodificado,2
-30570310,NA,NA,Endereço não geocodificado,2
-30690820,NA,NA,Endereço não geocodificado,2
-31210698,NA,NA,Endereço não geocodificado,2
-30285177,NA,NA,Endereço não geocodificado,2
-30668340,NA,NA,Endereço não geocodificado,2
-31970324,NA,NA,Endereço não geocodificado,2
-31250493,NA,NA,Endereço não geocodificado,2
-31540441,NA,NA,Endereço não geocodificado,2
-31110745,NA,NA,Endereço não geocodificado,2
-30535340,NA,NA,Endereço não geocodificado,2
-31540421,NA,NA,Endereço não geocodificado,2
-31360630,NA,NA,Endereço não geocodificado,2
-31555090,NA,NA,Endereço não geocodificado,2
-31842570,NA,NA,Endereço não geocodificado,2
-31320534,NA,NA,Endereço não geocodificado,2
-30668040,NA,NA,Endereço não geocodificado,2
-30710326,NA,NA,Endereço não geocodificado,2
-31870602,NA,NA,Endereço não geocodificado,2
-31573405,NA,NA,Endereço não geocodificado,2
-31655530,NA,NA,Endereço não geocodificado,2
-30672670,NA,NA,Endereço não geocodificado,2
-30451285,NA,NA,Endereço não geocodificado,2
-31930490,NA,NA,Endereço não geocodificado,2
-30670559,NA,NA,Endereço não geocodificado,2
-30730690,NA,NA,Endereço não geocodificado,2
-30668186,NA,NA,Endereço não geocodificado,2
-30285183,NA,NA,Endereço não geocodificado,2
-30666350,NA,NA,Endereço não geocodificado,2
-30421650,NA,NA,Endereço não geocodificado,2
-30555170,NA,NA,Endereço não geocodificado,2
-30240311,NA,NA,Endereço não geocodificado,2
-31170370,NA,NA,Endereço não geocodificado,2
-31842210,NA,NA,Endereço não geocodificado,2
-31748716,NA,NA,Endereço não geocodificado,2
-31360760,NA,NA,Endereço não geocodificado,2
-30850525,NA,NA,Endereço não geocodificado,2
-31250491,NA,NA,Endereço não geocodificado,2
-31846020,NA,NA,Endereço não geocodificado,2
-30670130,NA,NA,Endereço não geocodificado,2
-31255270,NA,NA,Endereço não geocodificado,2
-31970408,NA,NA,Endereço não geocodificado,2
-30451009,NA,NA,Endereço não geocodificado,2
-31910415,NA,NA,Endereço não geocodificado,2
-31812030,NA,NA,Endereço não geocodificado,2
-30865700,NA,NA,Endereço não geocodificado,2
-30335192,NA,NA,Endereço não geocodificado,2
-30668405,NA,NA,Endereço não geocodificado,2
-30668782,NA,NA,Endereço não geocodificado,2
-30622460,NA,NA,Endereço não geocodificado,2
-31810545,NA,NA,Endereço não geocodificado,2
-31998752,NA,NA,Endereço não geocodificado,2
-31844010,NA,NA,Endereço não geocodificado,2
-30662291,NA,NA,Endereço não geocodificado,2
-30285351,NA,NA,Endereço não geocodificado,2
-30240545,NA,NA,Endereço não geocodificado,2
-30692670,NA,NA,Endereço não geocodificado,2
-30285335,NA,NA,Endereço não geocodificado,2
-30295365,NA,NA,Endereço não geocodificado,2
-30285179,NA,NA,Endereço não geocodificado,2
-30285191,NA,NA,Endereço não geocodificado,2
-31070440,NA,NA,Endereço não geocodificado,2
-30642070,NA,NA,CEP não encontrado no ViaCEP,2
-31842150,NA,NA,Endereço não geocodificado,2
-31578025,NA,NA,Endereço não geocodificado,2
-30230590,NA,NA,Endereço não geocodificado,2
-31975130,NA,NA,Endereço não geocodificado,2
-30510200,NA,NA,Endereço não geocodificado,2
-30626437,NA,NA,Endereço não geocodificado,2
-30850539,NA,NA,CEP não encontrado no ViaCEP,2
-30720340,NA,NA,CEP não encontrado no ViaCEP,2
-30664060,NA,NA,Endereço não geocodificado,2
-30532000,NA,NA,Endereço não geocodificado,2
-31550230,NA,NA,Endereço não geocodificado,2
-30335232,NA,NA,Endereço não geocodificado,2
-30240111,NA,NA,Endereço não geocodificado,2
-31873672,NA,NA,Endereço não geocodificado,2
-30666662,NA,NA,Endereço não geocodificado,2
-30360150,NA,NA,Endereço não geocodificado,2
-30668864,NA,NA,Endereço não geocodificado,2
-30820340,NA,NA,Endereço não geocodificado,2
-30670010,NA,NA,Endereço não geocodificado,2
-30668325,NA,NA,Endereço não geocodificado,2
-30295310,NA,NA,Endereço não geocodificado,2
-30421730,NA,NA,Endereço não geocodificado,2
-30451555,NA,NA,Endereço não geocodificado,2
-31846512,NA,NA,CEP não encontrado no ViaCEP,2
-30662310,NA,NA,Endereço não geocodificado,2
-30666547,NA,NA,Endereço não geocodificado,2
-31140510,NA,NA,Endereço não geocodificado,2
-30666345,NA,NA,CEP não encontrado no ViaCEP,2
-31160620,NA,NA,Endereço não geocodificado,2
-30335390,NA,NA,Endereço não geocodificado,2
-30668300,NA,NA,Endereço não geocodificado,2
-30390402,NA,NA,Endereço não geocodificado,2
-31210180,NA,NA,Endereço não geocodificado,2
-30421440,NA,NA,Endereço não geocodificado,2
-31873168,NA,NA,Endereço não geocodificado,2
-30285338,NA,NA,Endereço não geocodificado,2
-31844250,NA,NA,Endereço não geocodificado,2
-31652140,NA,NA,Endereço não geocodificado,2
-30672671,NA,NA,Endereço não geocodificado,2
-30512323,NA,NA,Endereço não geocodificado,2
-30285284,NA,NA,Endereço não geocodificado,2
-30775070,NA,NA,Endereço não geocodificado,2
-30230584,NA,NA,Endereço não geocodificado,2
-31535503,NA,NA,Endereço não geocodificado,2
-30692663,NA,NA,Endereço não geocodificado,2
-30865722,NA,NA,Endereço não geocodificado,2
-31260340,NA,NA,Endereço não geocodificado,2
-30240288,NA,NA,Endereço não geocodificado,2
-30421447,NA,NA,Endereço não geocodificado,2
-30295269,NA,NA,Endereço não geocodificado,2
-31842072,NA,NA,Endereço não geocodificado,2
-31652230,NA,NA,Endereço não geocodificado,2
-31540422,NA,NA,Endereço não geocodificado,2
-30451090,NA,NA,Endereço não geocodificado,2
-30250447,NA,NA,Endereço não geocodificado,2
-30380204,NA,NA,Endereço não geocodificado,2
-31365020,NA,NA,Endereço não geocodificado,2
-31155540,NA,NA,Endereço não geocodificado,2
-30668220,NA,NA,Endereço não geocodificado,2
-30666150,NA,NA,Endereço não geocodificado,2
-30230582,NA,NA,Endereço não geocodificado,2
-30670750,NA,NA,Endereço não geocodificado,2
-30666120,NA,NA,Endereço não geocodificado,2
-30622485,NA,NA,Endereço não geocodificado,2
-31370730,NA,NA,Endereço não geocodificado,2
-30335280,NA,NA,Endereço não geocodificado,2
-30380471,NA,NA,Endereço não geocodificado,2
-30668181,NA,NA,Endereço não geocodificado,2
-31130006,NA,NA,Endereço não geocodificado,2
-30240101,NA,NA,Endereço não geocodificado,2
-31748682,NA,NA,Endereço não geocodificado,2
-30664150,NA,NA,Endereço não geocodificado,2
-31812115,NA,NA,Endereço não geocodificado,2
-30451130,NA,NA,Endereço não geocodificado,2
-30668480,NA,NA,Endereço não geocodificado,2
-31050470,NA,NA,Endereço não geocodificado,2
-30240632,NA,NA,Endereço não geocodificado,2
-30285182,NA,NA,Endereço não geocodificado,2
-31998694,NA,NA,Endereço não geocodificado,2
-30692295,NA,NA,Endereço não geocodificado,2
-30285312,NA,NA,Endereço não geocodificado,2
-30660133,NA,NA,Endereço não geocodificado,2
-30670300,NA,NA,Endereço não geocodificado,2
-30668722,NA,NA,Endereço não geocodificado,2
-31812160,NA,NA,Endereço não geocodificado,2
-30622450,NA,NA,Endereço não geocodificado,2
-30280150,NA,NA,Endereço não geocodificado,2
-30530630,NA,NA,Endereço não geocodificado,2
-30285164,NA,NA,Endereço não geocodificado,2
-31846210,NA,NA,Endereço não geocodificado,2
-30250417,NA,NA,Endereço não geocodificado,2
-30668460,NA,NA,Endereço não geocodificado,2
-30380473,NA,NA,Endereço não geocodificado,2
-30510244,NA,NA,Endereço não geocodificado,2
-31975110,NA,NA,Endereço não geocodificado,2
-30870420,NA,NA,Endereço não geocodificado,2
-31210761,NA,NA,Endereço não geocodificado,2
-31255255,NA,NA,Endereço não geocodificado,2
-31210210,NA,NA,Endereço não geocodificado,2
-31998685,NA,NA,Endereço não geocodificado,2
-31950436,NA,NA,Endereço não geocodificado,2
-30670320,NA,NA,Endereço não geocodificado,2
-30270350,NA,NA,Endereço não geocodificado,2
-30451572,NA,NA,Endereço não geocodificado,2
-31585180,NA,NA,Endereço não geocodificado,2
-31970525,NA,NA,Endereço não geocodificado,2
-31210303,NA,NA,Endereço não geocodificado,2
-31742456,NA,NA,Endereço não geocodificado,2
-31150451,NA,NA,Endereço não geocodificado,2
-31660170,NA,NA,Endereço não geocodificado,2
-31210707,NA,NA,Endereço não geocodificado,2
-30640800,NA,NA,Endereço não geocodificado,2
-31210694,NA,NA,Endereço não geocodificado,2
-31812020,NA,NA,Endereço não geocodificado,2
-31260524,NA,NA,Endereço não geocodificado,2
-30350620,NA,NA,Endereço não geocodificado,2
-30220346,NA,NA,Endereço não geocodificado,2
-31998662,NA,NA,Endereço não geocodificado,2
-30610724,NA,NA,Endereço não geocodificado,2
-30666010,NA,NA,Endereço não geocodificado,2
-31873794,NA,NA,Endereço não geocodificado,2
-31873612,NA,NA,Endereço não geocodificado,2
-31920720,NA,NA,Endereço não geocodificado,2
-30668280,NA,NA,Endereço não geocodificado,2
-30230130,NA,NA,Endereço não geocodificado,2
-30451030,NA,NA,Endereço não geocodificado,2
-30220341,NA,NA,Endereço não geocodificado,2
-31998757,NA,NA,Endereço não geocodificado,2
-31575240,NA,NA,Endereço não geocodificado,2
-30692293,NA,NA,Endereço não geocodificado,2
-30451493,NA,NA,Endereço não geocodificado,2
-30668172,NA,NA,Endereço não geocodificado,2
-30820430,NA,NA,Endereço não geocodificado,2
-31573220,NA,NA,Endereço não geocodificado,2
-30668612,NA,NA,Endereço não geocodificado,2
-31620115,NA,NA,Endereço não geocodificado,2
-31540403,NA,NA,Endereço não geocodificado,2
-30525000,NA,NA,Endereço não geocodificado,2
-30390420,NA,NA,Endereço não geocodificado,2
-30285784,NA,NA,Endereço não geocodificado,2
-30421547,NA,NA,Endereço não geocodificado,2
-31360610,NA,NA,Endereço não geocodificado,2
-30240097,NA,NA,Endereço não geocodificado,2
-30865250,NA,NA,Endereço não geocodificado,2
-30865714,NA,NA,Endereço não geocodificado,2
-31140270,NA,NA,Endereço não geocodificado,2
-30720496,NA,NA,Endereço não geocodificado,2
-30280030,NA,NA,Endereço não geocodificado,2
-30530540,NA,NA,Endereço não geocodificado,2
-31744160,NA,NA,Endereço não geocodificado,2
-30285147,NA,NA,Endereço não geocodificado,2
-31320040,NA,NA,Endereço não geocodificado,2
-31812280,NA,NA,Endereço não geocodificado,2
-30335780,NA,NA,Endereço não geocodificado,2
-31370650,NA,NA,Endereço não geocodificado,2
-31810410,NA,NA,Endereço não geocodificado,2
-31873504,NA,NA,Endereço não geocodificado,2
-31170230,NA,NA,Endereço não geocodificado,2
-30850500,NA,NA,Endereço não geocodificado,2
-30640438,NA,NA,Endereço não geocodificado,2
-31250147,NA,NA,Endereço não geocodificado,2
-30451200,NA,NA,Endereço não geocodificado,2
-30672726,NA,NA,Endereço não geocodificado,2
-30492040,NA,NA,Endereço não geocodificado,2
-31842200,NA,NA,Endereço não geocodificado,2
-31970646,NA,NA,Endereço não geocodificado,2
-31970313,NA,NA,Endereço não geocodificado,2
-30451250,NA,NA,Endereço não geocodificado,2
-30530530,NA,NA,Endereço não geocodificado,2
-30642080,NA,NA,Endereço não geocodificado,2
-31975250,NA,NA,Endereço não geocodificado,2
-31748754,NA,NA,Endereço não geocodificado,2
-31810340,NA,NA,Endereço não geocodificado,2
-31575270,NA,NA,Endereço não geocodificado,2
-30664330,NA,NA,Endereço não geocodificado,2
-31640690,NA,NA,Endereço não geocodificado,2
-31842686,NA,NA,Endereço não geocodificado,2
-30620310,NA,NA,Endereço não geocodificado,2
-31170820,NA,NA,Endereço não geocodificado,2
-30285325,NA,NA,Endereço não geocodificado,2
-30870090,NA,NA,Endereço não geocodificado,2
-30451406,NA,NA,Endereço não geocodificado,2
-31873175,NA,NA,Endereço não geocodificado,2
-30295497,NA,NA,Endereço não geocodificado,2
-30160020,NA,NA,Endereço não geocodificado,2
-31250494,NA,NA,Endereço não geocodificado,2
-31812110,NA,NA,Endereço não geocodificado,2
-31842270,NA,NA,Endereço não geocodificado,2
-30810580,NA,NA,Endereço não geocodificado,2
-30850405,NA,NA,Endereço não geocodificado,2
-30451425,NA,NA,Endereço não geocodificado,2
-31110744,NA,NA,Endereço não geocodificado,2
-31842370,NA,NA,Endereço não geocodificado,1
-31842260,NA,NA,Endereço não geocodificado,1
-30692030,NA,NA,Endereço não geocodificado,1
-30285175,NA,NA,Endereço não geocodificado,1
-31873770,NA,NA,Endereço não geocodificado,1
-31250001,NA,NA,Endereço não geocodificado,1
-30220338,NA,NA,Endereço não geocodificado,1
-31250551,NA,NA,Endereço não geocodificado,1
-31130330,NA,NA,Endereço não geocodificado,1
-30640640,NA,NA,Endereço não geocodificado,1
-31210330,NA,NA,Endereço não geocodificado,1
-30664100,NA,NA,Endereço não geocodificado,1
-30880540,NA,NA,Endereço não geocodificado,1
-30295550,NA,NA,Endereço não geocodificado,1
-30642105,NA,NA,Endereço não geocodificado,1
-30310710,NA,NA,Endereço não geocodificado,1
-31870050,NA,NA,Endereço não geocodificado,1
-31250146,NA,NA,Endereço não geocodificado,1
-30865310,NA,NA,Endereço não geocodificado,1
-30295176,NA,NA,Endereço não geocodificado,1
-30240630,NA,NA,Endereço não geocodificado,1
-30320110,NA,NA,Endereço não geocodificado,1
-30668720,NA,NA,Endereço não geocodificado,1
-30260031,NA,NA,Endereço não geocodificado,1
-31580257,NA,NA,CEP não encontrado no ViaCEP,1
-31250720,NA,NA,Endereço não geocodificado,1
-31810150,NA,NA,Endereço não geocodificado,1
-30285318,NA,NA,CEP não encontrado no ViaCEP,1
-30421349,NA,NA,Endereço não geocodificado,1
-30666060,NA,NA,Endereço não geocodificado,1
-30575683,NA,NA,Endereço não geocodificado,1
-30850522,NA,NA,CEP não encontrado no ViaCEP,1
-30285804,NA,NA,Endereço não geocodificado,1
-30240112,NA,NA,Endereço não geocodificado,1
-31975140,NA,NA,Endereço não geocodificado,1
-30380480,NA,NA,Endereço não geocodificado,1
-30865330,NA,NA,Endereço não geocodificado,1
-30640720,NA,NA,Endereço não geocodificado,1
-31842020,NA,NA,Endereço não geocodificado,1
-31360410,NA,NA,Endereço não geocodificado,1
-31060500,NA,NA,Endereço não geocodificado,1
-30280472,NA,NA,Endereço não geocodificado,1
-30640443,NA,NA,Endereço não geocodificado,1
-30421587,NA,NA,Endereço não geocodificado,1
-31640553,NA,NA,Endereço não geocodificado,1
-30295385,NA,NA,Endereço não geocodificado,1
-30285554,NA,NA,Endereço não geocodificado,1
-31340284,NA,NA,Endereço não geocodificado,1
-30285796,NA,NA,Endereço não geocodificado,1
-31810180,NA,NA,Endereço não geocodificado,1
-30280122,NA,NA,Endereço não geocodificado,1
-30850516,NA,NA,Endereço não geocodificado,1
-30666200,NA,NA,Endereço não geocodificado,1
-30230680,NA,NA,Endereço não geocodificado,1
-30664244,NA,NA,Endereço não geocodificado,1
-31744742,NA,NA,Endereço não geocodificado,1
-30250484,NA,NA,Endereço não geocodificado,1
-30668350,NA,NA,Endereço não geocodificado,1
-31998025,NA,NA,Endereço não geocodificado,1
-30666090,NA,NA,Endereço não geocodificado,1
-30530362,NA,NA,Endereço não geocodificado,1
-30380720,NA,NA,Endereço não geocodificado,1
-30451503,NA,NA,Endereço não geocodificado,1
-30622648,NA,NA,Endereço não geocodificado,1
-30710329,NA,NA,Endereço não geocodificado,1
-31575120,NA,NA,Endereço não geocodificado,1
-30230560,NA,NA,Endereço não geocodificado,1
-30660620,NA,NA,Endereço não geocodificado,1
-30550780,NA,NA,Endereço não geocodificado,1
-30625012,NA,NA,Endereço não geocodificado,1
-30530570,NA,NA,Endereço não geocodificado,1
-30431177,NA,NA,Endereço não geocodificado,1
-30666110,NA,NA,Endereço não geocodificado,1
-31873698,NA,NA,Endereço não geocodificado,1
-31873788,NA,NA,Endereço não geocodificado,1
-31998676,NA,NA,Endereço não geocodificado,1
-30640670,NA,NA,Endereço não geocodificado,1
-31540482,NA,NA,Endereço não geocodificado,1
-30310410,NA,NA,Endereço não geocodificado,1
-30514292,NA,NA,Endereço não geocodificado,1
-31748686,NA,NA,Endereço não geocodificado,1
-30666040,NA,NA,Endereço não geocodificado,1
-31748540,NA,NA,Endereço não geocodificado,1
-30627130,NA,NA,Endereço não geocodificado,1
-30295202,NA,NA,Endereço não geocodificado,1
-31030320,NA,NA,Endereço não geocodificado,1
-30295412,NA,NA,Endereço não geocodificado,1
-31250148,NA,NA,Endereço não geocodificado,1
-31873786,NA,NA,Endereço não geocodificado,1
-30260443,NA,NA,Endereço não geocodificado,1
-30640530,NA,NA,Endereço não geocodificado,1
-30692090,NA,NA,Endereço não geocodificado,1
-30451568,NA,NA,Endereço não geocodificado,1
-30220369,NA,NA,Endereço não geocodificado,1
-31840470,NA,NA,Endereço não geocodificado,1
-31873588,NA,NA,Endereço não geocodificado,1
-30451591,NA,NA,Endereço não geocodificado,1
-30250490,NA,NA,Endereço não geocodificado,1
-30666634,NA,NA,Endereço não geocodificado,1
-30512591,NA,NA,Endereço não geocodificado,1
-30270120,NA,NA,Endereço não geocodificado,1
-31812040,NA,NA,Endereço não geocodificado,1
-30865724,NA,NA,Endereço não geocodificado,1
-31575310,NA,NA,Endereço não geocodificado,1
-31910200,NA,NA,Endereço não geocodificado,1
-30664670,NA,NA,Endereço não geocodificado,1
-30520490,NA,NA,Endereço não geocodificado,1
-31873640,NA,NA,Endereço não geocodificado,1
-30240119,NA,NA,Endereço não geocodificado,1
-30290340,NA,NA,Endereço não geocodificado,1
-31150450,NA,NA,Endereço não geocodificado,1
-30642225,NA,NA,Endereço não geocodificado,1
-31660320,NA,NA,CEP não encontrado no ViaCEP,1
-30451638,NA,NA,Endereço não geocodificado,1
-31842390,NA,NA,Endereço não geocodificado,1
-31910022,NA,NA,Endereço não geocodificado,1
-31975462,NA,NA,Endereço não geocodificado,1
-31155270,NA,NA,Endereço não geocodificado,1
-30668774,NA,NA,Endereço não geocodificado,1
-31320200,NA,NA,Endereço não geocodificado,1
-30860010,NA,NA,Endereço não geocodificado,1
-30440580,NA,NA,Endereço não geocodificado,1
-30626434,NA,NA,Endereço não geocodificado,1
-30230605,NA,NA,Endereço não geocodificado,1
-30644400,NA,NA,Endereço não geocodificado,1
-30260540,NA,NA,Endereço não geocodificado,1
-31873752,NA,NA,Endereço não geocodificado,1
-31250534,NA,NA,Endereço não geocodificado,1
-30642210,NA,NA,Endereço não geocodificado,1
-31360500,NA,NA,Endereço não geocodificado,1
-31210510,NA,NA,Endereço não geocodificado,1
-30250010,NA,NA,Endereço não geocodificado,1
-30865300,NA,NA,Endereço não geocodificado,1
-31810365,NA,NA,Endereço não geocodificado,1
-31230761,NA,NA,Endereço não geocodificado,1
-31155020,NA,NA,Endereço não geocodificado,1
-30290680,NA,NA,Endereço não geocodificado,1
-30230080,NA,NA,Endereço não geocodificado,1
-31748730,NA,NA,Endereço não geocodificado,1
-31250441,NA,NA,Endereço não geocodificado,1
-30451082,NA,NA,Endereço não geocodificado,1
-30668793,NA,NA,Endereço não geocodificado,1
-31575360,NA,NA,Endereço não geocodificado,1
-30451385,NA,NA,Endereço não geocodificado,1
-31640280,NA,NA,Endereço não geocodificado,1
-30250496,NA,NA,Endereço não geocodificado,1
-30670590,NA,NA,Endereço não geocodificado,1
-30622048,NA,NA,Endereço não geocodificado,1
-31998725,NA,NA,Endereço não geocodificado,1
-30672010,NA,NA,Endereço não geocodificado,1
-30668665,NA,NA,Endereço não geocodificado,1
-30642240,NA,NA,Endereço não geocodificado,1
-30290026,NA,NA,Endereço não geocodificado,1
-30870400,NA,NA,Endereço não geocodificado,1
-31748615,NA,NA,Endereço não geocodificado,1
-31812000,NA,NA,Endereço não geocodificado,1
-30666518,NA,NA,Endereço não geocodificado,1
-31575220,NA,NA,Endereço não geocodificado,1
-30570320,NA,NA,Endereço não geocodificado,1
-30672674,NA,NA,CEP não encontrado no ViaCEP,1
-31842110,NA,NA,Endereço não geocodificado,1
-30640780,NA,NA,Endereço não geocodificado,1
-30664720,NA,NA,Endereço não geocodificado,1
-30666700,NA,NA,Endereço não geocodificado,1
-31360490,NA,NA,Endereço não geocodificado,1
-30668625,NA,NA,Endereço não geocodificado,1
-30220342,NA,NA,Endereço não geocodificado,1
-30670770,NA,NA,Endereço não geocodificado,1
-31360420,NA,NA,Endereço não geocodificado,1
-31873614,NA,NA,Endereço não geocodificado,1
-31050100,NA,NA,Endereço não geocodificado,1
-31310100,NA,NA,Endereço não geocodificado,1
-31250543,NA,NA,Endereço não geocodificado,1
-30640444,NA,NA,Endereço não geocodificado,1
-31540401,NA,NA,Endereço não geocodificado,1
-31652387,NA,NA,Endereço não geocodificado,1
-31974030,NA,NA,Endereço não geocodificado,1
-31652050,NA,NA,Endereço não geocodificado,1
-31525210,NA,NA,Endereço não geocodificado,1
-31680210,NA,NA,Endereço não geocodificado,1
-31845410,NA,NA,Endereço não geocodificado,1
-31652005,NA,NA,Endereço não geocodificado,1
-30668317,NA,NA,Endereço não geocodificado,1
-31810400,NA,NA,Endereço não geocodificado,1
-30451292,NA,NA,Endereço não geocodificado,1
-30673146,NA,NA,Endereço não geocodificado,1
-31565290,NA,NA,Endereço não geocodificado,1
-30451736,NA,NA,Endereço não geocodificado,1
-31660020,NA,NA,Endereço não geocodificado,1
-31748768,NA,NA,Endereço não geocodificado,1
-30220022,NA,NA,CEP não encontrado no ViaCEP,1
-30670790,NA,NA,Endereço não geocodificado,1
-31575340,NA,NA,Endereço não geocodificado,1
-30664788,NA,NA,Endereço não geocodificado,1
-30285440,NA,NA,Endereço não geocodificado,1
-30610552,NA,NA,Endereço não geocodificado,1
-30421527,NA,NA,Endereço não geocodificado,1
-31210280,NA,NA,Endereço não geocodificado,1
-31270840,NA,NA,Endereço não geocodificado,1
-31870110,NA,NA,Endereço não geocodificado,1
-30240093,NA,NA,Endereço não geocodificado,1
-30750230,NA,NA,Endereço não geocodificado,1
-31985510,NA,NA,Endereço não geocodificado,1
-30692620,NA,NA,Endereço não geocodificado,1
-30666664,NA,NA,Endereço não geocodificado,1
-31610244,NA,NA,Endereço não geocodificado,1
-31741325,NA,NA,Endereço não geocodificado,1
-31742482,NA,NA,Endereço não geocodificado,1
-30668184,NA,NA,Endereço não geocodificado,1
-31250810,NA,NA,Endereço não geocodificado,1
-30662535,NA,NA,Endereço não geocodificado,1
-31530352,NA,NA,Endereço não geocodificado,1
-31950126,NA,NA,Endereço não geocodificado,1
-31530000,NA,NA,Endereço não geocodificado,1
-30640680,NA,NA,Endereço não geocodificado,1
-30230430,NA,NA,Endereço não geocodificado,1
-31210311,NA,NA,Endereço não geocodificado,1
-31742710,NA,NA,Endereço não geocodificado,1
-31575140,NA,NA,Endereço não geocodificado,1
-30855540,NA,NA,Endereço não geocodificado,1
-31970642,NA,NA,Endereço não geocodificado,1
-30380202,NA,NA,Endereço não geocodificado,1
-30627173,NA,NA,Endereço não geocodificado,1
-30627210,NA,NA,Endereço não geocodificado,1
-31741087,NA,NA,Endereço não geocodificado,1
-30295442,NA,NA,Endereço não geocodificado,1
-31970405,NA,NA,Endereço não geocodificado,1
-31748744,NA,NA,Endereço não geocodificado,1
-30622440,NA,NA,Endereço não geocodificado,1
-30516570,NA,NA,Endereço não geocodificado,1
-30570280,NA,NA,Endereço não geocodificado,1
-31575230,NA,NA,Endereço não geocodificado,1
-31575260,NA,NA,Endereço não geocodificado,1
-31580175,NA,NA,CEP não encontrado no ViaCEP,1
-31748678,NA,NA,Endereço não geocodificado,1
-30525370,NA,NA,Endereço não geocodificado,1
-31110778,NA,NA,Endereço não geocodificado,1
-30692430,NA,NA,Endereço não geocodificado,1
-31540073,NA,NA,Endereço não geocodificado,1
-30510605,NA,NA,Endereço não geocodificado,1
-31980140,NA,NA,Endereço não geocodificado,1
-30451079,NA,NA,Endereço não geocodificado,1
-30285172,NA,NA,Endereço não geocodificado,1
-31748674,NA,NA,Endereço não geocodificado,1
-31210460,NA,NA,Endereço não geocodificado,1
-30260450,NA,NA,Endereço não geocodificado,1
-30285137,NA,NA,Endereço não geocodificado,1
-31210490,NA,NA,Endereço não geocodificado,1
-30575687,NA,NA,Endereço não geocodificado,1
-30820380,NA,NA,Endereço não geocodificado,1
-31360470,NA,NA,Endereço não geocodificado,1
-31998729,NA,NA,Endereço não geocodificado,1
-30421005,NA,NA,Endereço não geocodificado,1
-31540242,NA,NA,Endereço não geocodificado,1
-31540481,NA,NA,Endereço não geocodificado,1
-31748766,NA,NA,Endereço não geocodificado,1
-30421520,NA,NA,Endereço não geocodificado,1
-30810532,NA,NA,Endereço não geocodificado,1
-30330090,NA,NA,Endereço não geocodificado,1
-30285307,NA,NA,Endereço não geocodificado,1
-31610210,NA,NA,Endereço não geocodificado,1
-31310620,NA,NA,Endereço não geocodificado,1
-31741313,NA,NA,Endereço não geocodificado,1
-30451110,NA,NA,Endereço não geocodificado,1
-30692540,NA,NA,Endereço não geocodificado,1
-30640432,NA,NA,Endereço não geocodificado,1
-30622510,NA,NA,Endereço não geocodificado,1
-31812210,NA,NA,Endereço não geocodificado,1
-30865730,NA,NA,Endereço não geocodificado,1
-30666130,NA,NA,Endereço não geocodificado,1
-30514298,NA,NA,Endereço não geocodificado,1
-31870413,NA,NA,Endereço não geocodificado,1
-31235160,NA,NA,Endereço não geocodificado,1
-31255840,NA,NA,Endereço não geocodificado,1
-31846496,NA,NA,CEP não encontrado no ViaCEP,1
-31814355,NA,NA,Endereço não geocodificado,1
-30451027,NA,NA,Endereço não geocodificado,1
-31540172,NA,NA,Endereço não geocodificado,1
-30664780,NA,NA,Endereço não geocodificado,1
-30622130,NA,NA,Endereço não geocodificado,1
-31050585,NA,NA,Endereço não geocodificado,1
-31741355,NA,NA,Endereço não geocodificado,1
-30285304,NA,NA,Endereço não geocodificado,1
-30624262,NA,NA,Endereço não geocodificado,1
-31998625,NA,NA,CEP não encontrado no ViaCEP,1
-30240051,NA,NA,Endereço não geocodificado,1
-30285610,NA,NA,Endereço não geocodificado,1
-30530390,NA,NA,Endereço não geocodificado,1
-31565360,NA,NA,Endereço não geocodificado,1
-30310600,NA,NA,Endereço não geocodificado,1
-31080460,NA,NA,Endereço não geocodificado,1
-31610200,NA,NA,Endereço não geocodificado,1
-30664280,NA,NA,Endereço não geocodificado,1
-31540077,NA,NA,Endereço não geocodificado,1
-31010134,NA,NA,CEP não encontrado no ViaCEP,1
-30520010,NA,NA,Endereço não geocodificado,1
-31960320,NA,NA,Endereço não geocodificado,1
-30220402,NA,NA,Endereço não geocodificado,1
-30580480,NA,NA,Endereço não geocodificado,1
-31950213,NA,NA,Endereço não geocodificado,1
-31250553,NA,NA,Endereço não geocodificado,1
-30750130,NA,NA,Endereço não geocodificado,1
-30810150,NA,NA,Endereço não geocodificado,1
-31970595,NA,NA,Endereço não geocodificado,1
-30570130,NA,NA,Endereço não geocodificado,1
-31980170,NA,NA,Endereço não geocodificado,1
-31360400,NA,NA,Endereço não geocodificado,1
-30510063,NA,NA,CEP não encontrado no ViaCEP,1
-30710070,NA,NA,Endereço não geocodificado,1
-31365580,NA,NA,Endereço não geocodificado,1
-31150455,NA,NA,Endereço não geocodificado,1
-31210708,NA,NA,Endereço não geocodificado,1
-31140200,NA,NA,Endereço não geocodificado,1
-30644280,NA,NA,Endereço não geocodificado,1
-31846272,NA,NA,CEP não encontrado no ViaCEP,1
-31160640,NA,NA,Endereço não geocodificado,1
-31210628,NA,NA,Endereço não geocodificado,1
-31950216,NA,NA,Endereço não geocodificado,1
-30720414,NA,NA,Endereço não geocodificado,1
-30514095,NA,NA,Endereço não geocodificado,1
-31230722,NA,NA,Endereço não geocodificado,1
-30220426,NA,NA,Endereço não geocodificado,1
-30670710,NA,NA,Endereço não geocodificado,1
-30666262,NA,NA,Endereço não geocodificado,1
-31748078,NA,NA,Endereço não geocodificado,1
-30431018,NA,NA,Endereço não geocodificado,1
-31250121,NA,NA,Endereço não geocodificado,1
-30670260,NA,NA,Endereço não geocodificado,1
-30240333,NA,NA,Endereço não geocodificado,1
-30610060,NA,NA,Endereço não geocodificado,1
-30250488,NA,NA,Endereço não geocodificado,1
-31555425,NA,NA,Endereço não geocodificado,1
-30380220,NA,NA,Endereço não geocodificado,1
-30260441,NA,NA,Endereço não geocodificado,1
-30440060,NA,NA,Endereço não geocodificado,1
-30451438,NA,NA,Endereço não geocodificado,1
-31748738,NA,NA,Endereço não geocodificado,1
-30421326,NA,NA,Endereço não geocodificado,1
-31535570,NA,NA,Endereço não geocodificado,1
-30260028,NA,NA,Endereço não geocodificado,1
-30431356,NA,NA,Endereço não geocodificado,1
-30380474,NA,NA,Endereço não geocodificado,1
-31744744,NA,NA,Endereço não geocodificado,1
-31250142,NA,NA,Endereço não geocodificado,1
-31950214,NA,NA,Endereço não geocodificado,1
-30112970,NA,NA,CEP não encontrado no ViaCEP,1
-30240105,NA,NA,Endereço não geocodificado,1
-31575110,NA,NA,Endereço não geocodificado,1
-30441061,NA,NA,Endereço não geocodificado,1
-30285263,NA,NA,Endereço não geocodificado,1
-31873602,NA,NA,Endereço não geocodificado,1
-30662390,NA,NA,Endereço não geocodificado,1
-30230282,NA,NA,Endereço não geocodificado,1
-31573392,NA,NA,Endereço não geocodificado,1
-30285357,NA,NA,Endereço não geocodificado,1
-30518082,NA,NA,Endereço não geocodificado,1
-30240052,NA,NA,Endereço não geocodificado,1
-31810190,NA,NA,CEP não encontrado no ViaCEP,1
-30610490,NA,NA,Endereço não geocodificado,1
-30610620,NA,NA,Endereço não geocodificado,1
-30660675,NA,NA,Endereço não geocodificado,1
-30624392,NA,NA,Endereço não geocodificado,1
-31873792,NA,NA,Endereço não geocodificado,1
-30668360,NA,NA,Endereço não geocodificado,1
-31545280,NA,NA,Endereço não geocodificado,1
-30310250,NA,NA,Endereço não geocodificado,1
-30570640,NA,NA,Endereço não geocodificado,1
-31050376,NA,NA,Endereço não geocodificado,1
-31610480,NA,NA,Endereço não geocodificado,1
-30532098,NA,NA,Endereço não geocodificado,1
-31360450,NA,NA,Endereço não geocodificado,1
-31110749,NA,NA,Endereço não geocodificado,1
-30451269,NA,NA,Endereço não geocodificado,1
-31260600,NA,NA,Endereço não geocodificado,1
-30285780,NA,NA,Endereço não geocodificado,1
-31930820,NA,NA,Endereço não geocodificado,1
-31575610,NA,NA,Endereço não geocodificado,1
-30668838,NA,NA,Endereço não geocodificado,1
-30260020,NA,NA,Endereço não geocodificado,1
-30285169,NA,NA,Endereço não geocodificado,1
-31999899,NA,NA,Endereço não geocodificado,1
-30662526,NA,NA,Endereço não geocodificado,1
-30672658,NA,NA,Endereço não geocodificado,1
-30664140,NA,NA,Endereço não geocodificado,1
-31530670,NA,NA,Endereço não geocodificado,1
-30230533,NA,NA,Endereço não geocodificado,1
-30270370,NA,NA,Endereço não geocodificado,1
-31748033,NA,NA,Endereço não geocodificado,1
-30668170,NA,NA,Endereço não geocodificado,1
-31720470,NA,NA,Endereço não geocodificado,1
-31320382,NA,NA,Endereço não geocodificado,1
-31210583,NA,NA,Endereço não geocodificado,1
-31230731,NA,NA,Endereço não geocodificado,1
-30451207,NA,NA,Endereço não geocodificado,1
-30451333,NA,NA,Endereço não geocodificado,1
-31540391,NA,NA,Endereço não geocodificado,1
-30640655,NA,NA,Endereço não geocodificado,1
-30664130,NA,NA,Endereço não geocodificado,1
-30668825,NA,NA,Endereço não geocodificado,1
-30451621,NA,NA,Endereço não geocodificado,1
-30670551,NA,NA,Endereço não geocodificado,1
-31873768,NA,NA,Endereço não geocodificado,1
-30664110,NA,NA,Endereço não geocodificado,1
-31730778,NA,NA,Endereço não geocodificado,1
-30666540,NA,NA,Endereço não geocodificado,1
-30280462,NA,NA,Endereço não geocodificado,1
-31814670,NA,NA,Endereço não geocodificado,1
-30260444,NA,NA,Endereço não geocodificado,1
-30451275,NA,NA,Endereço não geocodificado,1
-30660150,NA,NA,Endereço não geocodificado,1
-30512090,NA,NA,Endereço não geocodificado,1
-30380430,NA,NA,Endereço não geocodificado,1
-31575080,NA,NA,Endereço não geocodificado,1
-30285181,NA,NA,Endereço não geocodificado,1
-30230687,NA,NA,Endereço não geocodificado,1
-31250004,NA,NA,Endereço não geocodificado,1
-31950146,NA,NA,Endereço não geocodificado,1
-31842420,NA,NA,Endereço não geocodificado,1
-31846130,NA,NA,Endereço não geocodificado,1
-31170405,NA,NA,Endereço não geocodificado,1
-30260160,NA,NA,Endereço não geocodificado,1
-31250205,NA,NA,Endereço não geocodificado,1
-30285171,NA,NA,Endereço não geocodificado,1
-30668582,NA,NA,Endereço não geocodificado,1
-30720350,NA,NA,Endereço não geocodificado,1
-30516150,NA,NA,Endereço não geocodificado,1
-30810070,NA,NA,Endereço não geocodificado,1
-30451265,NA,NA,Endereço não geocodificado,1
-30240117,NA,NA,Endereço não geocodificado,1
-30710450,NA,NA,Endereço não geocodificado,1
-30451158,NA,NA,Endereço não geocodificado,1
-30860110,NA,NA,Endereço não geocodificado,1
-31130770,NA,NA,Endereço não geocodificado,1
-31975200,NA,NA,Endereço não geocodificado,1
-31810380,NA,NA,Endereço não geocodificado,1
-30285308,NA,NA,Endereço não geocodificado,1
-30450425,NA,NA,Endereço não geocodificado,1
-30220360,NA,NA,Endereço não geocodificado,1
-30380482,NA,NA,Endereço não geocodificado,1
-30672710,NA,NA,Endereço não geocodificado,1
-31210352,NA,NA,Endereço não geocodificado,1
-30240115,NA,NA,Endereço não geocodificado,1
-30640700,NA,NA,Endereço não geocodificado,1
-30285162,NA,NA,Endereço não geocodificado,1
-31510260,NA,NA,Endereço não geocodificado,1
-30220421,NA,NA,Endereço não geocodificado,1
-30285472,NA,NA,Endereço não geocodificado,1
-31840380,NA,NA,Endereço não geocodificado,1
-30880570,NA,NA,Endereço não geocodificado,1
-31742474,NA,NA,Endereço não geocodificado,1
-31660310,NA,NA,Endereço não geocodificado,1
-30451573,NA,NA,Endereço não geocodificado,1
-30865738,NA,NA,Endereço não geocodificado,1
-31845262,NA,NA,Endereço não geocodificado,1
-30668520,NA,NA,Endereço não geocodificado,1
-31250132,NA,NA,Endereço não geocodificado,1
-31540232,NA,NA,Endereço não geocodificado,1
-31250490,NA,NA,Endereço não geocodificado,1
-31995275,NA,NA,CEP não encontrado no ViaCEP,1
-30628620,NA,NA,Endereço não geocodificado,1
-30642160,NA,NA,Endereço não geocodificado,1
-30670170,NA,NA,Endereço não geocodificado,1
-30451120,NA,NA,Endereço não geocodificado,1
-31610242,NA,NA,Endereço não geocodificado,1
-31873160,NA,NA,Endereço não geocodificado,1
-30550812,NA,NA,Endereço não geocodificado,1
-31210686,NA,NA,Endereço não geocodificado,1
-31748285,NA,NA,Endereço não geocodificado,1
-30390430,NA,NA,CEP não encontrado no ViaCEP,1
-30672020,NA,NA,Endereço não geocodificado,1
-30622042,NA,NA,Endereço não geocodificado,1
-30610420,NA,NA,Endereço não geocodificado,1
-30285159,NA,NA,Endereço não geocodificado,1
-30672730,NA,NA,Endereço não geocodificado,1
-31744586,NA,NA,Endereço não geocodificado,1
-31873730,NA,NA,Endereço não geocodificado,1
-30330296,NA,NA,Endereço não geocodificado,1
-31210732,NA,NA,Endereço não geocodificado,1
-30320060,NA,NA,Endereço não geocodificado,1
-31360515,NA,NA,Endereço não geocodificado,1
-31525410,NA,NA,Endereço não geocodificado,1
-31810370,NA,NA,Endereço não geocodificado,1
-31565340,NA,NA,Endereço não geocodificado,1
-31540484,NA,NA,Endereço não geocodificado,1
-30672650,NA,NA,CEP não encontrado no ViaCEP,1
-31970314,NA,NA,Endereço não geocodificado,1
-30260456,NA,NA,Endereço não geocodificado,1
-31255295,NA,NA,Endereço não geocodificado,1
-30666505,NA,NA,Endereço não geocodificado,1
-30451073,NA,NA,Endereço não geocodificado,1
-30550630,NA,NA,Endereço não geocodificado,1
-30640447,NA,NA,Endereço não geocodificado,1
-30666322,NA,NA,Endereço não geocodificado,1
-31975240,NA,NA,Endereço não geocodificado,1
-31748133,NA,NA,Endereço não geocodificado,1
-31950218,NA,NA,Endereço não geocodificado,1
-31998727,NA,NA,Endereço não geocodificado,1
-31985480,NA,NA,Endereço não geocodificado,1
-30516090,NA,NA,Endereço não geocodificado,1
-30668840,NA,NA,Endereço não geocodificado,1
-31540088,NA,NA,Endereço não geocodificado,1
-30001970,NA,NA,CEP não encontrado no ViaCEP,1
-31575250,NA,NA,Endereço não geocodificado,1
-30518190,NA,NA,Endereço não geocodificado,1
-30627216,NA,NA,Endereço não geocodificado,1
-30510207,NA,NA,Endereço não geocodificado,1
-31742105,NA,NA,Endereço não geocodificado,1
-31995390,NA,NA,Endereço não geocodificado,1
-30664786,NA,NA,Endereço não geocodificado,1
-31810570,NA,NA,Endereço não geocodificado,1
-30290021,NA,NA,Endereço não geocodificado,1
-31710640,NA,NA,Endereço não geocodificado,1
-31873668,NA,NA,Endereço não geocodificado,1
-31873784,NA,NA,Endereço não geocodificado,1
-31530320,NA,NA,Endereço não geocodificado,1
-30668352,NA,NA,Endereço não geocodificado,1
-30664320,NA,NA,Endereço não geocodificado,1
-31998510,NA,NA,Endereço não geocodificado,1
-30820462,NA,NA,Endereço não geocodificado,1
-31998254,NA,NA,Endereço não geocodificado,1
-31610620,NA,NA,Endereço não geocodificado,1
-30664230,NA,NA,Endereço não geocodificado,1
-30520430,NA,NA,Endereço não geocodificado,1
-30240544,NA,NA,Endereço não geocodificado,1
-31652232,NA,NA,Endereço não geocodificado,1
-30668022,NA,NA,Endereço não geocodificado,1
-30510722,NA,NA,Endereço não geocodificado,1
-30210090,NA,NA,Endereço não geocodificado,1
-31615700,NA,NA,Endereço não geocodificado,1
-30662582,NA,NA,Endereço não geocodificado,1
-31155710,NA,NA,Endereço não geocodificado,1
-30666678,NA,NA,CEP não encontrado no ViaCEP,1
-30662010,NA,NA,Endereço não geocodificado,1
-30451056,NA,NA,Endereço não geocodificado,1
-30730660,NA,NA,Endereço não geocodificado,1
-31250492,NA,NA,Endereço não geocodificado,1
-31210260,NA,NA,Endereço não geocodificado,1
-31975334,NA,NA,Endereço não geocodificado,1
-31210630,NA,NA,Endereço não geocodificado,1
-30575315,NA,NA,Endereço não geocodificado,1
-30664310,NA,NA,Endereço não geocodificado,1
-30670518,NA,NA,Endereço não geocodificado,1
-30240323,NA,NA,Endereço não geocodificado,1
-31255243,NA,NA,Endereço não geocodificado,1
-31030050,NA,NA,Endereço não geocodificado,1
-30230526,NA,NA,Endereço não geocodificado,1
-30668600,NA,NA,Endereço não geocodificado,1
-30570450,NA,NA,Endereço não geocodificado,1
-31842060,NA,NA,Endereço não geocodificado,1
-30810191,NA,NA,Endereço não geocodificado,1
-31585410,NA,NA,Endereço não geocodificado,1
-30662580,NA,NA,Endereço não geocodificado,1
-30270030,NA,NA,Endereço não geocodificado,1
-30280465,NA,NA,Endereço não geocodificado,1
-31810330,NA,NA,Endereço não geocodificado,1
-30668728,NA,NA,Endereço não geocodificado,1
-30270140,NA,NA,Endereço não geocodificado,1
-30260382,NA,NA,Endereço não geocodificado,1
-30865716,NA,NA,Endereço não geocodificado,1
-30512438,NA,NA,Endereço não geocodificado,1
-30662306,NA,NA,Endereço não geocodificado,1
-30660030,NA,NA,Endereço não geocodificado,1
-30644155,NA,NA,Endereço não geocodificado,1
-31910780,NA,NA,Endereço não geocodificado,1
-31748270,NA,NA,Endereço não geocodificado,1
-31950095,NA,NA,Endereço não geocodificado,1
-30285358,NA,NA,Endereço não geocodificado,1
-31990450,NA,NA,Endereço não geocodificado,1
-31970627,NA,NA,Endereço não geocodificado,1
-30535600,NA,NA,Endereço não geocodificado,1
-31540378,NA,NA,Endereço não geocodificado,1
-30662612,NA,NA,Endereço não geocodificado,1
-31998660,NA,NA,Endereço não geocodificado,1
-30230340,NA,NA,Endereço não geocodificado,1
-31842726,NA,NA,Endereço não geocodificado,1
-30672715,NA,NA,Endereço não geocodificado,1
-30230203,NA,NA,Endereço não geocodificado,1
-30570420,NA,NA,Endereço não geocodificado,1
-30514120,NA,NA,Endereço não geocodificado,1
-31995267,NA,NA,Endereço não geocodificado,1
-31210581,NA,NA,Endereço não geocodificado,1
-31630540,NA,NA,Endereço não geocodificado,1
-31846290,NA,NA,Endereço não geocodificado,1
-31873598,NA,NA,Endereço não geocodificado,1
-30451603,NA,NA,Endereço não geocodificado,1
-30220358,NA,NA,Endereço não geocodificado,1
-30240325,NA,NA,Endereço não geocodificado,1
-30285165,NA,NA,Endereço não geocodificado,1
-31560060,NA,NA,Endereço não geocodificado,1
-30620200,NA,NA,Endereço não geocodificado,1
-31630510,NA,NA,Endereço não geocodificado,1
-30640431,NA,NA,Endereço não geocodificado,1
-31210681,NA,NA,Endereço não geocodificado,1
-30510403,NA,NA,CEP não encontrado no ViaCEP,1
-31250443,NA,NA,Endereço não geocodificado,1
-31255251,NA,NA,Endereço não geocodificado,1
-30530210,NA,NA,Endereço não geocodificado,1
-31748066,NA,NA,Endereço não geocodificado,1
-30250445,NA,NA,Endereço não geocodificado,1
-30240600,NA,NA,Endereço não geocodificado,1
-31846350,NA,NA,Endereço não geocodificado,1
-31741328,NA,NA,Endereço não geocodificado,1
-31652024,NA,NA,Endereço não geocodificado,1
-30451210,NA,NA,Endereço não geocodificado,1
-30668801,NA,NA,Endereço não geocodificado,1
-31640570,NA,NA,Endereço não geocodificado,1
-31873744,NA,NA,Endereço não geocodificado,1
-30692020,NA,NA,Endereço não geocodificado,1
-30666482,NA,NA,Endereço não geocodificado,1
-30668752,NA,NA,Endereço não geocodificado,1
-31810387,NA,NA,Endereço não geocodificado,1
-31210312,NA,NA,Endereço não geocodificado,1
-30730120,NA,NA,Endereço não geocodificado,1
-30668888,NA,NA,Endereço não geocodificado,1
-31250560,NA,NA,Endereço não geocodificado,1
-30671015,NA,NA,Endereço não geocodificado,1
-30451191,NA,NA,Endereço não geocodificado,1
-31540084,NA,NA,Endereço não geocodificado,1
+cep,lat,lon,motivo,fonte,n_pacientes
+30670050,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,135
+31995162,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,81
+30670370,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,71
+31842330,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,67
+31210680,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,58
+30865260,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,56
+30620700,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,55
+31846515,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,52
+30260430,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,51
+31235110,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,51
+30451565,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,50
+31540384,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,50
+30280050,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,49
+30668590,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,44
+30230010,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,44
+30660585,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,44
+31050280,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,43
+30620680,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,43
+30240320,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,41
+30668020,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,41
+30451237,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,40
+31360390,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,39
+30622350,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,38
+31250530,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,36
+31650095,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,36
+30624110,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,36
+30668100,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,36
+31741120,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,36
+30855440,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,35
+30622320,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,34
+31840050,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,34
+30451570,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,34
+30840800,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,34
+30626480,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,33
+30530430,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,33
+31810440,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,32
+30626710,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,32
+30670180,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,32
+30270360,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,32
+30285185,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,32
+30315320,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,32
+30620610,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,31
+30668180,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,31
+30666515,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,31
+30664630,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,30
+31842190,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,29
+30280490,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,29
+31970321,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,29
+30290000,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,28
+31585200,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,28
+30640230,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,28
+30668120,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,28
+30285200,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,27
+31575010,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,27
+30290615,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,27
+30610550,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,27
+30668650,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,27
+31575100,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,26
+31742500,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,26
+30672000,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,26
+30620120,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,26
+31050000,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,26
+31810290,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,26
+31974016,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,26
+31842360,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,26
+30390300,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,26
+30626497,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,25
+30315280,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,25
+31210600,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,25
+30230670,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,24
+30285156,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,24
+30580310,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,24
+30451416,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,24
+31575060,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,24
+31575430,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,24
+30670270,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,24
+30570660,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,23
+31846320,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,23
+31842130,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,23
+31742660,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,23
+30624150,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,23
+30670570,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,23
+31530320,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,23
+30390410,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,23
+31842180,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,23
+30670360,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,23
+31742412,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,23
+31580560,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,23
+30220210,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,23
+31578300,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,22
+31010130,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,22
+31870250,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,22
+31842000,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,22
+30230120,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,22
+31842350,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,22
+30670160,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,22
+30390422,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,22
+30550530,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,22
+31812070,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,22
+30670220,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,21
+30664270,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,21
+31742187,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,21
+30490290,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,21
+31575440,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,21
+30668260,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,21
+30620320,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,21
+30668340,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,20
+31652122,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,20
+30673142,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,20
+31975195,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,20
+31320180,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,20
+31812030,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,20
+30330290,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,20
+30644200,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,20
+30260420,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,20
+31155120,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,20
+30451201,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,20
+31015013,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,20
+30516350,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,20
+30668170,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,20
+30124959,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,20
+30622380,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,20
+30610540,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,20
+30673150,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,20
+30451182,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,20
+31840460,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,20
+30660010,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,19
+30570480,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,19
+30668480,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,19
+31150220,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,19
+30570250,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,19
+31652120,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,19
+31998688,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,19
+31998668,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,19
+31680040,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,19
+31540670,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,19
+31540480,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,19
+30670290,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,18
+31975160,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,18
+30610390,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,18
+30240562,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,18
+30881060,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,18
+30510240,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,18
+30510200,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,18
+30720340,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,18
+30662302,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,18
+30810420,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,18
+30110000,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,18
+31812020,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,18
+31998360,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,18
+30880310,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,18
+31842170,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,18
+30660750,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,17
+30250443,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,17
+31842220,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,17
+31975060,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,17
+30494100,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,17
+31846020,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,17
+31250690,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,17
+30670150,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,17
+31844250,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,17
+31872780,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,17
+31360600,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,17
+31842370,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,17
+31742594,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,17
+30664003,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,17
+31742529,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,17
+30240610,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,17
+31575090,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,17
+30628184,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,16
+31540421,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,16
+31360630,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,16
+30620630,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,16
+30220422,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,16
+30624230,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,16
+31575460,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,16
+31810460,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,16
+30666220,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,16
+30644220,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,16
+30622120,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,16
+31615200,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,16
+30622470,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,16
+30670140,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,16
+31250145,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,16
+31910040,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,16
+30881080,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,16
+31210350,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,16
+31050340,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,16
+31742655,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,16
+30580360,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,16
+30666333,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,16
+31842010,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,16
+31844450,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,15
+30662680,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,15
+30451092,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,15
+30660050,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,15
+30668270,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,15
+30666634,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,15
+30670340,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,15
+30622000,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,15
+31845410,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,15
+30290300,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,15
+30820460,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,15
+30530590,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,15
+31741313,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,15
+31660170,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,15
+31575450,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,15
+31810360,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,15
+30670120,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,15
+30670195,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,15
+31812010,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,15
+30668190,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,15
+30270190,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,15
+31975410,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,15
+31050185,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,15
+30622520,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,15
+31150210,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,14
+30530600,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,14
+31655530,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,14
+31360710,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,14
+31842210,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,14
+31840055,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,14
+31620390,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,14
+30285292,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,14
+31742185,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,14
+30660756,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,14
+30662440,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,14
+31742360,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,14
+30670110,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,14
+31842230,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,14
+31360510,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,14
+30865320,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,14
+31230670,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,14
+30672760,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,14
+31995240,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,14
+30285750,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,14
+30666060,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,14
+30622530,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,14
+31741310,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,14
+31150320,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,14
+31050110,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+30670250,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+30270340,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+30510402,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+30672670,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+31810490,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+30270120,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+30642225,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+30664550,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+30532140,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+30315342,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+30644400,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+31230420,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+30230100,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+30640090,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+30624355,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+31535522,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+30692080,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+31035160,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+31844200,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+31741119,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+30380204,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+30660690,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+30670320,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+31360430,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+31730700,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+31842400,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+30810740,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+31360515,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+31255251,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+30710324,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+30451163,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+30860260,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+30820350,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+30670240,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+31155370,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+31998664,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+31050125,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+31160180,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+30220410,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+31230721,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+30240324,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+30668660,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+30668150,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+30451185,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+31741640,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+30518320,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+30250450,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+30692491,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,13
+31950450,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,12
+30230613,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,12
+31930570,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,12
+31842040,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,12
+31210701,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,12
+30535390,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,12
+30380203,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,12
+30250482,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,12
+31580230,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,12
+31998686,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,12
+31975170,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,12
+31842070,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,12
+30250447,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,12
+31741188,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,12
+30670310,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,12
+30270130,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,12
+31742645,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,12
+30670190,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,12
+31530720,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,12
+31810320,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,12
+30670170,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,12
+31950095,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,12
+31970626,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,12
+31540479,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,12
+31814540,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,12
+31575300,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,12
+30622370,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,12
+30644204,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,12
+30668380,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,12
+30662280,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,12
+31230550,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,12
+30820590,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,12
+30220335,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+30220365,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+31110745,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+30451281,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+30580260,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+30250220,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+30670330,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+30640330,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+31070440,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+30626437,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+31210650,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+30668230,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+30451090,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+30451520,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+30451655,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+31365020,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+30668176,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+31910090,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+31130080,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+30672770,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+31360460,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+30644280,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+31748078,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+30220346,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+30662390,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+30672658,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+31812200,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+30720350,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+30380482,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+30642160,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+31975240,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+30570450,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+31748270,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+30250445,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+31842260,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+30532070,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+31210327,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+30860020,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+31975230,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+31650410,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+30672210,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+30750220,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+31530700,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+30622201,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+30451240,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+30285552,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+30668210,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+31578035,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,11
+30270470,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+30640390,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+31998676,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+31360770,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+31573405,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+30666350,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+31310200,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+30660410,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+31842160,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+30240620,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+31210335,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+30431405,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+30280466,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+31742598,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+31814320,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+31540467,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+30662310,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+30622025,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+30668315,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+31525210,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+30610300,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+31575320,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+31842090,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+30692400,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+30670300,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+31998022,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+30285192,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+31870413,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+30692010,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+30865230,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+30668712,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+30451158,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+31250132,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+30640630,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+30270150,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+31050420,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+31575330,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+31640322,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+31060235,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+30672630,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+30640120,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+30230681,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+30664710,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+31660052,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+31872370,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+31535710,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+30240580,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+30285189,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+31975190,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+30668750,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+30510205,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+31975140,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+31360550,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+30451100,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+31810180,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+30668250,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+30660370,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,10
+30668540,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+31260435,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+30660280,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+30820370,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+30668040,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+31970155,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+30516465,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+31998687,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+30668165,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+30664190,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+30250222,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+31842150,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+30451555,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+31360560,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+31050700,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+30840721,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+31250610,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+30240288,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+30622515,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+31575140,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+30692490,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+30514320,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+30622485,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+31812060,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+30622510,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+31812210,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+30666130,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+31575030,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+30280150,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+30620650,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+31975110,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+30530350,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+30692293,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+30285187,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+31575080,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+31210352,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+31250147,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+31250490,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+31842200,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+31640690,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+31250492,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+31210630,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+30664730,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+30692020,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+30662550,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+30518280,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+30240335,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+31920725,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+31340250,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+31365000,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+31630365,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+31250605,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+30530110,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+31210622,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+30250486,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+30690770,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+30451098,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+31742352,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+30628186,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+31975272,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+30285554,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,9
+31970324,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+30451720,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+31730683,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+31810420,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+31540371,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+30710326,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+30710650,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+30668186,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+30640530,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+31615570,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+30280250,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+31575150,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+30750120,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+30622490,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+30622460,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+30535660,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+31810545,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+30662291,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+30451058,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+30451039,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+31975150,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+31575360,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+30451198,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+30532000,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+30666700,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+30664590,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+31360420,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+30250210,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+31652005,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+30668317,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+30775070,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+31842380,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+31873155,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+30516320,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+30451608,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+30335280,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+30690410,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+31210624,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+31050470,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+30692295,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+31610210,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+30692540,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+30670230,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+30750130,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+31360400,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+31210628,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+31742456,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+30451030,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+30664140,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+31620115,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+30390420,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+30660150,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+31744160,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+31812280,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+31370650,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+31230221,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+30750460,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+31575250,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+31030050,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+31842060,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+31250494,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+30570420,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+31640570,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+31130330,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+30865370,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+31842050,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+30240630,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+31575290,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+30664350,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+30260031,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+30664570,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+31250144,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+30850522,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+31540291,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+30350292,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,8
+31210698,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+31998262,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30775160,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30668350,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30550780,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+31255170,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+31842570,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30431177,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30666110,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30670210,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+31870602,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30666040,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30730690,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30390005,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30865700,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+31150390,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30692670,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30295365,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+31250441,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30390500,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30664410,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30672010,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30820340,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+31910750,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30668325,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30570320,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+31842110,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30668300,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+31748724,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+31260340,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+31540422,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+31155540,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+31741087,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30668181,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+31130006,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30668070,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30666280,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+31150455,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+31920720,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30285263,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30668360,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+31250005,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30820430,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+31748660,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30451265,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30850500,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+31510260,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30640438,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30622042,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+31970313,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+31985480,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30260442,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30510207,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+31615700,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30870090,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+31810330,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+31812270,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+31842270,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+31050390,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30865360,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+31680230,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30512420,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30390030,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30880540,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30710240,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30626692,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30575710,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30626610,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30642350,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30295095,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+31360410,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30664390,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+31210695,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30240092,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+31575040,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,7
+30668892,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31540430,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30626120,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30622648,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30660620,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31975120,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31930490,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31030320,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30666517,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31250491,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31210623,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30668405,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30532060,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31050450,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31844010,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31842240,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30440580,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31210510,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31975130,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30220353,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31250143,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30662030,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31812000,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30670010,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31846512,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30666345,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31842250,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30673146,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30535106,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31950141,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30692663,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31210280,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31652230,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30220431,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31742710,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30855540,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30668200,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31520130,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31210625,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30666105,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30820380,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30240632,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31540481,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31998694,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31360440,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31310620,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30870420,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31970595,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31210704,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31210707,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30670710,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30380220,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31210710,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30668280,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31970631,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31730778,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30666540,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31360610,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30280030,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30516150,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31230630,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31130770,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30220421,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30672020,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31748734,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30492040,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30550630,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31810570,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31842686,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30451056,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30451549,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30668728,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30810580,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30850405,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31748066,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30451210,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30668801,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31920670,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30530710,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30286150,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30335112,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30668670,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31812240,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30240096,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30666340,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30881340,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31250320,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30664440,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31810450,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31150160,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31575370,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30668320,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30610625,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30660270,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+31810150,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30290240,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30380480,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30670706,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30570310,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,6
+30285177,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30670556,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30451285,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+31748540,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30627130,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30670559,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30668726,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+31840470,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+31360760,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30670130,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+31812040,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30335192,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+31810580,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30285191,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30775540,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30451082,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+31630577,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30642090,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30250496,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30380201,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30360150,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30295310,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30421440,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30220342,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30668690,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30512323,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30285284,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30230584,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30670790,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30865722,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30285440,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30750230,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30692620,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+31530000,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30668220,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30380471,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30642585,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30240101,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+31812115,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30260450,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30451110,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30865730,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+31741245,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+31235160,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30440590,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30285164,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30628164,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30380473,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+31255255,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+31950436,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30390565,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30640800,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30670260,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+31660093,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30240617,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30666080,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30260028,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+31950214,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+31573392,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30525000,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+31741135,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30421547,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+31870230,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30865250,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30865714,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30512090,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+31320040,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30672710,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30431163,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30285658,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+31660310,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+31998690,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30672726,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+31810370,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+31970646,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30642080,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30295173,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30518190,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+31210260,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30664310,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30295497,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30660030,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+31812110,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30230340,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30514120,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+31630510,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30240600,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30451191,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30692030,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+31250001,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+31260470,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+31842560,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30730490,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+31615622,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30240542,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30865310,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+31812260,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+31535410,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+31970115,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+31748597,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30668163,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30421655,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30295460,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30720540,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30230180,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30666070,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+31640553,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30644180,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+30664784,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,5
+31540441,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30250484,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31873698,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30640670,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31250148,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30555170,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30260443,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30662537,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30451041,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31360620,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31873648,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30220359,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30668782,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30285351,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30285335,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30285179,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30260540,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30250010,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31230761,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31155020,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30642070,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31578025,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31640280,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30240111,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30668665,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30668864,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31140510,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31873168,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31540401,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31652140,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30672671,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30285143,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30610552,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31741325,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30668184,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30775140,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30666120,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30622440,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30570280,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31540073,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30810532,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30285307,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30668722,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31812160,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30451027,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30664780,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30530630,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31842600,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31846210,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30530390,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31565360,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31210761,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31998685,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30451572,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31210708,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31140200,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31160640,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30720414,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31035199,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30380474,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30666010,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30285556,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30610490,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30660675,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31575610,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30285169,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31320382,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31230731,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30451207,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30260444,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30720496,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30668582,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30810700,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31210740,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31810410,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31975200,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31540232,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31748285,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30666505,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31170820,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30285325,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31610620,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30662010,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30670518,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30668600,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30662580,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31873175,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30270140,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30662306,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30285358,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31842726,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30230203,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30240325,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30451425,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31810387,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30660680,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30285175,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30660570,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30640640,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31930460,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30666331,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31150162,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30610670,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30664520,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31575350,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30451134,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31110620,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31270100,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31870412,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+30664070,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,4
+31998025,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30530362,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30451503,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31555090,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30230560,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30421657,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30530570,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30295202,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30295412,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30285183,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30660210,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30451568,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30850525,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30512591,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31255270,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31970408,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30451009,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30664670,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31150450,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30451638,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31842390,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30666000,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31155270,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30626434,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30230605,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31250534,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31810365,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30850539,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30664060,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30670590,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31873726,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30520062,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30642240,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30421730,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30666547,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30640780,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30335390,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31360490,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31250543,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30640444,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31652387,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31652050,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31810400,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31660020,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30421447,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30295269,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31610244,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30640680,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30666150,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31970642,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31370730,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31970405,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31575260,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31748682,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30525370,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30664150,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30285172,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30285137,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31360470,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30285182,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30660133,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31255840,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30622450,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31540172,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30622130,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31610200,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30664280,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30668460,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30510244,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30520010,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30850350,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31250553,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31210210,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30810150,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30270350,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31585180,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31970525,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31210303,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31150451,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30220426,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31748732,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30451438,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31998662,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30668030,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30230130,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30240052,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31575240,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31610480,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31260600,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30668172,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30230533,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31573220,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30668612,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31540403,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31540391,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30240097,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30295175,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30451275,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31250004,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31846130,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30285171,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30285147,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30335780,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30810070,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30710450,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30880570,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30550812,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30285159,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31744586,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31540484,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30672650,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31748133,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31975250,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31748754,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31810340,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31575270,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31742105,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30290021,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30668022,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31155710,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30451406,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31975334,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31585410,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30260382,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30865716,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31910780,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30535600,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31998660,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31630540,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30640431,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31250443,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30668752,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31110744,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30451138,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31250551,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31210330,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30642105,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30295176,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30775387,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31255265,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31320220,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31842684,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30666210,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30668720,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30660131,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30626990,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30580352,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31250720,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30270020,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30640443,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30280469,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31360530,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30295385,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+30626435,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,3
+31250493,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31744742,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30535340,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30666090,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30710329,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31320534,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31540482,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30310410,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30421650,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30240311,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30692090,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31748716,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30220369,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30865724,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31910200,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30290340,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31998752,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30240545,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30860010,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31873752,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31360500,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30290680,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30230080,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30230590,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30668793,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31550230,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30622048,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31998725,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30335232,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31873672,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30666662,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30290026,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31160620,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31210180,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30668625,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30285338,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31680210,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31565290,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31748768,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31535503,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30664788,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31985510,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31842072,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30662535,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31950126,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30230582,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30670750,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30627210,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31575230,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31580175,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31110778,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31980140,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30451079,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31210460,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31210490,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31998729,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31540242,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30285312,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30640432,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31814355,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31050585,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30285610,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30250417,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31960320,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30570130,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30510063,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30666262,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31210694,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31260524,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30610060,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30260441,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30350620,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30610724,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31535570,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31873794,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31873612,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30112970,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31575110,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30441061,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30230282,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30220341,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30610620,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31998757,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30570640,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30451493,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30662526,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31720470,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31210583,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30640655,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30285784,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30451621,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31814670,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30285181,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31842420,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31170405,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31250205,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31873504,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30285162,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30285472,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30628620,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31610242,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30451200,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30610420,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30330296,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31565340,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31970314,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30451073,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30451250,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30530530,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30666322,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31540088,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30627216,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30664330,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31995390,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30664786,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31873784,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30620310,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30240544,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30210090,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30662582,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31255243,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30230526,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30810191,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30270030,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30160020,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30644155,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31970627,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30672715,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31846290,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30451603,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30220358,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30530210,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31846350,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31741328,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31652024,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31210312,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30730120,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30671015,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31540084,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30668795,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30666030,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30310710,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31870050,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31250146,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31974045,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31230734,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31744617,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31580257,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30285318,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30285804,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30865330,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30640720,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30670044,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31060500,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30280472,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30770540,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30421587,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30285145,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+31340284,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30850516,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30690820,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,2
+30664244,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30380720,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31575120,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30625012,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31873788,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30514292,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31748686,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31873786,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31873588,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30451591,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30250490,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31575310,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30520490,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31873640,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30240119,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31910022,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31975462,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30668774,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31320200,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30642210,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30865300,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31748730,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30451385,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30870400,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31748615,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30666518,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31575220,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30672674,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30670770,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31873614,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31050100,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31310100,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31974030,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30451292,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30451736,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30220022,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31575340,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30421527,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31270840,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31870110,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30240093,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30666664,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31742482,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31530352,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30230430,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31210311,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30380202,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30627173,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30295442,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31748744,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30516570,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31748678,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30692430,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30510605,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31748674,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30575687,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30421005,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31748766,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30421520,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30330090,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30514298,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31741355,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30285304,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30624262,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31998625,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30240051,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30310600,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31540077,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31010134,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30220402,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31950213,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31980170,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30710070,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31365580,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31846272,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31950216,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30514095,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31230722,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30431018,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31250121,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30240333,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30250488,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31555425,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30440060,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31748738,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30421326,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30431356,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31744744,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31250142,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30240105,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31873602,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30285357,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30518082,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31810190,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30624392,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31873792,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31545280,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30310250,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31050376,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30532098,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31360450,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31110749,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30451269,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30285780,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31930820,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30668838,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30260020,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31999899,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31530670,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30270370,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31748033,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30451333,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30664130,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30668825,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30670551,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31873768,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30664110,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30280462,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30230687,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31950146,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30260160,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30240117,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30860110,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31810380,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30285308,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30450425,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30240115,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30640700,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31840380,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31742474,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30451573,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30865738,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31845262,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30668520,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31995275,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30451120,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31873160,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31210686,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30390430,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30672730,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31873730,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31210732,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30320060,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30260456,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31255295,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30640447,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31950218,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31998727,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30516090,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30668840,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30001970,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31710640,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31873668,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30668352,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31998510,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30820462,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31998254,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30664230,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30520430,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31652232,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30510722,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30666678,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30730660,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30575315,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30240323,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30280465,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30512438,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31990450,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30662612,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31995267,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31210581,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31873598,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30285165,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31560060,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30620200,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31210681,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30510403,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31873744,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30666482,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30668888,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31250560,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31873770,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30295550,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30320110,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30421349,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30575683,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30240112,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+31842020,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30285796,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30280122,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30666200,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
+30230680,NA,NA,"Falhou em todas as APIs (BrasilAPI, Nominatim_CEP, Photon)",NA,1
