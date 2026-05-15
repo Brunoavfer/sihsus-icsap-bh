@@ -22,7 +22,9 @@ sihsus-icsap-bh/
 │   ├── 05_coleta_variaveis.R  # Coleta variáveis independentes (CNES, e-Gestor, Censo)
 │   ├── 06_analise_missing.R   # Análise de sensibilidade dos 13,9% sem geocodificação
 │   ├── 07_padronizacao_taxa.R # Padronização direta por idade e sexo (Ahmad et al., 2001)
-│   └── 08_autocorrelacao_espacial.R  # Moran's I global e LISA (Anselin, 1995)
+│   ├── 08_autocorrelacao_espacial.R  # Moran's I global e LISA (Anselin, 1995)
+│   ├── 09_glm_gama.R         # GLM-Gama + GEE AR-1 (Zeger & Liang, 1986)
+│   └── 10_joinpoint.R        # Joinpoint regression — APC e AAPC (Muggeo, 2003)
 ├── app/
 │   ├── global.R               # Carrega pacotes, dados e variáveis globais
 │   ├── ui.R                   # Interface Shiny (filtros, abas, componentes)
@@ -37,7 +39,10 @@ sihsus-icsap-bh/
 │   │   ├── taxas_padronizadas.csv     # Taxa ICSAP padronizada por CS × ano (script 07)
 │   │   ├── moran_resultados.csv       # Classificação LISA por CS (script 08)
 │   │   ├── tabela_missing.csv         # Comparação COM vs SEM regional (script 06)
-│   │   └── conclusao_missing.txt      # Interpretação MAR/MNAR (script 06)
+│   │   ├── conclusao_missing.txt      # Interpretação MAR/MNAR (script 06)
+│   │   ├── glm_resultados.csv         # Coeficientes, RR, IC 95% por modelo (script 09)
+│   │   ├── glm_diagnosticos.csv       # QIC, correlação AR-1, N por modelo (script 09)
+│   │   └── joinpoint_resultados.csv   # APC/AAPC por segmento, BH e regional (script 10)
 │   └── ref/                   # Referências estáticas
 │       ├── lista_icsap.csv            # CIDs ICSAP (Portaria 221/2008)
 │       ├── cache_cep.csv              # Cache de geocodificação por CEP
@@ -53,7 +58,9 @@ sihsus-icsap-bh/
 ├── docs/
 │   ├── index.html             # Site de documentação (GitHub Pages)
 │   ├── metodologia_cep_cs.md  # Documentação detalhada do pipeline de geocodificação
-│   └── mapa_lisa.png          # Mapa LISA de autocorrelação espacial (script 08)
+│   ├── mapa_lisa.png          # Mapa LISA de autocorrelação espacial (script 08)
+│   ├── tendencia_bh.png       # Joinpoint BH municipal com linha ajustada (script 10)
+│   └── tendencia_regional.png # Joinpoint por regional — facet_wrap 3×3 (script 10)
 └── .github/
     └── workflows/
         └── atualizar_dados.yml  # GitHub Actions — executa dia 10 de cada mês
@@ -185,6 +192,14 @@ O filtro de CS é dependente do filtro de regional — ao selecionar uma regiona
 - ✅ **Script 06** — análise de missing: 13,9% sem geocodificação, classificação MNAR (5/6 testes significativos, mas diferenças de magnitude pequena — reportar como limitação)
 - ✅ **Script 07** — taxas padronizadas por CS × ano: 612 obs; correlação bruta = padronizada = 1,000 (esperado: mesma distribuição etária de BH aplicada a todos os CS por ausência de faixas por setor)
 - ✅ **Script 08** — autocorrelação espacial: **Moran's I = 0,283 (p < 0,001)**, 10 clusters High-High (6,5%); mapa LISA em `docs/mapa_lisa.png`; resultado indica necessidade de GEE AR-1 ou SAR em vez de GLM-Gama padrão
+- ✅ **Script 09** — GLM-Gama + GEE AR-1 (459 obs, 153 CS × 3 anos: 2023–2025)
+  - **Descoberta metodológica importante**: `cobertura_aps_pct` e `n_esf_egestor` são nível municipal (mesmo valor para todos os CS em cada mês) → não servem como preditores CS-nível. Único indicador APS no nível CS: `n_esf` do CNES EP (~77% CS)
+  - **M2 GEE AR-1** (modelo principal, 100% cobertura): correlação AR-1 estimada = **0,879** — alta dependência temporal; tendência temporal +3,7%/ano (p<0,001); preditores socioeconômicos NS após correção pela estrutura temporal (pct_sem_saneamento era p=0,015 no GLM, sobe para p=0,096 no GEE)
+  - **M3 GEE AR-1 + n_esf** (sensibilidade, 77% CS): n_esf_media RR=1,042 (p=0,032), positivo — contraintuitivo, possível endogeneidade (CS com mais ICSAP recebem mais equipes como resposta de política)
+- ✅ **Script 10** — joinpoint regression (APC/AAPC) nível municipal e regional
+  - **BH**: 1 joinpoint em ~abr/2024 (mês 16); seg 1 APC = **+19,2%/ano**; seg 2 APC = **-10,8%/ano**; **AAPC = +1,1%/ano**
+  - **Regionais**: todas as 9 com padrão bimodal similar (joinpoint em ~abr–mai/2024); AAPC de +2,4% (Noroeste/Oeste) a +8,5% (Barreiro/Centro-Sul)
+  - Inversão de tendência em ~abr/2024 consistente em todo o município — possível efeito de intervenção ou mudança na codificação
 
 ### Infraestrutura
 - **App Shiny** implementado com todas as abas
@@ -210,23 +225,23 @@ Taxa ICSAP **padronizada por idade e sexo** por 10.000 habitantes, por área de 
 
 ### Variáveis Independentes
 
-| Variável | Fonte | Status |
-|---|---|---|
-| Cobertura ESF (%) | e-Gestor AB/DAB | ✅ Coletada (nível municipal) |
-| Nº equipes ESF / eMulti / ESB | CNES EP/DATASUS | ✅ Coletada (76,5% CS) |
-| Médicos de família (CH) | CNES PF/DATASUS | ❌ Indisponível (SIGSEGV no read.dbc) |
-| % domicílios sem rede geral de água | Censo IBGE 2022 (censobr) | ✅ Coletada (100% CS) |
-| Renda per capita (salários mínimos) | Censo IBGE 2022 (censobr) | ✅ Coletada (100% CS) |
-| % área de favela por CS | Censo IBGE 2022 (code_favela/geobr) | ✅ Coletada (100% CS) |
-| População total por CS | Censo IBGE 2022 (censobr V0001) | ✅ Coletada (100% CS) |
-| % idosos / % crianças por CS | Censo IBGE 2022 (censobr Pessoa) | ❌ Não disponível no dataset Basico |
-| IVS-BH | SMSA/PBH | ❌ A coletar manualmente |
+| Variável | Fonte | Status | Nível |
+|---|---|---|---|
+| Cobertura ESF (%) | e-Gestor AB/DAB | ⚠️ Municipal — não usável como preditor CS | Municipal |
+| Nº equipes ESF / eMulti / ESB | CNES EP/DATASUS | ✅ Coletada (76,5% CS) | CS |
+| Médicos de família (CH) | CNES PF/DATASUS | ❌ Indisponível (SIGSEGV no read.dbc) | CS |
+| % domicílios sem rede geral de água | Censo IBGE 2022 (censobr) | ✅ Coletada (100% CS) | CS |
+| Renda per capita (salários mínimos) | Censo IBGE 2022 (censobr) | ✅ Coletada (100% CS) | CS |
+| % área de favela por CS | Censo IBGE 2022 (code_favela/geobr) | ✅ Coletada (100% CS) | CS |
+| População total por CS | Censo IBGE 2022 (censobr V0001) | ✅ Coletada (100% CS) | CS |
+| % idosos / % crianças por CS | Censo IBGE 2022 (censobr Pessoa) | ❌ Não disponível no dataset Basico | CS |
+| IVS-BH | SMSA/PBH | ❌ A coletar manualmente | CS |
 
 ### Método Estatístico
 
-- **GLM-Gama** (link log) — replica Oliveira et al. (2025) para o nível de CS
-- **Joinpoint regression** — APC e AAPC para análise de tendência temporal
-- **GEE** (AR-1 ou estrutura espacial) — **indicado**: Moran's I = 0,283 (p < 0,001) detectado no script 08; autocorrelação positiva viola independência do GLM padrão
+- **GLM-Gama** (link log) — baseline, ignora correlação; subestima erros padrão (p.ex. pct_sem_saneamento p=0,015 → p=0,096 no GEE)
+- **GEE AR-1** ✅ implementado (script 09) — correlação AR-1 = 0,879; único preditor significativo: tendência temporal (+3,7%/ano, p<0,001). Preditores socioeconômicos NS após correção. Sensibilidade com n_esf: RR=1,042 (p=0,032), mas direção contraintuitiva sugere endogeneidade
+- **Joinpoint regression** ✅ implementado (script 10) — AAPC BH = +1,1%/ano; padrão bimodal com inflexão em abr/2024 em todas as 9 regionais
 
 ### Periódico Alvo
 
@@ -247,11 +262,12 @@ Taxa ICSAP **padronizada por idade e sexo** por 10.000 habitantes, por área de 
 2. ✅ ~~Análise de missing~~ — concluído (script 06, MNAR leve)
 3. ✅ ~~Padronização de taxas~~ — concluído (script 07)
 4. ✅ ~~Autocorrelação espacial~~ — concluído (script 08, Moran's I = 0,283)
-5. **Re-executar script 03** com série completa jan/2023–dez/2025 para atualizar `icsap_bh_regional.csv`
-6. **Implementar GLM-Gama** + GEE AR-1 (indicado pelo Moran's I positivo) — `R/09_glm_gama.R`
-7. **Implementar joinpoint regression** para APC/AAPC — `R/10_joinpoint.R`
-8. **Coletar IVS-BH** manualmente do portal SMSA/PBH e incorporar ao `variaveis_cs.csv`
-9. **Redigir manuscrito** para submissão ao *Cadernos de Saúde Pública* (meta: jan/2027)
+5. ✅ ~~GLM-Gama + GEE AR-1~~ — concluído (script 09; AR-1=0,879; tendência +3,7%/ano)
+6. ✅ ~~Joinpoint regression~~ — concluído (script 10; AAPC BH=+1,1%/ano; inflexão abr/2024)
+7. **Re-executar script 03** com série completa jan/2023–dez/2025 para atualizar `icsap_bh_regional.csv`
+8. **Investigar inflexão de abr/2024** — verificar se há mudança de codificação, intervenção de política ou artefato dos dados
+9. **Coletar IVS-BH** manualmente do portal SMSA/PBH e reestimar GEE AR-1 com indicador de vulnerabilidade
+10. **Redigir manuscrito** para submissão ao *Cadernos de Saúde Pública* (meta: jan/2027)
 
 ---
 
@@ -259,9 +275,9 @@ Taxa ICSAP **padronizada por idade e sexo** por 10.000 habitantes, por área de 
 
 ### Prioritários (para o estudo científico)
 - **Re-executar script 03** com série completa jan/2023–dez/2025 — `icsap_bh_regional.csv` atual cobre apenas jan/2023–mai/2025
-- **Implementar GLM-Gama + GEE** — `R/09_glm_gama.R` com estrutura AR-1 (indicado pelo Moran's I = 0,283)
-- **Implementar joinpoint regression** — `R/10_joinpoint.R` para APC e AAPC por CS e regional
-- **Coletar IVS-BH** — Índice de Vulnerabilidade em Saúde do portal SMSA/PBH; incorporar ao `variaveis_cs.csv`
+- **Investigar inflexão de abr/2024** — padrão bimodal consistente em todas as regionais; checar mudanças de codificação SIHSUS, portaria ministerial ou intervenção de política pública nesse período
+- **Coletar IVS-BH** — Índice de Vulnerabilidade em Saúde do portal SMSA/PBH; incorporar ao `variaveis_cs.csv` e reestimar GEE
+- **Redigir manuscrito** — pipeline analítico completo (scripts 01–10 ✅); iniciar redação
 
 ### App e infraestrutura
 - **Melhorar cobertura para ≥90%** — re-executar script 04 após script 03 atualizado; avaliar uso da API Claude para CEPs irrecuperáveis pelas APIs open source
