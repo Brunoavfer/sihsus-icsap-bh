@@ -284,6 +284,28 @@ O script identifica CS onde a padronização inverte o ranking de taxa (variaç�
 
 ---
 
+### Limitação Implementada — Padronização Indireta Não Realizada
+
+> **Situação verificada após execução do script 07 (mai/2026):**
+
+O Censo IBGE 2022, quando acessado via pacote `censobr` (tabela `Basico` por setor censitário), **não disponibiliza faixas etárias desagregadas por setor**. A variável disponível é apenas a população total por setor (`V0001`), sem estratificação etária.
+
+Por isso, **não foi possível realizar a padronização direta por idade e sexo descrita acima**, pois ela requer $P_{ij}$ = população do CS $i$ na faixa etária $j$, que não está disponível nessa fonte a nível de setor censitário.
+
+**Solução adotada:** O script `R/07_padronizacao_taxa.R` aplica a mesma distribuição etária de Belo Horizonte (Censo 2022, nível municipal) a todos os CS. Isso produz taxas numericamente idênticas às taxas brutas (correlação = 1,000 entre taxa bruta e padronizada), pois o fator de padronização é constante entre CS.
+
+**Decisão metodológica:** A **taxa ICSAP bruta por 10.000 habitantes** (n_icsap / pop_cs × 10.000) é utilizada como desfecho em todas as análises. Essa métrica é a mais comparável internacionalmente e é amplamente usada na literatura de ICSAP (Nedel et al., 2011; Alfradique et al., 2009).
+
+**Implicação para validade:** O viés potencial por composição etária diferencial entre CS é uma limitação reconhecida do estudo. Sua magnitude deve ser discutida no manuscrito à luz da evidência de que:
+1. A variação na composição etária entre as 153 áreas de abrangência de BH é relativamente homogênea em comparação a outros contextos;
+2. O IVS-BH incorporado como covariável no modelo GEE captura parte da estrutura demográfica diferencial entre CS.
+
+**Texto sugerido para a seção Limitações do manuscrito:**
+
+> "As taxas ICSAP não foram padronizadas por faixas etárias desagregadas por setor censitário, pois tais dados não estão disponíveis no Censo IBGE 2022 a nível de setor no pacote *censobr*. O potencial viés de composição etária diferencial entre as áreas de abrangência dos CS é uma limitação reconhecida, parcialmente controlada pela inclusão do IVS-BH no modelo multivariável."
+
+---
+
 ## Análise de Autocorrelação Espacial
 
 ### Justificativa

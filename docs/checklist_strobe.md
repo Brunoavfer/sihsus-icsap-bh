@@ -61,7 +61,7 @@
 | **13c** | Considerar o uso de um diagrama de fluxo | ❌ Pendente | Fluxograma PRISMA-adaptado para estudos ecológicos |
 | **14a** | **Dados descritivos:** Descrever características dos participantes (unidades) e informações sobre exposições e confundidores | ❌ Pendente | Tabela 1: distribuição dos CS por regional, porte, IVS, cobertura ESF |
 | **14b** | Indicar o número de participantes com dados faltantes | ❌ Pendente | % CEPs não geocodificados por CS e regional |
-| **15** | **Dados do desfecho:** Reportar número de eventos desfecho ou medidas-resumo ao longo do tempo | ⚠️ Parcial | Contagens brutas disponíveis (`icsap_bh_regional.csv`); taxas padronizadas pendentes |
+| **15** | **Dados do desfecho:** Reportar número de eventos desfecho ou medidas-resumo ao longo do tempo | ✅ Atendido | Taxas brutas por CS×mês em `n_icsap_cs_mes_prop.csv` e `variaveis_cs.csv`. **Nota:** padronização por faixa etária não foi possível — faixas etárias por setor censitário não disponíveis no censobr Basico (Censo 2022). Taxa bruta utilizada como proxy; limitação documentada em `protocolo_pesquisa.md`. |
 | **16a** | **Principais resultados:** Apresentar estimativas não ajustadas e, se aplicável, ajustadas e seus IC 95% | ❌ Pendente | Análises estatísticas não iniciadas |
 | **16b** | Reportar os limites das categorias quando variáveis contínuas forem categorizadas | ❌ Pendente | Depende da categorização final das variáveis |
 | **16c** | Se pertinente, transformar estimativas de risco relativo em risco absoluto por período de tempo relevante | ❌ Pendente | Diferença de taxas absolutas entre CS de alto/baixo desempenho |

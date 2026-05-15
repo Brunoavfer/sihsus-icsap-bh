@@ -56,17 +56,33 @@ Barreiro · Centro-Sul · Leste · Nordeste · Noroeste · Norte · Oeste · Pam
 # 1. Clone e entre no diretório
 git clone https://github.com/Brunoavfer/sihsus-icsap-bh.git
 
-# 2. Execute os scripts em ordem
-source("R/01_download.R")          # Baixa dados do DATASUS
-source("R/02_process.R")           # Processa e identifica ICSAP
-source("R/03_cep_regional.R")      # Geocodifica CEP → CS/Regional
-source("R/04_melhora_cobertura.R") # Melhora cobertura (opcional)
-source("R/05_coleta_variaveis.R")  # Coleta variáveis independentes
-source("R/06_analise_missing.R")   # Analisa padrão de dados ausentes
-source("R/07_padronizacao_taxa.R") # Padroniza taxas por idade/sexo
-source("R/08_autocorrelacao_espacial.R") # Moran's I e LISA
+# 2. Pipeline de dados (execute em ordem)
+source("R/01_download.R")               # Baixa dados SIHSUS do DATASUS (FTP)
+source("R/02_process.R")               # Filtra BH, identifica ICSAP, gera CSVs
+source("R/03_cep_regional.R")          # Geocodifica CEP → CS/Regional (APIs + sf)
+source("R/04_melhora_cobertura.R")     # Melhora cobertura de geocodificação (opcional)
+source("R/05_coleta_variaveis.R")      # Coleta variáveis independentes (CNES, eGestor, Censo)
 
-# 3. Rode o painel
+# 3. Análises descritivas e diagnósticas
+source("R/06_analise_missing.R")       # Padrão de missing — MAR/MNAR (13,9% sem geocod.)
+source("R/07_padronizacao_taxa.R")     # Taxa ICSAP por CS (nota: taxa bruta — ver protocolo)
+source("R/08_autocorrelacao_espacial.R") # Moran's I = 0,283 (p<0,001); 10 clusters HH
+
+# 4. Enriquecimento e alocação
+source("R/13_incorpora_ivs.R")         # IVS-BH por CS (SMSA/PBH)
+source("R/14_alocacao_proporcional.R") # Alocação proporcional de CEPs limítrofes
+
+# 5. Análises estatísticas principais
+source("R/09_glm_gama.R")             # GEE AR-1 painel mensal (φ≈0,96); stepwise
+source("R/10_joinpoint.R")            # Joinpoint: AAPC BH = +1,1%/ano; inflexão abr/2024
+source("R/11_its.R")                  # ITS GLS AR(1): Portaria 3.493/2024
+source("R/12_its_controle.R")         # ITS com controle: BH × SP, RJ, Curitiba, Fortaleza
+source("R/15_subgrupos_ivs.R")        # GEE por estrato IVS: CS Muito Elevado não se beneficiou
+
+# 6. Tabelas para o manuscrito
+source("R/16_tabela1.R")              # Tabela 1: características dos 153 CS
+
+# 7. Rode o painel interativo
 shiny::runApp("app")
 ```
 
