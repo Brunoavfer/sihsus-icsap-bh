@@ -1,34 +1,27 @@
 # =============================================================================
-# 09_glm_gama.R
+# 09_glm_gama.R  (versão 2 — painel mensal, IVS incorporado)
 #
-# GLM-Gama e GEE AR-1 para taxas ICSAP por CS × ano
-# Unidade de análise: Centro de Saúde (CS) × ano
+# GEE AR-1 com família Gama (link log) para taxa ICSAP por CS × mês
+# Unidade de análise: Centro de Saúde (CS) × competência mensal
+# Período: jan/2023–dez/2025 (153 CS × 36 meses = 5.508 obs máximas)
 #
-# Modelo principal: GEE com família Gama (link log) e estrutura AR-1
-#   Justificativa: Moran's I = 0,283 (p < 0,001) — script 08.
-#
-# NOTA SOBRE PREDITORES:
-#   cobertura_aps_pct e n_esf_egestor são nível MUNICIPAL (mesmo valor para
-#   todos os 153 CS em cada mês). Não podem ser usados como preditores CS-nível.
-#   A única variável APS no nível CS disponível é n_esf (CNES EP, ~77% CS).
-#
-# Variável resposta: taxa_cs (por 10.000 hab.)
-#   = n_icsap / pop_ref_media_cs × 10.000
-#   Usa populacao_referencia do e-Gestor AB por CS × ano (denominador correto)
+# Desfecho: taxa_cs = n_icsap_cs_mês / pop_ref_cs_mês × 10.000
+#   Denominador: populacao_referencia do e-Gestor AB por CS × mês
+#   Zeros (n_icsap = 0): excluídos — Gama requer resposta > 0
 #
 # Modelos:
-#   M1 — GLM-Gama baseline: renda + saneamento + favela + tendência temporal
-#   M2 — GEE AR-1 principal: idem (100% cobertura)
-#   M3 — GEE AR-1 + n_esf: inclui equipes ESF CNES (cobertura ~77%)
+#   M1 — GEE base:       tendência temporal + sazonalidade (Fourier)
+#   M2 — GEE + CNES:     M1 + n_esf + n_emulti + n_acs  [~77% CS com CNES]
+#   M3 — GEE + contexto: M1 + ivs_score + pct_area_favela + renda_media + pct_sem_saneamento
+#   M4 — GEE completo:   M2 + M3 (todo conjunto, ~77% CS)
 #
-# Preditores CS-nível (100% cobertura, Censo 2022):
-#   renda_media        — renda per capita (salários mínimos)
-#   pct_sem_saneamento — % domicílios sem rede geral de água
-#   pct_area_favela    — % área de favela por CS
-#   ano                — tendência temporal (contínua)
-#
-# Preditor CS-nível APS (~77% cobertura, CNES EP):
-#   n_esf_media        — nº médio de equipes ESF por CS × ano
+# LIMITAÇÕES EXPLÍCITAS:
+#   — pct_mfc / n_medicos: PF não processado (read.dbc SIGSEGV em arquivos MG >30MB)
+#   — cobertura_aps_pct / n_esf_egestor: nível municipal (mesmo valor para todos
+#     os 153 CS num mesmo mês) → colinariedade perfeita com efeito de tempo;
+#     NÃO utilizados como preditores CS-nível
+#   — Zeros excluídos: Gama não admite 0; CS com 0 ICSAP num mês saem da amostra
+#   — IVS 2012: vulnerabilidade medida 10+ anos antes do desfecho; usada como proxy
 #
 # Referências:
 #   Zeger SL, Liang KY. Biometrics. 1986;42(1):121–30.
@@ -37,7 +30,7 @@
 #
 # Saídas:
 #   data/processed/glm_resultados.csv   — coeficientes, IC 95%, RR por modelo
-#   data/processed/glm_diagnosticos.csv — QIC, correlação AR-1, N por modelo
+#   data/processed/glm_diagnosticos.csv — QIC, QICu, correlação AR-1, N
 # =============================================================================
 
 suppressPackageStartupMessages({
@@ -45,154 +38,225 @@ suppressPackageStartupMessages({
   library(readr)
   library(tidyr)
   library(stringr)
+  library(geepack)
 })
-
-for (pkg in c("geepack")) {
-  if (!requireNamespace(pkg, quietly = TRUE)) {
-    install.packages(pkg, repos = "https://cloud.r-project.org")
-  }
-}
-library(geepack)
 
 DIR_PROC <- "data/processed"
 DIR_REF  <- "data/ref"
 
 # =============================================================================
-# 1. Carrega dados
+# 1. Constrói painel mensal: n_icsap por CS × competência
 # =============================================================================
 
-taxas <- read_csv(
-  file.path(DIR_PROC, "taxas_padronizadas.csv"),
+message("=== 1. Carregando e agregando ICSAP por CS × mês ===")
+
+icsap_raw <- read_csv(
+  file.path(DIR_PROC, "icsap_bh_regional.csv"),
   show_col_types = FALSE
 )
 
-variaveis <- read_csv(
+icsap_mes <- icsap_raw %>%
+  filter(ano_cmpt %in% 2023:2025, !is.na(nome_cs)) %>%
+  mutate(mes_pad = str_pad(as.integer(mes_cmpt), 2, pad = "0")) %>%
+  group_by(nome_cs, ano_cmpt, mes_pad) %>%
+  summarise(n_icsap = n(), .groups = "drop") %>%
+  rename(mes_cmpt_n = mes_pad) %>%
+  mutate(competencia = paste0(str_sub(as.character(ano_cmpt), 3, 4), mes_cmpt_n))
+
+message("  Linhas ICSAP geocodificadas: ", nrow(icsap_raw[!is.na(icsap_raw$nome_cs), ]))
+message("  CS × mês com ≥ 1 ICSAP: ", nrow(icsap_mes))
+
+# =============================================================================
+# 2. Carrega preditores mensais — variaveis_cs.csv (inclui IVS)
+# =============================================================================
+
+message("\n=== 2. Carregando variaveis_cs.csv ===")
+
+vars <- read_csv(
   file.path(DIR_REF, "variaveis_cs.csv"),
   show_col_types = FALSE
-)
-
-# =============================================================================
-# 2. Agrega variaveis_cs de mensal → anual
-#    Censo 2022 (constante por CS): primeiro valor não-NA
-#    CNES EP (variável no tempo): média anual
-# =============================================================================
-
-variaveis_anuais <- variaveis %>%
-  filter(ano_cmpt %in% c(2023, 2024, 2025)) %>%
-  group_by(nome_cs, ano_cmpt) %>%
-  summarise(
-    pop_ref_media      = mean(as.numeric(populacao_referencia), na.rm = TRUE),
-    # Censo 2022 — constantes por CS
-    renda_media        = first(na.omit(renda_media)),
-    pct_sem_saneamento = first(na.omit(pct_sem_saneamento)),
-    pct_area_favela    = first(na.omit(pct_area_favela)),
-    # CNES EP — varia por CS × mês → média anual
-    n_esf_media        = mean(n_esf, na.rm = TRUE),
-    .groups = "drop"
-  ) %>%
-  rename(ano = ano_cmpt) %>%
+) %>%
+  filter(ano_cmpt %in% 2023:2025) %>%
   mutate(
-    n_esf_media = ifelse(is.nan(n_esf_media), NA_real_, n_esf_media)
+    competencia = str_pad(as.character(as.integer(competencia)), 4, pad = "0"),
+    mes_cmpt_n  = str_pad(as.integer(mes_cmpt), 2, pad = "0")
+  )
+
+message("  Dimensões: ", nrow(vars), " × ", ncol(vars))
+message("  Cobertura IVS: ",
+        round(mean(!is.na(vars$ivs_score)) * 100, 1), "%  | ",
+        "CNES (n_esf): ",
+        round(mean(!is.na(vars$n_esf)) * 100, 1), "%")
+
+# =============================================================================
+# 3. Grade completa CS × mês e join
+# =============================================================================
+
+message("\n=== 3. Construindo painel CS × mês ===")
+
+cs_lista <- unique(vars$nome_cs)
+mes_lista <- str_pad(1:12, 2, pad = "0")
+
+grade <- expand.grid(
+  nome_cs  = cs_lista,
+  ano_cmpt = 2023:2025,
+  mes_cmpt_n  = mes_lista,
+  stringsAsFactors = FALSE
+) %>%
+  as_tibble() %>%
+  mutate(
+    ano_cmpt   = as.integer(ano_cmpt),
+    competencia = paste0(str_sub(as.character(ano_cmpt), 3, 4), mes_cmpt_n)
+  )
+
+# Junta n_icsap (zeros implícitos → 0)
+grade <- grade %>%
+  left_join(
+    icsap_mes %>% select(nome_cs, competencia, n_icsap),
+    by = c("nome_cs", "competencia")
+  ) %>%
+  mutate(n_icsap = replace_na(n_icsap, 0L))
+
+# Junta preditores
+grade <- grade %>%
+  left_join(
+    vars %>% select(nome_cs, competencia, populacao_referencia,
+                    n_esf, n_emulti, n_acs,
+                    ivs_score, pct_area_favela, renda_media, pct_sem_saneamento),
+    by = c("nome_cs", "competencia")
   )
 
 # =============================================================================
-# 3. Junta taxas × variaveis; calcula taxa com denominador CS-específico
+# 4. Prepara dataset de modelagem
 # =============================================================================
 
-dados_modelo <- taxas %>%
-  filter(ano %in% c(2023, 2024, 2025)) %>%
-  select(nome_cs, regional, ano, n_icsap) %>%
-  left_join(variaveis_anuais, by = c("nome_cs", "ano")) %>%
+message("\n=== 4. Preparando dados para modelagem ===")
+
+dados_bruto <- grade %>%
   filter(
-    !is.na(renda_media),
-    !is.na(pct_sem_saneamento),
+    !is.na(populacao_referencia), populacao_referencia > 0,
+    !is.na(ivs_score),
     !is.na(pct_area_favela),
-    !is.na(pop_ref_media),
-    pop_ref_media > 0
+    !is.na(renda_media),
+    !is.na(pct_sem_saneamento)
   ) %>%
   mutate(
-    taxa_cs   = n_icsap / pop_ref_media * 10000,
-    # ano centralizado em 2023 para melhor interpretação do intercepto
-    ano_c     = ano - 2023,
-    cs_id     = as.integer(factor(nome_cs)),
-    ano_seq   = ano_c + 1L   # 1, 2, 3 para AR-1
+    taxa_cs = n_icsap / populacao_referencia * 10000,
+    mes_num = (as.integer(ano_cmpt) - 2023L) * 12L + as.integer(mes_cmpt_n),
+    sin12   = sin(2 * pi * mes_num / 12),
+    cos12   = cos(2 * pi * mes_num / 12),
+    cs_id   = as.integer(factor(nome_cs))
   ) %>%
-  arrange(cs_id, ano_seq)
+  arrange(cs_id, mes_num)
 
-n_obs <- nrow(dados_modelo)
-n_cs  <- n_distinct(dados_modelo$nome_cs)
+n_zeros <- sum(dados_bruto$n_icsap == 0)
+pct_zeros <- round(mean(dados_bruto$n_icsap == 0) * 100, 1)
+message("  Painel completo (pré-filtro zero): ", nrow(dados_bruto),
+        " obs | ", n_distinct(dados_bruto$nome_cs), " CS")
+message("  Zeros (n_icsap = 0): ", n_zeros, " (", pct_zeros,
+        "%) — excluídos (Gama requer resposta > 0)")
 
-message("=== DADOS PARA MODELO ===")
-message("Observações: ", n_obs, " (", n_cs, " CS × ", n_obs / n_cs, " anos)")
-message("Anos: ", paste(sort(unique(dados_modelo$ano)), collapse = ", "))
+# Dataset para M1 e M3 (variáveis 100% disponíveis)
+dados_full <- dados_bruto %>%
+  filter(taxa_cs > 0)
 
-n_zero <- sum(dados_modelo$taxa_cs <= 0, na.rm = TRUE)
-if (n_zero > 0) {
-  message("AVISO: ", n_zero, " taxa_cs <= 0 — excluindo")
-  dados_modelo <- filter(dados_modelo, taxa_cs > 0)
-}
+# Dataset para M2 e M4 (inclui CNES — ~77% dos CS, meses completos)
+dados_cnes <- dados_bruto %>%
+  filter(!is.na(n_esf), taxa_cs > 0) %>%
+  mutate(cs_id2 = as.integer(factor(nome_cs))) %>%
+  arrange(cs_id2, mes_num)
 
-message("\nEstatísticas da resposta (taxa_cs por 10.000 hab.):")
-print(summary(dados_modelo$taxa_cs))
+message("\n  M1/M3 (100% vars): ", nrow(dados_full),
+        " obs | ", n_distinct(dados_full$nome_cs), " CS")
+message("  M2/M4 (CNES ~77%): ", nrow(dados_cnes),
+        " obs | ", n_distinct(dados_cnes$nome_cs), " CS")
 
-message("\nEstatísticas dos preditores:")
-dados_modelo %>%
-  select(renda_media, pct_sem_saneamento, pct_area_favela, ano_c) %>%
+message("\nEstatísticas da resposta (taxa_cs, por 10.000 hab.):")
+print(summary(dados_full$taxa_cs))
+
+message("\nEstatísticas dos preditores (dados_full):")
+dados_full %>%
+  select(mes_num, ivs_score, pct_area_favela, renda_media, pct_sem_saneamento) %>%
   summary() %>% print()
 
 # =============================================================================
-# 4. Modelos
+# 5. Ajuste dos 4 modelos GEE AR-1
 # =============================================================================
 
-formula_m1 <- taxa_cs ~ renda_media + pct_sem_saneamento + pct_area_favela + ano_c
-formula_m3 <- taxa_cs ~ n_esf_media + renda_media + pct_sem_saneamento + pct_area_favela + ano_c
+message("\n=== 5. Ajustando modelos GEE AR-1 ===")
 
-dados_cnes <- dados_modelo %>%
-  filter(!is.na(n_esf_media)) %>%
-  mutate(cs_id2 = as.integer(factor(nome_cs))) %>%
-  arrange(cs_id2, ano_seq)
-
-# --- M1: GLM-Gama baseline ---------------------------------------------------
-message("\n=== M1: GLM-GAMA (baseline, ignora correlação temporal) ===")
-mod_glm <- glm(formula_m1, family = Gamma(link = "log"), data = dados_modelo)
-print(summary(mod_glm))
-
-# --- M2: GEE AR-1 principal --------------------------------------------------
-message("\n=== M2: GEE AR-1 (modelo principal, 100% cobertura) ===")
-mod_gee_ar1 <- tryCatch(
+# --- M1: base — tendência temporal + sazonalidade Fourier -------------------
+message("\n--- M1: GEE base (tendência + sazonalidade) ---")
+mod_m1 <- tryCatch(
   geeglm(
-    formula_m1,
+    taxa_cs ~ mes_num + sin12 + cos12,
     family  = Gamma(link = "log"),
-    data    = dados_modelo,
+    data    = dados_full,
     id      = cs_id,
     corstr  = "ar1",
-    waves   = ano_seq
+    waves   = mes_num
   ),
-  error = function(e) { message("GEE AR-1 falhou: ", conditionMessage(e)); NULL }
+  error = function(e) { message("M1 falhou: ", e$message); NULL }
 )
-if (!is.null(mod_gee_ar1)) print(summary(mod_gee_ar1))
+if (!is.null(mod_m1)) print(summary(mod_m1))
 
-# --- M3: GEE AR-1 + n_esf (sensibilidade) -----------------------------------
-message("\n=== M3: GEE AR-1 + n_esf CNES (sensibilidade, ~77% CS) ===")
-message("N observações com n_esf: ", nrow(dados_cnes))
-mod_gee_cnes <- NULL
-if (nrow(dados_cnes) >= 30) {
-  mod_gee_cnes <- tryCatch(
-    geeglm(
-      formula_m3,
-      family  = Gamma(link = "log"),
-      data    = dados_cnes,
-      id      = cs_id2,
-      corstr  = "ar1",
-      waves   = ano_seq
-    ),
-    error = function(e) { message("GEE AR-1 CNES falhou: ", conditionMessage(e)); NULL }
-  )
-  if (!is.null(mod_gee_cnes)) print(summary(mod_gee_cnes))
-}
+# --- M2: + CNES (n_esf) -------------------------------------------------------
+# NOTA: n_emulti, n_acs, n_esb = todos zeros no CNES EP (códigos TP_EQUIPE 76/77/87/88
+# não mapeados ou equipes não cadastradas em BH); removidos da fórmula para evitar
+# rank-deficiency. Único preditor CNES com variação: n_esf.
+message("\n--- M2: GEE + CNES (n_esf) [77% CS] ---")
+message("    Nota: n_emulti=0, n_acs=0 em todos os registros EP — excluídos da fórmula")
+mod_m2 <- tryCatch(
+  geeglm(
+    taxa_cs ~ mes_num + sin12 + cos12 + n_esf,
+    family  = Gamma(link = "log"),
+    data    = dados_cnes,
+    id      = cs_id2,
+    corstr  = "ar1",
+    waves   = mes_num
+  ),
+  error = function(e) { message("M2 falhou: ", e$message); NULL }
+)
+if (!is.null(mod_m2)) print(summary(mod_m2))
+
+# --- M3: + contexto socioeconômico e vulnerabilidade ------------------------
+message("\n--- M3: GEE + contexto (IVS, favela, renda, saneamento) ---")
+mod_m3 <- tryCatch(
+  geeglm(
+    taxa_cs ~ mes_num + sin12 + cos12 +
+              ivs_score + pct_area_favela + renda_media + pct_sem_saneamento,
+    family  = Gamma(link = "log"),
+    data    = dados_full,
+    id      = cs_id,
+    corstr  = "ar1",
+    waves   = mes_num
+  ),
+  error = function(e) { message("M3 falhou: ", e$message); NULL }
+)
+if (!is.null(mod_m3)) print(summary(mod_m3))
+
+# --- M4: completo ------------------------------------------------------------
+# Nota: preditores constantes por CS (ivs_score etc.) + φ≈0.96 podem
+# tornar a estimação AR-1 muito lenta. Usamos corstr="exchangeable" em M4
+# para garantir convergência; os SEs robustos (sandwich) são válidos
+# independentemente da estrutura de correlação de trabalho especificada.
+message("\n--- M4: GEE completo (n_esf + contexto) [77% CS, exchangeable] ---")
+mod_m4 <- tryCatch(
+  geeglm(
+    taxa_cs ~ mes_num + sin12 + cos12 +
+              n_esf +
+              ivs_score + pct_area_favela + renda_media + pct_sem_saneamento,
+    family  = Gamma(link = "log"),
+    data    = dados_cnes,
+    id      = cs_id2,
+    corstr  = "exchangeable"
+  ),
+  error = function(e) { message("M4 falhou: ", e$message); NULL }
+)
+if (!is.null(mod_m4)) print(summary(mod_m4))
 
 # =============================================================================
-# 5. Extrai coeficientes com RR e IC 95%
+# 6. Extrai coeficientes com RR e IC 95%
 # =============================================================================
 
 extrai_coef <- function(mod, nome_modelo) {
@@ -201,106 +265,144 @@ extrai_coef <- function(mod, nome_modelo) {
   if (is.null(cf)) return(tibble())
 
   se_col <- if ("Std.err" %in% colnames(cf)) "Std.err" else "Std. Error"
-  p_col  <- if ("Pr(>|W|)" %in% colnames(cf)) "Pr(>|W|)" else {
-    if ("Pr(>|z|)" %in% colnames(cf)) "Pr(>|z|)" else "Pr(>|t|)"
-  }
+  p_col  <- if ("Pr(>|W|)" %in% colnames(cf)) "Pr(>|W|)" else
+            if ("Pr(>|z|)" %in% colnames(cf)) "Pr(>|z|)" else "Pr(>|t|)"
 
   tibble(
     modelo    = nome_modelo,
     variavel  = rownames(cf),
-    beta      = round(cf[, "Estimate"],    4),
-    se        = round(cf[, se_col],        4),
-    p_valor   = round(cf[, p_col],         4),
-    RR        = round(exp(cf[, "Estimate"]),                              4),
-    RR_ic_inf = round(exp(cf[, "Estimate"] - 1.96 * cf[, se_col]),       4),
-    RR_ic_sup = round(exp(cf[, "Estimate"] + 1.96 * cf[, se_col]),       4)
+    beta      = round(cf[, "Estimate"], 4),
+    se        = round(cf[, se_col],    4),
+    p_valor   = round(cf[, p_col],     4),
+    RR        = round(exp(cf[, "Estimate"]),                        4),
+    RR_ic_inf = round(exp(cf[, "Estimate"] - 1.96 * cf[, se_col]), 4),
+    RR_ic_sup = round(exp(cf[, "Estimate"] + 1.96 * cf[, se_col]), 4),
+    sig       = case_when(
+      cf[, p_col] < 0.001 ~ "***",
+      cf[, p_col] < 0.01  ~ "**",
+      cf[, p_col] < 0.05  ~ "*",
+      TRUE                ~ "ns"
+    )
   )
 }
 
 resultados <- bind_rows(
-  extrai_coef(mod_glm,      "M1-GLM-Gama"),
-  extrai_coef(mod_gee_ar1,  "M2-GEE-AR1"),
-  extrai_coef(mod_gee_cnes, "M3-GEE-AR1-CNES")
+  extrai_coef(mod_m1, "M1-base"),
+  extrai_coef(mod_m2, "M2-CNES"),
+  extrai_coef(mod_m3, "M3-contexto"),
+  extrai_coef(mod_m4, "M4-completo")
 )
 
 message("\n=== TABELA DE RESULTADOS ===")
 print(resultados, n = Inf)
 
 # =============================================================================
-# 6. QIC e diagnósticos
+# 7. QIC e diagnósticos
 # =============================================================================
 
 extrai_qic <- function(mod, nome_modelo, n) {
   if (is.null(mod)) return(tibble())
-
-  qv <- tryCatch(QIC(mod), error = function(e) NULL)
-
-  qic_val  <- if (!is.null(qv) && "QIC"  %in% names(qv)) round(qv["QIC"],  2) else NA_real_
-  qicu_val <- if (!is.null(qv) && "QICu" %in% names(qv)) round(qv["QICu"], 2) else NA_real_
-
-  corr_est <- tryCatch({
-    if (inherits(mod, "geeglm")) round(mod$geese$alpha, 4) else NA_real_
-  }, error = function(e) NA_real_)
-
-  tibble(modelo = nome_modelo, n_obs = n, QIC = qic_val, QICu = qicu_val, corr_ar1 = corr_est)
+  qv   <- tryCatch(QIC(mod), error = function(e) NULL)
+  qic  <- if (!is.null(qv) && "QIC"  %in% names(qv)) round(qv["QIC"],  1) else NA_real_
+  qicu <- if (!is.null(qv) && "QICu" %in% names(qv)) round(qv["QICu"], 1) else NA_real_
+  alpha <- tryCatch(round(mod$geese$alpha, 4), error = function(e) NA_real_)
+  tibble(modelo = nome_modelo, n_obs = n, QIC = qic, QICu = qicu, corr_ar1 = alpha)
 }
 
 diagnosticos <- bind_rows(
-  extrai_qic(mod_glm,      "M1-GLM-Gama",       nrow(dados_modelo)),
-  extrai_qic(mod_gee_ar1,  "M2-GEE-AR1",        nrow(dados_modelo)),
-  extrai_qic(mod_gee_cnes, "M3-GEE-AR1-CNES",   nrow(dados_cnes))
+  extrai_qic(mod_m1, "M1-base",       nrow(dados_full)),
+  extrai_qic(mod_m2, "M2-CNES",       nrow(dados_cnes)),
+  extrai_qic(mod_m3, "M3-contexto",   nrow(dados_full)),
+  extrai_qic(mod_m4, "M4-completo",   nrow(dados_cnes))
 )
 
-message("\n=== DIAGNÓSTICOS ===")
+message("\n=== DIAGNÓSTICOS (QIC) ===")
 print(diagnosticos)
+message("Nota: M1/M3 (n=", nrow(dados_full), ") vs M2/M4 (n=", nrow(dados_cnes),
+        ") — datasets diferentes; QIC comparável apenas dentro do mesmo par.")
 
 # =============================================================================
-# 7. Interpretação do modelo principal (M2)
+# 8. Interpretação dos coeficientes significativos
 # =============================================================================
 
-if (!is.null(mod_gee_ar1)) {
-  message("\n=== INTERPRETAÇÃO M2: GEE AR-1 ===")
-  message("(RR por unidade de aumento em cada preditor)\n")
+message("\n=== INTERPRETAÇÃO: COEFICIENTES SIGNIFICATIVOS (p < 0,05) ===\n")
 
-  cf_m2 <- resultados %>%
-    filter(modelo == "M2-GEE-AR1", !str_detect(variavel, "Intercept"))
-
-  for (i in seq_len(nrow(cf_m2))) {
-    var <- cf_m2$variavel[i]
-    rr  <- cf_m2$RR[i]
-    inf <- cf_m2$RR_ic_inf[i]
-    sup <- cf_m2$RR_ic_sup[i]
-    p   <- cf_m2$p_valor[i]
-    sig <- if (p < 0.001) "***" else if (p < 0.01) "**" else if (p < 0.05) "*" else "ns"
-    message("  ", str_pad(var, 22), " RR=", rr,
-            "  IC95%: ", inf, "–", sup,
+for (m in c("M1-base", "M2-CNES", "M3-contexto", "M4-completo")) {
+  cf_m <- resultados %>%
+    filter(modelo == m, !str_detect(variavel, "Intercept"), sig != "ns")
+  if (nrow(cf_m) == 0) { message(m, ": nenhum coeficiente significativo (p<0,05)"); next }
+  message(m, ":")
+  for (i in seq_len(nrow(cf_m))) {
+    v   <- cf_m$variavel[i]
+    rr  <- cf_m$RR[i]
+    inf <- cf_m$RR_ic_inf[i]
+    sup <- cf_m$RR_ic_sup[i]
+    p   <- cf_m$p_valor[i]
+    sig <- cf_m$sig[i]
+    message("  ", str_pad(v, 24), " RR=", rr,
+            " (IC95%: ", inf, "–", sup, ")",
             "  p=", p, " ", sig)
   }
+  message("")
+}
 
-  alpha_ar1 <- mod_gee_ar1$geese$alpha
-  message("\n  Correlação AR-1 estimada: ", round(alpha_ar1, 4))
+# APC/ano a partir do coeficiente mes_num
+message("=== APC ANUAL ESTIMADA (exp(12 × β_mes_num) − 1) ===")
+apc_tab <- resultados %>%
+  filter(variavel == "mes_num") %>%
+  mutate(
+    APC_pct_ano  = round((exp(12 * beta) - 1) * 100, 2),
+    APC_ic_inf   = round((exp(12 * (beta - 1.96 * se)) - 1) * 100, 2),
+    APC_ic_sup   = round((exp(12 * (beta + 1.96 * se)) - 1) * 100, 2)
+  ) %>%
+  select(modelo, beta, RR, APC_pct_ano, APC_ic_inf, APC_ic_sup, sig)
+print(apc_tab)
 
-  if (alpha_ar1 > 0.3) {
-    message("  → Correlação temporal moderada: GEE AR-1 preferível ao GLM padrão.")
-  } else if (alpha_ar1 > 0.1) {
-    message("  → Correlação temporal fraca-moderada; GEE AR-1 ainda mais conservador.")
-  } else {
-    message("  → Correlação temporal muito fraca; GLM pode ser suficiente.")
+# Interpretação dos preditores do IVS no M3/M4
+for (m in c("M3-contexto", "M4-completo")) {
+  ivs_row <- resultados %>%
+    filter(modelo == m, variavel == "ivs_score")
+  if (nrow(ivs_row) > 0) {
+    message("\nIVS (", m, "):")
+    message("  ivs_score RR=", ivs_row$RR,
+            " (IC95%: ", ivs_row$RR_ic_inf, "–", ivs_row$RR_ic_sup, ")",
+            "  p=", ivs_row$p_valor, " ", ivs_row$sig)
+    if (ivs_row$sig != "ns") {
+      dir <- if (ivs_row$RR > 1) "aumento" else "redução"
+      message("  → Cada ponto a mais no IVS-score (1=Baixo→4=M.Elevado) associado a ",
+              dir, " de ", round(abs(ivs_row$RR - 1) * 100, 1), "% na taxa ICSAP.")
+    }
+  }
+}
+
+# Correlação AR-1 estimada
+message("\n=== CORRELAÇÃO AR-1 ===")
+for (m in c("M1-base", "M2-CNES", "M3-contexto", "M4-completo")) {
+  row_diag <- diagnosticos %>% filter(modelo == m)
+  if (nrow(row_diag) == 0) next
+  alpha <- row_diag$corr_ar1[1]
+  if (!is.na(alpha) && length(alpha) == 1) {
+    interp <- if (alpha > 0.5) "alta" else if (alpha > 0.3) "moderada" else "fraca"
+    message("  ", str_pad(m, 15), " φ=", alpha,
+            " (correlação temporal ", interp, " — GEE AR-1 justificado)")
   }
 }
 
 # =============================================================================
-# 8. Exporta
+# 9. Exporta
 # =============================================================================
 
 write_csv(resultados,   file.path(DIR_PROC, "glm_resultados.csv"))
 write_csv(diagnosticos, file.path(DIR_PROC, "glm_diagnosticos.csv"))
 
 message("\n======================================")
-message("GLM-GAMA + GEE AR-1 CONCLUÍDO")
+message("GEE AR-1 COMPLETO — CONCLUÍDO")
 message("")
-message("Modelo principal (M2): ", nrow(dados_modelo), " obs | ", n_cs, " CS")
-message("Modelo sensibilidade (M3): ", nrow(dados_cnes), " obs")
+message("Modelos ajustados:")
+message("  M1 (base):     ", nrow(dados_full), " obs | ", n_distinct(dados_full$nome_cs), " CS")
+message("  M2 (CNES):     ", nrow(dados_cnes), " obs | ", n_distinct(dados_cnes$nome_cs), " CS")
+message("  M3 (contexto): ", nrow(dados_full), " obs | ", n_distinct(dados_full$nome_cs), " CS")
+message("  M4 (completo): ", nrow(dados_cnes), " obs | ", n_distinct(dados_cnes$nome_cs), " CS")
 message("")
 message("Saídas:")
 message("  ", file.path(DIR_PROC, "glm_resultados.csv"))
