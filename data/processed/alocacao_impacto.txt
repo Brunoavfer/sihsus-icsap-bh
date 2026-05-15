@@ -1,0 +1,15 @@
+=== RELATÓRIO — ALOCAÇÃO PROPORCIONAL DE CEPs LIMÍTROFES ===
+Data: 2026-05-15
+Buffer: 100 m
+
+CEPs com coordenadas: 9974
+CEPs internos (1 CS):   6720 (67.7%)
+CEPs limítrofes (2+ CS): 3206 (32.3%)
+
+ICSAP geocodificadas 2023-2025: 72604
+CS × mês com alocação alterada: 5387 de 5502
+Internações redistribuídas:     2402.8 (3.31% do total geocodificado)
+
+Conclusão: com buffer de 100m, 32.3% dos CEPs são limítrofes.
+Redistribuição de 3.31% das internações geocodificadas.
+Avalie se o impacto justifica uso de n_icsap_cs_mes_prop.csv como denominador.

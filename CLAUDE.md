@@ -23,8 +23,11 @@ sihsus-icsap-bh/
 │   ├── 06_analise_missing.R   # Análise de sensibilidade dos 13,9% sem geocodificação
 │   ├── 07_padronizacao_taxa.R # Padronização direta por idade e sexo (Ahmad et al., 2001)
 │   ├── 08_autocorrelacao_espacial.R  # Moran's I global e LISA (Anselin, 1995)
-│   ├── 09_glm_gama.R         # GLM-Gama + GEE AR-1 (Zeger & Liang, 1986)
-│   └── 10_joinpoint.R        # Joinpoint regression — APC e AAPC (Muggeo, 2003)
+│   ├── 09_glm_gama.R         # GLM-Gama + GEE AR-1 (Zeger & Liang, 1986) + VIF + stepwise
+│   ├── 10_joinpoint.R        # Joinpoint regression — APC e AAPC (Muggeo, 2003)
+│   ├── 13_incorpora_ivs.R    # Integra IVS-BH (SMSA/PBH) em ivs_por_cs.csv
+│   ├── 14_alocacao_proporcional.R  # Alocação proporcional CEPs limítrofes entre CS
+│   └── 15_subgrupos_ivs.R    # GEE AR-1 estratificado por nível IVS (Baixo/Médio/Elevado/M.Elevado)
 ├── app/
 │   ├── global.R               # Carrega pacotes, dados e variáveis globais
 │   ├── ui.R                   # Interface Shiny (filtros, abas, componentes)
@@ -42,7 +45,11 @@ sihsus-icsap-bh/
 │   │   ├── conclusao_missing.txt      # Interpretação MAR/MNAR (script 06)
 │   │   ├── glm_resultados.csv         # Coeficientes, RR, IC 95% por modelo (script 09)
 │   │   ├── glm_diagnosticos.csv       # QIC, correlação AR-1, N por modelo (script 09)
-│   │   └── joinpoint_resultados.csv   # APC/AAPC por segmento, BH e regional (script 10)
+│   │   ├── joinpoint_resultados.csv   # APC/AAPC por segmento, BH e regional (script 10)
+│   │   ├── cep_pesos_cs.csv           # Tabela CEP × CS × peso proporcional (script 14)
+│   │   ├── n_icsap_cs_mes_prop.csv    # n_icsap por CS × mês com alocação proporcional (script 14)
+│   │   ├── alocacao_impacto.txt       # Relatório de impacto da alocação proporcional (script 14)
+│   │   └── gee_subgrupos_ivs.csv      # Coeficientes GEE por estrato IVS (script 15)
 │   └── ref/                   # Referências estáticas
 │       ├── lista_icsap.csv            # CIDs ICSAP (Portaria 221/2008)
 │       ├── cache_cep.csv              # Cache de geocodificação por CEP
@@ -54,13 +61,16 @@ sihsus-icsap-bh/
 │       ├── depara_cnes_cs.csv         # De-para CNES ↔ CS (via CEP + sf)
 │       ├── favelas_cs_bh.csv          # % área de favela por CS (code_favela/geobr)
 │       ├── egestor_cobertura_bh.xlsx  # Cobertura ESF BH — e-Gestor AB (manual)
-│       └── egestor_cobertura_bh.csv   # Idem em CSV
+│       ├── egestor_cobertura_bh.csv   # Idem em CSV
+│       ├── ivs_bh.csv                 # Setores censitários com IVS-BH (SMSA/PBH, WKT EPSG:31983)
+│       └── ivs_por_cs.csv             # IVS agregado por CS (script 13): score, predominante, % por categoria
 ├── docs/
 │   ├── index.html             # Site de documentação (GitHub Pages)
 │   ├── metodologia_cep_cs.md  # Documentação detalhada do pipeline de geocodificação
 │   ├── mapa_lisa.png          # Mapa LISA de autocorrelação espacial (script 08)
 │   ├── tendencia_bh.png       # Joinpoint BH municipal com linha ajustada (script 10)
-│   └── tendencia_regional.png # Joinpoint por regional — facet_wrap 3×3 (script 10)
+│   ├── tendencia_regional.png # Joinpoint por regional — facet_wrap 3×3 (script 10)
+│   └── subgrupos_ivs.png      # Forest plot GEE AR-1 por estrato IVS (script 15)
 └── .github/
     └── workflows/
         └── atualizar_dados.yml  # GitHub Actions — executa dia 10 de cada mês
@@ -192,14 +202,32 @@ O filtro de CS é dependente do filtro de regional — ao selecionar uma regiona
 - ✅ **Script 06** — análise de missing: 13,9% sem geocodificação, classificação MNAR (5/6 testes significativos, mas diferenças de magnitude pequena — reportar como limitação)
 - ✅ **Script 07** — taxas padronizadas por CS × ano: 612 obs; correlação bruta = padronizada = 1,000 (esperado: mesma distribuição etária de BH aplicada a todos os CS por ausência de faixas por setor)
 - ✅ **Script 08** — autocorrelação espacial: **Moran's I = 0,283 (p < 0,001)**, 10 clusters High-High (6,5%); mapa LISA em `docs/mapa_lisa.png`; resultado indica necessidade de GEE AR-1 ou SAR em vez de GLM-Gama padrão
-- ✅ **Script 09** — GLM-Gama + GEE AR-1 (459 obs, 153 CS × 3 anos: 2023–2025)
-  - **Descoberta metodológica importante**: `cobertura_aps_pct` e `n_esf_egestor` são nível municipal (mesmo valor para todos os CS em cada mês) → não servem como preditores CS-nível. Único indicador APS no nível CS: `n_esf` do CNES EP (~77% CS)
-  - **M2 GEE AR-1** (modelo principal, 100% cobertura): correlação AR-1 estimada = **0,879** — alta dependência temporal; tendência temporal +3,7%/ano (p<0,001); preditores socioeconômicos NS após correção pela estrutura temporal (pct_sem_saneamento era p=0,015 no GLM, sobe para p=0,096 no GEE)
-  - **M3 GEE AR-1 + n_esf** (sensibilidade, 77% CS): n_esf_media RR=1,042 (p=0,032), positivo — contraintuitivo, possível endogeneidade (CS com mais ICSAP recebem mais equipes como resposta de política)
+- ✅ **Script 09** — GEE AR-1 painel mensal (5.492 obs, 153 CS × 36 meses: jan/2023–dez/2025) + VIF + stepwise
+  - **Redesenho para painel mensal**: substituiu análise annual (459 obs) por painel mensal com termos Fourier (sin12/cos12) para sazonalidade
+  - **VIF**: todos os preditores VIF ≤ 5 (max: renda_media=3,82, ivs_score=3,69); sem multicolinearidade
+  - **Stepwise Forward (p<0,20)**: n_esf (p=0,076) e pct_sem_saneamento (p=0,0003) selecionados; ivs_score, pct_area_favela, renda_media não selecionados
+  - **cobertura_aps_pct / n_esf_egestor**: nível municipal → não usáveis como preditores CS-nível
+  - **M1 GEE AR-1** (base, φ≈0,96): tendência temporal significativa; preditores contexto NS
+  - **Backward stepwise**: em execução — n_esf e pct_sem_saneamento candidatos ao modelo final
 - ✅ **Script 10** — joinpoint regression (APC/AAPC) nível municipal e regional
   - **BH**: 1 joinpoint em ~abr/2024 (mês 16); seg 1 APC = **+19,2%/ano**; seg 2 APC = **-10,8%/ano**; **AAPC = +1,1%/ano**
   - **Regionais**: todas as 9 com padrão bimodal similar (joinpoint em ~abr–mai/2024); AAPC de +2,4% (Noroeste/Oeste) a +8,5% (Barreiro/Centro-Sul)
   - Inversão de tendência em ~abr/2024 consistente em todo o município — possível efeito de intervenção ou mudança na codificação
+
+- ✅ **Script 13** — IVS-BH incorporado: 153/153 CS com ivs_score (1,00–3,86), ivs_predominante e % por categoria; join via centroide setor → polígono CS (sf_use_s2=FALSE); mais vulnerável: CS Granja de Freitas (LESTE, ivs_score=3,86)
+- ✅ **Script 14** — Alocação proporcional de CEPs limítrofes (buffer 100m)
+  - 9.974 CEPs geocodificados; 3.206 limítrofes (32,3%); 6.720 internos (67,7%)
+  - 2.403 internações redistribuídas = **3,31%** do total geocodificado (2023-2025)
+  - Diferença máxima por CS×mês: 7,9 internações; CS mais afetado: CS Paraúna/Venda Nova (88,5 total acumulado)
+  - Saídas: `cep_pesos_cs.csv`, `n_icsap_cs_mes_prop.csv`, `alocacao_impacto.txt`
+- ✅ **Script 15** — GEE AR-1 estratificado por IVS (ITS com Portaria GM/MS 3.493/2024)
+  - Modelo: taxa_cs ~ mes_num + interv + tempo_pos + sin12 + cos12 + pct_sem_saneamento
+  - Portaria efetiva maio/2024 = mes_num 17 (interv=0→1; tempo_pos=ramp 0,0,...,1,2,...)
+  - **Tendência pré-intervenção**: similar entre estratos (RR/mês ≈ 1,027–1,031, APC≈38–45%/ano, p<0,001)
+  - **Mudança de nível (interv)**: Baixo -17,7%\*\*\*, Médio -15,8%\*\*\*, Elevado -22,1%\*\*\*, **Muito Elevado -7,1% NS** (p=0,315)
+  - **Mudança de slope pós (tempo_pos)**: similar, sem diferencial entre estratos (~-37 a -40%/ano)
+  - **Conclusão**: Portaria não reduziu desigualdades — CS Muito Elevado não se beneficiou do efeito abrupt level change; possível AMPLIAÇÃO de desigualdades
+  - Saída: `gee_subgrupos_ivs.csv`, `docs/subgrupos_ivs.png`
 
 ### Infraestrutura
 - **App Shiny** implementado com todas as abas
@@ -235,13 +263,15 @@ Taxa ICSAP **padronizada por idade e sexo** por 10.000 habitantes, por área de 
 | % área de favela por CS | Censo IBGE 2022 (code_favela/geobr) | ✅ Coletada (100% CS) | CS |
 | População total por CS | Censo IBGE 2022 (censobr V0001) | ✅ Coletada (100% CS) | CS |
 | % idosos / % crianças por CS | Censo IBGE 2022 (censobr Pessoa) | ❌ Não disponível no dataset Basico | CS |
-| IVS-BH | SMSA/PBH | ❌ A coletar manualmente | CS |
+| IVS-BH | SMSA/PBH | ✅ Coletada (100% CS, script 13) | CS |
 
 ### Método Estatístico
 
 - **GLM-Gama** (link log) — baseline, ignora correlação; subestima erros padrão (p.ex. pct_sem_saneamento p=0,015 → p=0,096 no GEE)
-- **GEE AR-1** ✅ implementado (script 09) — correlação AR-1 = 0,879; único preditor significativo: tendência temporal (+3,7%/ano, p<0,001). Preditores socioeconômicos NS após correção. Sensibilidade com n_esf: RR=1,042 (p=0,032), mas direção contraintuitiva sugere endogeneidade
-- **Joinpoint regression** ✅ implementado (script 10) — AAPC BH = +1,1%/ano; padrão bimodal com inflexão em abr/2024 em todas as 9 regionais
+- **GEE AR-1 painel mensal** ✅ (script 09) — φ≈0,96; VIF todos ≤5; stepwise Forward seleciona n_esf (p=0,076) e pct_sem_saneamento (p=0,0003); IVS, pct_area_favela, renda_media não selecionados. Modelo final (backward): a confirmar
+- **GEE ITS por estrato IVS** ✅ (script 15) — Portaria 3.493/2024: redução de nível significativa em Baixo/Médio/Elevado, NS em Muito Elevado → possível ampliação de desigualdades
+- **Alocação proporcional de CEPs** ✅ (script 14) — 3,31% das internações redistribuídas com buffer 100m; 32,3% CEPs limítrofes; impacto marginal mas methodologicamente relevante
+- **Joinpoint regression** ✅ (script 10) — AAPC BH = +1,1%/ano; padrão bimodal com inflexão em abr/2024 em todas as 9 regionais
 
 ### Periódico Alvo
 
@@ -262,22 +292,28 @@ Taxa ICSAP **padronizada por idade e sexo** por 10.000 habitantes, por área de 
 2. ✅ ~~Análise de missing~~ — concluído (script 06, MNAR leve)
 3. ✅ ~~Padronização de taxas~~ — concluído (script 07)
 4. ✅ ~~Autocorrelação espacial~~ — concluído (script 08, Moran's I = 0,283)
-5. ✅ ~~GLM-Gama + GEE AR-1~~ — concluído (script 09; AR-1=0,879; tendência +3,7%/ano)
+5. ✅ ~~GLM-Gama + GEE AR-1~~ — concluído (script 09; painel mensal; φ≈0,96; VIF ≤5; stepwise seleciona n_esf + pct_sem_saneamento)
 6. ✅ ~~Joinpoint regression~~ — concluído (script 10; AAPC BH=+1,1%/ano; inflexão abr/2024)
 7. ✅ ~~Re-executar script 03~~ — `icsap_bh_regional.csv` já estava completo (jan/2023–mar/2026)
-8. **Investigar inflexão de abr/2024** — verificar se há mudança de codificação, intervenção de política ou artefato dos dados
-9. **Coletar IVS-BH** manualmente do portal SMSA/PBH e reestimar GEE AR-1 com indicador de vulnerabilidade
-10. **Redigir manuscrito** para submissão ao *Cadernos de Saúde Pública* (meta: jan/2027)
+8. ✅ ~~Coletar IVS-BH~~ — concluído (script 13; 100% CS; ivs_score 1,00–3,86)
+9. ✅ ~~Alocação proporcional de CEPs limítrofes~~ — concluído (script 14; 3,31% redistribuídas; buffer 100m)
+10. ✅ ~~Análise de subgrupos por IVS (Portaria 3.493)~~ — concluído (script 15; Muito Elevado não se beneficiou do efeito abrupt level change → possível ampliação de desigualdades)
+11. **Finalizar backward stepwise** — modelo final script 09: confirmar se n_esf sobrevive com p≤0,05 no modelo multivariável
+12. **Investigar inflexão de abr/2024** — padrão bimodal consistente em todas as regionais e todos os estratos IVS; checar mudanças de codificação SIHSUS, portaria ministerial ou intervenção de política pública
+13. **Redigir manuscrito** para submissão ao *Cadernos de Saúde Pública* (meta: jan/2027)
 
 ---
 
 ## Próximos Passos
 
 ### Prioritários (para o estudo científico)
-- ~~**Re-executar script 03**~~ — `icsap_bh_regional.csv` já está completo (jan/2023–mar/2026, 90.869 registros, 86,1% geocodificados); não há necessidade de re-execução
-- **Investigar inflexão de abr/2024** — padrão bimodal consistente em todas as regionais; checar mudanças de codificação SIHSUS, portaria ministerial ou intervenção de política pública nesse período
-- **Coletar IVS-BH** — Índice de Vulnerabilidade em Saúde do portal SMSA/PBH; incorporar ao `variaveis_cs.csv` e reestimar GEE
-- **Redigir manuscrito** — pipeline analítico completo (scripts 01–10 ✅); iniciar redação
+- ~~**Re-executar script 03**~~ — completo
+- ~~**Coletar IVS-BH**~~ — concluído (script 13; 153/153 CS)
+- ~~**Alocação proporcional CEPs limítrofes**~~ — concluído (script 14; 3,31% redistribuídas)
+- ~~**Subgrupos por IVS (Portaria 3.493)**~~ — concluído (script 15; Muito Elevado sem benefício significativo)
+- **Finalizar backward stepwise (script 09)** — confirmar modelo final e atualizar glm_resultados.csv
+- **Investigar inflexão de abr/2024** — padrão bimodal em todas as regionais E em todos os estratos IVS (não é artefato socioeconômico); foco em mudança de codificação SIHSUS ou portaria federal nesse período
+- **Redigir manuscrito** — pipeline analítico completo (scripts 01–15 ✅); pipeline analítico pronto para redação; publicar em *Cadernos de Saúde Pública* (Fiocruz, Qualis A1)
 
 ### App e infraestrutura
 - **Melhorar cobertura para ≥90%** — re-executar script 04 após script 03 atualizado; avaliar uso da API Claude para CEPs irrecuperáveis pelas APIs open source
