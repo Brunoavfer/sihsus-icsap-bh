@@ -180,8 +180,8 @@ O filtro de CS é dependente do filtro de regional — ao selecionar uma regiona
 - **Dados processados:** `internacoes_bh.csv` e `icsap_bh.csv` com série completa jan/2023–mar/2026
   - 498.246 internações de residentes e internados em BH
   - 90.869 internações ICSAP | taxa média: 18,2%
-- **`icsap_bh_regional.csv`:** ainda reflete apenas jan/2023–mai/2025 (aguarda re-execução do script 03 com série completa)
-- **Cobertura de geocodificação:** 86,1% (78.251/90.869 geocodificados)
+- **`icsap_bh_regional.csv`:** série completa jan/2023–mar/2026 (90.869 registros = 100% do icsap_bh.csv); não há lacuna de meses
+- **Cobertura de geocodificação:** 86,1% (78.251/90.869 geocodificados); 12.618 sem regional são genuinamente irrecuperáveis (CEPs inexistentes, fora de BH ou sem coordenadas — script 04 já exauriu as tentativas)
 
 ### Scripts concluídos
 - ✅ **Scripts 01–04** — pipeline de download, processamento e geocodificação
@@ -264,7 +264,7 @@ Taxa ICSAP **padronizada por idade e sexo** por 10.000 habitantes, por área de 
 4. ✅ ~~Autocorrelação espacial~~ — concluído (script 08, Moran's I = 0,283)
 5. ✅ ~~GLM-Gama + GEE AR-1~~ — concluído (script 09; AR-1=0,879; tendência +3,7%/ano)
 6. ✅ ~~Joinpoint regression~~ — concluído (script 10; AAPC BH=+1,1%/ano; inflexão abr/2024)
-7. **Re-executar script 03** com série completa jan/2023–dez/2025 para atualizar `icsap_bh_regional.csv`
+7. ✅ ~~Re-executar script 03~~ — `icsap_bh_regional.csv` já estava completo (jan/2023–mar/2026)
 8. **Investigar inflexão de abr/2024** — verificar se há mudança de codificação, intervenção de política ou artefato dos dados
 9. **Coletar IVS-BH** manualmente do portal SMSA/PBH e reestimar GEE AR-1 com indicador de vulnerabilidade
 10. **Redigir manuscrito** para submissão ao *Cadernos de Saúde Pública* (meta: jan/2027)
@@ -274,7 +274,7 @@ Taxa ICSAP **padronizada por idade e sexo** por 10.000 habitantes, por área de 
 ## Próximos Passos
 
 ### Prioritários (para o estudo científico)
-- **Re-executar script 03** com série completa jan/2023–dez/2025 — `icsap_bh_regional.csv` atual cobre apenas jan/2023–mai/2025
+- ~~**Re-executar script 03**~~ — `icsap_bh_regional.csv` já está completo (jan/2023–mar/2026, 90.869 registros, 86,1% geocodificados); não há necessidade de re-execução
 - **Investigar inflexão de abr/2024** — padrão bimodal consistente em todas as regionais; checar mudanças de codificação SIHSUS, portaria ministerial ou intervenção de política pública nesse período
 - **Coletar IVS-BH** — Índice de Vulnerabilidade em Saúde do portal SMSA/PBH; incorporar ao `variaveis_cs.csv` e reestimar GEE
 - **Redigir manuscrito** — pipeline analítico completo (scripts 01–10 ✅); iniciar redação
