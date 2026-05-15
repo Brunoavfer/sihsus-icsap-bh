@@ -1,0 +1,23 @@
+ANÁLISE DE MISSING — ICSAP-BH
+Data: 2026-05-15
+
+Total de registros: 90869
+Com geocodificação: 78251 (86.1%)
+Sem geocodificação: 12618 (13.9%)
+
+Testes realizados: 6
+Testes significativos (p < 0,05): 5
+
+CLASSIFICAÇÃO: MNAR (Missing Not at Random) — limitação importante
+Risco de viés: Alto — requer análise adicional
+
+INTERPRETAÇÃO:
+MNAR: diferenças estatisticamente significativas foram encontradas em 5 de 6 variáveis testadas. O padrão de missingness é sistematicamente diferente entre os grupos COM e SEM geocodificação. Isso representa uma limitação importante que deve ser detalhada na seção de Limitações do artigo. Considere análise de sensibilidade com imputação ou ponderação inversa de probabilidade (IPW) para avaliar o impacto nas estimativas principais.
+
+p-valores individuais:
+idade = 0
+sexo = 0.0022
+condicao = 0
+val_tot = 0
+dias = 0.0815
+ano = 0

@@ -1,0 +1,9 @@
+variavel,stat,com_regional,sem_regional,p_valor,teste
+n,n,78251,12618,NA,NA
+pct_do_total,%,86.1%,13.9%,NA,NA
+idade_mediana_iqr,mediana [IQR],59 [36–73],57 [28–71],0,Mann-Whitney
+sexo_masculino_pct,%,50.6%,49.2%,0.0022,qui-quadrado
+condicao_icsap,distribuição,ver top5,ver top5,0,qui-quadrado
+val_tot_mediana,mediana R$,839.34,803.02,0,Mann-Whitney
+dias_perm_mediana,mediana dias,6,6,0.0815,Mann-Whitney
+missing_por_ano,% missing,NA,2023=12.8; 2024=13.4; 2025=15.6; 2026=13,0,qui-quadrado
