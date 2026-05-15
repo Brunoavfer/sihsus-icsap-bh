@@ -122,6 +122,10 @@ pv  <- 2 * pnorm(-abs(cf / se))
 ci_inf <- cf - 1.96 * se
 ci_sup <- cf + 1.96 * se
 
+# Diagnóstico: todos os nomes dos coeficientes disponíveis
+message("\n--- Nomes de todos os coeficientes do modelo ---")
+print(names(cf))
+
 # =============================================================================
 # 4. Extrai coeficientes BH (referência) e DiD para cada cidade controle
 # =============================================================================
@@ -142,52 +146,77 @@ message(sprintf("  Nível em mai/2024 (β₂): %+.4f → %+.1f%% (p=%.4f)",
 message(sprintf("  Slope change (β₃): %+.5f | APC pós = %+.1f%%/ano (p=%.4f)",
                 b3_bh, (exp(12 * (b1_bh + b3_bh)) - 1) * 100, pv["tempo_pos"]))
 
+# Helper: localiza um coeficiente por nome de cidade + termo, robusta a encoding
+# e a ambas as ordens de interação (capitalCidade:termo e termo:capitalCidade).
+encontrar_coef <- function(cidade, termo, nomes) {
+  # Busca por ambas as ordens possíveis
+  cands <- c(
+    grep(paste0(":.", termo, "$"),  nomes, value = TRUE),  # capital...:termo
+    grep(paste0("^", termo, ":."),  nomes, value = TRUE)   # termo:capital...
+  )
+  # Filtra pela cidade (fixed=TRUE — trata ã, espaços, etc. como literais)
+  match <- cands[vapply(cands, function(nm) grepl(cidade, nm, fixed = TRUE), logical(1))]
+  if (length(match) == 0) {
+    message("  AVISO: coeficiente para '", cidade, " × ", termo,
+            "' não encontrado. Nomes com 'capital': ",
+            paste(grep("capital", nomes, value = TRUE), collapse = " | "))
+    return(NA_character_)
+  }
+  if (length(match) > 1)
+    message("  AVISO: múltiplos matches para '", cidade, " × ", termo,
+            "' — usando: ", match[1])
+  match[1]
+}
+
+# Extração segura que tolera NA no nome
+get_v <- function(nm, vec) {
+  if (is.na(nm) || !(nm %in% names(vec))) return(NA_real_)
+  unname(vec[nm])
+}
+
+# Formata NA para mensagem sem travar sprintf
+fmt <- function(x, fmt_str) if (is.na(x)) "NA" else sprintf(fmt_str, x)
+
 # DiD: interação capital × slope_change e capital × nível
-cidades_ctrl <- setdiff(capitais, "Belo Horizonte")
+cidades_ctrl <- setdiff(levels(serie$capital), "Belo Horizonte")
 
 did_rows <- lapply(cidades_ctrl, function(cid) {
-  nm_nivel <- paste0("capital", cid, ":interv")
-  nm_slope <- paste0("capital", cid, ":tempo_pos")
+  nm_nivel <- encontrar_coef(cid, "interv",    names(cf))
+  nm_slope <- encontrar_coef(cid, "tempo_pos", names(cf))
+  message("  [", cid, "] coef nível: '", nm_nivel, "' | slope: '", nm_slope, "'")
 
-  # Tolerante a nomes inexistentes
-  get_cf <- function(nm) if (nm %in% names(cf)) cf[nm] else NA_real_
-  get_se <- function(nm) if (nm %in% names(se)) se[nm] else NA_real_
-  get_pv <- function(nm) if (nm %in% names(pv)) pv[nm] else NA_real_
+  did_n <- get_v(nm_nivel, cf);  se_n <- get_v(nm_nivel, se);  pv_n <- get_v(nm_nivel, pv)
+  did_s <- get_v(nm_slope, cf);  se_s <- get_v(nm_slope, se);  pv_s <- get_v(nm_slope, pv)
+  ci_inf_s <- get_v(nm_slope, ci_inf)
+  ci_sup_s <- get_v(nm_slope, ci_sup)
 
-  did_n  <- get_cf(nm_nivel);  se_n  <- get_se(nm_nivel); pv_n <- get_pv(nm_nivel)
-  did_s  <- get_cf(nm_slope);  se_s  <- get_se(nm_slope); pv_s <- get_pv(nm_slope)
-
-  # slope change de cada cidade controle (β₃_BH + θ_k)
-  b3_ctrl     <- b3_bh + did_s
-  se_b3_ctrl  <- sqrt(se3^2 + se_s^2)   # delta method (sem covariância)
+  # slope change da cidade controle = β₃_BH + θ_k
+  b3_ctrl    <- b3_bh + did_s
+  se_b3_ctrl <- sqrt(se3^2 + if (!is.na(se_s)) se_s^2 else 0)
 
   message(sprintf(
-    "\n  DiD [%s vs BH]:\n    θ_nivel: %+.4f → diferença de nível %+.1f%% (p=%.4f)\n    θ_slope: %+.5f (p=%.4f)\n    APC pós ctrl: %+.1f%%/ano",
-    cid,
-    did_n, (exp(did_n) - 1) * 100, pv_n,
-    did_s, pv_s,
-    (exp(12 * (b1_bh + b3_ctrl)) - 1) * 100
+    "    θ_nivel: %s → %s%% (p=%s) | θ_slope: %s (p=%s) | APC pós ctrl: %s%%/ano",
+    fmt(did_n, "%+.4f"), fmt((exp(did_n) - 1) * 100, "%+.1f"), fmt(pv_n, "%.4f"),
+    fmt(did_s, "%+.5f"), fmt(pv_s, "%.4f"),
+    fmt((exp(12 * (b1_bh + b3_ctrl)) - 1) * 100, "%+.1f")
   ))
 
   tibble(
     capital          = cid,
-    # BH slope change (referência)
     apc_pre_bh       = round((exp(12 * b1_bh) - 1) * 100, 1),
     nivel_bh_pct     = round((exp(b2_bh) - 1) * 100, 1),
     p_nivel_bh       = round(pv["interv"], 4),
     apc_pos_bh       = round((exp(12 * (b1_bh + b3_bh)) - 1) * 100, 1),
     p_slope_bh       = round(pv["tempo_pos"], 4),
-    # DiD — diferença em relação a BH
     did_nivel        = round(did_n, 5),
     did_nivel_pct    = round((exp(did_n) - 1) * 100, 1),
     did_nivel_ic_inf = round((exp(did_n - 1.96 * se_n) - 1) * 100, 1),
     did_nivel_ic_sup = round((exp(did_n + 1.96 * se_n) - 1) * 100, 1),
     p_did_nivel      = round(pv_n, 4),
     did_slope        = round(did_s, 5),
-    did_slope_ic_inf = round(ci_inf[nm_slope], 5),
-    did_slope_ic_sup = round(ci_sup[nm_slope], 5),
+    did_slope_ic_inf = round(ci_inf_s, 5),
+    did_slope_ic_sup = round(ci_sup_s, 5),
     p_did_slope      = round(pv_s, 4),
-    # APC pós da capital controle (β₁ + β₃_ctrl)
     apc_pos_ctrl     = round((exp(12 * (b1_bh + b3_ctrl)) - 1) * 100, 1)
   )
 })
