@@ -327,6 +327,81 @@ Onde $w_{ij}$ = peso espacial entre CS $i$ e CS $j$ (1 se vizinhos, 0 caso contr
 
 ---
 
+## Análise de Interrupção de Série Temporal (Interrupted Time Series — ITS)
+
+### Contexto e Justificativa
+
+A *joinpoint regression* (script 10) identificou inflexão em ~abril/2024 nas taxas ICSAP em todas as 9 regionais administrativas de BH **simultaneamente**. Um padrão síncrono e de abrangência municipal é compatível com efeito de política nacional, não com mudanças locais isoladas.
+
+A **Portaria GM/MS nº 3.493, de 10 de abril de 2024** instituiu nova metodologia de cofinanciamento federal da APS:
+- Aumento do repasse federal por equipe ESF de R$ 21.000 para R$ 24.000–30.000, escalonado por indicadores de desempenho
+- Introdução de componente de qualidade vinculado a indicadores de HAS, DM, pré-natal e desenvolvimento infantil
+- Vigência dos novos valores a partir de maio de 2024
+
+A análise de ITS permite **testar formalmente** se a Portaria 3.493/2024 produziu mudança na trajetória das ICSAP em BH — mudança no nível (impacto imediato) e/ou na tendência (mudança na inclinação da série após a portaria). O ITS é a abordagem quase-experimental de referência para avaliar efeitos de intervenções de política pública em séries temporais de saúde quando randomização não é possível (Bernal et al., 2017).
+
+O ITS é uma análise **complementar** ao GEE (script 09): o GEE responde à pergunta cross-sectional ("CS com maior estrutura ESF têm menores taxas ICSAP?"); o ITS responde à pergunta longitudinal ("a Portaria 3.493/2024 alterou a trajetória das ICSAP no tempo?").
+
+### Modelo
+
+Regressão log-linear segmentada com correção de autocorrelação (Prais-Winsten ou GEE AR-1):
+
+$$\ln(\mu_t) = \beta_0 + \beta_1 \cdot \text{Tempo}_t + \beta_2 \cdot \text{Intervenção}_t + \beta_3 \cdot (\text{Tempo}_t \times \text{Intervenção}_t) + \varepsilon_t$$
+
+Onde:
+- $\text{Tempo}_t$: número sequencial do mês (1 = jan/2023; 39 = mar/2026)
+- $\text{Intervenção}_t$: variável binária — **0** antes de maio/2024, **1** a partir de maio/2024 (mês $t = 17$)
+- $\beta_0$: nível basal pré-intervenção
+- $\beta_1$: tendência pré-intervenção (inclinação do segmento 1)
+- $\beta_2$: mudança imediata no **nível** das ICSAP em maio/2024 (impacto de curto prazo)
+- $\beta_3$: mudança na **inclinação** após a portaria (diferença entre as tendências pré e pós)
+
+A tendência no período pós-intervenção é: $\beta_1 + \beta_3$
+
+### Interpretação Esperada
+
+| Coeficiente | Sinal esperado | Interpretação substantiva |
+|---|---|---|
+| $\beta_1$ | Positivo | Crescimento das ICSAP no período pré-portaria (confirmado pelo joinpoint: +19,2%/ano) |
+| $\beta_2$ | Negativo | Queda imediata em maio/2024 — efeito de curto prazo (adesão imediata dos CS aos indicadores) |
+| $\beta_3$ | Negativo | Mudança para tendência decrescente — efeito estrutural (melhora continuada da qualidade APS) |
+
+Resultado compatível com efeito da portaria: $\beta_2 < 0$ e/ou $\beta_3 < 0$, com $p < 0{,}05$.
+
+Se ambos forem não significativos, a inflexão pode refletir variação aleatória, sazonalidade, mudança de codificação no SIHSUS ou outros fatores concorrentes não capturados.
+
+### Implementação Planejada
+
+Script: `R/11_its.R`
+
+| Decisão | Opção adotada | Justificativa |
+|---|---|---|
+| Nível de análise | Municipal (série agregada de BH) | Maior poder estatístico; joinpoint municipal é o mais robusto |
+| Dados | `icsap_bh.csv` + `internacoes_bh.csv` | Série completa (100%); sem viés de geocodificação |
+| Variável resposta | % ICSAP sobre total de internações | Controla variação no volume de internações ao longo do tempo |
+| Correção de autocorrelação | GEE AR-1 (Gama, link log) | Consistente com script 09; ou Prais-Winsten para log(taxa) |
+| Sazonalidade | Termos de Fourier (sen/cos, período 12 meses) | Incluir se ACF dos resíduos mostrar picos em lag 12 |
+| Ponto de corte | Maio/2024 ($t = 17$) | Data de vigência dos novos valores da Portaria 3.493/2024 |
+
+### Análises de Sensibilidade
+
+| Sensibilidade | Objetivo |
+|---|---|
+| Variar ponto de corte ±2 meses (mar–jul/2024) | Verificar robustez em relação à data exata da intervenção |
+| Estratificar por regional administrativa | Testar heterogeneidade geográfica do efeito |
+| Usar condições ICSAP crônicas vs agudas separadamente | Verificar se o efeito é mediado por condições mais responsivas à APS |
+| Comparar com outras capitais brasileiras (DiD-ITS) | Isolar efeito da portaria de tendências nacionais (principal controle negativo) |
+
+### Limitação Principal
+
+O ITS sem grupo controle não permite isolar o efeito da Portaria 3.493/2024 de outros eventos concorrentes (pandemia tardia, sazonalidade, reorganização local da rede, mudança nos critérios de codificação do SIHSUS). A análise comparativa com outras capitais como grupo controle (diferença-em-diferenças interrompida — DiD-ITS) aumentaria substancialmente a validade causal, mas está fora do escopo do presente estudo. Essa limitação deve ser explicitada na seção de discussão do manuscrito.
+
+### Referência
+
+Bernal JL, Cummins S, Gasparrini A. Interrupted time series regression for the evaluation of public health interventions: a tutorial. *BMJ*. 2017;359:j2981. doi:10.1136/bmj.j2981
+
+---
+
 ## Atualização do Checklist STROBE
 
 Com a implementação dos scripts 06, 07 e 08, os seguintes itens do Checklist STROBE foram atualizados:
