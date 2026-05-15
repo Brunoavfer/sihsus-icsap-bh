@@ -261,8 +261,10 @@ taxas_cs %>%
     n_cs              = n(),
     taxa_bruta_media   = round(mean(taxa_bruta, na.rm = TRUE), 2),
     taxa_padron_media  = round(mean(taxa_padronizada, na.rm = TRUE), 2),
-    correlacao_metodos = round(cor(taxa_bruta, taxa_padronizada,
-                                   use = "complete.obs"), 3),
+    correlacao_metodos = tryCatch(
+      round(cor(taxa_bruta, taxa_padronizada, use = "complete.obs"), 3),
+      error = function(e) NA_real_
+    ),
     .groups = "drop"
   ) %>%
   print()
