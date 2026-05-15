@@ -13,8 +13,11 @@ authors:
   - family-names: Ávila Ferreira
     given-names: Bruno
     alias: Brunoavfer
-    orcid: ""
-    affiliation: ""
+    orcid: "https://orcid.org/0000-0003-0791-6153"
+    affiliation: "Instituto de Previdência dos Servidores do Estado de Minas Gerais"
+    city: Belo Horizonte
+    region: MG
+    country: BR
     website: "https://github.com/Brunoavfer"
 
 repository-code: "https://github.com/Brunoavfer/sihsus-icsap-bh"
