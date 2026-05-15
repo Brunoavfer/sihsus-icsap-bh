@@ -481,10 +481,16 @@ for (pred in candidatos) {
 message("\n  Preditores após Forward: ", paste(selecionados, collapse = ", "))
 
 # --- Backward: eliminação do modelo multivariável ---
-# Usa dados_cnes se "n_esf" está selecionado, senão dados_full
-usa_cnes <- "n_esf" %in% selecionados
-d_bw     <- if (usa_cnes) dados_cnes else dados_full
-id_bw    <- if (usa_cnes) "cs_id2"  else "cs_id"
+# Usa dados_cnes se "n_esf" está selecionado, senão dados_full.
+# Quando usa_cnes = TRUE, pct_sem_saneamento é preditor constante por CS
+# (Censo 2022) → combinação com AR-1 e φ≈0,96 causa divergência do algoritmo
+# GEESE (mesmo problema de M4-completo). Solução: exchangeable para este caso.
+usa_cnes  <- "n_esf" %in% selecionados
+d_bw      <- if (usa_cnes) dados_cnes else dados_full
+id_bw     <- if (usa_cnes) "cs_id2"  else "cs_id"
+corstr_bw <- if (usa_cnes) "exchangeable" else "ar1"
+if (usa_cnes) message("  Nota: backward usa corstr='exchangeable' — preditor CS-constante",
+                      " (pct_sem_saneamento) + φ≈0,96 causa divergência AR-1.")
 
 ativos <- selecionados
 mod_bw <- NULL
@@ -498,16 +504,16 @@ for (iter in seq_len(length(ativos) + 1)) {
   id_bw_vec <- d_bw[[id_bw]]
   mod_bw <- tryCatch(
     geeglm(f_bw, family = Gamma(link = "log"), data = d_bw,
-           id = id_bw_vec, corstr = "ar1", waves = mes_num),
+           id = id_bw_vec, corstr = corstr_bw, waves = mes_num),
     error = function(e) { message("  Backward falhou: ", e$message); NULL }
   )
   if (is.null(mod_bw)) break
 
   cf_bw <- coef(summary(mod_bw))
-  p_col <- if ("Pr(>|W|)" %in% colnames(cf_bw)) "Pr(>|W|)" else "Pr(>|z|)"
-  p_ativos <- cf_bw[ativos, p_col, drop = FALSE]
-  pior <- ativos[which.max(p_ativos)]
-  p_pior <- max(p_ativos)
+  p_col    <- if ("Pr(>|W|)" %in% colnames(cf_bw)) "Pr(>|W|)" else "Pr(>|z|)"
+  p_ativos <- setNames(as.numeric(cf_bw[ativos, p_col]), ativos)
+  pior     <- ativos[which.max(p_ativos)]
+  p_pior   <- max(p_ativos)
 
   message("  Iter ", iter, ": pior preditor = ", pior, " (p=", round(p_pior, 4), ")")
   if (p_pior <= 0.05) {
@@ -520,27 +526,37 @@ for (iter in seq_len(length(ativos) + 1)) {
 
 # Modelo final
 message("\n=== MODELO FINAL (Stepwise) ===")
-message("Preditores selecionados: ", paste(ativos, collapse = ", "))
-if (!is.null(mod_bw)) {
-  print(summary(mod_bw))
-  cf_final <- coef(summary(mod_bw))
-  se_col <- if ("Std.err" %in% colnames(cf_final)) "Std.err" else "Std. Error"
-  p_col  <- if ("Pr(>|W|)" %in% colnames(cf_final)) "Pr(>|W|)" else "Pr(>|z|)"
-  resultados_final <- tibble(
-    modelo    = "M-final-stepwise",
-    variavel  = rownames(cf_final),
-    beta      = round(cf_final[, "Estimate"], 4),
-    se        = round(cf_final[, se_col],    4),
-    p_valor   = round(cf_final[, p_col],     4),
-    RR        = round(exp(cf_final[, "Estimate"]),                        4),
-    RR_ic_inf = round(exp(cf_final[, "Estimate"] - 1.96*cf_final[,se_col]), 4),
-    RR_ic_sup = round(exp(cf_final[, "Estimate"] + 1.96*cf_final[,se_col]), 4)
-  )
-  resultados <- bind_rows(resultados, resultados_final)
-  qic_final <- tryCatch(QIC(mod_bw), error = function(e) NULL)
-  if (!is.null(qic_final)) {
-    message("QIC modelo final: ", round(qic_final["QIC"], 1),
-            " | QICu: ", round(qic_final["QICu"], 1))
+
+if (length(ativos) == 0) {
+  message("Todos os preditores eliminados no backward (p > 0,05 no subsample CNES, 117 CS).")
+  message("Modelo final = M1-base: taxa_cs ~ mes_num + sin12 + cos12")
+  message("Nota: pct_sem_saneamento é significativo no painel completo (M3, 153 CS, p=0,005)")
+  message("      mas perde significância no subsample CNES (117 CS, exchangeable).")
+  message("      Relatório: M3 como modelo principal para pct_sem_saneamento; stepwise")
+  message("      confirma ausência de preditor adicional robusto no subsample.")
+} else {
+  message("Preditores selecionados: ", paste(ativos, collapse = ", "))
+  if (!is.null(mod_bw)) {
+    print(summary(mod_bw))
+    cf_final <- coef(summary(mod_bw))
+    se_col <- if ("Std.err" %in% colnames(cf_final)) "Std.err" else "Std. Error"
+    p_col  <- if ("Pr(>|W|)" %in% colnames(cf_final)) "Pr(>|W|)" else "Pr(>|z|)"
+    resultados_final <- tibble(
+      modelo    = "M-final-stepwise",
+      variavel  = rownames(cf_final),
+      beta      = round(cf_final[, "Estimate"], 4),
+      se        = round(cf_final[, se_col],    4),
+      p_valor   = round(cf_final[, p_col],     4),
+      RR        = round(exp(cf_final[, "Estimate"]),                        4),
+      RR_ic_inf = round(exp(cf_final[, "Estimate"] - 1.96*cf_final[,se_col]), 4),
+      RR_ic_sup = round(exp(cf_final[, "Estimate"] + 1.96*cf_final[,se_col]), 4)
+    )
+    resultados <- bind_rows(resultados, resultados_final)
+    qic_final <- tryCatch(QIC(mod_bw), error = function(e) NULL)
+    if (!is.null(qic_final)) {
+      message("QIC modelo final: ", round(qic_final["QIC"], 1),
+              " | QICu: ", round(qic_final["QICu"], 1))
+    }
   }
 }
 

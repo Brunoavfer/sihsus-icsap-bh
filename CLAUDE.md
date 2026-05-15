@@ -207,8 +207,12 @@ O filtro de CS é dependente do filtro de regional — ao selecionar uma regiona
   - **VIF**: todos os preditores VIF ≤ 5 (max: renda_media=3,82, ivs_score=3,69); sem multicolinearidade
   - **Stepwise Forward (p<0,20)**: n_esf (p=0,076) e pct_sem_saneamento (p=0,0003) selecionados; ivs_score, pct_area_favela, renda_media não selecionados
   - **cobertura_aps_pct / n_esf_egestor**: nível municipal → não usáveis como preditores CS-nível
-  - **M1 GEE AR-1** (base, φ≈0,96): tendência temporal significativa; preditores contexto NS
-  - **Backward stepwise**: em execução — n_esf e pct_sem_saneamento candidatos ao modelo final
+  - **M1 GEE AR-1** (base, φ≈0,96): mes_num NS (p=0,585); sin12 RR=1,031\*\*\*, cos12 RR=0,927\*\*\*; QIC=265
+  - **M2 GEE + CNES** (117 CS): n_esf p=0,076 NS; QIC=464; φ=0,965
+  - **M3 GEE + contexto** (153 CS, modelo principal): pct_sem_saneamento **RR=0,968 (IC95%: 0,946–0,990), p=0,005**; demais preditores NS; QIC=460; φ=0,960
+  - **M4 GEE completo** (exchangeable, 117 CS): n_esf RR=1,032 (p=0,049\*), mes_num p<0,001 (APC=+3,05%/ano); QIC=472
+  - **Backward stepwise** (exchangeable, 117 CS): pct_sem_saneamento p=0,255 → removido; n_esf p=0,064 → removido; **modelo final = M1-base** (nenhum preditor contextual sobreviveu p≤0,05 no subsample CNES de 117 CS)
+  - **Interpretação pct_sem_saneamento** (M3): RR<1 contraintuitivo — CS em áreas com pior saneamento têm MENOS ICSAP registradas; possível viés de acesso/sub-registro em periferias; a discutir como limitação no manuscrito
 - ✅ **Script 10** — joinpoint regression (APC/AAPC) nível municipal e regional
   - **BH**: 1 joinpoint em ~abr/2024 (mês 16); seg 1 APC = **+19,2%/ano**; seg 2 APC = **-10,8%/ano**; **AAPC = +1,1%/ano**
   - **Regionais**: todas as 9 com padrão bimodal similar (joinpoint em ~abr–mai/2024); AAPC de +2,4% (Noroeste/Oeste) a +8,5% (Barreiro/Centro-Sul)
@@ -268,7 +272,7 @@ Taxa ICSAP **padronizada por idade e sexo** por 10.000 habitantes, por área de 
 ### Método Estatístico
 
 - **GLM-Gama** (link log) — baseline, ignora correlação; subestima erros padrão (p.ex. pct_sem_saneamento p=0,015 → p=0,096 no GEE)
-- **GEE AR-1 painel mensal** ✅ (script 09) — φ≈0,96; VIF todos ≤5; stepwise Forward seleciona n_esf (p=0,076) e pct_sem_saneamento (p=0,0003); IVS, pct_area_favela, renda_media não selecionados. Modelo final (backward): a confirmar
+- **GEE AR-1 painel mensal** ✅ (script 09) — φ≈0,96; VIF todos ≤5; M3 (153 CS, AR-1): pct_sem_saneamento RR=0,968 (p=0,005), demais NS; backward stepwise elimina todos (modelo final=M1-base no subsample CNES de 117 CS)
 - **GEE ITS por estrato IVS** ✅ (script 15) — Portaria 3.493/2024: redução de nível significativa em Baixo/Médio/Elevado, NS em Muito Elevado → possível ampliação de desigualdades
 - **Alocação proporcional de CEPs** ✅ (script 14) — 3,31% das internações redistribuídas com buffer 100m; 32,3% CEPs limítrofes; impacto marginal mas methodologicamente relevante
 - **Joinpoint regression** ✅ (script 10) — AAPC BH = +1,1%/ano; padrão bimodal com inflexão em abr/2024 em todas as 9 regionais
@@ -298,7 +302,7 @@ Taxa ICSAP **padronizada por idade e sexo** por 10.000 habitantes, por área de 
 8. ✅ ~~Coletar IVS-BH~~ — concluído (script 13; 100% CS; ivs_score 1,00–3,86)
 9. ✅ ~~Alocação proporcional de CEPs limítrofes~~ — concluído (script 14; 3,31% redistribuídas; buffer 100m)
 10. ✅ ~~Análise de subgrupos por IVS (Portaria 3.493)~~ — concluído (script 15; Muito Elevado não se beneficiou do efeito abrupt level change → possível ampliação de desigualdades)
-11. **Finalizar backward stepwise** — modelo final script 09: confirmar se n_esf sobrevive com p≤0,05 no modelo multivariável
+11. ✅ ~~Finalizar backward stepwise~~ — modelo final confirmado: backward elimina todos no subsample CNES (117 CS); M3 (153 CS) é o modelo principal para pct_sem_saneamento
 12. **Investigar inflexão de abr/2024** — padrão bimodal consistente em todas as regionais e todos os estratos IVS; checar mudanças de codificação SIHSUS, portaria ministerial ou intervenção de política pública
 13. **Redigir manuscrito** para submissão ao *Cadernos de Saúde Pública* (meta: jan/2027)
 
@@ -311,7 +315,7 @@ Taxa ICSAP **padronizada por idade e sexo** por 10.000 habitantes, por área de 
 - ~~**Coletar IVS-BH**~~ — concluído (script 13; 153/153 CS)
 - ~~**Alocação proporcional CEPs limítrofes**~~ — concluído (script 14; 3,31% redistribuídas)
 - ~~**Subgrupos por IVS (Portaria 3.493)**~~ — concluído (script 15; Muito Elevado sem benefício significativo)
-- **Finalizar backward stepwise (script 09)** — confirmar modelo final e atualizar glm_resultados.csv
+- ~~**Finalizar backward stepwise (script 09)**~~ — concluído: M3 (153 CS, AR-1) é o modelo principal; backward no subsample CNES elimina todos os preditores
 - **Investigar inflexão de abr/2024** — padrão bimodal em todas as regionais E em todos os estratos IVS (não é artefato socioeconômico); foco em mudança de codificação SIHSUS ou portaria federal nesse período
 - **Redigir manuscrito** — pipeline analítico completo (scripts 01–15 ✅); pipeline analítico pronto para redação; publicar em *Cadernos de Saúde Pública* (Fiocruz, Qualis A1)
 
