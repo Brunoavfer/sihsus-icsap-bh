@@ -46,6 +46,7 @@
 suppressPackageStartupMessages({
   library(read.dbc)
   library(dplyr)
+  library(tidyr)
   library(stringr)
   library(readr)
   library(lubridate)
@@ -143,7 +144,8 @@ ler_dbc <- function(arquivo) {
 
 # Detecta coluna de município (CNES usa nomes variados conforme versão do layout)
 col_mun_cnes <- function(nomes) {
-  intersect(c("co_municipio", "cod_munic", "co_municipio_gestor", "municipio"), nomes)[1]
+  intersect(c("co_municipio", "cod_munic", "co_municipio_gestor", "municipio",
+              "codufmun", "co_municipio_estabelecimento"), nomes)[1]
 }
 
 # Filtro padrão de município BH (aceita 6 ou 7 dígitos)
@@ -196,12 +198,14 @@ baixar_cnes <- function(tipo, competencias) {
   arquivos_ok
 }
 
-message("\nBaixando EQ (Equipes) — MG ", ANO_INICIO, "-", ANO_FIM,
+message("\nBaixando EP (Equipes APS) — MG ", ANO_INICIO, "-", ANO_FIM,
         " (", length(COMPETENCIAS), " competências)...")
-arqs_eq <- baixar_cnes("EQ", COMPETENCIAS)
+arqs_ep <- baixar_cnes("EP", COMPETENCIAS)
 
-message("\nBaixando PF (Profissionais) — MG ", ANO_INICIO, "-", ANO_FIM, "...")
-arqs_pf <- baixar_cnes("PF", COMPETENCIAS)
+# PF não é processado (ver limitação técnica na seção 1d)
+# arqs_pf <- baixar_cnes("PF", COMPETENCIAS)
+message("\nPF (Profissionais) — download pulado (read.dbc SIGSEGV em arquivos >30MB).")
+arqs_pf <- character(0)
 
 # ST (Estabelecimentos) — competência de referência para o de-para
 message("\nBaixando ST (Estabelecimentos) — jan/2025 para de-para CNES ↔ CS...")
@@ -286,7 +290,50 @@ if (!file.exists(depara_path)) {
 
       } else {
         message("  Colunas CO_UNIDADE ou NO_RAZAO_SOCIAL não encontradas no ST.")
-        message("  Colunas disponíveis: ", paste(names(st_raw), collapse = ", "))
+        message("  Tentando fallback: de-para via CEP do estabelecimento...")
+
+        # Fallback: ST.cep → cache_cep (lat/lon) → spatial join → nome_cs
+        tryCatch({
+          cache_cep_path <- file.path(DIR_REF, "cache_cep.csv")
+          if (file.exists(cache_cep_path) && !is.na(col_cnes_st)) {
+            cache_cep_norm <- read_csv(cache_cep_path, show_col_types = FALSE) |>
+              filter(!is.na(lat), !is.na(lon)) |>
+              mutate(cep = str_pad(str_remove_all(as.character(cep), "[^0-9]"), 8, pad = "0")) |>
+              select(cep, lat, lon)
+
+            poligonos_geo <- st_read(arq_geo, quiet = TRUE)
+
+            est_bh_cep <- filtrar_bh(st_raw) |>
+              mutate(
+                co_unidade = as.character(.data[[col_cnes_st]]),
+                cep = str_pad(str_remove_all(as.character(cod_cep), "[^0-9]"), 8, pad = "0")
+              ) |>
+              select(co_unidade, cep) |>
+              distinct() |>
+              inner_join(cache_cep_norm, by = "cep") |>
+              filter(!is.na(lat))
+
+            message("  Estabelecimentos BH com CEP no cache: ", nrow(est_bh_cep))
+
+            if (nrow(est_bh_cep) > 0) {
+              est_sf <- st_as_sf(est_bh_cep, coords = c("lon", "lat"), crs = 4326)
+              joined <- st_join(est_sf,
+                                st_transform(poligonos_geo, 4326) |> select(nome_cs),
+                                left = FALSE)
+              depara_cep <- joined |>
+                st_drop_geometry() |>
+                select(co_unidade, nome_cs) |>
+                distinct(co_unidade, .keep_all = TRUE)
+
+              write_csv(depara_cep, depara_path)
+              message("  De-para via CEP: ", nrow(depara_cep), " estabelecimentos → CS.")
+            } else {
+              message("  Nenhum CEP de estabelecimento encontrado no cache_cep.")
+            }
+          }
+        }, error = function(e) {
+          message("  Fallback de-para via CEP falhou: ", conditionMessage(e))
+        })
       }
     }
   }
@@ -309,11 +356,12 @@ message("\nProcessando arquivos EQ...")
 
 processar_eq <- function(arquivo) {
   comp <- comp_do_arquivo(arquivo)
+  message("  EP ", comp, "...")
   df   <- ler_dbc(arquivo)
   if (is.null(df)) return(NULL)
 
   # Inspeciona layout na primeira competência processada
-  if (comp == comp_do_arquivo(arqs_eq[1])) {
+  if (comp == comp_do_arquivo(arqs_ep[1])) {
     message("  Layout EQ — colunas: ", paste(names(df), collapse = ", "))
     message("  Valores únicos de TP_EQUIPE em BH:")
     tp_bh <- filtrar_bh(df)
@@ -327,10 +375,12 @@ processar_eq <- function(arquivo) {
     }
   }
 
-  col_tp    <- intersect(c("tp_equipe", "tipo_equipe", "tp_equipe_ab"), names(df))[1]
+  col_tp    <- intersect(c("tp_equipe", "tipo_equipe", "tp_equipe_ab", "tipo_eqp"),
+                         names(df))[1]
   col_cnes  <- intersect(c("co_unidade", "cod_cnes", "cnes"),           names(df))[1]
   col_desatv <- intersect(
-    c("dt_desativacao", "dt_desativ", "dt_desativac", "dta_desativacao"),
+    c("dt_desativacao", "dt_desativ", "dt_desativac", "dta_desativacao",
+      "dt_desat", "dt_desativacao_equipe"),
     names(df)
   )[1]
 
@@ -342,13 +392,18 @@ processar_eq <- function(arquivo) {
       tp_equipe  = as.character(.data[[col_tp]])
     )
 
-  # Mantém apenas equipes ativas (sem data de desativação preenchida)
+  # Mantém apenas equipes ativas na competência processada.
+  # dt_desat usa YYYYMM numérico: "900001" = sem validade, "201208" = dez/2012.
   if (!is.na(col_desatv)) {
+    comp_num <- as.numeric(paste0("20", str_sub(comp, 1, 2), str_sub(comp, 3, 4)))
     df_bh <- df_bh |>
-      filter(is.na(.data[[col_desatv]]) | .data[[col_desatv]] %in% c("", "0", NA))
+      mutate(.dt_num = suppressWarnings(
+               as.numeric(as.character(.data[[col_desatv]])))) |>
+      filter(is.na(.dt_num) | .dt_num > comp_num) |>
+      select(-.dt_num)
   }
 
-  df_bh |>
+  resultado <- df_bh |>
     group_by(co_unidade) |>
     summarise(
       n_esf    = sum(tp_equipe %in% TP_ESF,    na.rm = TRUE),
@@ -357,64 +412,33 @@ processar_eq <- function(arquivo) {
       .groups  = "drop"
     ) |>
     mutate(competencia = comp)
+  rm(df, df_bh); gc(verbose = FALSE)
+  resultado
 }
 
-eq_bh <- lapply(arqs_eq, processar_eq) |> bind_rows()
-message("  EQ processado: ", nrow(eq_bh), " registros (CS × competência)")
+eq_bh <- lapply(arqs_ep, processar_eq) |> bind_rows()
+message("  EP processado: ", nrow(eq_bh), " registros (CS × competência)")
 
 # ---------------------------------------------------------------------------
 # 1d. Processa PF → médicos, ACS, carga horária por CS/competência
 # ---------------------------------------------------------------------------
 
-message("\nProcessando arquivos PF...")
-
-processar_pf <- function(arquivo) {
-  comp <- comp_do_arquivo(arquivo)
-  df   <- ler_dbc(arquivo)
-  if (is.null(df)) return(NULL)
-
-  if (comp == comp_do_arquivo(arqs_pf[1])) {
-    message("  Layout PF — colunas: ", paste(names(df), collapse = ", "))
-  }
-
-  col_cnes    <- intersect(c("co_unidade", "cod_cnes", "cnes"),           names(df))[1]
-  col_cbo     <- intersect(c("cbo", "co_cbo", "tp_cbo", "cbo_ocupacao"),  names(df))[1]
-  col_ch_amb  <- intersect(c("ch_amb",    "carga_hora_amb",  "horas_amb"), names(df))[1]
-  col_ch_hosp <- intersect(c("ch_hosp",   "carga_hora_hosp", "horas_hosp"),names(df))[1]
-  col_ch_out  <- intersect(c("ch_outros", "carga_hora_out",  "horas_out"), names(df))[1]
-
-  if (is.na(col_cnes) || is.na(col_cbo)) return(NULL)
-
-  df_bh <- filtrar_bh(df) |>
-    mutate(
-      co_unidade = as.character(.data[[col_cnes]]),
-      cbo        = as.character(.data[[col_cbo]]),
-      ch_amb     = if (!is.na(col_ch_amb))  suppressWarnings(as.numeric(.data[[col_ch_amb]]))  else 0,
-      ch_hosp    = if (!is.na(col_ch_hosp)) suppressWarnings(as.numeric(.data[[col_ch_hosp]])) else 0,
-      ch_outros  = if (!is.na(col_ch_out))  suppressWarnings(as.numeric(.data[[col_ch_out]]))  else 0,
-      ch_total   = replace_na(ch_amb, 0) + replace_na(ch_hosp, 0) + replace_na(ch_outros, 0),
-      is_medico  = str_detect(cbo, CBO_MED_REGEX),
-      is_mfc     = cbo == CBO_MFC,
-      is_acs     = cbo == CBO_ACS
-    )
-
-  df_bh |>
-    group_by(co_unidade) |>
-    summarise(
-      n_medicos       = sum(is_medico,             na.rm = TRUE),
-      n_mfc           = sum(is_mfc,                na.rm = TRUE),
-      n_acs           = sum(is_acs,                na.rm = TRUE),
-      ch_medica_total = sum(ch_total * is_medico,  na.rm = TRUE),
-      .groups         = "drop"
-    ) |>
-    mutate(
-      pct_mfc     = ifelse(n_medicos > 0, round(n_mfc / n_medicos * 100, 1), NA_real_),
-      competencia = comp
-    )
-}
-
-pf_bh <- lapply(arqs_pf, processar_pf) |> bind_rows()
-message("  PF processado: ", nrow(pf_bh), " registros (CS × competência)")
+# LIMITAÇÃO TÉCNICA: os arquivos PF do CNES para MG (~32 MB comprimidos,
+# expandindo para >1 GB em memória) causam SIGSEGV no read.dbc 1.2.0 com R 4.5.
+# Variáveis n_medicos, n_mfc, n_acs, ch_medica_total ficam NA nesta versão.
+# Alternativas para trabalho futuro: microdatasus, Python pyreaddbc, ou
+# download de arquivos PF apenas para BH via FTP CNES (quando disponível).
+message("\nPF (Profissionais) — PULADO: read.dbc causa SIGSEGV em arquivos PF/MG.")
+message("  Variáveis n_medicos, n_mfc, n_acs, ch_medica_total serão NA.")
+pf_bh <- tibble(
+  co_unidade      = character(),
+  competencia     = character(),
+  n_medicos       = integer(),
+  n_mfc           = integer(),
+  n_acs           = integer(),
+  ch_medica_total = numeric(),
+  pct_mfc         = numeric()
+)
 
 # ---------------------------------------------------------------------------
 # 1e. Une EQ + PF e mapeia CO_UNIDADE → nome_cs via de-para
@@ -460,7 +484,7 @@ if (file.exists(cobertura_xlsx)) {
   # → Exportar → Excel → Salvar como data/ref/egestor_cobertura_bh.xlsx
   message("\nCarregando arquivo manual do e-Gestor AB: ", cobertura_xlsx)
   egestor_raw <- tryCatch(
-    read_xlsx(cobertura_xlsx, skip = 1),
+    read_xlsx(cobertura_xlsx, skip = 0),
     error = function(e) { message("  Erro ao ler Excel: ", conditionMessage(e)); NULL }
   )
   if (!is.null(egestor_raw)) {
@@ -564,17 +588,23 @@ if (file.exists(censo_path)) {
   message("(Primeira execução demora vários minutos — dados são cacheados.)")
 
   geo_setores <- tryCatch(
-    geobr::read_census_tract(code_muni = 3106200, year = 2022, showProgress = FALSE),
+    geobr::read_census_tract(code_tract = 3106200, year = 2022, showProgress = FALSE),
     error = function(e) {
       message("  geobr falhou: ", conditionMessage(e))
       NULL
     }
   )
 
+  # Filtro de município: code_muni é double no Arrow (censobr); usar comparação numérica
+  cod_bh_num <- as.numeric(COD_BH_7)
+  filtrar_bh_censo <- function(df) {
+    df |> filter(code_muni == cod_bh_num) |> collect() |> as_tibble()
+  }
+
   message("Baixando dados Básicos dos setores via censobr...")
   dados_basico <- tryCatch(
     censobr::read_tracts(year = 2022, dataset = "Basico", showProgress = FALSE) |>
-      filter(str_starts(code_muni, COD_BH_7)),
+      filtrar_bh_censo(),
     error = function(e) {
       message("  censobr::read_tracts('Basico') falhou: ", conditionMessage(e))
       NULL
@@ -583,20 +613,20 @@ if (file.exists(censo_path)) {
 
   message("Baixando dados de Domicílios (saneamento) via censobr...")
   dados_dom <- tryCatch(
-    censobr::read_tracts(year = 2022, dataset = "Domicilio01", showProgress = FALSE) |>
-      filter(str_starts(code_muni, COD_BH_7)),
+    censobr::read_tracts(year = 2022, dataset = "Domicilio", showProgress = FALSE) |>
+      filtrar_bh_censo(),
     error = function(e) {
-      message("  censobr::read_tracts('Domicilio01') falhou: ", conditionMessage(e))
+      message("  censobr::read_tracts('Domicilio') falhou: ", conditionMessage(e))
       NULL
     }
   )
 
   message("Baixando dados de Responsáveis (renda) via censobr...")
   dados_resp <- tryCatch(
-    censobr::read_tracts(year = 2022, dataset = "Responsavel", showProgress = FALSE) |>
-      filter(str_starts(code_muni, COD_BH_7)),
+    censobr::read_tracts(year = 2022, dataset = "ResponsavelRenda", showProgress = FALSE) |>
+      filtrar_bh_censo(),
     error = function(e) {
-      message("  censobr::read_tracts('Responsavel') falhou: ", conditionMessage(e))
+      message("  censobr::read_tracts('ResponsavelRenda') falhou: ", conditionMessage(e))
       NULL
     }
   )
@@ -620,12 +650,11 @@ if (file.exists(censo_path)) {
     #
     # Abaixo, tentamos detectar as colunas automaticamente:
 
-    col_pop   <- intersect(c("V001", "v001", "pop_total"), names(dados_basico))[1]
-    # Idosos ≥60: soma de faixas etárias; colunas variam — ajuste após inspeção
-    # Exemplo: V049 a V065 (grupos quinquenais de 60+) — verificar dicionário
-    cols_idosos   <- grep("^[Vv](04[9]|05[0-9]|06[0-5])$", names(dados_basico), value = TRUE)
-    # Crianças <5: V006 e V007 (0-1 e 1-4 anos) — verificar dicionário
-    cols_criancas <- grep("^[Vv](006|007)$", names(dados_basico), value = TRUE)
+    # Censo 2022 censobr: Basico tem V0001–V0007 (população por sexo/situação)
+    col_pop   <- intersect(c("V0001", "V001", "v001", "pop_total"), names(dados_basico))[1]
+    # Idade: Basico não tem faixas etárias (estão em dataset "Pessoa")
+    cols_idosos   <- character(0)
+    cols_criancas <- character(0)
 
     basico_proc <- dados_basico |>
       as_tibble() |>
@@ -638,6 +667,7 @@ if (file.exists(censo_path)) {
         pct_idosos   = ifelse(pop_total > 0, pop_idosos   / pop_total * 100, NA_real_),
         pct_criancas = ifelse(pop_total > 0, pop_criancas / pop_total * 100, NA_real_)
       ) |>
+      mutate(code_tract = as.character(code_tract)) |>
       select(code_tract, pop_total, pct_idosos, pct_criancas)
 
     # ── Saneamento (Domicilio01) ───────────────────────────────────────────
@@ -647,26 +677,23 @@ if (file.exists(censo_path)) {
     if (!is.null(dados_dom)) {
       message("  Colunas Domicilio01 (primeiras 20): ",
               paste(head(names(dados_dom), 20), collapse = ", "))
-      col_dom_tot     <- intersect(c("V001","v001","dom_total"), names(dados_dom))[1]
-      # Sem abastecimento adequado (ex.: V006 = outras formas de abastecimento)
-      col_sem_agua    <- grep("^[Vv]00[5-9]$|^[Vv]0[1-9][0-9]$",
-                               names(dados_dom), value = TRUE)[1]
-      col_sem_esgoto  <- grep("sem.*esgo|^[Vv]01[5-9]$",
-                               names(dados_dom), value = TRUE, ignore.case = TRUE)[1]
+      # Censo 2022 (censobr dicionário confirmado mai/2026):
+      #   domicilio01_V00001 = total DPP ocupados
+      #   domicilio02_V00111 = abastecimento via rede geral de distribuição
+      col_dom_tot  <- intersect(c("domicilio01_V00001","V001","v001","dom_total"), names(dados_dom))[1]
+      col_dom_rede <- intersect(c("domicilio02_V00111","domicilio01_V00002","V002","v002"), names(dados_dom))[1]
 
       dom_proc <- dados_dom |>
         as_tibble() |>
         mutate(
-          dom_total      = if (!is.na(col_dom_tot))    as.numeric(.data[[col_dom_tot]])    else NA_real_,
-          dom_sem_agua   = if (!is.na(col_sem_agua))   as.numeric(.data[[col_sem_agua]])   else NA_real_,
-          dom_sem_esgoto = if (!is.na(col_sem_esgoto)) as.numeric(.data[[col_sem_esgoto]]) else NA_real_,
-          pct_sem_saneam = ifelse(dom_total > 0,
-            rowMeans(cbind(
-              replace_na(dom_sem_agua,   0) / pmax(dom_total, 1),
-              replace_na(dom_sem_esgoto, 0) / pmax(dom_total, 1)
-            ), na.rm = TRUE) * 100,
+          dom_total     = if (!is.na(col_dom_tot))  as.numeric(.data[[col_dom_tot]])  else NA_real_,
+          dom_rede      = if (!is.na(col_dom_rede)) as.numeric(.data[[col_dom_rede]]) else NA_real_,
+          pct_sem_saneam = ifelse(
+            !is.na(dom_total) & dom_total > 0,
+            (dom_total - replace_na(dom_rede, 0)) / dom_total * 100,
             NA_real_)
         ) |>
+        mutate(code_tract = as.character(code_tract)) |>
         select(code_tract, pct_sem_saneam)
 
       basico_proc <- left_join(basico_proc, dom_proc, by = "code_tract")
@@ -680,12 +707,14 @@ if (file.exists(censo_path)) {
     if (!is.null(dados_resp)) {
       message("  Colunas Responsavel (primeiras 20): ",
               paste(head(names(dados_resp), 20), collapse = ", "))
-      col_renda <- intersect(c("V005", "v005", "renda_media", "renda_nom_med"), names(dados_resp))[1]
+      # Censo 2022: V06003=renda per capita em salários mínimos; V06004=renda média R$/domicílio
+      col_renda <- intersect(c("V06003","V06004","V005","v005","renda_media","renda_nom_med"), names(dados_resp))[1]
 
       if (!is.na(col_renda)) {
         renda_proc <- dados_resp |>
           as_tibble() |>
-          mutate(renda_media = suppressWarnings(as.numeric(.data[[col_renda]]))) |>
+          mutate(renda_media = suppressWarnings(as.numeric(.data[[col_renda]])),
+                 code_tract  = as.character(code_tract)) |>
           select(code_tract, renda_media)
         basico_proc <- left_join(basico_proc, renda_proc, by = "code_tract")
       } else {
@@ -705,6 +734,7 @@ if (file.exists(censo_path)) {
 
     # Centróides dos setores para join ponto × polígono (mais estável)
     centroides_sf <- geo_setores_wgs |>
+      mutate(code_tract = as.character(code_tract)) |>
       select(code_tract) |>
       st_centroid() |>
       left_join(basico_proc, by = "code_tract")
@@ -764,14 +794,102 @@ message("========================================")
 
 favelas_path <- file.path(DIR_REF, "favelas_cs_bh.csv")
 
+# Invalida cache antigo que tenha todos NA
+if (file.exists(favelas_path)) {
+  favelas_chk <- read_csv(favelas_path, show_col_types = FALSE)
+  if (all(is.na(favelas_chk$pct_area_favela))) {
+    message("Cache inválido (todos NA). Regenerando...")
+    file.remove(favelas_path)
+  }
+}
+
 if (file.exists(favelas_path)) {
   message("Cache encontrado. Carregando: ", favelas_path)
   favelas_cs <- read_csv(favelas_path, show_col_types = FALSE)
 
 } else {
 
-  message("Baixando polígonos de Aglomerados Subnormais via geobr...")
+  # Usa code_favela dos setores censitários do censobr (já baixados na Seção 3)
+  # Evita download adicional do shapefile AGSN
+  message("Calculando pct_area_favela via setores censitários (code_favela/code_type)...")
 
+  favelas_cs <- tryCatch({
+    # Identifica setores de favela via censobr Basico (code_favela != NA)
+    cod_bh_num_fav <- as.numeric(COD_BH_7)
+    basico_fav <- censobr::read_tracts(year = 2022, dataset = "Basico",
+                                       showProgress = FALSE) |>
+      filter(code_muni == cod_bh_num_fav) |>
+      collect() |>
+      as_tibble() |>
+      mutate(
+        code_tract = as.character(code_tract),
+        is_favela  = !is.na(code_favela)
+      ) |>
+      select(code_tract, is_favela)
+
+    # Geometria dos setores (carregada da Seção 3)
+    geo_fav <- geobr::read_census_tract(code_tract = as.numeric(COD_BH_7),
+                                         year = 2022, showProgress = FALSE) |>
+      mutate(code_tract = as.character(code_tract)) |>
+      select(code_tract) |>
+      left_join(basico_fav, by = "code_tract")
+
+    # Polígonos CS
+    pol_utm <- st_read(file.path(DIR_REF, "areas_abrangencia_cs.geojson"),
+                       quiet = TRUE) |>
+      st_transform(31983)
+
+    geo_fav_utm <- st_transform(geo_fav, 31983)
+
+    # Área total de cada CS
+    area_total_cs <- pol_utm |>
+      mutate(area_cs_m2 = as.numeric(st_area(geometry))) |>
+      st_drop_geometry() |>
+      select(nome_cs, area_cs_m2)
+
+    # Setores classificados como favela
+    fav_sf <- geo_fav_utm |> filter(is_favela == TRUE)
+    message("  Setores censitários de favela em BH: ", nrow(fav_sf))
+
+    if (nrow(fav_sf) > 0) {
+      # Interseção setor-favela × CS
+      intersec_fav <- suppressWarnings(
+        st_intersection(pol_utm |> select(nome_cs), st_union(fav_sf))
+      )
+      area_fav_cs <- intersec_fav |>
+        mutate(area_favela_m2 = as.numeric(st_area(geometry))) |>
+        st_drop_geometry() |>
+        group_by(nome_cs) |>
+        summarise(area_favela_m2 = sum(area_favela_m2, na.rm = TRUE), .groups = "drop")
+
+      result <- area_total_cs |>
+        left_join(area_fav_cs, by = "nome_cs") |>
+        mutate(
+          area_favela_m2  = replace_na(area_favela_m2, 0),
+          pct_area_favela = round(area_favela_m2 / area_cs_m2 * 100, 2),
+          fonte_favelas   = "IBGE_Censo2022_code_favela",
+          data_extracao_favelas = format(Sys.Date())
+        ) |>
+        select(nome_cs, pct_area_favela, fonte_favelas, data_extracao_favelas)
+
+      write_csv(result, favelas_path)
+      message("  pct_area_favela calculado para ", nrow(result), " CS.")
+      result
+    } else {
+      tibble(nome_cs = pol_utm$nome_cs, pct_area_favela = 0,
+             fonte_favelas = "IBGE_Censo2022_zero", data_extracao_favelas = format(Sys.Date()))
+    }
+  }, error = function(e) {
+    message("  Falhou: ", conditionMessage(e))
+    poligonos_ref_fav <- st_read(file.path(DIR_REF, "areas_abrangencia_cs.geojson"),
+                                  quiet = TRUE)
+    tibble(nome_cs = poligonos_ref_fav$nome_cs, pct_area_favela = NA_real_,
+           fonte_favelas = "indisponivel", data_extracao_favelas = format(Sys.Date()))
+  })
+
+  # (bloco AGSN antigo removido — usando code_favela do Censo 2022)
+  agsn <- NULL
+  if (FALSE) {
   # geobr::read_urban_area() ou download direto do geoftp.ibge.gov.br
   agsn <- tryCatch({
     # Tenta geobr primeiro (função pode variar conforme versão)
@@ -788,10 +906,11 @@ if (file.exists(favelas_path)) {
   if (is.null(agsn)) {
     # Fallback: download direto do FTP IBGE (Aglomerados Subnormais 2022)
     message("  geobr indisponível. Tentando FTP IBGE diretamente...")
+    # URL correta (verificada em mai/2026) — estrutura do geoftp mudou
     url_agsn <- paste0(
       "https://geoftp.ibge.gov.br/organizacao_do_territorio/",
-      "estrutura_territorial/aglomerados_subnormais/",
-      "agsn2022/aglomerados_subnormais_poligonos_2022.zip"
+      "estrutura_territorial/aglomerados_subnormais/agsn2022/",
+      "Aglomerados_Subnormais_2022.zip"
     )
     dest_zip <- file.path(DIR_RAW, "agsn2022.zip")
     tryCatch({
@@ -805,78 +924,7 @@ if (file.exists(favelas_path)) {
     }, error = function(e) message("  FTP IBGE falhou: ", conditionMessage(e)))
   }
 
-  poligonos_load <- st_read(file.path(DIR_REF, "areas_abrangencia_cs.geojson"), quiet = TRUE)
-
-  if (!is.null(agsn) && nrow(agsn) > 0) {
-    # Filtra BH
-    col_mun_agsn <- grep("muni|ibge|cod.*mun|co_mun", names(agsn),
-                          ignore.case = TRUE, value = TRUE)[1]
-    agsn_bh <- if (!is.na(col_mun_agsn)) {
-      filter(agsn, str_starts(as.character(.data[[col_mun_agsn]]), str_sub(COD_BH_7, 1, 6)))
-    } else {
-      # Intersecção com bounding box de BH como fallback
-      bbox_bh <- st_bbox(st_transform(poligonos_load, st_crs(agsn)))
-      st_crop(agsn, bbox_bh)
-    }
-
-    message("  Aglomerados subnormais em BH: ", nrow(agsn_bh), " polígonos")
-
-    if (nrow(agsn_bh) > 0) {
-      # Projeção métrica para cálculo de área
-      agsn_utm      <- st_transform(agsn_bh,      31983)  # SIRGAS 2000 UTM 23S
-      poligonos_utm <- st_transform(poligonos_load, 31983)
-
-      area_total_cs <- poligonos_utm |>
-        mutate(area_cs_m2 = as.numeric(st_area(geometry))) |>
-        st_drop_geometry() |>
-        select(nome_cs, area_cs_m2)
-
-      # Interseção: área de favela dentro de cada CS
-      # Usa suppressWarnings para mensagens de geometria inválida
-      intersec <- suppressWarnings(
-        st_intersection(
-          poligonos_utm |> select(nome_cs),
-          st_union(agsn_utm)
-        )
-      )
-
-      area_favela_cs <- intersec |>
-        mutate(area_favela_m2 = as.numeric(st_area(geometry))) |>
-        st_drop_geometry() |>
-        group_by(nome_cs) |>
-        summarise(area_favela_m2 = sum(area_favela_m2, na.rm = TRUE), .groups = "drop")
-
-      favelas_cs <- area_total_cs |>
-        left_join(area_favela_cs, by = "nome_cs") |>
-        mutate(
-          area_favela_m2  = replace_na(area_favela_m2, 0),
-          pct_area_favela = round(area_favela_m2 / area_cs_m2 * 100, 2),
-          fonte_favelas   = "IBGE_AGSN2022",
-          data_extracao_favelas = format(Sys.Date())
-        ) |>
-        select(nome_cs, pct_area_favela, area_favela_m2, area_cs_m2,
-               fonte_favelas, data_extracao_favelas)
-
-      write_csv(favelas_cs, favelas_path)
-      message("  Favelas processadas: ", nrow(favelas_cs), " CS.")
-
-    } else {
-      message("  Nenhum aglomerado subnormal encontrado para BH.")
-      favelas_cs <- tibble(
-        nome_cs = poligonos_load$nome_cs, pct_area_favela = 0,
-        fonte_favelas = "IBGE_AGSN2022_zero", data_extracao_favelas = format(Sys.Date())
-      )
-      write_csv(favelas_cs, favelas_path)
-    }
-
-  } else {
-    message("  Aglomerados subnormais não disponíveis. pct_area_favela = NA.")
-    favelas_cs <- tibble(
-      nome_cs = poligonos_load$nome_cs, pct_area_favela = NA_real_,
-      fonte_favelas = "IBGE_AGSN2022_indisponivel", data_extracao_favelas = format(Sys.Date())
-    )
-    write_csv(favelas_cs, favelas_path)
-  }
+  } # fim if(FALSE) — bloco AGSN legacy removido
 }
 
 # =============================================================================
@@ -910,11 +958,21 @@ message("Grade base: ", nrow(grade), " linhas (",
         n_distinct(grade$competencia), " competências)")
 
 # ── Junta CNES (mensal) ──────────────────────────────────────────────────────
+# Agrega por CS × competência (soma equipes de múltiplos CNES dentro do mesmo CS)
 if ("nome_cs" %in% names(cnes_bh)) {
+  vars_soma <- intersect(c("n_esf", "n_emulti", "n_esb", "n_medicos",
+                            "n_mfc", "n_acs", "ch_medica_total"),
+                          names(cnes_bh))
   cnes_join <- cnes_bh |>
-    select(nome_cs, competencia,
-           any_of(c("n_esf", "n_emulti", "n_esb", "n_medicos", "n_mfc",
-                    "n_acs", "ch_medica_total", "pct_mfc")))
+    filter(!is.na(nome_cs)) |>
+    select(nome_cs, competencia, all_of(vars_soma)) |>
+    group_by(nome_cs, competencia) |>
+    summarise(across(all_of(vars_soma), ~sum(.x, na.rm = TRUE)),
+              .groups = "drop") |>
+    mutate(pct_mfc = ifelse(
+      "n_medicos" %in% vars_soma & n_medicos > 0,
+      round(n_mfc / n_medicos * 100, 1), NA_real_
+    ))
   grade <- left_join(grade, cnes_join, by = c("nome_cs", "competencia"))
 }
 
