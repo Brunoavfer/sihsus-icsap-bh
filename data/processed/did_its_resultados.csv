@@ -1,0 +1,6 @@
+capital,apc_pre_bh,nivel_bh_pct,p_nivel_bh,apc_pos_bh,p_slope_bh,did_nivel,did_nivel_pct,did_nivel_ic_inf,did_nivel_ic_sup,p_did_nivel,did_slope,did_slope_ic_inf,did_slope_ic_sup,p_did_slope,apc_pos_ctrl
+Belo Horizonte (referência),6.2,0.8,0.859,-7.1,0.0027,0,0,0,0,NA,0,0,0,NA,-7.1
+Curitiba,6.2,0.8,0.859,-7.1,0.0027,0.06763,7,-5.2,20.8,0.2735,7.8e-4,-0.00714,0.00869,0.8477,-6.2
+Fortaleza,6.2,0.8,0.859,-7.1,0.0027,-0.00873,-0.9,-12.2,11.9,0.8877,0.00155,-0.00636,0.00946,0.7008,-5.3
+Rio de Janeiro,6.2,0.8,0.859,-7.1,0.0027,-0.10889,-10.3,-20.5,1.2,0.0779,0.00416,-0.00375,0.012070000000000001,0.3027,-2.3
+São Paulo,6.2,0.8,0.859,-7.1,0.0027,0.01351,1.4,-10.2,14.4,0.8269,-0.0016,-0.00951,0.00631,0.6915,-8.8
