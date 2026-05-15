@@ -128,11 +128,12 @@ message("CS na tabela final: ", n_cs_total)
 resumo_continua <- function(x, digits = 1) {
   x <- x[!is.na(x)]
   if (length(x) == 0) return(rep(NA_real_, 6))
+  # unname() evita que quantile() crie nomes compostos (ex. "p25.25%")
   c(
     media   = round(mean(x), digits),
     mediana = round(median(x), digits),
-    p25     = round(quantile(x, 0.25), digits),
-    p75     = round(quantile(x, 0.75), digits),
+    p25     = round(unname(quantile(x, 0.25)), digits),
+    p75     = round(unname(quantile(x, 0.75)), digits),
     minimo  = round(min(x), digits),
     maximo  = round(max(x), digits)
   )
@@ -140,6 +141,7 @@ resumo_continua <- function(x, digits = 1) {
 
 fmt_mediana_iqr <- function(x, digits = 1) {
   r <- resumo_continua(x, digits)
+  if (anyNA(r[c("mediana", "p25", "p75")])) return(NA_character_)
   sprintf("%.*f [%.*f–%.*f]", digits, r["mediana"], digits, r["p25"], digits, r["p75"])
 }
 
@@ -264,14 +266,14 @@ message("\nTabela salva: docs/tabela1.csv")
 # 7. HTML formatado (gt)
 # =============================================================================
 
+# n_niveis calculado aqui para ficar disponível também na seção 8
+n_niveis <- sapply(niveis_ivs, function(niv)
+  sum(cs_completo$ivs_predominante == niv, na.rm = TRUE))
+
 if (requireNamespace("gt", quietly = TRUE)) {
   library(gt)
 
-  # Cabeçalho N por estrato
-  n_total  <- n_cs_total
-  n_niveis <- sapply(niveis_ivs, function(niv)
-    sum(cs_completo$ivs_predominante == niv, na.rm = TRUE))
-
+  n_total <- n_cs_total
   colnames_gt <- c(
     "Variável",
     sprintf("Total\n(N=%d)", n_total),
