@@ -46,7 +46,7 @@
 | **11** | **Variáveis quantitativas:** Explicar como variáveis quantitativas foram tratadas (categorização, pontos de corte) | ⚠️ Parcial | IVS: contínuo e categorizado em tertis; cobertura ESF: contínua; categorização detalhada pendente |
 | **12a** | **Métodos estatísticos:** Descrever todos os métodos estatísticos, incluindo os usados para controlar confundimento | ✅ Atendido | GLM-Gama (link log) + joinpoint regression + GEE para autocorrelação; detalhado no protocolo |
 | **12b** | Descrever métodos para análise de subgrupos e interações | ⚠️ Parcial | Estratificação por regional planejada; análise de interação ESF × IVS a definir |
-| **12c** | Explicar como foram tratados os dados faltantes | ⚠️ Parcial | CEPs não geocodificados excluídos; análise de padrão de missingness (MCAR/MAR) pendente |
+| **12c** | Explicar como foram tratados os dados faltantes | ✅ Atendido | CEPs não geocodificados excluídos; análise de padrão de missingness implementada em `R/06_analise_missing.R` — comparação COM vs SEM regional em idade, sexo, condição ICSAP, valor, dias de permanência e distribuição temporal |
 | **12d** | *Para estudos de coorte:* Abordar perda de seguimento | ✅ Atendido | Não aplicável (dados administrativos secundários) |
 | **12e** | Descrever análises de sensibilidade | ✅ Atendido | 4 modelos de sensibilidade descritos no protocolo |
 
@@ -99,7 +99,7 @@ Os seguintes aspectos adicionais são recomendados para estudos ecológicos na l
 | **E3** | Avaliar viés de confusão ecológico (*cross-level confounding*) | ⚠️ Parcial | IVS como proxy; outros confundidores ecológicos a avaliar |
 | **E4** | Descrever a variabilidade entre unidades ecológicas como informação substantiva | ❌ Pendente | Análise de variância entre CS e entre regionais |
 | **E5** | Considerar o problema de *modifiable areal unit problem* (MAUP) | ⚠️ Parcial | Área de abrangência dos CS é unidade definida institucionalmente, reduzindo arbitrariedade |
-| **E6** | Abordar a correlação espacial entre unidades adjacentes | ⚠️ Parcial | GEE com cluster por regional planejado; autocorrelação espacial (Moran's I) a considerar |
+| **E6** | Abordar a correlação espacial entre unidades adjacentes | ✅ Atendido | Moran's I global e LISA (queen contiguity) implementados em `R/08_autocorrelacao_espacial.R`; resultado orienta decisão sobre lag espacial no GLM-Gama |
 
 ---
 
@@ -109,11 +109,11 @@ Os seguintes aspectos adicionais são recomendados para estudos ecológicos na l
 |-------|---------------|------------|-----------|------------|
 | Título e Resumo | 2 | 0 | 1 | 1 |
 | Introdução | 2 | 1 | 1 | 0 |
-| Métodos | 12 | 6 | 5 | 1 |
+| Métodos | 12 | 7 | 4 | 1 |
 | Resultados | 9 | 1 | 1 | 7 |
 | Discussão | 4 | 1 | 0 | 3 |
 | Outras Informações | 1 | 0 | 1 | 0 |
-| **Itens ecológicos** | **6** | **2** | **3** | **1** |
-| **TOTAL** | **36** | **11 (31%)** | **12 (33%)** | **13 (36%)** |
+| **Itens ecológicos** | **6** | **3** | **2** | **1** |
+| **TOTAL** | **36** | **13 (36%)** | **10 (28%)** | **13 (36%)** |
 
-**Interpretação:** Os 31% atendidos cobrem a infraestrutura metodológica (desenho, variáveis, fontes, métodos estatísticos). Os 36% pendentes concentram-se em resultados e discussão — esperados nesta etapa de protocolo. A prioridade imediata é a coleta das variáveis independentes (CNES, e-Gestor, IVS) para viabilizar as análises e migrar os itens de Resultados de ❌ para ✅.
+**Interpretação:** Os 36% atendidos cobrem a infraestrutura metodológica completa (desenho, variáveis, fontes, métodos estatísticos, análise de missing e autocorrelação espacial). A implementação dos scripts 06, 07 e 08 migrou dois itens de ⚠️ Parcial para ✅ Atendido (12c e E6). Os 36% pendentes concentram-se em resultados e discussão — esperados nesta etapa de protocolo. A prioridade imediata é executar as análises estatísticas (GLM-Gama, joinpoint) para migrar os itens de Resultados de ❌ para ✅.

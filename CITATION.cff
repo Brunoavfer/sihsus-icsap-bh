@@ -1,0 +1,79 @@
+cff-version: 1.2.0
+message: "Se você usar este software ou conjunto de dados, por favor cite conforme abaixo."
+
+title: "Painel ICSAP-BH: Internações por Condições Sensíveis à Atenção Primária em Belo Horizonte"
+title-en: "ICSAP-BH Dashboard: Hospitalizations for Ambulatory Care-Sensitive Conditions in Belo Horizonte"
+
+version: 1.0.0
+date-released: 2026-05-13
+license: MIT
+type: software
+
+authors:
+  - family-names: Ávila Ferreira
+    given-names: Bruno
+    alias: Brunoavfer
+    orcid: ""
+    affiliation: ""
+    website: "https://github.com/Brunoavfer"
+
+repository-code: "https://github.com/Brunoavfer/sihsus-icsap-bh"
+url: "https://brunoavfer.github.io/sihsus-icsap-bh/"
+doi: ""
+
+abstract: >
+  Painel interativo Shiny e pipeline de dados em R para monitoramento das
+  Internações por Condições Sensíveis à Atenção Primária (ICSAP) no município
+  de Belo Horizonte, desagregadas por regional administrativa e Centro de Saúde.
+  Inclui geocodificação de CEPs via múltiplas APIs (ViaCEP, Nominatim, BrasilAPI,
+  Photon), cruzamento espacial ponto × polígono com as áreas de abrangência
+  oficiais da SMSA/BH, coleta de variáveis independentes (CNES, e-Gestor AB,
+  Censo IBGE 2022, Aglomerados Subnormais) e análises para estudo ecológico
+  longitudinal (padronização direta, autocorrelação espacial de Moran).
+
+keywords:
+  - ICSAP
+  - ACSC
+  - ambulatory care sensitive conditions
+  - primary health care
+  - atenção primária à saúde
+  - Belo Horizonte
+  - open data
+  - dados abertos
+  - SUS
+  - Brazil
+  - public health
+  - saúde pública
+  - geocoding
+  - geocodificação
+  - Shiny
+  - R
+  - ecological study
+  - estudo ecológico
+  - DATASUS
+
+references:
+  - type: data
+    title: "Sistema de Informações Hospitalares do SUS (SIHSUS)"
+    authors:
+      - name: "Ministério da Saúde — DATASUS"
+    url: "https://datasus.saude.gov.br/transferencia-de-arquivos/"
+    year: 2026
+    notes: "Arquivo RD (Reduzida de Morbidade Hospitalar) — série RDMG, competências jan/2023 a mar/2026"
+
+  - type: data
+    title: "Polígonos de Área de Abrangência dos Centros de Saúde de Belo Horizonte"
+    authors:
+      - name: "Secretaria Municipal de Saúde de Belo Horizonte (SMSA/PBH)"
+    url: "https://dados.pbh.gov.br/"
+    year: 2024
+    license: "CC-BY 4.0"
+    notes: "Polígonos oficiais das 153 áreas de abrangência dos Centros de Saúde municipais"
+
+  - type: data
+    title: "Censo Demográfico 2022"
+    authors:
+      - name: "Instituto Brasileiro de Geografia e Estatística (IBGE)"
+    url: "https://www.ibge.gov.br/estatisticas/sociais/populacao/22827-censo-demografico-2022.html"
+    year: 2023
+    notes: "Dados de setores censitários: população, renda, saneamento e estrutura etária"

@@ -464,28 +464,56 @@ if (file.exists(cobertura_xlsx)) {
     error = function(e) { message("  Erro ao ler Excel: ", conditionMessage(e)); NULL }
   )
   if (!is.null(egestor_raw)) {
-    names(egestor_raw) <- tolower(str_replace_all(names(egestor_raw), "[^a-z0-9]", "_"))
-    # Renomeia colunas pelo padrão mais comum do e-Gestor (ajustar se necessário)
-    col_comp <- grep("compet",              names(egestor_raw), value = TRUE)[1]
-    col_cob  <- grep("cob|perc|cobert",     names(egestor_raw), value = TRUE)[1]
-    col_pop  <- grep("pop.*ref|populac",    names(egestor_raw), value = TRUE)[1]
-    col_eq   <- grep("equip.*fin|n.*equip", names(egestor_raw), value = TRUE)[1]
+    # Normaliza nomes de colunas: remove acentos, converte para minúsculo,
+    # substitui não-alfanuméricos por "_"
+    # Colunas confirmadas no arquivo (38 linhas, jan/2023–fev/2026):
+    #   "Comp. CNES", "Região", "UF", "Estado", "Região de Saúde", "Município",
+    #   "População", "Qt. eSF", "Qt. eAP 20hs", "Qt. eAP 30hs", "Qt. eCR",
+    #   "Qt. Cadastro eCR", "Qt. eAPP 20hs", "Qt. Cadastro eAPP 20hs",
+    #   "Qt. eAPP 30hs", "Qt. Cadastro eAPP 30hs", "Qt. eSFR",
+    #   "Qt. Cadastro eSFR", "Qt. cadastros das eCR e eAPP",
+    #   "Qt. capacidade da equipe", "Cobertura APS"
+    names(egestor_raw) <- names(egestor_raw) |>
+      iconv(to = "ASCII//TRANSLIT") |>
+      tolower() |>
+      str_replace_all("[^a-z0-9]+", "_") |>
+      str_remove("^_|_$")
+    # Após normalização, os nomes esperados são:
+    #   comp_cnes, regiao, uf, estado, regiao_de_saude, municipio,
+    #   populacao, qt_esf, qt_eap_20hs, qt_eap_30hs, qt_ecr,
+    #   qt_cadastro_ecr, qt_eapp_20hs, qt_cadastro_eapp_20hs,
+    #   qt_eapp_30hs, qt_cadastro_eapp_30hs, qt_esfr,
+    #   qt_cadastro_esfr, qt_cadastros_das_ecr_e_eapp,
+    #   qt_capacidade_da_equipe, cobertura_aps
+    message("  Colunas normalizadas: ", paste(names(egestor_raw), collapse = ", "))
 
     egestor_bh <- egestor_raw |>
       mutate(
+        # "Comp. CNES": formato "MM/YYYY" → competencia "AAMM" e Date
         competencia = str_replace(
-          as.character(if (!is.na(col_comp)) .data[[col_comp]] else ""),
-          "(\\d{2})/(20)(\\d{2})", "\\3\\1"  # MM/AAAA → AAMM
+          as.character(comp_cnes),
+          "^(\\d{2})/(20)(\\d{2})$", "\\3\\1"
         ),
-        cobertura_aps_pct     = if (!is.na(col_cob)) as.numeric(.data[[col_cob]]) else NA_real_,
-        populacao_referencia  = if (!is.na(col_pop)) as.numeric(.data[[col_pop]]) else NA_real_,
-        n_equipes_financiadas = if (!is.na(col_eq))  as.numeric(.data[[col_eq]])  else NA_real_,
+        data_competencia = as.Date(
+          paste0("01/", as.character(comp_cnes)), format = "%d/%m/%Y"
+        ),
+        # "Cobertura APS": formato "92,20%" → numérico 92.20
+        cobertura_aps_pct = as.numeric(
+          str_replace_all(str_remove(cobertura_aps, "%"), ",", ".")
+        ),
+        # "Qt. eSF": número de equipes ESF
+        n_esf_egestor         = suppressWarnings(as.numeric(qt_esf)),
+        # "População": população de referência usada pelo e-Gestor
+        populacao_referencia  = suppressWarnings(as.numeric(populacao)),
+        # "Qt. capacidade da equipe": capacidade total cadastrada
+        qt_capacidade_equipe  = suppressWarnings(as.numeric(qt_capacidade_da_equipe)),
         fonte_egestor         = "eGestor_manual",
         data_extracao_egestor = format(Sys.Date())
       ) |>
-      select(competencia, cobertura_aps_pct, populacao_referencia,
-             n_equipes_financiadas, fonte_egestor, data_extracao_egestor) |>
-      filter(!is.na(competencia), competencia != "")
+      select(competencia, data_competencia, cobertura_aps_pct, populacao_referencia,
+             n_esf_egestor, qt_capacidade_equipe,
+             fonte_egestor, data_extracao_egestor) |>
+      filter(!is.na(competencia), competencia != "", str_length(competencia) == 4)
 
     write_csv(egestor_bh, cobertura_csv)
     message("  e-Gestor carregado: ", nrow(egestor_bh), " competências.")
@@ -893,9 +921,11 @@ if ("nome_cs" %in% names(cnes_bh)) {
 # ── Junta e-Gestor (mensal, nível municipal) ─────────────────────────────────
 if (!is.null(egestor_bh) && "competencia" %in% names(egestor_bh)) {
   grade <- left_join(grade,
-    egestor_bh |> select(competencia, cobertura_aps_pct,
-                          populacao_referencia, n_equipes_financiadas,
-                          any_of(c("fonte_egestor", "data_extracao_egestor"))),
+    egestor_bh |> select(competencia,
+                          any_of("data_competencia"),
+                          cobertura_aps_pct, populacao_referencia,
+                          any_of(c("n_esf_egestor", "qt_capacidade_equipe",
+                                   "fonte_egestor", "data_extracao_egestor"))),
     by = "competencia"
   )
 }

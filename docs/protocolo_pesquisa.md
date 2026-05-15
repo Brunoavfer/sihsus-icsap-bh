@@ -222,3 +222,118 @@ Onde:
 | Redação do manuscrito | Nov/2026 |
 | Revisão por pares interno (co-autores) | Dez/2026 |
 | Submissão | Jan/2027 |
+
+---
+
+## Análise de Sensibilidade — CEPs Não Identificados
+
+Aproximadamente 14% dos registros ICSAP não foram alocados a nenhum CS após o pipeline de geocodificação (scripts 03 e 04). Para avaliar se essa exclusão introduz viés nas estimativas, o script `R/06_analise_missing.R` compara sistematicamente os registros **com** e **sem** regional identificada.
+
+### Variáveis comparadas e testes aplicados
+
+| Variável | Teste | Hipótese de interesse |
+|---|---|---|
+| Idade (anos) | Mann-Whitney U | Registros não geocodificados são de pacientes mais velhos/jovens? |
+| Sexo | Qui-quadrado | Há diferença na proporção de homens/mulheres? |
+| Condição ICSAP (grupo diagnóstico) | Qui-quadrado | Alguma condição clínica concentra os missing? |
+| Distribuição por ano | Qui-quadrado | O missingness se concentra em períodos específicos? |
+| Valor da internação (R$) | Mann-Whitney U | Internações mais complexas (caras) são mais/menos geocodificadas? |
+| Dias de permanência | Mann-Whitney U | Internações mais longas têm padrão diferente de geocodificação? |
+
+### Classificação do padrão de missingness
+
+- **MCAR** (Missing Completely at Random): nenhuma diferença significativa em qualquer variável → exclusão sem viés relevante.
+- **MAR** (Missing at Random): diferenças em ≤ 2 variáveis → limitação moderada; reportar como limitação.
+- **MNAR** (Missing Not at Random): diferenças em ≥ 3 variáveis → limitação substantiva; considerar análise de sensibilidade com CS com cobertura ≥ 85%.
+
+**Saídas:** `data/processed/tabela_missing.csv` e `data/processed/conclusao_missing.txt`
+
+**Referência:** Sterne JAC et al. Multiple imputation for missing data in epidemiological and clinical research. *BMJ*. 2009;338:b2393. doi:10.1136/bmj.b2393
+
+---
+
+## Padronização da Taxa ICSAP
+
+### Justificativa
+
+As áreas de abrangência dos CS diferem substancialmente na composição etária e de sexo de sua população adscrita. A comparação de taxas brutas entre CS com perfis populacionais distintos pode ser enganosa, pois ICSAP são sabidamente mais frequentes em idosos (doenças crônicas) e em crianças menores de 5 anos (condições respiratórias e gastroenterite). A padronização direta remove esse viés de composição e torna os CS comparáveis.
+
+### Método: Padronização Direta (Ahmad et al., 2001)
+
+O script `R/07_padronizacao_taxa.R` implementa a padronização direta conforme o método padrão da OMS:
+
+$$\text{Taxa}_{\text{pad}} = \frac{\displaystyle\sum_{j} \frac{n_{ij}}{P_{ij}} \cdot P^*_j}{\displaystyle\sum_{j} P^*_j} \times 10.000$$
+
+Onde:
+- $n_{ij}$ = número de internações ICSAP no CS $i$, faixa $j$
+- $P_{ij}$ = população do CS $i$ na faixa $j$ (Censo IBGE 2022 × proporção de BH)
+- $P^*_j$ = população-padrão na faixa $j$ (distribuição etária e de sexo de BH, Censo 2022)
+- Unidade: por 10.000 habitantes por área de abrangência por ano
+
+### Faixas etárias (padrão RIPSA)
+
+`<5 · 5–14 · 15–29 · 30–44 · 45–59 · 60–74 · 75+` (7 grupos) × 2 sexos = 14 estratos
+
+### Diagnóstico: inversão de ranking
+
+O script identifica CS onde a padronização inverte o ranking de taxa (variação ≥ 20 posições). CS onde isso ocorre são aqueles com composição etária muito diferente da média municipal — especialmente relevante para a discussão sobre desigualdades intramunicipais.
+
+**Saída:** `data/processed/taxas_padronizadas.csv`
+
+**Referência:** Ahmad OB, Boschi-Pinto C, Lopez AD, Murray CJL, Lozano R, Inoue M. Age standardization of rates: a new WHO standard. GPE Discussion Paper Series No. 31. Geneva: World Health Organization; 2001.
+
+---
+
+## Análise de Autocorrelação Espacial
+
+### Justificativa
+
+Em estudos ecológicos com unidades geográficas adjacentes (como áreas de abrangência de CS), os resíduos do modelo tendem a ser espacialmente correlacionados — CS vizinhos compartilham características socioeconômicas, acesso a serviços e histórico de adoecimento. Essa autocorrelação viola o pressuposto de independência dos erros do GLM padrão e pode inflar os coeficientes ou os intervalos de confiança.
+
+O **Índice de Moran's I** (Moran, 1950) e os **LISA** — Local Indicators of Spatial Association (Anselin, 1995) — são as ferramentas padrão para detectar e caracterizar esse padrão.
+
+### Método implementado (script `R/08_autocorrelacao_espacial.R`)
+
+**Matriz de vizinhança:** Queen contiguity (pacote `spdep`) — dois CS são vizinhos se compartilharem pelo menos um ponto de fronteira.
+
+**Moran's I global:**
+
+$$I = \frac{n}{\sum_{i}\sum_{j} w_{ij}} \cdot \frac{\sum_{i}\sum_{j} w_{ij}(x_i - \bar{x})(x_j - \bar{x})}{\sum_{i}(x_i - \bar{x})^2}$$
+
+Onde $w_{ij}$ = peso espacial entre CS $i$ e CS $j$ (1 se vizinhos, 0 caso contrário), $x_i$ = taxa ICSAP padronizada do CS $i$.
+
+**Moran's I local (LISA):** Classifica cada CS em:
+
+| Quadrante | Interpretação |
+|---|---|
+| **High-High** | CS com alta taxa rodeado de CS com alta taxa — cluster de risco elevado |
+| **Low-Low** | CS com baixa taxa rodeado de CS com baixa taxa — cluster de bom desempenho |
+| **High-Low** | CS com alta taxa rodeado de CS com baixa taxa — outlier isolado de alto risco |
+| **Low-High** | CS com baixa taxa rodeado de CS com alta taxa — outlier isolado de bom desempenho |
+| **Not Significant** | Sem padrão espacial significativo (p ≥ 0,05) |
+
+### Decisão metodológica sobre o modelo
+
+| Resultado do Moran's I | Decisão |
+|---|---|
+| $I > 0$ e $p < 0{,}05$ | Considerar modelo SAR, CAR ou GEE com estrutura espacial |
+| $I \approx 0$ ou $p \geq 0{,}05$ | GLM-Gama padrão (sem lag espacial) é adequado |
+
+**Saídas:** `data/processed/moran_resultados.csv` e `docs/mapa_lisa.png`
+
+**Referências:**
+- Anselin L. Local indicators of spatial association — LISA. *Geographical Analysis*. 1995;27(2):93–115. doi:10.1111/j.1538-4632.1995.tb00338.x
+- Moran PAP. Notes on continuous stochastic phenomena. *Biometrika*. 1950;37(1/2):17–23. doi:10.2307/2332142
+
+---
+
+## Atualização do Checklist STROBE
+
+Com a implementação dos scripts 06, 07 e 08, os seguintes itens do Checklist STROBE foram atualizados:
+
+| Item STROBE | Descrição | Status anterior | Status atual |
+|---|---|---|---|
+| **12c** | Tratamento dos dados faltantes | ⚠️ Parcial | ✅ Atendido |
+| **E6** | Correlação espacial entre unidades adjacentes | ⚠️ Parcial | ✅ Atendido |
+
+Consulte `docs/checklist_strobe.md` para o checklist completo atualizado.
