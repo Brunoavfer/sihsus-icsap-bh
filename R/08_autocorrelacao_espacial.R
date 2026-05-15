@@ -30,11 +30,14 @@
 suppressPackageStartupMessages({
   library(dplyr)
   library(readr)
+  library(stringr)
   library(sf)
   library(ggplot2)
 })
 
-if (!requireNamespace("spdep", quietly = TRUE)) install.packages("spdep")
+if (!requireNamespace("spdep", quietly = TRUE)) {
+  install.packages("spdep", repos = "https://cloud.r-project.org")
+}
 library(spdep)
 
 DIR_PROC <- "data/processed"
@@ -87,7 +90,7 @@ message("CS com taxa média disponível: ", nrow(taxa_media))
 # =============================================================================
 
 sf_dados <- poligonos %>%
-  left_join(taxa_media, by = "nome_cs") %>%
+  left_join(taxa_media %>% select(-any_of("regional")), by = "nome_cs") %>%
   filter(!is.na(taxa_padronizada_media))
 
 n_cs <- nrow(sf_dados)
