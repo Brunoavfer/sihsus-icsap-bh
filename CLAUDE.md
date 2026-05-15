@@ -261,14 +261,17 @@ O filtro de CS é dependente do filtro de regional — ao selecionar uma regiona
 - ✅ **Script 16** — Tabela 1 dos 153 CS (concluído)
   - Distribuição por regional, IVS, variáveis contínuas (mediana [IQR]), estratificado por IVS
   - Saída: `docs/tabela1.csv`, `docs/tabela1_formatada.html`
-- 🔄 **Script 17** — DiD-ITS formal: BH × 4 capitais (script criado; aguarda execução)
+- ✅ **Script 17** — DiD-ITS formal: BH × 4 capitais (concluído)
   - GLS pooled com interação capital×tempo_pos; θ_k = slope change controle − slope change BH
-  - θ_k > 0 → BH desacelerou MAIS (efeito específico) | θ_k < 0 → tendência nacional
-  - Saída prevista: `did_its_resultados.csv`, `docs/did_its.png`
-- 🔄 **Script 18** — ITS × IVS: interação ivs_z:tempo_pos (script criado; aguarda execução)
+  - **Nenhum θ_slope significativo** — efeito da Portaria 3.493/2024 é **nacional**, não específico de BH
+  - BH APC pós = **-7,1%/ano**; capitais controle com desaceleração similar (θ_k NS)
+  - Saída: `did_its_resultados.csv`, `docs/did_its.png`
+- ✅ **Script 18** — ITS × IVS: interação ivs_z:tempo_pos (concluído)
   - GEE AR-1; 3 modelos: M1-base, M2-interação, M3-completo
-  - ivs_z:tempo_pos > 0 → CS mais vulneráveis desaceleraram MENOS (ampliação desigualdades)
-  - Saída prevista: `its_ivs_resultados.csv`, `docs/its_ivs.png`
+  - **ivs_z RR=1,317 (p<0,001)** — CS mais vulneráveis têm 31,7% mais ICSAP (efeito principal)
+  - **ivs_z:tempo_pos NS (p=0,179)** — efeito da Portaria homogêneo entre CS por vulnerabilidade
+  - Conclusão: Portaria reduziu ICSAP uniformemente — sem ampliação nem redução de desigualdades pós
+  - Saída: `its_ivs_resultados.csv`, `docs/its_ivs.png`
 
 ### Infraestrutura
 - **App Shiny** implementado com todas as abas
@@ -313,8 +316,8 @@ Taxa ICSAP **bruta** por 10.000 habitantes, por área de abrangência de CS. **N
 - **GEE ITS por estrato IVS** ✅ (script 15) — Portaria 3.493/2024: redução de nível significativa em Baixo/Médio/Elevado, NS em Muito Elevado → possível ampliação de desigualdades
 - **ITS GLS AR(1)** ✅ (script 11) — BH: nível -5,1% NS (p=0,307); APC pré=+22,8%/ano → pós=-9,2%/ano; apenas Barreiro com nível sig; desaceleração universal em todas as regionais
 - **ITS com controle** ✅ (script 12) — compara β₃ de BH com SP, RJ, Curitiba, Fortaleza; responde se inflexão é específica de BH ou tendência nacional
-- **DiD-ITS formal** 🔄 (script 17) — GLS pooled; θ_k = (slope change capital k) − (slope change BH); θ_k > 0 sig → BH desacelerou mais → efeito específico
-- **ITS × IVS** 🔄 (script 18) — GEE AR-1; ivs_z:tempo_pos > 0 → CS vulneráveis desaceleraram menos (ampliação desigualdades); M1/M2/M3 comparados
+- **DiD-ITS formal** ✅ (script 17) — GLS pooled; nenhum θ_slope significativo → efeito nacional (não específico de BH); BH APC pós=-7,1%/ano
+- **ITS × IVS** ✅ (script 18) — GEE AR-1; ivs_z RR=1,317\*\*\* (CS vulneráveis têm 31,7% mais ICSAP); ivs_z:tempo_pos NS (p=0,179) → efeito homogêneo da Portaria entre CS
 - **Alocação proporcional de CEPs** ✅ (script 14) — 3,31% das internações redistribuídas com buffer 100m; 32,3% CEPs limítrofes; impacto marginal mas methodologicamente relevante
 - **Joinpoint regression** ✅ (script 10) — AAPC BH = +1,1%/ano; padrão bimodal com inflexão em abr/2024 em todas as 9 regionais
 
@@ -349,9 +352,9 @@ Taxa ICSAP **bruta** por 10.000 habitantes, por área de abrangência de CS. **N
 14. ✅ ~~Tabela 1 descritiva~~ — script 16 criado (aguarda execução)
 15. ✅ ~~Padronização documentada como limitação~~ — `protocolo_pesquisa.md` + `checklist_strobe.md` atualizados
 16. ✅ ~~Scripts 12 e 16 executados~~ — ITS controle e Tabela 1 concluídos
-17. ~~DiD-ITS formal~~ — script 17 criado (aguarda execução)
-18. ~~ITS × IVS~~ — script 18 criado (aguarda execução)
-19. **Executar scripts 17 e 18** — análises finais pré-redação
+17. ✅ ~~DiD-ITS formal~~ — concluído (script 17; nenhum θ_slope sig → efeito nacional; BH APC pós=-7,1%/ano)
+18. ✅ ~~ITS × IVS~~ — concluído (script 18; ivs_z RR=1,317\*\*\*; interação NS → efeito homogêneo)
+19. ✅ ~~Executar scripts 17 e 18~~ — **pipeline analítico 100% completo**
 20. **Investigar inflexão de abr/2024** — padrão bimodal em todas as regionais e todos os estratos IVS; checar mudanças de codificação SIHSUS ou portaria federal
 21. **Redigir manuscrito** para submissão ao *Cadernos de Saúde Pública* (meta: jan/2027)
 
@@ -360,11 +363,16 @@ Taxa ICSAP **bruta** por 10.000 habitantes, por área de abrangência de CS. **N
 ## Próximos Passos
 
 ### Prioritários (para o estudo científico)
-- ~~**Scripts 01–16**~~ — todos concluídos (incluindo ITS controle e Tabela 1)
-- **Executar script 17** — `R/17_did_its.R`: DiD-ITS formal (GLS pooled); θ_k responde se BH desacelerou mais que cada capital controle
-- **Executar script 18** — `R/18_its_ivs.R`: GEE AR-1 com ivs_z:tempo_pos; testa heterogeneidade da resposta à Portaria por vulnerabilidade
-- **Investigar inflexão de abr/2024** — padrão bimodal em todas as regionais E em todos os estratos IVS; foco em mudança de codificação SIHSUS ou portaria federal
-- **Redigir manuscrito** — publicar em *Cadernos de Saúde Pública* (Fiocruz, Qualis A1)
+
+**Pipeline analítico 100% completo** — scripts 01–18 executados e versionados.
+
+- **Tornar repositório privado** — GitHub Settings → Danger Zone → "Change repository visibility" → Private (antes de submeter o manuscrito)
+- **Iniciar redação do manuscrito** — *Cadernos de Saúde Pública* (Fiocruz, Qualis A1)
+  - Template: título em PT/EN/ES, resumo estruturado (Objetivo / Métodos / Resultados / Conclusão), corpo IMRD
+  - Seguir checklist STROBE (`docs/checklist_strobe.md`) item a item
+  - Vancouver, 4.000 palavras, até 5 tabelas/figuras
+  - Figuras centrais: `docs/its_bh.png`, `docs/subgrupos_ivs.png`, `docs/did_its.png`, `docs/its_ivs.png`
+- **Investigar inflexão de abr/2024** — padrão bimodal em todas as regionais E em todos os estratos IVS; checar mudanças de codificação SIHSUS ou portaria federal anterior
 
 ### App e infraestrutura
 - **Melhorar cobertura para ≥90%** — re-executar script 04 após script 03 atualizado; avaliar uso da API Claude para CEPs irrecuperáveis pelas APIs open source
