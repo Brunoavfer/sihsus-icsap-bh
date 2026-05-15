@@ -1,0 +1,44 @@
+tipo,variavel,categoria,n,pct,n_pct,mediana,p25,p75,minimo,maximo
+categorica,Regional,BARREIRO,20,13.1,20 (13.1%),NA,NA,NA,NA,NA
+categorica,Regional,CENTRO-SUL,12,7.8,12 (7.8%),NA,NA,NA,NA,NA
+categorica,Regional,LESTE,14,9.2,14 (9.2%),NA,NA,NA,NA,NA
+categorica,Regional,NORDESTE,22,14.4,22 (14.4%),NA,NA,NA,NA,NA
+categorica,Regional,NOROESTE,16,10.5,16 (10.5%),NA,NA,NA,NA,NA
+categorica,Regional,NORTE,20,13.1,20 (13.1%),NA,NA,NA,NA,NA
+categorica,Regional,OESTE,18,11.8,18 (11.8%),NA,NA,NA,NA,NA
+categorica,Regional,PAMPULHA,14,9.2,14 (9.2%),NA,NA,NA,NA,NA
+categorica,Regional,VENDA NOVA,17,11.1,17 (11.1%),NA,NA,NA,NA,NA
+categorica,IVS predominante,Baixo,37,24.2,37 (24.2%),NA,NA,NA,NA,NA
+categorica,IVS predominante,Médio,77,50.3,77 (50.3%),NA,NA,NA,NA,NA
+categorica,IVS predominante,Elevado,27,17.6,27 (17.6%),NA,NA,NA,NA,NA
+categorica,IVS predominante,Muito Elevado,12,7.8,12 (7.8%),NA,NA,NA,NA,NA
+continua,Equipes ESF (n médio),Total,117,NA,6.1 [5.0–8.0],6.1,5,8,0,16
+continua,Área de favela (%),Total,153,NA,2.3 [0.2–8.8],2.3,0.2,8.8,0,98.9
+continua,Domicílios sem rede geral (%),Total,153,NA,0.2 [0.1–0.6],0.2,0.1,0.6,0,21.9
+continua,Renda per capita (SM),Total,153,NA,1.81 [1.65–2.02],1.81,1.65,2.02,1.12,2.66
+continua,IVS score (1–4),Total,153,NA,2.20 [1.79–2.67],2.2,1.79,2.67,1,3.86
+continua,Taxa ICSAP (por 10.000 hab/mês),Total,153,NA,0.65 [0.49–0.85],0.65,0.49,0.85,0.1,1.89
+continua,Equipes ESF (n médio),Baixo,28,NA,6.0 [4.8–7.2],6,4.8,7.2,0,16
+continua,Área de favela (%),Baixo,37,NA,1.7 [0.4–5.0],1.7,0.4,5,0,21.4
+continua,Domicílios sem rede geral (%),Baixo,37,NA,0.3 [0.1–0.7],0.3,0.1,0.7,0,3.6
+continua,Renda per capita (SM),Baixo,37,NA,1.51 [1.43–1.66],1.51,1.43,1.66,1.12,2.04
+continua,IVS score (1–4),Baixo,37,NA,1.41 [1.21–1.60],1.41,1.21,1.6,1,2.31
+continua,Taxa ICSAP (por 10.000 hab/mês),Baixo,37,NA,0.62 [0.51–0.81],0.62,0.51,0.81,0.21,1.89
+continua,Equipes ESF (n médio),Médio,63,NA,6.2 [5.0–8.0],6.2,5,8,1,15
+continua,Área de favela (%),Médio,77,NA,1.6 [0.0–6.2],1.6,0,6.2,0,29.3
+continua,Domicílios sem rede geral (%),Médio,77,NA,0.2 [0.1–0.3],0.2,0.1,0.3,0,3.4
+continua,Renda per capita (SM),Médio,77,NA,1.80 [1.70–1.94],1.8,1.7,1.94,1.32,2.51
+continua,IVS score (1–4),Médio,77,NA,2.17 [1.99–2.32],2.17,1.99,2.32,1.57,2.85
+continua,Taxa ICSAP (por 10.000 hab/mês),Médio,77,NA,0.69 [0.53–0.90],0.69,0.53,0.9,0.1,1.18
+continua,Equipes ESF (n médio),Elevado,17,NA,7.1 [6.0–8.0],7.1,6,8,5,10
+continua,Área de favela (%),Elevado,27,NA,9.9 [1.0–23.8],9.9,1,23.8,0,76.3
+continua,Domicílios sem rede geral (%),Elevado,27,NA,0.4 [0.2–1.1],0.4,0.2,1.1,0,14.5
+continua,Renda per capita (SM),Elevado,27,NA,2.02 [1.95–2.13],2.02,1.95,2.13,1.77,2.66
+continua,IVS score (1–4),Elevado,27,NA,2.95 [2.74–3.13],2.95,2.74,3.13,2.56,3.47
+continua,Taxa ICSAP (por 10.000 hab/mês),Elevado,27,NA,0.59 [0.43–0.80],0.59,0.43,0.8,0.26,1.25
+continua,Equipes ESF (n médio),Muito Elevado,9,NA,6.0 [6.0–6.1],6,6,6.1,5,11.1
+continua,Área de favela (%),Muito Elevado,12,NA,16.4 [2.7–51.6],16.4,2.7,51.6,0,98.9
+continua,Domicílios sem rede geral (%),Muito Elevado,12,NA,0.6 [0.2–2.3],0.6,0.2,2.3,0.2,21.9
+continua,Renda per capita (SM),Muito Elevado,12,NA,2.22 [2.15–2.39],2.22,2.15,2.39,1.77,2.5
+continua,IVS score (1–4),Muito Elevado,12,NA,3.53 [3.22–3.62],3.53,3.22,3.62,3.06,3.86
+continua,Taxa ICSAP (por 10.000 hab/mês),Muito Elevado,12,NA,0.63 [0.55–0.73],0.63,0.55,0.73,0.23,1.12
