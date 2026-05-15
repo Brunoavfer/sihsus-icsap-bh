@@ -18,7 +18,11 @@ sihsus-icsap-bh/
 │   ├── 01_download.R          # Baixa arquivos .dbc do FTP do DATASUS
 │   ├── 02_process.R           # Filtra BH, cruza com lista ICSAP, gera CSVs
 │   ├── 03_cep_regional.R      # CEP → lat/lon → CS/Regional (via APIs + sf)
-│   └── 04_melhora_cobertura.R # Retenta CEPs que falharam com cascata de APIs
+│   ├── 04_melhora_cobertura.R # Retenta CEPs que falharam com cascata de APIs
+│   ├── 05_coleta_variaveis.R  # Coleta variáveis independentes (CNES, e-Gestor, Censo)
+│   ├── 06_analise_missing.R   # Análise de sensibilidade dos 13,9% sem geocodificação
+│   ├── 07_padronizacao_taxa.R # Padronização direta por idade e sexo (Ahmad et al., 2001)
+│   └── 08_autocorrelacao_espacial.R  # Moran's I global e LISA (Anselin, 1995)
 ├── app/
 │   ├── global.R               # Carrega pacotes, dados e variáveis globais
 │   ├── ui.R                   # Interface Shiny (filtros, abas, componentes)
@@ -29,16 +33,27 @@ sihsus-icsap-bh/
 │   │   ├── internacoes_bh.csv         # Todas as internações BH (denominador)
 │   │   ├── icsap_bh.csv               # Apenas ICSAP (numerador)
 │   │   ├── icsap_bh_regional.csv      # ICSAP + CS/Regional (produto final)
-│   │   └── ceps_nao_encontrados.csv   # Log de falhas na geocodificação
+│   │   ├── ceps_nao_encontrados.csv   # Log de falhas na geocodificação
+│   │   ├── taxas_padronizadas.csv     # Taxa ICSAP padronizada por CS × ano (script 07)
+│   │   ├── moran_resultados.csv       # Classificação LISA por CS (script 08)
+│   │   ├── tabela_missing.csv         # Comparação COM vs SEM regional (script 06)
+│   │   └── conclusao_missing.txt      # Interpretação MAR/MNAR (script 06)
 │   └── ref/                   # Referências estáticas
 │       ├── lista_icsap.csv            # CIDs ICSAP (Portaria 221/2008)
 │       ├── cache_cep.csv              # Cache de geocodificação por CEP
 │       ├── areas_abrangencia_cs.geojson  # Polígonos oficiais PBH/SMSA
 │       ├── area_abrangencia_saude.csv    # Fonte CSV dos polígonos (PBH)
-│       └── bairros_regional_bh.csv       # Tabela bairro → regional (auxiliar)
+│       ├── bairros_regional_bh.csv       # Tabela bairro → regional (auxiliar)
+│       ├── variaveis_cs.csv           # Variáveis independentes por CS × competência (script 05)
+│       ├── censo2022_cs_bh.csv        # Censo 2022 agregado por CS (censobr)
+│       ├── depara_cnes_cs.csv         # De-para CNES ↔ CS (via CEP + sf)
+│       ├── favelas_cs_bh.csv          # % área de favela por CS (code_favela/geobr)
+│       ├── egestor_cobertura_bh.xlsx  # Cobertura ESF BH — e-Gestor AB (manual)
+│       └── egestor_cobertura_bh.csv   # Idem em CSV
 ├── docs/
 │   ├── index.html             # Site de documentação (GitHub Pages)
-│   └── metodologia_cep_cs.md  # Documentação detalhada do pipeline de geocodificação
+│   ├── metodologia_cep_cs.md  # Documentação detalhada do pipeline de geocodificação
+│   └── mapa_lisa.png          # Mapa LISA de autocorrelação espacial (script 08)
 └── .github/
     └── workflows/
         └── atualizar_dados.yml  # GitHub Actions — executa dia 10 de cada mês
@@ -153,13 +168,25 @@ O filtro de CS é dependente do filtro de regional — ao selecionar uma regiona
 
 ## Status Atual (maio de 2026)
 
+### Dados SIHSUS
 - **Dados baixados:** janeiro/2023 a março/2026 — 39 competências (`RDMG2301.dbc` a `RDMG2603.dbc`)
 - **Dados processados:** `internacoes_bh.csv` e `icsap_bh.csv` com série completa jan/2023–mar/2026
   - 498.246 internações de residentes e internados em BH
   - 90.869 internações ICSAP | taxa média: 18,2%
-- **`icsap_bh_regional.csv`:** ainda reflete apenas jan–mai/2025 (aguarda re-execução do script 03)
-- **Cobertura de geocodificação:** ~84% (meta: 85–90%)
-- **Pipeline completo** e funcionando (scripts 01 a 04)
+- **`icsap_bh_regional.csv`:** ainda reflete apenas jan/2023–mai/2025 (aguarda re-execução do script 03 com série completa)
+- **Cobertura de geocodificação:** 86,1% (78.251/90.869 geocodificados)
+
+### Scripts concluídos
+- ✅ **Scripts 01–04** — pipeline de download, processamento e geocodificação
+- ✅ **Script 05** — variáveis independentes coletadas em `data/ref/variaveis_cs.csv`
+  - 5.508 obs (153 CS × 36 competências); cobertura: n_esf 76,5%, cobertura_aps_pct 100%, pop_total_censo 100%, pct_sem_saneamento 100%, renda_media 100%, pct_area_favela 100%
+  - Limitação: pct_idosos/pct_criancas = 0% (censobr Basico não tem faixas etárias por setor)
+  - Limitação: n_medicos/n_mfc = NA (arquivos PF/MG causam SIGSEGV no read.dbc)
+- ✅ **Script 06** — análise de missing: 13,9% sem geocodificação, classificação MNAR (5/6 testes significativos, mas diferenças de magnitude pequena — reportar como limitação)
+- ✅ **Script 07** — taxas padronizadas por CS × ano: 612 obs; correlação bruta = padronizada = 1,000 (esperado: mesma distribuição etária de BH aplicada a todos os CS por ausência de faixas por setor)
+- ✅ **Script 08** — autocorrelação espacial: **Moran's I = 0,283 (p < 0,001)**, 10 clusters High-High (6,5%); mapa LISA em `docs/mapa_lisa.png`; resultado indica necessidade de GEE AR-1 ou SAR em vez de GLM-Gama padrão
+
+### Infraestrutura
 - **App Shiny** implementado com todas as abas
 - **GitHub Actions** configurado para atualização automática dia 10 de cada mês
 - **`01_download.R`** parametrizado para baixar de jan/2023 ao ano corrente automaticamente
@@ -185,17 +212,21 @@ Taxa ICSAP **padronizada por idade e sexo** por 10.000 habitantes, por área de 
 
 | Variável | Fonte | Status |
 |---|---|---|
-| Cobertura ESF (%) | e-Gestor AB/DAB | ❌ Coletar |
-| Nº equipes ESF | CNES/DATASUS | ❌ Coletar |
-| Médicos de família (CH) | CNES/DATASUS | ❌ Coletar |
-| IVS-BH | SMSA/PBH | ❌ Coletar |
-| População por faixa etária | IBGE Censo 2022 | ❌ Coletar |
+| Cobertura ESF (%) | e-Gestor AB/DAB | ✅ Coletada (nível municipal) |
+| Nº equipes ESF / eMulti / ESB | CNES EP/DATASUS | ✅ Coletada (76,5% CS) |
+| Médicos de família (CH) | CNES PF/DATASUS | ❌ Indisponível (SIGSEGV no read.dbc) |
+| % domicílios sem rede geral de água | Censo IBGE 2022 (censobr) | ✅ Coletada (100% CS) |
+| Renda per capita (salários mínimos) | Censo IBGE 2022 (censobr) | ✅ Coletada (100% CS) |
+| % área de favela por CS | Censo IBGE 2022 (code_favela/geobr) | ✅ Coletada (100% CS) |
+| População total por CS | Censo IBGE 2022 (censobr V0001) | ✅ Coletada (100% CS) |
+| % idosos / % crianças por CS | Censo IBGE 2022 (censobr Pessoa) | ❌ Não disponível no dataset Basico |
+| IVS-BH | SMSA/PBH | ❌ A coletar manualmente |
 
 ### Método Estatístico
 
 - **GLM-Gama** (link log) — replica Oliveira et al. (2025) para o nível de CS
 - **Joinpoint regression** — APC e AAPC para análise de tendência temporal
-- **GEE** (AR-1) — se autocorrelação temporal detectada
+- **GEE** (AR-1 ou estrutura espacial) — **indicado**: Moran's I = 0,283 (p < 0,001) detectado no script 08; autocorrelação positiva viola independência do GLM padrão
 
 ### Periódico Alvo
 
@@ -212,21 +243,30 @@ Taxa ICSAP **padronizada por idade e sexo** por 10.000 habitantes, por área de 
 
 ### Próximos Passos Metodológicos
 
-1. Coletar variáveis independentes (CNES, e-Gestor AB, IVS-BH, população IBGE por CS)
-2. Criar `R/05_variaveis_aps.R` para coleta e harmonização dos dados de APS
-3. Criar `R/06_padronizacao.R` para cálculo da taxa ICSAP padronizada
-4. Executar análises estatísticas (GLM-Gama + joinpoint)
-5. Redigir manuscrito para submissão ao *Cadernos de Saúde Pública* (meta: jan/2027)
+1. ✅ ~~Coletar variáveis independentes~~ — concluído (script 05)
+2. ✅ ~~Análise de missing~~ — concluído (script 06, MNAR leve)
+3. ✅ ~~Padronização de taxas~~ — concluído (script 07)
+4. ✅ ~~Autocorrelação espacial~~ — concluído (script 08, Moran's I = 0,283)
+5. **Re-executar script 03** com série completa jan/2023–dez/2025 para atualizar `icsap_bh_regional.csv`
+6. **Implementar GLM-Gama** + GEE AR-1 (indicado pelo Moran's I positivo) — `R/09_glm_gama.R`
+7. **Implementar joinpoint regression** para APC/AAPC — `R/10_joinpoint.R`
+8. **Coletar IVS-BH** manualmente do portal SMSA/PBH e incorporar ao `variaveis_cs.csv`
+9. **Redigir manuscrito** para submissão ao *Cadernos de Saúde Pública* (meta: jan/2027)
 
 ---
 
 ## Próximos Passos
 
-- **Melhorar cobertura para ≥85%** — avaliar uso da API Anthropic/Claude como etapa adicional de geocodificação para os CEPs que falham em todas as APIs open source (estimativa do CS mais provável com base no logradouro + bairro)
-- **Expandir período histórico** — baixar e processar dados de anos anteriores a 2025
+### Prioritários (para o estudo científico)
+- **Re-executar script 03** com série completa jan/2023–dez/2025 — `icsap_bh_regional.csv` atual cobre apenas jan/2023–mai/2025
+- **Implementar GLM-Gama + GEE** — `R/09_glm_gama.R` com estrutura AR-1 (indicado pelo Moran's I = 0,283)
+- **Implementar joinpoint regression** — `R/10_joinpoint.R` para APC e AAPC por CS e regional
+- **Coletar IVS-BH** — Índice de Vulnerabilidade em Saúde do portal SMSA/PBH; incorporar ao `variaveis_cs.csv`
+
+### App e infraestrutura
+- **Melhorar cobertura para ≥90%** — re-executar script 04 após script 03 atualizado; avaliar uso da API Claude para CEPs irrecuperáveis pelas APIs open source
 - **Publicar o app** — deploy do Shiny app (shinyapps.io ou Posit Connect)
-- **Adicionar série histórica** — permitir análise de tendência multi-ano no painel
-- **Incluir o script 03 no GitHub Actions** — atualmente o workflow automatiza apenas os scripts 01 e 02; o 03 (geocodificação) ainda é executado manualmente
+- **Incluir script 03 no GitHub Actions** — atualmente o workflow automatiza apenas os scripts 01 e 02
 - **Documentar seção "Como Usar"** no README.md
 
 ---
