@@ -79,12 +79,12 @@ serie_bh <- icsap %>%
   arrange(ano_cmpt, mes_cmpt) %>%
   mutate(
     data     = make_date(ano_cmpt, mes_cmpt, 1L),
-    mes_num  = row_number(),            # 1 = jan/2023
+    mes_num  = row_number(),            # 1 = jan/2022
     taxa_pct = n_icsap / n_total * 100,
     log_taxa = log(taxa_pct),
-    # ITS: portaria vigente a partir de mai/2024 = mes_num 17
-    interv    = as.integer(mes_num >= 17L),
-    tempo_pos = as.integer(pmax(0L, mes_num - 16L)),
+    # ITS: portaria vigente a partir de mai/2024 = mes_num 29
+    interv    = as.integer(mes_num >= 29L),
+    tempo_pos = as.integer(pmax(0L, mes_num - 28L)),
     # Fourier para sazonalidade (período 12 meses)
     sin12 = sin(2 * pi * mes_num / 12),
     cos12 = cos(2 * pi * mes_num / 12)
@@ -92,7 +92,7 @@ serie_bh <- icsap %>%
 
 message("=== SÉRIE MUNICIPAL ===")
 message("Meses: ", nrow(serie_bh), " (", min(serie_bh$data), " a ", max(serie_bh$data), ")")
-message("Ponto de intervenção: mes_num=17 = mai/2024 (Portaria GM/MS 3.493/2024)")
+message("Ponto de intervenção: mes_num=29 = mai/2024 (Portaria GM/MS 3.493/2024)")
 message("Meses pré-intervenção: ", sum(serie_bh$interv == 0),
         " | pós-intervenção: ", sum(serie_bh$interv == 1))
 message("\nEstatísticas da taxa ICSAP (% internações):")
@@ -271,8 +271,8 @@ serie_reg <- regional_bh %>%
     mes_num   = row_number(),
     taxa      = n_icsap / (pop_anual / 12) * 10000,
     log_taxa  = log(pmax(taxa, 0.001)),
-    interv    = as.integer(mes_num >= 17L),
-    tempo_pos = as.integer(pmax(0L, mes_num - 16L)),
+    interv    = as.integer(mes_num >= 29L),
+    tempo_pos = as.integer(pmax(0L, mes_num - 28L)),
     sin12     = sin(2 * pi * mes_num / 12),
     cos12     = cos(2 * pi * mes_num / 12)
   ) %>%
@@ -403,7 +403,7 @@ p_bh <- ggplot(serie_bh, aes(x = data)) +
            label = "Portaria\n3.493/2024",
            color = "#e67e22", size = 3, hjust = 0, fontface = "bold") +
   labs(
-    title    = "ITS — Taxas ICSAP em Belo Horizonte (jan/2023–mar/2026)",
+    title    = "ITS — Taxas ICSAP em Belo Horizonte (jan/2022–mar/2026)",
     subtitle = sprintf(
       "Portaria GM/MS 3.493 (mai/2024) | Modelo: %s\nMudança no nível: %+.1f%% (p=%s) | APC pré: %+.1f%%/ano → pós: %+.1f%%/ano",
       nome_mod,
