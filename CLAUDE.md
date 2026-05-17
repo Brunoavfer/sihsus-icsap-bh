@@ -32,7 +32,8 @@ sihsus-icsap-bh/
 │   ├── 15_subgrupos_ivs.R    # GEE AR-1 estratificado por nível IVS (Baixo/Médio/Elevado/M.Elevado)
 │   ├── 16_tabela1.R          # Tabela 1 descritiva dos 153 CS para o manuscrito
 │   ├── 17_did_its.R          # DiD-ITS formal: BH × 6 capitais (θ = slope change diferencial)
-│   └── 18_its_ivs.R          # ITS × IVS: interação ivs_z:tempo_pos (heterogeneidade pós-Portaria)
+│   ├── 18_its_ivs.R          # ITS × IVS: interação ivs_z:tempo_pos (heterogeneidade pós-Portaria)
+│   └── 19_padronizacao_direta.R  # Padronização direta por idade (censobr Pessoas 2022) por CS × ano
 ├── app/
 │   ├── global.R               # Carrega pacotes, dados e variáveis globais
 │   ├── ui.R                   # Interface Shiny (filtros, abas, componentes)
@@ -59,7 +60,8 @@ sihsus-icsap-bh/
 │   │   ├── its_controle_resultados.csv # ITS comparativo BH × 6 capitais controle (script 12)
 │   │   ├── serie_controles.csv        # Séries mensais por capital (script 12)
 │   │   ├── did_its_resultados.csv     # DiD-ITS BH × controles: θ nível e slope (script 17)
-│   │   └── its_ivs_resultados.csv     # GEE AR-1 ivs_z:tempo_pos por modelo (script 18)
+│   │   ├── its_ivs_resultados.csv     # GEE AR-1 ivs_z:tempo_pos por modelo (script 18)
+│   │   └── taxas_padronizadas_v2.csv  # Taxa bruta e padronizada por CS × ano 2022–2025 (script 19)
 │   └── ref/                   # Referências estáticas
 │       ├── lista_icsap.csv            # CIDs ICSAP (Portaria 221/2008)
 │       ├── cache_cep.csv              # Cache de geocodificação por CEP
@@ -73,7 +75,8 @@ sihsus-icsap-bh/
 │       ├── egestor_cobertura_bh.xlsx  # Cobertura ESF BH — e-Gestor AB (manual)
 │       ├── egestor_cobertura_bh.csv   # Idem em CSV
 │       ├── ivs_bh.csv                 # Setores censitários com IVS-BH (SMSA/PBH, WKT EPSG:31983)
-│       └── ivs_por_cs.csv             # IVS agregado por CS (script 13): score, predominante, % por categoria
+│       ├── ivs_por_cs.csv             # IVS agregado por CS (script 13): score, predominante, % por categoria
+│       └── pop_cs_faixas.csv          # Pop por CS × 11 faixas etárias — Censo 2022 (script 19)
 ├── docs/
 │   ├── index.html             # Site de documentação (GitHub Pages)
 │   ├── metodologia_cep_cs.md  # Documentação detalhada do pipeline de geocodificação
@@ -87,7 +90,9 @@ sihsus-icsap-bh/
 │   ├── tabela1.csv            # Tabela 1 tidy: 153 CS por regional/IVS/variáveis (script 16)
 │   ├── tabela1_formatada.html # Tabela 1 HTML formatada (gt) para o manuscrito (script 16)
 │   ├── did_its.png            # Forest plot DiD-ITS: θ slope change por capital (script 17)
-│   └── its_ivs.png            # Série por quartil IVS + curva efeito marginal (script 18)
+│   ├── its_ivs.png            # Série por quartil IVS + curva efeito marginal (script 18)
+│   ├── padronizacao_comparacao.png        # Scatter taxa bruta × padronizada por CS × ano (script 19)
+│   └── mapa_diferenca_padronizacao.png    # Diferença bruta−padronizada por CS — mapa BH (script 19)
 └── .github/
     └── workflows/
         └── atualizar_dados.yml  # GitHub Actions — executa dia 10 de cada mês
@@ -278,6 +283,18 @@ O filtro de CS é dependente do filtro de regional — ao selecionar uma regiona
   - **ivs_z:tempo_pos NS (p=0,179)** — efeito da Portaria homogêneo entre CS por vulnerabilidade
   - Conclusão: Portaria reduziu ICSAP uniformemente — sem ampliação nem redução de desigualdades pós
   - Saída: `its_ivs_resultados.csv`, `docs/its_ivs.png`
+- ✅ **Script 19** — Padronização direta por idade (Kitagawa 1964; Ahmad et al. 2001 OMS)
+  - Fonte: censobr dataset "Pessoas" 2022; colunas `demografia_V01031`–`V01041` (ambos sexos)
+  - Geometria: geobr `read_census_tract(3106200, 2022)`; centroide setor → polígono CS
+  - 5.137 setores BH; 5.157/5.166 atribuídos a um CS; **pop. padrão BH = 2.310.259**
+  - Distribuição etária BH: 30-39=15,5%; 40-49=15,4%; 70+=9,4%; 0-4=4,8%
+  - ICSAP concentrado em 70+ (30,9%), 60-69 (18,5%), 50-59 (13,2%) — muito mais idoso que pop. geral
+  - **Spearman rho bruta × padronizada = 0,979** (p<0,001)
+  - **30,1% dos CS mudam >10 posições** no ranking após padronização — impacto não negligenciável
+  - Taxa padronizada sistematicamente ~7–8% maior que a bruta → maioria dos CS tem pop. mais jovem que o padrão BH
+  - CS com maior mudança: Conjunto Paulo VI (Δ=45,6 posições; bruta 87→pad 128), Jardim Vitória (44,2), Cafezal (27,8)
+  - Nota: censobr retorna `data.table` — necessário `as.data.frame()` após `collect()` antes de operações dplyr
+  - Saída: `pop_cs_faixas.csv`, `taxas_padronizadas_v2.csv`, `docs/padronizacao_comparacao.png`, `docs/mapa_diferenca_padronizacao.png`
 
 ### Infraestrutura
 - **App Shiny** implementado com todas as abas
@@ -326,6 +343,7 @@ Taxa ICSAP **bruta** por 10.000 habitantes, por área de abrangência de CS. **N
 - **ITS × IVS** ✅ (script 18) — GEE AR-1; ivs_z RR=1,317\*\*\* (CS vulneráveis têm 31,7% mais ICSAP); ivs_z:tempo_pos NS (p=0,179) → efeito homogêneo da Portaria entre CS
 - **Alocação proporcional de CEPs** ✅ (script 14) — 3,31% das internações redistribuídas com buffer 100m; 32,3% CEPs limítrofes; impacto marginal mas methodologicamente relevante
 - **Joinpoint regression** ✅ (script 10) — AAPC BH = +1,1%/ano; padrão bimodal com inflexão em abr/2024 em todas as 9 regionais
+- **Padronização direta por idade** ✅ (script 19) — censobr "Pessoas" 2022; pop. padrão BH=2.310.259; rho bruta×pad=0,979; 30,1% dos CS mudam >10 posições no ranking; taxa pad sistematicamente ~7–8% > bruta (CS com pop. mais jovem que o padrão BH)
 
 ### Periódico Alvo
 
@@ -362,7 +380,7 @@ Taxa ICSAP **bruta** por 10.000 habitantes, por área de abrangência de CS. **N
 18. ✅ ~~ITS × IVS~~ — concluído (script 18; ivs_z RR=1,317\*\*\*; interação NS → efeito homogêneo)
 19. ✅ ~~Executar scripts 17 e 18~~ — **pipeline analítico 100% completo**
 20. ✅ ~~Ampliar série para jan/2022~~ — concluído; scripts 01–03 re-executados; 7 capitais controle; MES_INTERV=29 em scripts 11 e 12
-21. **Script 19** — padronização direta por idade usando censobr dataset "Pessoas" (2022) — faixas etárias V01031–V01041 por setor censitário; join setor → CS; retorna taxa padronizada por 10.000 hab
+21. ✅ ~~Script 19~~ — padronização direta por idade concluída; rho=0,979; 30,1% dos CS mudam >10 posições no ranking
 22. **Script 20** — internações evitadas em número absoluto (contrafactual ITS): diferença observado vs. tendência projetada pré-intervenção, acumulado mai/2024–mar/2026
 23. **Script 21** — Poisson com efeitos fixos por CS (two-way: CS + mês); controle de heterogeneidade não-observada como alternativa ao GEE AR-1
 24. **Re-executar script 05 para 2022** — estender `variaveis_cs.csv` de 36 para 48 competências (jan/2022–dez/2025) para viabilizar scripts 15/18 com a série completa
@@ -377,7 +395,7 @@ Taxa ICSAP **bruta** por 10.000 habitantes, por área de abrangência de CS. **N
 
 **Pipeline analítico core (scripts 01–18) 100% completo** — série jan/2022–mar/2026, 7 capitais controle, MES_INTERV=29.
 
-- **Script 19** — padronização direta por idade (censobr "Pessoas" 2022; V01031–V01041 por setor → CS); viabiliza comparação ajustada entre CS com perfil etário diferente
+- ✅ **Script 19 concluído** — padronização direta por idade (rho=0,979; 30,1% dos CS mudam >10 posições)
 - **Script 20** — internações evitadas em número absoluto (contrafactual ITS pós mai/2024); métrica de impacto direto para o manuscrito
 - **Script 21** — Poisson com efeitos fixos (CS + mês) como análise de sensibilidade ao GEE AR-1
 - **Re-executar script 05 para 2022** — estender `variaveis_cs.csv` para 48 competências (jan/2022–dez/2025) e re-executar scripts 15 e 18 com a série completa
