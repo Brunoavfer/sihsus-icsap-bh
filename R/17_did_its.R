@@ -1,7 +1,7 @@
 # =============================================================================
 # 17_did_its.R
 #
-# Difference-in-Differences ITS Formal — BH × 4 Capitais Controle
+# Difference-in-Differences ITS Formal — BH × 6 Capitais Controle
 #
 # Objetivo: quantificar formalmente quanto a mudança de slope em BH (mai/2024)
 #   diferiu das capitais controle, testando a especificidade do efeito.
@@ -67,7 +67,7 @@ n_cidades <- length(capitais)
 message("=== DiD-ITS FORMAL ===")
 message("Cidades: ", paste(capitais, collapse = ", "))
 message("Referência: Belo Horizonte")
-message("Intervenção: mai/2024 (mes_num = 17)")
+message("Intervenção: mai/2024 (mes_num = 29 — série jan/2022)")
 message("Observações: ", nrow(serie), " (", n_cidades, " cidades × ~",
         round(nrow(serie) / n_cidades), " meses)")
 
@@ -76,7 +76,7 @@ message("Observações: ", nrow(serie), " (", n_cidades, " cidades × ~",
 # =============================================================================
 
 pre <- serie %>% filter(interv == 0)
-message("\n--- Taxa ICSAP média pré-intervenção (jan/2023–abr/2024) ---")
+message("\n--- Taxa ICSAP média pré-intervenção (jan/2022–abr/2024) ---")
 pre %>%
   group_by(capital) %>%
   summarise(taxa_media = round(mean(taxa_pct), 2),

@@ -15,10 +15,12 @@
 #      β₃ negativo significativo em mai/2024
 #
 # Capitais controle:
-#   São Paulo      (SP) — 355030
-#   Rio de Janeiro (RJ) — 330455
-#   Curitiba       (PR) — 410690
-#   Fortaleza      (CE) — 230440
+#   São Paulo        (SP) — 355030
+#   Rio de Janeiro   (RJ) — 330455
+#   Curitiba         (PR) — 410690
+#   Fortaleza        (CE) — 230440
+#   Distrito Federal (DF) — 530010
+#   Belém            (PA) — 150140
 #
 # Métrica: % das internações totais que são ICSAP (n_icsap / n_total × 100)
 #   — mesma métrica do script 11 para BH municipal
@@ -66,17 +68,20 @@ dir.create(DIR_RAW_CTRL, recursive = TRUE, showWarnings = FALSE)
 # =============================================================================
 
 CAPITAIS <- list(
-  list(nome = "Belo Horizonte", uf = "MG", cod = "310620", usar_existente = TRUE),
-  list(nome = "São Paulo",      uf = "SP", cod = "355030", usar_existente = FALSE),
-  list(nome = "Rio de Janeiro", uf = "RJ", cod = "330455", usar_existente = FALSE),
-  list(nome = "Curitiba",       uf = "PR", cod = "410690", usar_existente = FALSE),
-  list(nome = "Fortaleza",      uf = "CE", cod = "230440", usar_existente = FALSE)
+  list(nome = "Belo Horizonte",  uf = "MG", cod = "310620", usar_existente = TRUE),
+  list(nome = "São Paulo",       uf = "SP", cod = "355030", usar_existente = FALSE),
+  list(nome = "Rio de Janeiro",  uf = "RJ", cod = "330455", usar_existente = FALSE),
+  list(nome = "Curitiba",        uf = "PR", cod = "410690", usar_existente = FALSE),
+  list(nome = "Fortaleza",       uf = "CE", cod = "230440", usar_existente = FALSE),
+  list(nome = "Distrito Federal", uf = "DF", cod = "530010", usar_existente = FALSE),
+  list(nome = "Belém",           uf = "PA", cod = "150140", usar_existente = FALSE)
 )
 
-ANO_INICIO <- 2023L
+ANO_INICIO <- 2022L
 ANO_FIM    <- 2026L
-# Intervencão: Portaria GM/MS 3.493 — vigente a partir de mai/2024 = mes_num 17
-MES_INTERV <- 17L
+# Intervencão: Portaria GM/MS 3.493 — vigente a partir de mai/2024
+# Com série iniciando em jan/2022: mes_num 29 (jan/22=1 … mai/24=29)
+MES_INTERV <- 29L
 
 # =============================================================================
 # 2. Carrega lista ICSAP
@@ -171,7 +176,9 @@ serie_capital <- function(cap) {
         internacoes_bh %>% count(ano_cmpt, mes_cmpt, name = "n_total"),
         by = c("ano_cmpt", "mes_cmpt")
       ) %>%
-      filter(!is.na(n_total), n_total > 0)
+      filter(!is.na(n_total), n_total > 0) %>%
+      filter(make_date(ano_cmpt, mes_cmpt, 1L) >= as.Date("2022-01-01"),
+             make_date(ano_cmpt, mes_cmpt, 1L) <= as.Date("2026-03-01"))
 
     message("  Meses disponíveis: ", nrow(serie))
     return(serie %>% mutate(capital = nome_cap))
@@ -184,7 +191,7 @@ serie_capital <- function(cap) {
     stringsAsFactors = FALSE
   ) %>%
     mutate(data_ref = make_date(ano, as.integer(mes), 1L)) %>%
-    filter(data_ref >= as.Date("2023-01-01"),
+    filter(data_ref >= as.Date("2022-01-01"),
            data_ref <= as.Date("2026-03-01")) %>%
     arrange(ano, mes)
 
@@ -434,7 +441,7 @@ p_series <- ggplot(pred_df, aes(x = data)) +
             vjust = 1.2, hjust = 0, size = 2.2, color = "gray20") +
   facet_wrap(~capital, scales = "free_y", ncol = 1) +
   labs(
-    title    = "ITS — Comparação BH × Capitais Controle (jan/2023–mar/2026)",
+    title    = "ITS — Comparação BH × Capitais Controle (jan/2022–mar/2026)",
     subtitle = paste0(
       "Portaria GM/MS 3.493 (mai/2024) | Linha vermelha = ajustado | ",
       "Tracejada cinza = contrafactual\n",

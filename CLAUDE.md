@@ -26,7 +26,7 @@ sihsus-icsap-bh/
 │   ├── 09_glm_gama.R         # GLM-Gama + GEE AR-1 (Zeger & Liang, 1986) + VIF + stepwise
 │   ├── 10_joinpoint.R        # Joinpoint regression — APC e AAPC (Muggeo, 2003)
 │   ├── 11_its.R              # ITS GLS AR(1): Portaria 3.493/2024 — BH municipal + 9 regionais
-│   ├── 12_its_controle.R     # ITS com controle: BH × SP, RJ, Curitiba, Fortaleza (especificidade)
+│   ├── 12_its_controle.R     # ITS com controle: BH × SP, RJ, Curitiba, Fortaleza, DF, Belém (especificidade)
 │   ├── 13_incorpora_ivs.R    # Integra IVS-BH (SMSA/PBH) em ivs_por_cs.csv
 │   ├── 14_alocacao_proporcional.R  # Alocação proporcional CEPs limítrofes entre CS
 │   ├── 15_subgrupos_ivs.R    # GEE AR-1 estratificado por nível IVS (Baixo/Médio/Elevado/M.Elevado)
@@ -200,15 +200,17 @@ O filtro de CS é dependente do filtro de regional — ao selecionar uma regiona
 
 ---
 
-## Status Atual (maio de 2026)
+## Status Atual (maio de 2026 — atualizado)
 
 ### Dados SIHSUS
-- **Dados baixados:** janeiro/2023 a março/2026 — 39 competências (`RDMG2301.dbc` a `RDMG2603.dbc`)
-- **Dados processados:** `internacoes_bh.csv` e `icsap_bh.csv` com série completa jan/2023–mar/2026
-  - 498.246 internações de residentes e internados em BH
-  - 90.869 internações ICSAP | taxa média: 18,2%
-- **`icsap_bh_regional.csv`:** série completa jan/2023–mar/2026 (90.869 registros = 100% do icsap_bh.csv); não há lacuna de meses
-- **Cobertura de geocodificação:** 86,1% (78.251/90.869 geocodificados); 12.618 sem regional são genuinamente irrecuperáveis (CEPs inexistentes, fora de BH ou sem coordenadas — script 04 já exauriu as tentativas)
+- **Dados baixados:** janeiro/2022 a março/2026 — 51 competências (`RDMG2201.dbc` a `RDMG2603.dbc`)
+- **Dados processados:** `internacoes_bh.csv` e `icsap_bh.csv` com série completa jan/2022–mar/2026
+  - 638.098 internações de residentes e internados em BH
+  - 113.695 internações ICSAP | taxa média: 17,8%
+  - Por ano: 2022 = 22.826 ICSAP (16,3%); 2023 = 24.549 (17,2%); 2024 = 31.410 (19,9%); 2025 = 28.420 (18,0%); 2026 jan–mar = 6.490 (16,2%)
+- **`icsap_bh_regional.csv`:** série completa jan/2022–mar/2026 (113.695 registros = 100% do icsap_bh.csv); não há lacuna de meses
+- **Cobertura de geocodificação:** 86,4% (98.192/113.695 geocodificados); 15.503 sem regional são genuinamente irrecuperáveis (CEPs inexistentes, fora de BH ou sem coordenadas — script 04 já exauriu as tentativas)
+- **Cache CEPs:** 11.923 CEPs no cache (487 novos de 2022 geocodificados via AwesomeAPI)
 
 ### Scripts concluídos
 - ✅ **Scripts 01–04** — pipeline de download, processamento e geocodificação
@@ -255,16 +257,20 @@ O filtro de CS é dependente do filtro de regional — ao selecionar uma regiona
   - **Mudança de slope pós (tempo_pos)**: similar, sem diferencial entre estratos (~-37 a -40%/ano)
   - **Conclusão**: Portaria não reduziu desigualdades — CS Muito Elevado não se beneficiou do efeito abrupt level change; possível AMPLIAÇÃO de desigualdades
   - Saída: `gee_subgrupos_ivs.csv`, `docs/subgrupos_ivs.png`
-- ✅ **Script 12** — ITS com controle: BH × SP, RJ, Curitiba, Fortaleza (concluído)
-  - Modelo idêntico ao script 11; métrica: % ICSAP das internações totais
+- ✅ **Script 12** — ITS com controle: BH × SP, RJ, Curitiba, Fortaleza, DF, Belém (atualizado mai/2026)
+  - 6 capitais controle; série ampliada jan/2022–mar/2026 (51 meses); MES_INTERV=29
+  - 4/6 controles com β₃<0 sig → inflexão é tendência nacional (não específica de BH)
+  - APC pós BH = -8,3%/ano (p=0,0003); DF = -9,0%/ano; SP = -8,3%/ano; Curitiba = -6,9%/ano
+  - Fortaleza única capital sem slope change significativo (p=0,800)
   - Saída: `its_controle_resultados.csv`, `serie_controles.csv`, `docs/its_comparativo.png`
 - ✅ **Script 16** — Tabela 1 dos 153 CS (concluído)
   - Distribuição por regional, IVS, variáveis contínuas (mediana [IQR]), estratificado por IVS
   - Saída: `docs/tabela1.csv`, `docs/tabela1_formatada.html`
-- ✅ **Script 17** — DiD-ITS formal: BH × 4 capitais (concluído)
+- ✅ **Script 17** — DiD-ITS formal: BH × 6 capitais (atualizado mai/2026)
   - GLS pooled com interação capital×tempo_pos; θ_k = slope change controle − slope change BH
-  - **Nenhum θ_slope significativo** — efeito da Portaria 3.493/2024 é **nacional**, não específico de BH
-  - BH APC pós = **-7,1%/ano**; capitais controle com desaceleração similar (θ_k NS)
+  - **Nenhum θ_slope significativo** com 6 controles — efeito da Portaria 3.493/2024 é **nacional**
+  - BH APC pré = +3,2%/ano; BH APC pós = **-5,7%/ano** (p=0,090 no modelo pooled)
+  - Todos os θ_k NS — sem diferença detectável entre BH e qualquer capital controle
   - Saída: `did_its_resultados.csv`, `docs/did_its.png`
 - ✅ **Script 18** — ITS × IVS: interação ivs_z:tempo_pos (concluído)
   - GEE AR-1; 3 modelos: M1-base, M2-interação, M3-completo
@@ -315,8 +321,8 @@ Taxa ICSAP **bruta** por 10.000 habitantes, por área de abrangência de CS. **N
 - **GEE AR-1 painel mensal** ✅ (script 09) — φ≈0,96; VIF todos ≤5; M3 (153 CS, AR-1): pct_sem_saneamento RR=0,968 (p=0,005), demais NS; backward stepwise elimina todos (modelo final=M1-base no subsample CNES de 117 CS)
 - **GEE ITS por estrato IVS** ✅ (script 15) — Portaria 3.493/2024: redução de nível significativa em Baixo/Médio/Elevado, NS em Muito Elevado → possível ampliação de desigualdades
 - **ITS GLS AR(1)** ✅ (script 11) — BH: nível -5,1% NS (p=0,307); APC pré=+22,8%/ano → pós=-9,2%/ano; apenas Barreiro com nível sig; desaceleração universal em todas as regionais
-- **ITS com controle** ✅ (script 12) — compara β₃ de BH com SP, RJ, Curitiba, Fortaleza; responde se inflexão é específica de BH ou tendência nacional
-- **DiD-ITS formal** ✅ (script 17) — GLS pooled; nenhum θ_slope significativo → efeito nacional (não específico de BH); BH APC pós=-7,1%/ano
+- **ITS com controle** ✅ (script 12) — BH × 6 capitais (SP, RJ, Curitiba, Fortaleza, DF, Belém); série jan/2022–mar/2026; 4/6 controles com β₃<0 sig → tendência nacional
+- **DiD-ITS formal** ✅ (script 17) — GLS pooled com 6 controles; todos θ_k NS → efeito nacional; BH APC pós=-5,7%/ano (modelo pooled)
 - **ITS × IVS** ✅ (script 18) — GEE AR-1; ivs_z RR=1,317\*\*\* (CS vulneráveis têm 31,7% mais ICSAP); ivs_z:tempo_pos NS (p=0,179) → efeito homogêneo da Portaria entre CS
 - **Alocação proporcional de CEPs** ✅ (script 14) — 3,31% das internações redistribuídas com buffer 100m; 32,3% CEPs limítrofes; impacto marginal mas methodologicamente relevante
 - **Joinpoint regression** ✅ (script 10) — AAPC BH = +1,1%/ano; padrão bimodal com inflexão em abr/2024 em todas as 9 regionais
