@@ -34,7 +34,8 @@ sihsus-icsap-bh/
 │   ├── 17_did_its.R          # DiD-ITS formal: BH × 6 capitais (θ = slope change diferencial)
 │   ├── 18_its_ivs.R          # ITS × IVS: interação ivs_z:tempo_pos (heterogeneidade pós-Portaria)
 │   ├── 19_padronizacao_direta.R  # Padronização direta por idade (censobr Pessoas 2022) por CS × ano
-│   └── 20_internacoes_evitadas.R # Internações evitadas e custo evitado pós-Portaria 3.493/2024 (GLS ITS + Monte Carlo)
+│   ├── 20_internacoes_evitadas.R # Internações evitadas e custo evitado pós-Portaria 3.493/2024 (GLS ITS + Monte Carlo)
+│   └── 21_poisson_efeitos_fixos.R # Poisson two-way FE (CS + ano): modelo principal padrão Lancet (fixest)
 ├── app/
 │   ├── global.R               # Carrega pacotes, dados e variáveis globais
 │   ├── ui.R                   # Interface Shiny (filtros, abas, componentes)
@@ -64,7 +65,10 @@ sihsus-icsap-bh/
 │   │   ├── its_ivs_resultados.csv     # GEE AR-1 ivs_z:tempo_pos por modelo (script 18)
 │   │   ├── taxas_padronizadas_v2.csv  # Taxa bruta e padronizada por CS × ano 2022–2025 (script 19)
 │   │   ├── internacoes_evitadas.csv   # Série mensal observado × contrafactual × evitadas (script 20)
-│   │   └── custo_evitado.csv          # Custo evitado BH + por regional, IC95% Monte Carlo (script 20)
+│   │   ├── internacoes_evitadas_cs.csv # Internações evitadas acumuladas por CS, IC95% (script 20)
+│   │   ├── custo_evitado.csv          # Custo evitado BH + por regional, IC95% Monte Carlo (script 20)
+│   │   ├── poisson_resultados.csv     # IRR, IC95%, p-valor: M1/M2/M3/NB/quartis/sensibilidade (script 21)
+│   │   └── comparacao_gee_poisson.csv # Comparação GEE AR-1 vs Poisson FE por preditor (script 21)
 │   └── ref/                   # Referências estáticas
 │       ├── lista_icsap.csv            # CIDs ICSAP (Portaria 221/2008)
 │       ├── cache_cep.csv              # Cache de geocodificação por CEP
@@ -96,7 +100,9 @@ sihsus-icsap-bh/
 │   ├── its_ivs.png            # Série por quartil IVS + curva efeito marginal (script 18)
 │   ├── padronizacao_comparacao.png        # Scatter taxa bruta × padronizada por CS × ano (script 19)
 │   ├── mapa_diferenca_padronizacao.png    # Diferença bruta−padronizada por CS — mapa BH (script 19)
-│   └── internacoes_evitadas.png           # Obs × contrafactual com IC95% Monte Carlo (script 20)
+│   ├── internacoes_evitadas.png           # Obs × contrafactual com IC95% Monte Carlo (script 20)
+│   ├── internacoes_evitadas_cs.png        # Mapa coroplético BH — evitadas por CS (script 20)
+│   └── poisson_forest_plot.png            # Forest plot IRR: M1/M2/M3 com IC95% (script 21)
 └── .github/
     └── workflows/
         └── atualizar_dados.yml  # GitHub Actions — executa dia 10 de cada mês
@@ -359,6 +365,15 @@ Taxa ICSAP **bruta** por 10.000 habitantes, por área de abrangência de CS. **N
 - **Joinpoint regression** ✅ (script 10) — AAPC BH = +1,1%/ano; padrão bimodal com inflexão em abr/2024 em todas as 9 regionais
 - **Padronização direta por idade** ✅ (script 19) — censobr "Pessoas" 2022; pop. padrão BH=2.310.259; rho bruta×pad=0,979; 30,1% dos CS mudam >10 posições no ranking; taxa pad sistematicamente ~7–8% > bruta (CS com pop. mais jovem que o padrão BH)
 - **Internações evitadas e custo evitado** ✅ (script 20) — GLS AR(1) ITS contrafactual; mai/2024–mar/2026; 13.501 internações evitadas (IC95%: 5.132–23.784); custo evitado R$ 29,05 mi (IC95%: 11,04–51,17 mi); Monte Carlo n=1.000 iterações; deflação IPCA 26,4% (jan/2022–mar/2026)
+- **Poisson two-way FE** ✅ (script 21) — fixest 0.14.1; 7.803 obs (153 CS × 51 meses); offset: pop Censo 2022
+  - M1_base (CS + ano FE): mes_num IRR=0.998 NS; cos12 IRR=0.937*** (sazonalidade); dispersão=1.23 (Poisson adequado)
+  - M2_contextual (regional + ano FE): ivs_score IRR=1.321*** (p=0,0009); pct_sem_saneamento IRR=0.968** — dispersão=2.68 (superdispersão: regional FE menos eficiente que CS FE)
+  - M3_estrutural (CS + ano FE + n_esf, 2023-2025): n_esf IRR=1.034 NS (p=0,213) — within-CS: variação intra-CS em n_esf não associada a n_icsap; dispersão=1.21
+  - Dose-resposta n_esf: Q2 (5-6 equipes) vs Q1 (1-4): IRR=0.921*** — CS com 5-6 equipes têm 7,9% menos ICSAP que CS com 1-4 equipes; Q3/Q4 NS
+  - Sensibilidade 8a (CNES ≥90% meses): n_esf IRR=1.034 NS (robusto); 8b (geocodif ≥70%): todos 153 CS passam no critério
+  - Comparação GEE vs Poisson FE: ivs_score muda de 0.870 NS (GEE) → 1.321*** (Poisson FE regional); pct_sem_saneamento IRR≈0.968 em ambos (consistente)
+  - NB desnecessário para M1/M3; M2 requer NB (superdispersão com regional FE)
+  - Saída: `poisson_resultados.csv` (27 linhas), `comparacao_gee_poisson.csv`, `docs/poisson_forest_plot.png`
 
 ### Periódico Alvo
 
@@ -397,7 +412,7 @@ Taxa ICSAP **bruta** por 10.000 habitantes, por área de abrangência de CS. **N
 20. ✅ ~~Ampliar série para jan/2022~~ — concluído; scripts 01–03 re-executados; 7 capitais controle; MES_INTERV=29 em scripts 11 e 12
 21. ✅ ~~Script 19~~ — padronização direta por idade concluída; rho=0,979; 30,1% dos CS mudam >10 posições no ranking
 22. ✅ ~~Script 20~~ — internações evitadas: 13.501 (IC95%: 5.132–23.784); custo evitado: R$ 29,05 mi (IC95%: 11,04–51,17 mi); GLS AR(1) + Monte Carlo n=1.000
-23. **Script 21** — Poisson com efeitos fixos por CS (two-way: CS + mês); controle de heterogeneidade não-observada como alternativa ao GEE AR-1
+23. ✅ ~~Script 21~~ — Poisson FE two-way (CS + ano); M1: mes_num NS; M2: ivs IRR=1.321***; M3: n_esf NS within-CS; dose-resposta Q2 IRR=0.921***; dispersão M1=1.23 (adequado)
 24. **Re-executar script 05 para 2022** — estender `variaveis_cs.csv` de 36 para 48 competências (jan/2022–dez/2025) para viabilizar scripts 15/18 com a série completa
 25. **Investigar inflexão de abr/2024** — padrão bimodal em todas as regionais e todos os estratos IVS; checar mudanças de codificação SIHSUS ou portaria federal anterior
 26. **Redigir manuscrito** para submissão ao *Cadernos de Saúde Pública* (meta: jan/2027)
@@ -412,7 +427,7 @@ Taxa ICSAP **bruta** por 10.000 habitantes, por área de abrangência de CS. **N
 
 - ✅ **Script 19 concluído** — padronização direta por idade (rho=0,979; 30,1% dos CS mudam >10 posições)
 - ✅ **Script 20 concluído** — 13.501 internações evitadas (IC95%: 5.132–23.784); R$ 29,05 mi evitados em valores mar/2026 (IC95%: 11,04–51,17 mi)
-- **Script 21** — Poisson com efeitos fixos (CS + mês) como análise de sensibilidade ao GEE AR-1
+- ✅ **Script 21 concluído** — Poisson FE: M2 ivs_score IRR=1.321*** | M3 n_esf NS within-CS | dose-resposta Q2 IRR=0.921*** | protocolo_pesquisa.md atualizado
 - **Re-executar script 05 para 2022** — estender `variaveis_cs.csv` para 48 competências (jan/2022–dez/2025) e re-executar scripts 15 e 18 com a série completa
 - **Tornar repositório privado** — GitHub Settings → Danger Zone → "Change repository visibility" → Private (antes de submeter o manuscrito)
 - **Iniciar redação do manuscrito** — *Cadernos de Saúde Pública* (Fiocruz, Qualis A1)

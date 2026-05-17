@@ -40,7 +40,7 @@ Analisar os fatores associados à variação das taxas de ICSAP nas áreas de ab
 
 2. Analisar a tendência temporal das ICSAP pelo método *joinpoint regression*, estimando a variação percentual anual (APC) e a variação percentual anual média (AAPC) para o município e por regional.
 
-3. Identificar os fatores associados à taxa ICSAP por meio de modelo linear generalizado com distribuição Gama, controlando por cobertura ESF, número de equipes, carga horária de médicos de família e Índice de Vulnerabilidade em Saúde (IVS-BH).
+3. Identificar os fatores associados ao número de ICSAP por Centro de Saúde por mês por meio de modelo de Poisson com efeitos fixos two-way por CS e ano (*fixest*, Bergé 2023), com erros-padrão clusterizados por CS; GEE AR-1 utilizado como análise de sensibilidade.
 
 4. Comparar as taxas ICSAP padronizadas entre as nove regionais administrativas de Belo Horizonte, identificando desigualdades intramunicipais.
 
@@ -110,37 +110,41 @@ Analisar os fatores associados à variação das taxas de ICSAP nas áreas de ab
 - Aplicação: série municipal agregada + por regional administrativa.
 - Referência: Kim et al. (2000) *Statistics in Medicine*.
 
-### 3. Modelo de Associação — GLM com Distribuição Gama
+### 3. Modelo de Associação — Poisson com Efeitos Fixos (modelo principal)
 
-Replicação e extensão de Oliveira et al. (2025):
+**Modelo principal:** Poisson com efeitos fixos two-way (CS + ano), pacote `fixest` (Bergé 2023):
 
-$$\ln(\mu_{it}) = \beta_0 + \beta_1 \cdot \text{CobESF}_{it} + \beta_2 \cdot \text{nEquipes}_{it} + \beta_3 \cdot \text{MédFam}_{it} + \beta_4 \cdot \text{IVS}_i + \beta_5 \cdot \text{Tempo}_t + u_i$$
+$$\log(\mu_{it}) = \alpha_i + \gamma_t + \beta_1 \cdot \text{nESF}_{it} + \beta_2 \cdot \text{Tempo}_t + \text{sazonalidade}_t + \text{offset}[\log(N_i)]$$
 
 Onde:
-- $\mu_{it}$: taxa ICSAP padronizada do CS $i$ no mês $t$
-- Distribuição: Gama (adequada para resposta contínua positiva com variância proporcional à média²)
-- Link: logarítmico
-- $u_i$: efeito aleatório por CS (se modelo misto) ou efeito fixo por regional
-- **Autocorrelação temporal:** verificada pelo teste de Durbin-Watson; se detectada, usar GEE (*Generalized Estimating Equations*) com estrutura de correlação autorregressiva AR(1)
+- $\mu_{it}$: contagem de ICSAP do CS $i$ no mês $t$
+- $\alpha_i$: efeito fixo por CS (absorve toda heterogeneidade between-CS invariante no tempo)
+- $\gamma_t$: efeito fixo por ano (controla choques anuais comuns a todos os CS)
+- $N_i$: população adscrita do CS $i$ (Censo 2022, offset estático)
+- Erros-padrão clusterizados por CS (robustez a heteroscedasticidade e autocorrelação)
+- M1: CS + ano FE, tendência temporal + sazonalidade Fourier (7.803 obs, 153 CS × 51 meses)
+- M2: regional + ano FE + preditores estáticos (IVS, saneamento, renda, favela) — FE regional permite estimação de covariáveis time-invariant
+- M3: CS + ano FE + n_esf (variável time-varying) — estimativa within-CS do efeito ESF (2023-2025)
 
-**Pressupostos a verificar:**
-- Distribuição dos resíduos (gráficos Q-Q, deviance residuals)
-- Superdispersão (razão deviance/gl; teste de Pearson)
-- Multicolinearidade (VIF < 5 para todas as variáveis independentes)
-- Influência de outliers (distância de Cook, leverage)
+**Análise de sensibilidade (GEE AR-1, modelo secundário):**
+- GEE com estrutura AR(1), link log, distribuição Poisson ou Gama — `geepack`
+- Equivalente a Oliveira et al. (2025) — mantido para comparabilidade com a literatura
+- Comparação GEE vs Poisson FE documentada em `data/processed/comparacao_gee_poisson.csv`
 
-**Análise de sensibilidade:**
-- Modelo 1: apenas variáveis ESF (sem IVS)
-- Modelo 2: com IVS (modelo completo)
-- Modelo 3: estratificado por regional administrativa
-- Modelo 4: restrito ao subperíodo 2023 (para comparação com dados históricos)
+**Análise dose-resposta:** Quartis pré-especificados de n_esf (Q1=1-4, Q2=5-6, Q3=7-8, Q4=9+) com CS FE — testa se maior número de equipes ESF está associado a menores n_icsap.
+
+**Superdispersão:** Razão Pearson/df verificada para todos os modelos; se > 1,5, ajusta Negative Binomial via `femlm(family="negbin")`.
+
+**Referência metodológica:** Bergé L (2023). fixest: Fast Fixed Effects Estimations. R package v0.14. DOI: 10.1177/1536867X19874235
 
 ### 4. Software
 
 | Análise | Software |
 |---|---|
 | Pipeline de dados | R ≥ 4.3 (`dplyr`, `readr`, `sf`, `lubridate`) |
-| GLM-Gama e descritiva | R (`MASS`, `lme4`, `geepack`, `ggplot2`, `leaflet`) |
+| Poisson FE (modelo principal) | R `fixest` ≥ 0.11 (Bergé 2023) |
+| GEE AR-1 (sensibilidade) | R `geepack`, `MASS`, `lme4` |
+| Descritiva e visualização | R `ggplot2`, `leaflet`, `gt` |
 | *Joinpoint regression* | Joinpoint v4.9 (NCI) ou R `segmented` |
 | Mapas | R (`sf`, `leaflet`, `tmap`) |
 | Relatório final | R Markdown / Quarto |
