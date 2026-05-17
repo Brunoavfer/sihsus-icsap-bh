@@ -30,6 +30,7 @@ suppressPackageStartupMessages({
   library(nlme)
   library(MASS)
   library(ggplot2)
+  library(sf)
 })
 
 # nlme/MASS mascaram dplyr::select — restaura explicitamente
@@ -340,6 +341,120 @@ print(evitadas_reg %>%
   select(regional, n_pos = n_icsap_pos, prop = prop, evitadas, ci_evt, custo_M))
 
 # =============================================================================
+# 7b. Por CS — distribuição proporcional (Opção B)
+# =============================================================================
+
+message("\n=== 7b. Por CS — distribuição proporcional (Opção B) ===")
+
+# Participação histórica de cada CS no total ICSAP BH (série completa geocodificada)
+prop_cs <- icsap_reg %>%
+  filter(!is.na(nome_cs), !is.na(regional)) %>%
+  count(nome_cs, regional, name = "n_icsap_hist") %>%
+  mutate(prop_cs = n_icsap_hist / sum(n_icsap_hist))
+
+message(sprintf("  CS distintos: %d | prop soma: %.4f",
+                nrow(prop_cs), sum(prop_cs$prop_cs)))
+
+# Internações evitadas acumuladas por CS (23 meses pós)
+evitadas_cs <- prop_cs %>%
+  mutate(
+    evitadas_central  = round(prop_cs * evitadas_total),
+    evitadas_ic_inf   = round(prop_cs * ic_evit[1]),
+    evitadas_ic_sup   = round(prop_cs * ic_evit[2]),
+    custo_central_BRL = round(prop_cs * custo_central,   2),
+    custo_ic_inf_BRL  = round(prop_cs * ic_custo[1],     2),
+    custo_ic_sup_BRL  = round(prop_cs * ic_custo[2],     2),
+    custo_medio_BRL   = round(custo_medio_geral,          2),
+    periodo           = "mai/2024-mar/2026",
+    n_meses_pos       = nrow(pos_df)
+  ) %>%
+  arrange(desc(evitadas_central))
+
+message("\n  Top 10 CS por internações evitadas:")
+print(
+  evitadas_cs %>%
+    head(10) %>%
+    transmute(
+      nome_cs,
+      regional,
+      evitadas_central,
+      ic95    = paste0(evitadas_ic_inf, "–", evitadas_ic_sup),
+      custo_M = round(custo_central_BRL / 1e6, 2)
+    )
+)
+
+# Série mensal por CS (cross-join: 23 meses × N_CS)
+evitadas_cs_mes_serie <- tidyr::crossing(
+  cf_df %>% select(data, ano_cmpt, mes_cmpt_n, evitadas_mes),
+  prop_cs %>% select(nome_cs, regional, prop_cs)
+) %>%
+  mutate(evitadas_cs_mes = round(prop_cs * evitadas_mes, 3)) %>%
+  arrange(nome_cs, data)
+
+# Verificação: agrega por regional via CS — deve confirmar total BH
+reg_via_cs <- evitadas_cs %>%
+  group_by(regional) %>%
+  summarise(evitadas_via_cs = sum(evitadas_central), .groups = "drop") %>%
+  arrange(desc(evitadas_via_cs))
+
+message("\n  Agregação por regional (via CS) — confirma total BH:")
+print(reg_via_cs)
+message(sprintf("  Total via CS: %s  |  Total BH direto: %s",
+                format(sum(reg_via_cs$evitadas_via_cs), big.mark = ","),
+                format(round(evitadas_total),            big.mark = ",")))
+
+# =============================================================================
+# 8b. Mapa BH — internações evitadas por CS
+# =============================================================================
+
+message("\n=== 8b. Mapa de internações evitadas por CS ===")
+
+cs_geo <- sf::st_read(file.path(DIR_REF, "areas_abrangencia_cs.geojson"), quiet = TRUE)
+
+evitadas_map <- cs_geo %>%
+  left_join(
+    evitadas_cs %>% select(nome_cs, regional, evitadas_central,
+                           evitadas_ic_inf, evitadas_ic_sup),
+    by = "nome_cs"
+  )
+
+n_match <- sum(!is.na(evitadas_map$evitadas_central))
+message(sprintf("  CS com match no GeoJSON: %d / %d", n_match, nrow(evitadas_map)))
+
+p_map <- ggplot(evitadas_map) +
+  geom_sf(aes(fill = evitadas_central), color = "white", linewidth = 0.08) +
+  scale_fill_distiller(
+    palette   = "YlOrRd", direction = 1, na.value = "gray85",
+    name      = "Internações\nevitadas",
+    labels    = function(x) format(round(x), big.mark = ",", scientific = FALSE)
+  ) +
+  labs(
+    title    = "Internações ICSAP Evitadas por Centro de Saúde — BH, mai/2024–mar/2026",
+    subtitle = sprintf(
+      "Portaria GM/MS 3.493/2024 | Distribuição proporcional ao histórico ICSAP por CS\nTotal BH: %s internações evitadas (IC95%%: %s–%s)",
+      format(round(evitadas_total), big.mark = ","),
+      format(round(ic_evit[1]),     big.mark = ","),
+      format(round(ic_evit[2]),     big.mark = ",")
+    ),
+    caption  = paste0(
+      "GLS AR(1) ITS contrafactual | IC95% Monte Carlo (n=", N_MC, ")\n",
+      "Opção B: distribuição proporcional ao histórico ICSAP geocodificado (86,4% das internações)"
+    )
+  ) +
+  theme_void(base_size = 11) +
+  theme(
+    plot.title        = element_text(face = "bold", size = 11),
+    plot.subtitle     = element_text(size = 8, color = "gray30", lineheight = 1.3),
+    plot.caption      = element_text(size = 7.5, color = "gray50"),
+    legend.position   = "right",
+    legend.key.height = unit(1.5, "cm")
+  )
+
+ggsave(file.path(DIR_DOCS, "internacoes_evitadas_cs.png"),
+       p_map, width = 10, height = 8.5, dpi = 150, bg = "white")
+message("  Salvo: docs/internacoes_evitadas_cs.png")
+
+# =============================================================================
 # 8. Gráfico — observado vs contrafactual com IC 95%
 # =============================================================================
 
@@ -495,6 +610,10 @@ custo_df <- bind_rows(custo_bh, custo_regional)
 write_csv(custo_df, file.path(DIR_PROC, "custo_evitado.csv"))
 message("  Salvo: data/processed/custo_evitado.csv")
 
+# Internações evitadas por CS (acumulado, com IC95%)
+write_csv(evitadas_cs, file.path(DIR_PROC, "internacoes_evitadas_cs.csv"))
+message("  Salvo: data/processed/internacoes_evitadas_cs.csv")
+
 # =============================================================================
 # 10. Resumo final
 # =============================================================================
@@ -515,5 +634,7 @@ message(sprintf("  Custo médio por internação ICSAP: R$ %.2f (mar/2026)", cus
 message("Saídas:")
 message("  data/processed/internacoes_evitadas.csv")
 message("  data/processed/custo_evitado.csv")
+message("  data/processed/internacoes_evitadas_cs.csv")
 message("  docs/internacoes_evitadas.png")
+message("  docs/internacoes_evitadas_cs.png")
 message("======================================")
