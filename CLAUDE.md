@@ -31,7 +31,7 @@ sihsus-icsap-bh/
 │   ├── 14_alocacao_proporcional.R  # Alocação proporcional CEPs limítrofes entre CS
 │   ├── 15_subgrupos_ivs.R    # GEE AR-1 estratificado por nível IVS (Baixo/Médio/Elevado/M.Elevado)
 │   ├── 16_tabela1.R          # Tabela 1 descritiva dos 153 CS para o manuscrito
-│   ├── 17_did_its.R          # DiD-ITS formal: BH × 4 capitais (θ = slope change diferencial)
+│   ├── 17_did_its.R          # DiD-ITS formal: BH × 6 capitais (θ = slope change diferencial)
 │   └── 18_its_ivs.R          # ITS × IVS: interação ivs_z:tempo_pos (heterogeneidade pós-Portaria)
 ├── app/
 │   ├── global.R               # Carrega pacotes, dados e variáveis globais
@@ -56,7 +56,7 @@ sihsus-icsap-bh/
 │   │   ├── alocacao_impacto.txt       # Relatório de impacto da alocação proporcional (script 14)
 │   │   ├── gee_subgrupos_ivs.csv      # Coeficientes GEE por estrato IVS (script 15)
 │   │   ├── its_resultados.csv         # ITS BH + 9 regionais: β₁,β₂,β₃, APC pré/pós (script 11)
-│   │   ├── its_controle_resultados.csv # ITS comparativo BH × 4 capitais (script 12)
+│   │   ├── its_controle_resultados.csv # ITS comparativo BH × 6 capitais controle (script 12)
 │   │   ├── serie_controles.csv        # Séries mensais por capital (script 12)
 │   │   ├── did_its_resultados.csv     # DiD-ITS BH × controles: θ nível e slope (script 17)
 │   │   └── its_ivs_resultados.csv     # GEE AR-1 ivs_z:tempo_pos por modelo (script 18)
@@ -82,7 +82,7 @@ sihsus-icsap-bh/
 │   ├── tendencia_regional.png # Joinpoint por regional — facet_wrap 3×3 (script 10)
 │   ├── its_bh.png             # ITS BH: observado, ajustado, contrafactual (script 11)
 │   ├── its_regional.png       # ITS por regional: facet 3×3 (script 11)
-│   ├── its_comparativo.png    # ITS comparativo BH × 4 capitais (script 12)
+│   ├── its_comparativo.png    # ITS comparativo BH × 6 capitais controle (script 12)
 │   ├── subgrupos_ivs.png      # Forest plot GEE AR-1 por estrato IVS (script 15)
 │   ├── tabela1.csv            # Tabela 1 tidy: 153 CS por regional/IVS/variáveis (script 16)
 │   ├── tabela1_formatada.html # Tabela 1 HTML formatada (gt) para o manuscrito (script 16)
@@ -243,10 +243,10 @@ O filtro de CS é dependente do filtro de regional — ao selecionar uma regiona
   - 2.403 internações redistribuídas = **3,31%** do total geocodificado (2023-2025)
   - Diferença máxima por CS×mês: 7,9 internações; CS mais afetado: CS Paraúna/Venda Nova (88,5 total acumulado)
   - Saídas: `cep_pesos_cs.csv`, `n_icsap_cs_mes_prop.csv`, `alocacao_impacto.txt`
-- ✅ **Script 11** — ITS GLS AR(1) BH municipal + 9 regionais (Portaria GM/MS 3.493/2024)
-  - **BH municipal**: nível -5,1% NS (p=0,307); APC pré=+22,8%/ano; APC pós líquida=-9,2%/ano
-  - **Barreiro**: único regional com mudança de nível sig (-18,4%, p=0,025); demais NS
-  - **Todas as regionais**: slope change pós significativo (p<0,05) = desaceleração universal
+- ✅ **Script 11** — ITS GLS AR(1) BH municipal + 9 regionais (Portaria GM/MS 3.493/2024) — **série ampliada jan/2022–mar/2026 (51 meses); MES_INTERV=29**
+  - **BH municipal**: nível -3,1% NS (p=0,516); APC pré=**+12,3%/ano** (p<0,001); APC pós líquida=**-8,3%/ano** (p=0,0003)
+  - **Todas as regionais**: nível NS; slope change pós com tendência de queda em todas (Pampulha p=0,084; Venda Nova p=0,140)
+  - **Redução do APC pré esperada**: inclusão de 2022 (taxas ~16,3%, mais baixas que 2023–2024) dilui a rampa pré-intervenção (+22,8% → +12,3%); β₃ permanece altamente significativo
   - Saída: `its_resultados.csv`, `docs/its_bh.png`, `docs/its_regional.png`
   - Nota: `apc_pos` = APC líquida pós (β₁+β₃) — não só β₃; já calculado corretamente no CSV
 - ✅ **Script 15** — GEE AR-1 estratificado por IVS (ITS com Portaria GM/MS 3.493/2024)
@@ -257,18 +257,18 @@ O filtro de CS é dependente do filtro de regional — ao selecionar uma regiona
   - **Mudança de slope pós (tempo_pos)**: similar, sem diferencial entre estratos (~-37 a -40%/ano)
   - **Conclusão**: Portaria não reduziu desigualdades — CS Muito Elevado não se beneficiou do efeito abrupt level change; possível AMPLIAÇÃO de desigualdades
   - Saída: `gee_subgrupos_ivs.csv`, `docs/subgrupos_ivs.png`
-- ✅ **Script 12** — ITS com controle: BH × SP, RJ, Curitiba, Fortaleza, DF, Belém (atualizado mai/2026)
-  - 6 capitais controle; série ampliada jan/2022–mar/2026 (51 meses); MES_INTERV=29
-  - 4/6 controles com β₃<0 sig → inflexão é tendência nacional (não específica de BH)
-  - APC pós BH = -8,3%/ano (p=0,0003); DF = -9,0%/ano; SP = -8,3%/ano; Curitiba = -6,9%/ano
-  - Fortaleza única capital sem slope change significativo (p=0,800)
+- ✅ **Script 12** — ITS com controle: BH × 6 capitais (SP, RJ, Curitiba, Fortaleza, DF, Belém) — 7 capitais no total (atualizado mai/2026)
+  - 6 capitais controle; série jan/2022–mar/2026 (51 meses); MES_INTERV=29
+  - 4/6 controles com β₃<0 sig → inflexão é tendência nacional, não específica de BH
+  - APC pós: BH=-8,3%/ano (p=0,0003); DF=-9,0%/ano; SP=-8,3%/ano; Curitiba=-6,9%/ano
+  - **Fortaleza**: única capital sem slope change significativo (p=0,800) — controle negativo natural; reforça que o efeito em BH é real mas de alcance nacional
   - Saída: `its_controle_resultados.csv`, `serie_controles.csv`, `docs/its_comparativo.png`
 - ✅ **Script 16** — Tabela 1 dos 153 CS (concluído)
   - Distribuição por regional, IVS, variáveis contínuas (mediana [IQR]), estratificado por IVS
   - Saída: `docs/tabela1.csv`, `docs/tabela1_formatada.html`
-- ✅ **Script 17** — DiD-ITS formal: BH × 6 capitais (atualizado mai/2026)
+- ✅ **Script 17** — DiD-ITS formal: BH × 6 capitais controle (atualizado mai/2026)
   - GLS pooled com interação capital×tempo_pos; θ_k = slope change controle − slope change BH
-  - **Nenhum θ_slope significativo** com 6 controles — efeito da Portaria 3.493/2024 é **nacional**
+  - **Nenhum θ_slope significativo** com 6 controles — efeito da Portaria 3.493/2024 é **nacional** (maior robustez com 7 capitais no total)
   - BH APC pré = +3,2%/ano; BH APC pós = **-5,7%/ano** (p=0,090 no modelo pooled)
   - Todos os θ_k NS — sem diferença detectável entre BH e qualquer capital controle
   - Saída: `did_its_resultados.csv`, `docs/did_its.png`
@@ -282,7 +282,7 @@ O filtro de CS é dependente do filtro de regional — ao selecionar uma regiona
 ### Infraestrutura
 - **App Shiny** implementado com todas as abas
 - **GitHub Actions** configurado para atualização automática dia 10 de cada mês
-- **`01_download.R`** parametrizado para baixar de jan/2023 ao ano corrente automaticamente
+- **`01_download.R`** parametrizado para baixar de jan/2022 ao ano corrente automaticamente
 
 ---
 
@@ -320,7 +320,7 @@ Taxa ICSAP **bruta** por 10.000 habitantes, por área de abrangência de CS. **N
 - **GLM-Gama** (link log) — baseline, ignora correlação; subestima erros padrão (p.ex. pct_sem_saneamento p=0,015 → p=0,096 no GEE)
 - **GEE AR-1 painel mensal** ✅ (script 09) — φ≈0,96; VIF todos ≤5; M3 (153 CS, AR-1): pct_sem_saneamento RR=0,968 (p=0,005), demais NS; backward stepwise elimina todos (modelo final=M1-base no subsample CNES de 117 CS)
 - **GEE ITS por estrato IVS** ✅ (script 15) — Portaria 3.493/2024: redução de nível significativa em Baixo/Médio/Elevado, NS em Muito Elevado → possível ampliação de desigualdades
-- **ITS GLS AR(1)** ✅ (script 11) — BH: nível -5,1% NS (p=0,307); APC pré=+22,8%/ano → pós=-9,2%/ano; apenas Barreiro com nível sig; desaceleração universal em todas as regionais
+- **ITS GLS AR(1)** ✅ (script 11) — série jan/2022–mar/2026 (51 meses); BH: nível -3,1% NS (p=0,516); APC pré=+12,3%/ano (p<0,001) → pós=-8,3%/ano (p=0,0003); todas as regionais NS no nível; β₃ robusto
 - **ITS com controle** ✅ (script 12) — BH × 6 capitais (SP, RJ, Curitiba, Fortaleza, DF, Belém); série jan/2022–mar/2026; 4/6 controles com β₃<0 sig → tendência nacional
 - **DiD-ITS formal** ✅ (script 17) — GLS pooled com 6 controles; todos θ_k NS → efeito nacional; BH APC pós=-5,7%/ano (modelo pooled)
 - **ITS × IVS** ✅ (script 18) — GEE AR-1; ivs_z RR=1,317\*\*\* (CS vulneráveis têm 31,7% mais ICSAP); ivs_z:tempo_pos NS (p=0,179) → efeito homogêneo da Portaria entre CS
@@ -361,8 +361,13 @@ Taxa ICSAP **bruta** por 10.000 habitantes, por área de abrangência de CS. **N
 17. ✅ ~~DiD-ITS formal~~ — concluído (script 17; nenhum θ_slope sig → efeito nacional; BH APC pós=-7,1%/ano)
 18. ✅ ~~ITS × IVS~~ — concluído (script 18; ivs_z RR=1,317\*\*\*; interação NS → efeito homogêneo)
 19. ✅ ~~Executar scripts 17 e 18~~ — **pipeline analítico 100% completo**
-20. **Investigar inflexão de abr/2024** — padrão bimodal em todas as regionais e todos os estratos IVS; checar mudanças de codificação SIHSUS ou portaria federal
-21. **Redigir manuscrito** para submissão ao *Cadernos de Saúde Pública* (meta: jan/2027)
+20. ✅ ~~Ampliar série para jan/2022~~ — concluído; scripts 01–03 re-executados; 7 capitais controle; MES_INTERV=29 em scripts 11 e 12
+21. **Script 19** — padronização direta por idade usando censobr dataset "Pessoas" (2022) — faixas etárias V01031–V01041 por setor censitário; join setor → CS; retorna taxa padronizada por 10.000 hab
+22. **Script 20** — internações evitadas em número absoluto (contrafactual ITS): diferença observado vs. tendência projetada pré-intervenção, acumulado mai/2024–mar/2026
+23. **Script 21** — Poisson com efeitos fixos por CS (two-way: CS + mês); controle de heterogeneidade não-observada como alternativa ao GEE AR-1
+24. **Re-executar script 05 para 2022** — estender `variaveis_cs.csv` de 36 para 48 competências (jan/2022–dez/2025) para viabilizar scripts 15/18 com a série completa
+25. **Investigar inflexão de abr/2024** — padrão bimodal em todas as regionais e todos os estratos IVS; checar mudanças de codificação SIHSUS ou portaria federal anterior
+26. **Redigir manuscrito** para submissão ao *Cadernos de Saúde Pública* (meta: jan/2027)
 
 ---
 
@@ -370,8 +375,12 @@ Taxa ICSAP **bruta** por 10.000 habitantes, por área de abrangência de CS. **N
 
 ### Prioritários (para o estudo científico)
 
-**Pipeline analítico 100% completo** — scripts 01–18 executados e versionados.
+**Pipeline analítico core (scripts 01–18) 100% completo** — série jan/2022–mar/2026, 7 capitais controle, MES_INTERV=29.
 
+- **Script 19** — padronização direta por idade (censobr "Pessoas" 2022; V01031–V01041 por setor → CS); viabiliza comparação ajustada entre CS com perfil etário diferente
+- **Script 20** — internações evitadas em número absoluto (contrafactual ITS pós mai/2024); métrica de impacto direto para o manuscrito
+- **Script 21** — Poisson com efeitos fixos (CS + mês) como análise de sensibilidade ao GEE AR-1
+- **Re-executar script 05 para 2022** — estender `variaveis_cs.csv` para 48 competências (jan/2022–dez/2025) e re-executar scripts 15 e 18 com a série completa
 - **Tornar repositório privado** — GitHub Settings → Danger Zone → "Change repository visibility" → Private (antes de submeter o manuscrito)
 - **Iniciar redação do manuscrito** — *Cadernos de Saúde Pública* (Fiocruz, Qualis A1)
   - Template: título em PT/EN/ES, resumo estruturado (Objetivo / Métodos / Resultados / Conclusão), corpo IMRD
