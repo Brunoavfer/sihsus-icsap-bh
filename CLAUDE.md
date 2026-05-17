@@ -33,7 +33,8 @@ sihsus-icsap-bh/
 │   ├── 16_tabela1.R          # Tabela 1 descritiva dos 153 CS para o manuscrito
 │   ├── 17_did_its.R          # DiD-ITS formal: BH × 6 capitais (θ = slope change diferencial)
 │   ├── 18_its_ivs.R          # ITS × IVS: interação ivs_z:tempo_pos (heterogeneidade pós-Portaria)
-│   └── 19_padronizacao_direta.R  # Padronização direta por idade (censobr Pessoas 2022) por CS × ano
+│   ├── 19_padronizacao_direta.R  # Padronização direta por idade (censobr Pessoas 2022) por CS × ano
+│   └── 20_internacoes_evitadas.R # Internações evitadas e custo evitado pós-Portaria 3.493/2024 (GLS ITS + Monte Carlo)
 ├── app/
 │   ├── global.R               # Carrega pacotes, dados e variáveis globais
 │   ├── ui.R                   # Interface Shiny (filtros, abas, componentes)
@@ -61,7 +62,9 @@ sihsus-icsap-bh/
 │   │   ├── serie_controles.csv        # Séries mensais por capital (script 12)
 │   │   ├── did_its_resultados.csv     # DiD-ITS BH × controles: θ nível e slope (script 17)
 │   │   ├── its_ivs_resultados.csv     # GEE AR-1 ivs_z:tempo_pos por modelo (script 18)
-│   │   └── taxas_padronizadas_v2.csv  # Taxa bruta e padronizada por CS × ano 2022–2025 (script 19)
+│   │   ├── taxas_padronizadas_v2.csv  # Taxa bruta e padronizada por CS × ano 2022–2025 (script 19)
+│   │   ├── internacoes_evitadas.csv   # Série mensal observado × contrafactual × evitadas (script 20)
+│   │   └── custo_evitado.csv          # Custo evitado BH + por regional, IC95% Monte Carlo (script 20)
 │   └── ref/                   # Referências estáticas
 │       ├── lista_icsap.csv            # CIDs ICSAP (Portaria 221/2008)
 │       ├── cache_cep.csv              # Cache de geocodificação por CEP
@@ -92,7 +95,8 @@ sihsus-icsap-bh/
 │   ├── did_its.png            # Forest plot DiD-ITS: θ slope change por capital (script 17)
 │   ├── its_ivs.png            # Série por quartil IVS + curva efeito marginal (script 18)
 │   ├── padronizacao_comparacao.png        # Scatter taxa bruta × padronizada por CS × ano (script 19)
-│   └── mapa_diferenca_padronizacao.png    # Diferença bruta−padronizada por CS — mapa BH (script 19)
+│   ├── mapa_diferenca_padronizacao.png    # Diferença bruta−padronizada por CS — mapa BH (script 19)
+│   └── internacoes_evitadas.png           # Obs × contrafactual com IC95% Monte Carlo (script 20)
 └── .github/
     └── workflows/
         └── atualizar_dados.yml  # GitHub Actions — executa dia 10 de cada mês
@@ -295,6 +299,16 @@ O filtro de CS é dependente do filtro de regional — ao selecionar uma regiona
   - CS com maior mudança: Conjunto Paulo VI (Δ=45,6 posições; bruta 87→pad 128), Jardim Vitória (44,2), Cafezal (27,8)
   - Nota: censobr retorna `data.table` — necessário `as.data.frame()` após `collect()` antes de operações dplyr
   - Saída: `pop_cs_faixas.csv`, `taxas_padronizadas_v2.csv`, `docs/padronizacao_comparacao.png`, `docs/mapa_diferenca_padronizacao.png`
+- ✅ **Script 20** — Internações ICSAP evitadas e custo evitado pós-Portaria GM/MS 3.493/2024
+  - Método: GLS AR(1) ITS idêntico ao script 11; contrafactual = tendência pré projetada sem intervenção
+  - Período pós: 23 meses (mai/2024–mar/2026); MES_INTERV=29
+  - **Internações evitadas: 13.501 (IC95%: 5.132–23.784)**
+  - **Custo evitado: R$ 29,05 milhões em valores de mar/2026 (IC95%: R$ 11,04–51,17 mi)**
+  - Custo médio por internação ICSAP: R$ 2.151,61 (deflacionado pelo IPCA acumulado 26,4% de jan/2022 a mar/2026)
+  - Incerteza: Monte Carlo (n=1.000 iterações) via `MASS::mvrnorm(vcov(GLS))`; IC asimétrico reflete incerteza do slope pré
+  - Por regional: Venda Nova (2.092 evitadas, R$ 4,50 mi) > Barreiro (1.852, R$ 3,99 mi) > Nordeste (1.809, R$ 3,89 mi)
+  - Nota técnica: SIDRA disponibiliza apenas 2 meses recentes — fallback automático para série IPCA histórica (IBGE); nlme/MASS mascaram `dplyr::select`, corrigido com `select <- dplyr::select`
+  - Saída: `internacoes_evitadas.csv`, `custo_evitado.csv`, `docs/internacoes_evitadas.png`
 
 ### Infraestrutura
 - **App Shiny** implementado com todas as abas
@@ -344,6 +358,7 @@ Taxa ICSAP **bruta** por 10.000 habitantes, por área de abrangência de CS. **N
 - **Alocação proporcional de CEPs** ✅ (script 14) — 3,31% das internações redistribuídas com buffer 100m; 32,3% CEPs limítrofes; impacto marginal mas methodologicamente relevante
 - **Joinpoint regression** ✅ (script 10) — AAPC BH = +1,1%/ano; padrão bimodal com inflexão em abr/2024 em todas as 9 regionais
 - **Padronização direta por idade** ✅ (script 19) — censobr "Pessoas" 2022; pop. padrão BH=2.310.259; rho bruta×pad=0,979; 30,1% dos CS mudam >10 posições no ranking; taxa pad sistematicamente ~7–8% > bruta (CS com pop. mais jovem que o padrão BH)
+- **Internações evitadas e custo evitado** ✅ (script 20) — GLS AR(1) ITS contrafactual; mai/2024–mar/2026; 13.501 internações evitadas (IC95%: 5.132–23.784); custo evitado R$ 29,05 mi (IC95%: 11,04–51,17 mi); Monte Carlo n=1.000 iterações; deflação IPCA 26,4% (jan/2022–mar/2026)
 
 ### Periódico Alvo
 
@@ -381,7 +396,7 @@ Taxa ICSAP **bruta** por 10.000 habitantes, por área de abrangência de CS. **N
 19. ✅ ~~Executar scripts 17 e 18~~ — **pipeline analítico 100% completo**
 20. ✅ ~~Ampliar série para jan/2022~~ — concluído; scripts 01–03 re-executados; 7 capitais controle; MES_INTERV=29 em scripts 11 e 12
 21. ✅ ~~Script 19~~ — padronização direta por idade concluída; rho=0,979; 30,1% dos CS mudam >10 posições no ranking
-22. **Script 20** — internações evitadas em número absoluto (contrafactual ITS): diferença observado vs. tendência projetada pré-intervenção, acumulado mai/2024–mar/2026
+22. ✅ ~~Script 20~~ — internações evitadas: 13.501 (IC95%: 5.132–23.784); custo evitado: R$ 29,05 mi (IC95%: 11,04–51,17 mi); GLS AR(1) + Monte Carlo n=1.000
 23. **Script 21** — Poisson com efeitos fixos por CS (two-way: CS + mês); controle de heterogeneidade não-observada como alternativa ao GEE AR-1
 24. **Re-executar script 05 para 2022** — estender `variaveis_cs.csv` de 36 para 48 competências (jan/2022–dez/2025) para viabilizar scripts 15/18 com a série completa
 25. **Investigar inflexão de abr/2024** — padrão bimodal em todas as regionais e todos os estratos IVS; checar mudanças de codificação SIHSUS ou portaria federal anterior
@@ -396,7 +411,7 @@ Taxa ICSAP **bruta** por 10.000 habitantes, por área de abrangência de CS. **N
 **Pipeline analítico core (scripts 01–18) 100% completo** — série jan/2022–mar/2026, 7 capitais controle, MES_INTERV=29.
 
 - ✅ **Script 19 concluído** — padronização direta por idade (rho=0,979; 30,1% dos CS mudam >10 posições)
-- **Script 20** — internações evitadas em número absoluto (contrafactual ITS pós mai/2024); métrica de impacto direto para o manuscrito
+- ✅ **Script 20 concluído** — 13.501 internações evitadas (IC95%: 5.132–23.784); R$ 29,05 mi evitados em valores mar/2026 (IC95%: 11,04–51,17 mi)
 - **Script 21** — Poisson com efeitos fixos (CS + mês) como análise de sensibilidade ao GEE AR-1
 - **Re-executar script 05 para 2022** — estender `variaveis_cs.csv` para 48 competências (jan/2022–dez/2025) e re-executar scripts 15 e 18 com a série completa
 - **Tornar repositório privado** — GitHub Settings → Danger Zone → "Change repository visibility" → Private (antes de submeter o manuscrito)
