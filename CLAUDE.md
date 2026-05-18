@@ -247,10 +247,17 @@ O filtro de CS é dependente do filtro de regional — ao selecionar uma regiona
   - **M4 GEE completo** (exchangeable, 117 CS): n_esf RR=1,032 (p=0,049\*), mes_num p<0,001 (APC=+3,05%/ano); QIC=472
   - **Backward stepwise** (exchangeable, 117 CS): pct_sem_saneamento p=0,255 → removido; n_esf p=0,064 → removido; **modelo final = M1-base** (nenhum preditor contextual sobreviveu p≤0,05 no subsample CNES de 117 CS)
   - **Interpretação pct_sem_saneamento** (M3): RR<1 contraintuitivo — CS em áreas com pior saneamento têm MENOS ICSAP registradas; possível viés de acesso/sub-registro em periferias; a discutir como limitação no manuscrito
-- ✅ **Script 10** — joinpoint regression (APC/AAPC) nível municipal e regional
-  - **BH**: 1 joinpoint em ~abr/2024 (mês 16); seg 1 APC = **+19,2%/ano**; seg 2 APC = **-10,8%/ano**; **AAPC = +1,1%/ano**
-  - **Regionais**: todas as 9 com padrão bimodal similar (joinpoint em ~abr–mai/2024); AAPC de +2,4% (Noroeste/Oeste) a +8,5% (Barreiro/Centro-Sul)
-  - Inversão de tendência em ~abr/2024 consistente em todo o município — possível efeito de intervenção ou mudança na codificação
+- ✅ **Script 10** — joinpoint regression (APC/AAPC) nível municipal e regional — **re-executado com série completa jan/2022–mar/2026 (51 meses)**
+  - **BH**: **2 joinpoints** — mês 16 (~abr/2023) e mês 28 (~abr/2024); 3 segmentos:
+    - Seg 1 (jan/2022–abr/2023): APC = **+1,2%/ano** (crescimento moderado pós-pandemia)
+    - Seg 2 (abr/2023–abr/2024): APC = **+22,9%/ano** (aceleração pré-Portaria)
+    - Seg 3 (abr/2024–mar/2026): APC = **-11,2%/ano** (queda pós-Portaria)
+    - **AAPC = +0,7%/ano** (período jan/2022–mar/2026)
+  - **Regionais** (51 meses cada): **8/9 com padrão bimodal** (1 joinpoint); Pampulha = 0 joinpoints (+3,6%/ano linear)
+    - Joinpoints em mes ~28–31 (abr–jul/2024), consistente com Portaria 3.493/2024
+    - AAPC: +1,5% (Oeste) a +6,7% (Barreiro/Norte)
+  - Extensão da série de 39 para 51 meses revela **fase inicial de crescimento lento (2022)** antes da aceleração de 2023
+  - Nota: denominador regional 2022/2026 usa carry-back/forward da população 2023/2025 (Censo 2022 estático)
 
 - ✅ **Script 13** — IVS-BH incorporado: 153/153 CS com ivs_score (1,00–3,86), ivs_predominante e % por categoria; join via centroide setor → polígono CS (sf_use_s2=FALSE); mais vulnerável: CS Granja de Freitas (LESTE, ivs_score=3,86)
 - ✅ **Script 14** — Alocação proporcional de CEPs limítrofes (buffer 100m)
@@ -362,7 +369,7 @@ Taxa ICSAP **bruta** por 10.000 habitantes, por área de abrangência de CS. **N
 - **DiD-ITS formal** ✅ (script 17) — GLS pooled com 6 controles; todos θ_k NS → efeito nacional; BH APC pós=-5,7%/ano (modelo pooled)
 - **ITS × IVS** ✅ (script 18) — GEE AR-1; ivs_z RR=1,317\*\*\* (CS vulneráveis têm 31,7% mais ICSAP); ivs_z:tempo_pos NS (p=0,179) → efeito homogêneo da Portaria entre CS
 - **Alocação proporcional de CEPs** ✅ (script 14) — 3,31% das internações redistribuídas com buffer 100m; 32,3% CEPs limítrofes; impacto marginal mas methodologicamente relevante
-- **Joinpoint regression** ✅ (script 10) — AAPC BH = +1,1%/ano; padrão bimodal com inflexão em abr/2024 em todas as 9 regionais
+- **Joinpoint regression** ✅ (script 10) — série completa 51 meses (jan/2022–mar/2026); **BH: 2 joinpoints** (abr/2023 e abr/2024), AAPC=+0,7%/ano; 8/9 regionais bimodais (1 JP cada); Pampulha linear; joinpoints ~abr–jul/2024
 - **Padronização direta por idade** ✅ (script 19) — censobr "Pessoas" 2022; pop. padrão BH=2.310.259; rho bruta×pad=0,979; 30,1% dos CS mudam >10 posições no ranking; taxa pad sistematicamente ~7–8% > bruta (CS com pop. mais jovem que o padrão BH)
 - **Internações evitadas e custo evitado** ✅ (script 20) — GLS AR(1) ITS contrafactual; mai/2024–mar/2026; 13.501 internações evitadas (IC95%: 5.132–23.784); custo evitado R$ 29,05 mi (IC95%: 11,04–51,17 mi); Monte Carlo n=1.000 iterações; deflação IPCA 26,4% (jan/2022–mar/2026)
 - **Poisson two-way FE** ✅ (script 21) — fixest 0.14.1; 7.803 obs (153 CS × 51 meses); offset: pop Censo 2022
@@ -395,7 +402,7 @@ Taxa ICSAP **bruta** por 10.000 habitantes, por área de abrangência de CS. **N
 3. ✅ ~~Padronização de taxas~~ — script 07 executado; taxa bruta = proxy adequado (limitação documentada)
 4. ✅ ~~Autocorrelação espacial~~ — concluído (script 08, Moran's I = 0,283)
 5. ✅ ~~GLM-Gama + GEE AR-1~~ — concluído (script 09; painel mensal; φ≈0,96; VIF ≤5; M3 é modelo principal)
-6. ✅ ~~Joinpoint regression~~ — concluído (script 10; AAPC BH=+1,1%/ano; inflexão abr/2024)
+6. ✅ ~~Joinpoint regression~~ — concluído (script 10; re-executado com série completa 51 meses; BH: 2 joinpoints abr/2023+abr/2024, AAPC=+0,7%/ano)
 7. ✅ ~~Re-executar script 03~~ — `icsap_bh_regional.csv` já estava completo (jan/2023–mar/2026)
 8. ✅ ~~Coletar IVS-BH~~ — concluído (script 13; 100% CS; ivs_score 1,00–3,86)
 9. ✅ ~~Alocação proporcional de CEPs limítrofes~~ — concluído (script 14; 3,31% redistribuídas; buffer 100m)
@@ -414,7 +421,7 @@ Taxa ICSAP **bruta** por 10.000 habitantes, por área de abrangência de CS. **N
 22. ✅ ~~Script 20~~ — internações evitadas: 13.501 (IC95%: 5.132–23.784); custo evitado: R$ 29,05 mi (IC95%: 11,04–51,17 mi); GLS AR(1) + Monte Carlo n=1.000
 23. ✅ ~~Script 21~~ — Poisson FE two-way (CS + ano); M1: mes_num NS; M2: ivs IRR=1.321***; M3: n_esf NS within-CS; dose-resposta Q2 IRR=0.921***; dispersão M1=1.23 (adequado)
 24. **Re-executar script 05 para 2022** — estender `variaveis_cs.csv` de 36 para 48 competências (jan/2022–dez/2025) para viabilizar scripts 15/18 com a série completa
-25. **Investigar inflexão de abr/2024** — padrão bimodal em todas as regionais e todos os estratos IVS; checar mudanças de codificação SIHSUS ou portaria federal anterior
+25. **Investigar inflexão de abr/2024** — série completa confirmou inflexão em abr/2024 (2º JP de BH) e em 8/9 regionais; com série mais longa emerge fase inicial 2022 (crescimento lento +1,2%/ano) → aceleração 2023 (+22,9%/ano) → queda pós-Portaria (-11,2%/ano); checar se aceleração de 2023 tem causa identificável (codificação SIHSUS? pressão de demanda reprimida?)
 26. **Redigir manuscrito** para submissão ao *Cadernos de Saúde Pública* (meta: jan/2027)
 
 ---
@@ -435,7 +442,7 @@ Taxa ICSAP **bruta** por 10.000 habitantes, por área de abrangência de CS. **N
   - Seguir checklist STROBE (`docs/checklist_strobe.md`) item a item
   - Vancouver, 4.000 palavras, até 5 tabelas/figuras
   - Figuras centrais: `docs/its_bh.png`, `docs/subgrupos_ivs.png`, `docs/did_its.png`, `docs/its_ivs.png`
-- **Investigar inflexão de abr/2024** — padrão bimodal em todas as regionais E em todos os estratos IVS; checar mudanças de codificação SIHSUS ou portaria federal anterior
+- **Investigar aceleração de 2023** — joinpoint com série completa revela 3 fases: crescimento lento 2022 (+1,2%/ano), aceleração 2023 (+22,9%/ano), queda pós-Portaria (-11,2%/ano); investigar causa da aceleração em 2023 (mudança de codificação? demanda reprimida pós-pandemia?)
 
 ### App e infraestrutura
 - **Melhorar cobertura para ≥90%** — re-executar script 04 após script 03 atualizado; avaliar uso da API Claude para CEPs irrecuperáveis pelas APIs open source

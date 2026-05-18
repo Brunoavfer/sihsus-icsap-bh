@@ -207,6 +207,22 @@ pop_regional_ano <- variaveis %>%
   summarise(pop_regional = sum(as.numeric(populacao_referencia), na.rm = TRUE),
             .groups = "drop")
 
+# Estende para anos fora da cobertura de variaveis_cs.csv (2022, 2026):
+# usa pop de jan/2023 para 2022 e jan/2025 para 2026 — Censo 2022 é estático.
+anos_disponiveis <- sort(unique(pop_regional_ano$ano_cmpt))
+if (!2022L %in% anos_disponiveis) {
+  pop_2022 <- pop_regional_ano %>%
+    filter(ano_cmpt == min(anos_disponiveis)) %>%
+    mutate(ano_cmpt = 2022L)
+  pop_regional_ano <- bind_rows(pop_2022, pop_regional_ano)
+}
+if (!2026L %in% anos_disponiveis) {
+  pop_2026 <- pop_regional_ano %>%
+    filter(ano_cmpt == max(anos_disponiveis)) %>%
+    mutate(ano_cmpt = 2026L)
+  pop_regional_ano <- bind_rows(pop_regional_ano, pop_2026)
+}
+
 serie_regional <- regional_bh %>%
   mutate(ano_cmpt = as.integer(ano_cmpt), mes_cmpt = as.integer(mes_cmpt)) %>%
   count(ano_cmpt, mes_cmpt, regional, name = "n_icsap") %>%
