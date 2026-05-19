@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fluxograma Metodológico — ICSAP-BH</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;background:#dde3ea;padding:14px;min-height:100vh}
+.wrap{max-width:1140px;margin:0 auto;background:#fff;border-radius:10px;box-shadow:0 6px 32px rgba(0,0,0,.16);overflow:hidden}
+
+/* HEADER */
+.hdr{background:linear-gradient(135deg,#0c1f2e 0%,#1B4F72 55%,#2E86C1 100%);color:#fff;padding:20px 28px 16px;text-align:center;position:relative}
+.hdr::after{content:'';position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#2E86C1,#1ABC9C,#27AE60,#D35400)}
+.hdr h1{font-size:1.55em;font-weight:800;letter-spacing:-.02em;margin-bottom:4px}
+.hdr h2{font-size:.9em;font-weight:400;opacity:.88;margin-bottom:3px}
+.hdr p{font-size:.73em;opacity:.65;letter-spacing:.02em}
+
+/* SECTION LABELS */
+.sec{padding:16px 20px 18px}
+.sec-1{background:linear-gradient(180deg,#EBF5FB 0%,#D6EAF8 100%)}
+.sec-2{background:linear-gradient(180deg,#E8F8F5 0%,#D0EFE7 100%)}
+.sec-3{background:linear-gradient(180deg,#FEF9E7 0%,#FDEBD0 100%)}
+.sec-hdr{display:flex;align-items:center;gap:9px;margin-bottom:12px}
+.sec-badge{padding:2px 11px;border-radius:20px;font-size:.68em;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#fff}
+.sec-1 .sec-badge{background:#1B4F72}
+.sec-2 .sec-badge{background:#117A65}
+.sec-3 .sec-badge{background:#C0392B}
+.sec-ttl{font-size:.82em;font-weight:700;color:#1a252f}
+
+/* GRIDS */
+.g6{display:grid;grid-template-columns:repeat(6,1fr);gap:9px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:11px}
+
+/* PIPELINE ROW (flex with arrows) */
+.pipeline{display:flex;align-items:stretch;gap:0}
+.pipe-card{flex:1;min-width:0}
+.pipe-arr{display:flex;align-items:center;justify-content:center;padding:0 3px;color:#5dade2;font-size:1.1em;flex-shrink:0;opacity:.8}
+
+/* CARDS */
+.card{border-radius:7px;padding:10px 9px 9px;box-shadow:0 2px 8px rgba(0,0,0,.14);color:#fff;height:100%;transition:transform .14s,box-shadow .14s}
+.card:hover{transform:translateY(-2px);box-shadow:0 5px 16px rgba(0,0,0,.22)}
+.c-icon{font-size:1.35em;line-height:1;margin-bottom:4px;display:block}
+.c-ttl{font-size:.73em;font-weight:700;line-height:1.25;margin-bottom:3px}
+.c-sub{font-size:.62em;font-weight:600;opacity:.72;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+.c-body{font-size:.65em;line-height:1.55;opacity:.87}
+.c-body li{list-style:none}
+.c-body li::before{content:"› ";opacity:.65}
+.c-tag{display:inline-flex;align-items:center;font-size:.6em;font-weight:600;padding:2px 6px;border-radius:9px;background:rgba(255,255,255,.18);margin-top:4px;white-space:nowrap}
+
+/* SOURCE CARDS */
+.cs{background:linear-gradient(135deg,#154360,#1F618D)}
+.cp{background:linear-gradient(135deg,#0b5345,#117a65)}
+.ci{background:linear-gradient(135deg,#145a32,#1e8449)}
+.cc{background:linear-gradient(135deg,#512e5f,#6c3483)}
+.ce{background:linear-gradient(135deg,#784212,#d35400)}
+.cv{background:linear-gradient(135deg,#1c2833,#424949)}
+
+/* PROCESSING CARDS */
+.pp1{background:linear-gradient(135deg,#0d2b3e,#1b4f72)}
+.pp2{background:linear-gradient(135deg,#063630,#0e6655)}
+.pp3{background:linear-gradient(135deg,#2c0a43,#6c3483)}
+.pp4{background:linear-gradient(135deg,#5e3003,#d35400)}
+.pp5{background:linear-gradient(135deg,#641e16,#922b21)}
+.pp6{background:linear-gradient(135deg,#0b3350,#1b6ca8)}
+
+/* OUTPUT CARDS */
+.po1{background:linear-gradient(135deg,#0d2b3e,#2e86c1)}
+.po2{background:linear-gradient(135deg,#063630,#148f77)}
+.po3{background:linear-gradient(135deg,#2c0a43,#8e44ad)}
+.po4{background:linear-gradient(135deg,#5e2500,#e67e22)}
+
+/* CONNECTORS */
+.conn{background:#fff;overflow:hidden;line-height:0}
+.conn svg{width:100%;height:42px;display:block}
+
+/* KEY FINDINGS */
+.kf{background:linear-gradient(135deg,#0c1f2e 0%,#1B4F72 100%);color:#fff;padding:12px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.kf-lbl{font-size:.67em;font-weight:700;text-transform:uppercase;letter-spacing:.07em;opacity:.7;flex-shrink:0;white-space:nowrap}
+.kf-items{display:flex;gap:7px;flex-wrap:wrap;flex:1}
+.kf-item{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);border-radius:6px;padding:5px 10px;flex:1;min-width:120px;text-align:center}
+.kf-val{font-size:.98em;font-weight:800;display:block;line-height:1.2}
+.kf-dsc{font-size:.6em;opacity:.72;margin-top:2px;display:block;line-height:1.3}
+
+/* LEGEND */
+.lgnd{padding:9px 20px;background:#f4f6f7;border-top:1px solid #e0e4e7;display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+.lgnd-ttl{font-size:.7em;font-weight:700;color:#1a252f;flex-shrink:0}
+.lgnd-items{display:flex;gap:12px;flex-wrap:wrap;align-items:center;font-size:.67em;color:#424949}
+.ldot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:3px;vertical-align:middle}
+
+/* FOOTER */
+.ftr{background:#0c1f2e;color:rgba(255,255,255,.72);text-align:center;padding:8px 20px;font-size:.7em}
+.ftr a{color:#AED6F1;text-decoration:none}
+.ftr a:hover{text-decoration:underline}
+
+/* PRINT */
+@media print{
+  body{background:#fff;padding:0}
+  .wrap{box-shadow:none;border-radius:0;max-width:none}
+  @page{size:A4 landscape;margin:8mm 9mm}
+}
+/* RESPONSIVE */
+@media(max-width:900px){
+  .g6{grid-template-columns:repeat(3,1fr)}
+  .g4{grid-template-columns:repeat(2,1fr)}
+  .pipeline{flex-wrap:wrap}
+  .pipe-arr{display:none}
+  .pipe-card{flex:0 0 calc(33% - 4px)}
+}
+@media(max-width:600px){
+  .g6,.g4{grid-template-columns:repeat(2,1fr)}
+  .pipe-card{flex:0 0 calc(50% - 4px)}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- HEADER -->
+<div class="hdr">
+  <h1>&#128300; Fluxograma Metodológico — ICSAP-BH</h1>
+  <h2>Internações por Condições Sensíveis à Atenção Primária em Belo Horizonte, MG</h2>
+  <p>Avaliação da Portaria GM/MS 3.493/2024 &nbsp;·&nbsp; Jan/2022–Mar/2026 &nbsp;·&nbsp; 153 Centros de Saúde &nbsp;·&nbsp; 51 competências mensais</p>
+</div>
+
+<!-- ═══ NÍVEL 1 — FONTES DE DADOS ═══ -->
+<div class="sec sec-1">
+  <div class="sec-hdr">
+    <span class="sec-badge">Nível 1</span>
+    <span class="sec-ttl">Fontes de Dados</span>
+  </div>
+  <div class="g6">
+
+    <div class="card cs">
+      <span class="c-icon">&#127973;</span>
+      <div class="c-ttl">SIHSUS / DATASUS</div>
+      <ul class="c-body">
+        <li>AIH jan/2022–mar/2026</li>
+        <li>638.098 internações BH</li>
+        <li>113.695 ICSAP (17,8%)</li>
+        <li>Arquivos .dbc — MG</li>
+        <li>FTP DATASUS (série RDMG)</li>
+      </ul>
+      <span class="c-tag">&#10003; 51 competências</span>
+    </div>
+
+    <div class="card cp">
+      <span class="c-icon">&#128506;</span>
+      <div class="c-ttl">PBH / SMSA</div>
+      <ul class="c-body">
+        <li>153 polígonos CS oficiais</li>
+        <li>Área de abrangência BH</li>
+        <li>Dados abertos PBH</li>
+        <li>GeoJSON EPSG:31983</li>
+        <li>Atualização via web scraping</li>
+      </ul>
+      <span class="c-tag">&#10003; GeoJSON oficial</span>
+    </div>
+
+    <div class="card ci">
+      <span class="c-icon">&#128101;</span>
+      <div class="c-ttl">IBGE Censo 2022</div>
+      <ul class="c-body">
+        <li>Pop. por 11 faixas etárias</li>
+        <li>Renda per capita (SM)</li>
+        <li>% sem rede de água</li>
+        <li>5.137 setores censitários BH</li>
+        <li>censobr + geobr (R)</li>
+      </ul>
+      <span class="c-tag">&#10003; 2.310.259 hab.</span>
+    </div>
+
+    <div class="card cc">
+      <span class="c-icon">&#127959;</span>
+      <div class="c-ttl">CNES / DATASUS</div>
+      <ul class="c-body">
+        <li>Equipes ESF e eMulti</li>
+        <li>Equipes de Saúde Bucal</li>
+        <li>Profissionais por CS</li>
+        <li>Por competência mensal</li>
+        <li>Arquivos .dbc EP</li>
+      </ul>
+      <span class="c-tag">&#10003; 76,5% CS cobertos</span>
+    </div>
+
+    <div class="card ce">
+      <span class="c-icon">&#128202;</span>
+      <div class="c-ttl">e-Gestor AB</div>
+      <ul class="c-body">
+        <li>Cobertura APS (%)</li>
+        <li>Pop. adscrita ESF</li>
+        <li>Série mensal BH</li>
+        <li>Nível municipal apenas</li>
+        <li>Implantação Portaria 3.493</li>
+      </ul>
+      <span class="c-tag">&#9888; Municipal apenas</span>
+    </div>
+
+    <div class="card cv">
+      <span class="c-icon">&#128205;</span>
+      <div class="c-ttl">ViaCEP + APIs</div>
+      <ul class="c-body">
+        <li>CEP &#8594; endereço &#8594; lat/lon</li>
+        <li>Cascata de 4 APIs</li>
+        <li>Cache 11.923 CEPs</li>
+        <li>Nominatim · Photon · BrasilAPI</li>
+        <li>AwesomeAPI (retentativa)</li>
+      </ul>
+      <span class="c-tag">&#10003; 86,4% geocodif.</span>
+    </div>
+
+  </div>
+</div>
+
+<!-- CONNECTOR 1→2 (fan-in) -->
+<div class="conn">
+<svg viewBox="0 0 1140 42" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1140" height="42" fill="#fff"/>
+  <!-- fan-in dashed lines from 6 sources to central point -->
+  <line x1="95"   y1="1" x2="542" y2="30" stroke="#2E86C1" stroke-width="1.3" stroke-dasharray="4,2.5" opacity=".45"/>
+  <line x1="285"  y1="1" x2="556" y2="30" stroke="#117A65" stroke-width="1.3" stroke-dasharray="4,2.5" opacity=".45"/>
+  <line x1="475"  y1="1" x2="566" y2="30" stroke="#1E8449" stroke-width="1.3" stroke-dasharray="4,2.5" opacity=".45"/>
+  <line x1="665"  y1="1" x2="578" y2="30" stroke="#6C3483" stroke-width="1.3" stroke-dasharray="4,2.5" opacity=".45"/>
+  <line x1="855"  y1="1" x2="594" y2="30" stroke="#D35400" stroke-width="1.3" stroke-dasharray="4,2.5" opacity=".45"/>
+  <line x1="1045" y1="1" x2="608" y2="30" stroke="#424949" stroke-width="1.3" stroke-dasharray="4,2.5" opacity=".45"/>
+  <!-- main arrow -->
+  <line x1="575" y1="30" x2="575" y2="36" stroke="#2E86C1" stroke-width="2.8"/>
+  <polygon points="575,42 569,32 581,32" fill="#2E86C1"/>
+  <!-- label pill -->
+  <rect x="470" y="9" width="210" height="15" rx="7.5" fill="#EBF5FB" stroke="#AED6F1" stroke-width=".8"/>
+  <text x="575" y="20.5" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1B4F72" font-weight="700">integração e geocodificação</text>
+</svg>
+</div>
+
+<!-- ═══ NÍVEL 2 — PROCESSAMENTO ANALÍTICO ═══ -->
+<div class="sec sec-2">
+  <div class="sec-hdr">
+    <span class="sec-badge">Nível 2</span>
+    <span class="sec-ttl">Pipeline Analítico — 21 Scripts R (execução sequencial)</span>
+  </div>
+
+  <div class="pipeline">
+
+    <div class="pipe-card card pp1">
+      <span class="c-icon">&#128229;</span>
+      <div class="c-ttl">Scripts 01–03</div>
+      <div class="c-sub">Coleta e Geocodificação</div>
+      <ul class="c-body">
+        <li>Download .dbc FTP DATASUS</li>
+        <li>Filtro duplo BH (res=int)</li>
+        <li>479 CIDs ICSAP (Port. 221/2008)</li>
+        <li>CEP &#8594; lat/lon &#8594; CS (sf)</li>
+        <li>Cache CEP incremental</li>
+      </ul>
+      <span class="c-tag">&#10003; 113.695 ICSAP</span>
+    </div>
+
+    <div class="pipe-arr">&#9654;</div>
+
+    <div class="pipe-card card pp2">
+      <span class="c-icon">&#128295;</span>
+      <div class="c-ttl">Scripts 04–05</div>
+      <div class="c-sub">Cobertura e Variáveis</div>
+      <ul class="c-body">
+        <li>Cascata 4 APIs (CEPs falhos)</li>
+        <li>CNES: equipes ESF/eMulti</li>
+        <li>IVS-BH via SMSA/PBH</li>
+        <li>Censo 2022 + favelas geobr</li>
+        <li>Alocação proporcional CEPs</li>
+      </ul>
+      <span class="c-tag">&#10003; 153 CS completos</span>
+    </div>
+
+    <div class="pipe-arr">&#9654;</div>
+
+    <div class="pipe-card card pp3">
+      <span class="c-icon">&#128269;</span>
+      <div class="c-ttl">Scripts 06–08</div>
+      <div class="c-sub">Qualidade e Exploração</div>
+      <ul class="c-body">
+        <li>MNAR: 13,6% sem geocodif.</li>
+        <li>Padronização direta (Ahmad 2001)</li>
+        <li>Moran's I = 0,283 (p&lt;0,001)</li>
+        <li>10 clusters Hi-Hi (LISA)</li>
+        <li>Autocorrelação &#8594; GEE necessário</li>
+      </ul>
+      <span class="c-tag">&#10003; Autocorrelação</span>
+    </div>
+
+    <div class="pipe-arr">&#9654;</div>
+
+    <div class="pipe-card card pp4">
+      <span class="c-icon">&#128200;</span>
+      <div class="c-ttl">Scripts 09–10</div>
+      <div class="c-sub">Modelos Descritivos</div>
+      <ul class="c-body">
+        <li>GLM-Gama + GEE AR-1 (&#981;=0,96)</li>
+        <li>Sazonalidade Fourier sin/cos</li>
+        <li>VIF &#8804; 5 (sem multicolinearidade)</li>
+        <li>Joinpoint: 2 inflexões BH</li>
+        <li>AAPC = +0,7%/ano (jan/22–mar/26)</li>
+      </ul>
+      <span class="c-tag">&#10003; 5.492 obs (153×36)</span>
+    </div>
+
+    <div class="pipe-arr">&#9654;</div>
+
+    <div class="pipe-card card pp5">
+      <span class="c-icon">&#9879;</span>
+      <div class="c-ttl">Scripts 11–18</div>
+      <div class="c-sub">Análise Causal</div>
+      <ul class="c-body">
+        <li>ITS GLS AR(1): 51 meses</li>
+        <li>DiD-ITS: 6 capitais controle</li>
+        <li>Subgrupos IVS (4 estratos)</li>
+        <li>Poisson FE two-way (CS+ano)</li>
+        <li>Internações evitadas + Monte Carlo</li>
+      </ul>
+      <span class="c-tag">&#10003; Portaria 3.493/2024</span>
+    </div>
+
+    <div class="pipe-arr">&#9654;</div>
+
+    <div class="pipe-card card pp6">
+      <span class="c-icon">&#128176;</span>
+      <div class="c-ttl">Scripts 19–21</div>
+      <div class="c-sub">Resultados Finais</div>
+      <ul class="c-body">
+        <li>Padronização etária v2 (censobr)</li>
+        <li>13.501 internações evitadas</li>
+        <li>R$ 29,05 mi custo evitado</li>
+        <li>Monte Carlo n=1.000 iter.</li>
+        <li>IC95% assimétricos (vcov GLS)</li>
+      </ul>
+      <span class="c-tag">&#10003; IC 95% calculados</span>
+    </div>
+
+  </div>
+</div>
+
+<!-- KEY FINDINGS PANEL -->
+<div class="kf">
+  <span class="kf-lbl">Principais Resultados</span>
+  <div class="kf-items">
+    <div class="kf-item">
+      <span class="kf-val">113.695</span>
+      <span class="kf-dsc">internações ICSAP<br>jan/2022–mar/2026</span>
+    </div>
+    <div class="kf-item">
+      <span class="kf-val">+12,3%/ano</span>
+      <span class="kf-dsc">APC pré-Portaria<br>jan/2022–mai/2024</span>
+    </div>
+    <div class="kf-item">
+      <span class="kf-val">&#8722;8,3%/ano***</span>
+      <span class="kf-dsc">APC pós-Portaria 3.493<br>ITS GLS AR(1)</span>
+    </div>
+    <div class="kf-item">
+      <span class="kf-val">13.501</span>
+      <span class="kf-dsc">internações evitadas<br>IC95%: 5.132–23.784</span>
+    </div>
+    <div class="kf-item">
+      <span class="kf-val">R$ 29,05 mi</span>
+      <span class="kf-dsc">custo evitado (mar/2026)<br>IC95%: 11,04–51,17 mi</span>
+    </div>
+    <div class="kf-item">
+      <span class="kf-val">IVS IRR=1,321***</span>
+      <span class="kf-dsc">Poisson FE: CS vulneráveis<br>têm +32,1% mais ICSAP</span>
+    </div>
+    <div class="kf-item">
+      <span class="kf-val">&#952;&#8336; NS (6/6)</span>
+      <span class="kf-dsc">DiD-ITS: efeito Portaria<br>é tendência nacional</span>
+    </div>
+  </div>
+</div>
+
+<!-- CONNECTOR 2→3 (fan-out) -->
+<div class="conn">
+<svg viewBox="0 0 1140 42" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1140" height="42" fill="#fff"/>
+  <!-- fan-out dashed lines from central point to 4 outputs -->
+  <!-- output centers (grid4, gap 11px, padding 20px each side): ~152, 420, 688, 956 -->
+  <circle cx="570" cy="6" r="3.5" fill="#27AE60"/>
+  <line x1="570" y1="9"  x2="152" y2="32" stroke="#27AE60" stroke-width="1.3" stroke-dasharray="4,2.5" opacity=".5"/>
+  <line x1="570" y1="9"  x2="420" y2="32" stroke="#148F77" stroke-width="1.3" stroke-dasharray="4,2.5" opacity=".5"/>
+  <line x1="570" y1="9"  x2="688" y2="32" stroke="#8E44AD" stroke-width="1.3" stroke-dasharray="4,2.5" opacity=".5"/>
+  <line x1="570" y1="9"  x2="956" y2="32" stroke="#E67E22" stroke-width="1.3" stroke-dasharray="4,2.5" opacity=".5"/>
+  <polygon points="152,38 146,28 158,28" fill="#27AE60"/>
+  <polygon points="420,38 414,28 426,28" fill="#148F77"/>
+  <polygon points="688,38 682,28 694,28" fill="#8E44AD"/>
+  <polygon points="956,38 950,28 962,28" fill="#E67E22"/>
+  <!-- label pill -->
+  <rect x="460" y="8" width="220" height="15" rx="7.5" fill="#E9F7EF" stroke="#A9DFBF" stroke-width=".8"/>
+  <text x="570" y="19.5" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1E8449" font-weight="700">resultados, produtos e impacto</text>
+</svg>
+</div>
+
+<!-- ═══ NÍVEL 3 — OUTPUTS E PRODUTOS ═══ -->
+<div class="sec sec-3">
+  <div class="sec-hdr">
+    <span class="sec-badge">Nível 3</span>
+    <span class="sec-ttl">Outputs e Produtos</span>
+  </div>
+  <div class="g4">
+
+    <div class="card po1">
+      <span class="c-icon">&#128196;</span>
+      <div class="c-ttl">Artigo Científico</div>
+      <ul class="c-body">
+        <li>Cadernos de Saúde Pública</li>
+        <li>Fiocruz · Qualis A1</li>
+        <li>Checklist STROBE completo</li>
+        <li>Vancouver · 4.000 palavras</li>
+        <li>Até 5 tabelas/figuras</li>
+        <li>Figuras: ITS, DiD, subgrupos IVS</li>
+      </ul>
+      <span class="c-tag">&#128197; Meta: jan/2027</span>
+    </div>
+
+    <div class="card po2">
+      <span class="c-icon">&#128187;</span>
+      <div class="c-ttl">Painel Interativo</div>
+      <ul class="c-body">
+        <li>App Shiny — 5 abas</li>
+        <li>Mapa · gráficos · tabela</li>
+        <li>153 CS ranqueados por taxa</li>
+        <li>Filtros: regional, CS, condição</li>
+        <li>GitHub Actions (dia 10/mês)</li>
+        <li>Deploy: shinyapps.io</li>
+      </ul>
+      <span class="c-tag">&#10003; Atualização mensal</span>
+    </div>
+
+    <div class="card po3">
+      <span class="c-icon">&#128187;</span>
+      <div class="c-ttl">Repositório Open Source</div>
+      <ul class="c-body">
+        <li>github.com/Brunoavfer</li>
+        <li>21 scripts R documentados</li>
+        <li>Dados públicos DATASUS</li>
+        <li>Reproduzível e auditável</li>
+        <li>GitHub Pages (documentação)</li>
+        <li>CLAUDE.md com briefing</li>
+      </ul>
+      <span class="c-tag">&#10003; Ciência aberta</span>
+    </div>
+
+    <div class="card po4">
+      <span class="c-icon">&#127919;</span>
+      <div class="c-ttl">Subsídio para Gestão</div>
+      <ul class="c-body">
+        <li>153 CS mapeados e ranqueados</li>
+        <li>Áreas prioritárias por IVS-BH</li>
+        <li>Custo evitado por regional</li>
+        <li>Evidência SMSA · PBH · MS</li>
+        <li>Monitoramento contínuo Port. 3.493</li>
+        <li>Desigualdades em saúde (IVS)</li>
+      </ul>
+      <span class="c-tag">&#10003; Política de saúde</span>
+    </div>
+
+  </div>
+</div>
+
+<!-- LEGEND -->
+<div class="lgnd">
+  <span class="lgnd-ttl">Legenda:</span>
+  <div class="lgnd-items">
+    <span><span class="ldot" style="background:#1B4F72"></span>Nível 1 — Fontes de dados</span>
+    <span><span class="ldot" style="background:#117A65"></span>Nível 2 — Pipeline R (21 scripts)</span>
+    <span><span class="ldot" style="background:#C0392B"></span>Nível 3 — Produtos</span>
+    <span>&#10003; Etapa concluída</span>
+    <span>&#9888; Limitação metodológica</span>
+    <span>*** p&lt;0,001 &nbsp;·&nbsp; ** p&lt;0,01 &nbsp;·&nbsp; * p&lt;0,05</span>
+    <span>GEE = Generalized Estimating Equations</span>
+    <span>ITS = Interrupted Time Series</span>
+    <span>DiD = Difference-in-Differences</span>
+    <span>IVS = Índice de Vulnerabilidade em Saúde (SMSA/PBH)</span>
+    <span>ICSAP = Internações por Condições Sensíveis à Atenção Primária</span>
+    <span>APC = Annual Percent Change &nbsp;·&nbsp; AAPC = Average APC</span>
+    <span>Port. 221/2008 = lista ICSAP (479 CIDs) &nbsp;·&nbsp; Port. 3.493/2024 = intervenção avaliada</span>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="ftr">
+  <strong>ICSAP-BH</strong> &nbsp;|&nbsp;
+  Bruno Ávila Ferreira &nbsp;|&nbsp;
+  ORCID: 0000-0003-0791-6153 &nbsp;|&nbsp;
+  2025 &nbsp;|&nbsp;
+  <a href="https://github.com/Brunoavfer/sihsus-icsap-bh">github.com/Brunoavfer/sihsus-icsap-bh</a> &nbsp;|&nbsp;
+  <a href="https://brunoavfer.github.io/sihsus-icsap-bh/">brunoavfer.github.io/sihsus-icsap-bh</a>
+</div>
+
+</div><!-- /wrap -->
+
+<script>
+// Print button (hidden on print)
+(function(){
+  var btn = document.createElement('button');
+  btn.textContent = '🖨 Imprimir / Salvar PDF';
+  btn.style.cssText = 'position:fixed;bottom:18px;right:18px;padding:8px 16px;background:#1B4F72;color:#fff;border:none;border-radius:6px;font-size:.8em;font-weight:600;cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.25);z-index:999';
+  btn.addEventListener('click', function(){ window.print(); });
+  document.body.appendChild(btn);
+  var style = document.createElement('style');
+  style.textContent = '@media print{button{display:none!important}}';
+  document.head.appendChild(style);
+})();
+</script>
+</body>
+</html>
