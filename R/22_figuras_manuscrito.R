@@ -14,6 +14,8 @@ suppressPackageStartupMessages({
   library(zoo)
 })
 
+options(OutDec = ",", scipen = 999)
+
 DPI  <- 300
 W_IN <- 170 / 25.4   # 6.693 pol
 DIR_DOCS <- "docs"
@@ -22,7 +24,7 @@ DIR_RAW  <- "data/raw"
 DIR_REF  <- "data/ref"
 
 # ---- Helpers ----------------------------------------------------------------
-fmt_n  <- function(n) format(round(n), big.mark = ".", decimal.mark = ",", scientific = FALSE)
+fmt_n  <- function(n) formatC(round(n), format = "d", big.mark = ".")
 fmt_pct <- function(n, tot) sprintf("%s (%.1f%%)", fmt_n(n), n / tot * 100)
 fmt_med <- function(x) {
   q <- quantile(x, c(.25, .5, .75), na.rm = TRUE)
@@ -255,7 +257,7 @@ x_ann_pos  <- as.Date("2024-08-01")
 p2a <- ggplot(ev, aes(x = data, y = n_icsap, fill = periodo)) +
   geom_col(width = 26, colour = NA, alpha = 0.80) +
   geom_line(aes(y = ma3), colour = "#0D3349", linewidth = 0.8, na.rm = TRUE) +
-  geom_vline(xintercept = as.numeric(d_int),
+  geom_vline(xintercept = d_int,
              linetype = "dashed", colour = "#C0392B", linewidth = 0.55) +
   annotate("text",
            x = d_int + 25, y = y_max_a * 0.96,
@@ -267,7 +269,7 @@ p2a <- ggplot(ev, aes(x = data, y = n_icsap, fill = periodo)) +
   ) +
   scale_x_date(date_breaks = "6 months", date_labels = "%b/%Y",
                expand = expansion(mult = 0.01)) +
-  scale_y_continuous(labels = label_number(big.mark = "."),
+  scale_y_continuous(labels = label_number(big.mark = ".", decimal.mark = ","),
                      expand = expansion(mult = c(0, 0.07))) +
   labs(x = NULL, y = "Internacoes ICSAP (n)",
        title = "A  Internacoes ICSAP mensais -- BH, jan/2022 a mar/2026") +
@@ -291,20 +293,18 @@ p2b <- ggplot(ev, aes(x = data)) +
             colour = "#1565C0", linewidth = 0.80) +
   geom_point(aes(y = taxa_obs, colour = periodo),
              size = 0.9, shape = 16, show.legend = FALSE) +
-  geom_vline(xintercept = as.numeric(d_int),
+  geom_vline(xintercept = d_int,
              linetype = "dashed", colour = "#C0392B", linewidth = 0.55) +
   annotate("label",
            x = x_ann_pre, y = y_max_b - 0.8,
            label = "APC pre: +12,3%/ano\n(IC95%: 5,8; 19,2; p<0,001)",
            size = 2.0, hjust = 0, colour = "#1565C0",
-           fill = "white", label.size = 0.15,
-           label.padding = unit(1.2, "mm")) +
+           fill = "white", label.padding = unit(1.2, "mm")) +
   annotate("label",
            x = x_ann_pos, y = y_max_b - 0.8,
            label = "APC pos: -8,3%/ano\n(p<0,001)",
            size = 2.0, hjust = 0, colour = "#C0392B",
-           fill = "white", label.size = 0.15,
-           label.padding = unit(1.2, "mm")) +
+           fill = "white", label.padding = unit(1.2, "mm")) +
   scale_x_date(date_breaks = "6 months", date_labels = "%b/%Y",
                expand = expansion(mult = 0.01)) +
   scale_y_continuous(labels = function(x) paste0(x, "%"),
@@ -377,15 +377,19 @@ top5_evit <- sf_map |>
   mutate(label_cs = str_remove(nome_cs, "^CENTRO DE SAUDE "))
 
 # Centroides para rotulos
-sf_labels3 <- sf_map |>
-  filter(nome_cs %in% top3_taxa$nome_cs) |>
-  st_centroid() |>
-  left_join(top3_taxa |> select(nome_cs, label_cs), by = "nome_cs")
+sf_labels3 <- suppressWarnings(
+  sf_map |>
+    filter(nome_cs %in% top3_taxa$nome_cs) |>
+    st_centroid() |>
+    left_join(top3_taxa |> select(nome_cs, label_cs), by = "nome_cs")
+)
 
-sf_labels5 <- sf_map |>
-  filter(nome_cs %in% top5_evit$nome_cs) |>
-  st_centroid() |>
-  left_join(top5_evit |> select(nome_cs, label_cs), by = "nome_cs")
+sf_labels5 <- suppressWarnings(
+  sf_map |>
+    filter(nome_cs %in% top5_evit$nome_cs) |>
+    st_centroid() |>
+    left_join(top5_evit |> select(nome_cs, label_cs), by = "nome_cs")
+)
 
 theme_mapa <- function() {
   theme_void(base_size = 8) +
@@ -410,7 +414,7 @@ p3a <- ggplot(sf_map) +
   scale_fill_viridis_c(
     name      = "Taxa pad.\n(por 10.000\nhab./mes)",
     option    = "plasma", direction = -1, na.value = "grey85",
-    labels    = label_number(accuracy = 1)
+    labels    = label_number(accuracy = 1, big.mark = ".", decimal.mark = ",")
   ) +
   annotation_scale(location = "bl", width_hint = 0.30,
                    bar_cols = c("grey30", "white"),
@@ -432,7 +436,7 @@ p3b <- ggplot(sf_map) +
   scale_fill_viridis_c(
     name      = "Internacoes\nevitadas (n)",
     option    = "viridis", direction = 1, na.value = "grey85",
-    labels    = label_number(accuracy = 1)
+    labels    = label_number(accuracy = 1, big.mark = ".", decimal.mark = ",")
   ) +
   annotation_scale(location = "bl", width_hint = 0.30,
                    bar_cols = c("grey30", "white"),
@@ -459,8 +463,10 @@ fig3 <- (p3a | p3b) +
                                               hjust = 0, lineheight = 1.3))
   )
 
-ggsave(file.path(DIR_DOCS, "figura3_mapa_duplo.png"),
-       fig3, width = W_IN, height = W_IN * 0.62, dpi = DPI, bg = "white")
+suppressWarnings(
+  ggsave(file.path(DIR_DOCS, "figura3_mapa_duplo.png"),
+         fig3, width = W_IN, height = W_IN * 0.62, dpi = DPI, bg = "white")
+)
 cat("  ok figura3_mapa_duplo.png\n")
 
 # =============================================================================
