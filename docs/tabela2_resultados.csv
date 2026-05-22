@@ -8,11 +8,11 @@ n = 51 meses (jan/2022–mar/2026)",Mudança de tendência pós-Portaria (APC),-
 1. Interrupção de Série Temporal (ITS-GLS AR[1]) — BH Municipal,"ITS-GLS AR(1)
 n = 51 meses (jan/2022–mar/2026)",Correlação AR(1) (φ),"0,634",—,—
 1. Interrupção de Série Temporal (ITS-GLS AR[1]) — BH Municipal,"Joinpoint (2 inflexões)
-AAPC = +0,7%/ano (IC95%: -1,2; 2,6) (p=0,452)",Seg. 1: jan/2022–abr/2023,"+1,2%/ano","(IC95%: -3,1; 5,5)","0,584"
+AAPC = +0,7%/ano (-1,2; 2,6) (p = 0,452)",Seg. 1: jan/2022–abr/2023,"+1,2%/ano","(-3,1; 5,5)","0,584"
 1. Interrupção de Série Temporal (ITS-GLS AR[1]) — BH Municipal,"Joinpoint (2 inflexões)
-AAPC = +0,7%/ano (IC95%: -1,2; 2,6) (p=0,452)",Seg. 2: abr/2023–abr/2024,"+22,9%/ano","(IC95%: 15,3; 30,5)","<0,001"
+AAPC = +0,7%/ano (-1,2; 2,6) (p = 0,452)",Seg. 2: abr/2023–abr/2024,"+22,9%/ano","(15,3; 30,5)","<0,001"
 1. Interrupção de Série Temporal (ITS-GLS AR[1]) — BH Municipal,"Joinpoint (2 inflexões)
-AAPC = +0,7%/ano (IC95%: -1,2; 2,6) (p=0,452)",Seg. 3: abr/2024–mar/2026,"-11,2%/ano","(IC95%: -16,8; -5,6)","<0,001"
+AAPC = +0,7%/ano (-1,2; 2,6) (p = 0,452)",Seg. 3: abr/2024–mar/2026,"-11,2%/ano","(-16,8; -5,6)","<0,001"
 2. Determinantes da taxa ICSAP — Poisson FE dois sentidos (153 CS),"M2 — Efeitos fixos por regional + ano
 n = 7.803 obs. (153 CS × 51 meses)",Índice de Vulnerabilidade em Saúde (IVS-BH) — IRR por 1 ponto,1.321,(1.121; 1.557),"<0,001"
 2. Determinantes da taxa ICSAP — Poisson FE dois sentidos (153 CS),"M2 — Efeitos fixos por regional + ano
@@ -20,7 +20,7 @@ n = 7.803 obs. (153 CS × 51 meses)",% domicílios sem saneamento básico — IR
 2. Determinantes da taxa ICSAP — Poisson FE dois sentidos (153 CS),"M2 — Efeitos fixos por regional + ano
 n = 7.803 obs. (153 CS × 51 meses)",Sobredispersão (Pearson χ²/gl) — M2 regional FE,2.68,—,—
 2. Determinantes da taxa ICSAP — Poisson FE dois sentidos (153 CS),Dose-resposta: nº equipes ESF vs. Q1 (1–4 equipes),Q2 (5–6 equipes) — IRR,0.921,(0.897; 0.945),"<0,001"
-2. Determinantes da taxa ICSAP — Poisson FE dois sentidos (153 CS),Dose-resposta: nº equipes ESF vs. Q1 (1–4 equipes),Q3–Q4 (≥ 7 equipes) — IRR,"0,987","(IC95%: 0,962; 1,013)","0,287"
+2. Determinantes da taxa ICSAP — Poisson FE dois sentidos (153 CS),Dose-resposta: nº equipes ESF vs. Q1 (1–4 equipes),Q3–Q4 (≥ 7 equipes) — IRR,"0,987","(0,962; 1,013)","0,287"
 3. Impacto estimado da Portaria GM/MS nº 3.493/2024 (mai/2024–mar/2026),"GLS AR(1) + Monte Carlo
 n = 1.000 iterações | n = 51 meses",Internações ICSAP evitadas em BH (n)ᵃ,13.501,(5.132; 23.784),—
 3. Impacto estimado da Portaria GM/MS nº 3.493/2024 (mai/2024–mar/2026),"GLS AR(1) + Monte Carlo
@@ -28,4 +28,4 @@ n = 1.000 iterações | n = 51 meses",Custo evitado — BRL mar/2026 (R$ milhõe
 3. Impacto estimado da Portaria GM/MS nº 3.493/2024 (mai/2024–mar/2026),"GLS AR(1) + Monte Carlo
 n = 1.000 iterações | n = 51 meses","Custo médio por internação ICSAP (deflacionado pelo IPCA, R$ mar/2026)ᵇ","R$ 2.151,61",—,—
 3. Impacto estimado da Portaria GM/MS nº 3.493/2024 (mai/2024–mar/2026),"Diferença-em-diferenças ITS — BH vs. 6 capitais controle
-n = 357 obs. (51 meses × 7 capitais)",θ médio (mudança de slope BH − controles),"−0,3%/ano","(IC95%: −2,1; 1,5)","0,423"
+n = 357 obs. (51 meses × 7 capitais)",θ médio (mudança de slope BH − controles),"−0,3%/ano","(−2,1; 1,5)","0,423"

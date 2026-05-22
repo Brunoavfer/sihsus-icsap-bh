@@ -13,6 +13,7 @@ suppressPackageStartupMessages({
   library(ggspatial)
   library(classInt)
   library(zoo)
+  library(ragg)   # renderização de texto Unicode no Windows
 })
 
 options(OutDec = ",", scipen = 999)
@@ -160,7 +161,7 @@ boxes_excl <- bind_rows(
   mk_box("X2", 0.72, 0.73, 0.99, 0.82, "#BDC3C7",
          sprintf("Excluídos:\nMunicípio de residência ≠ 310620\nn = %s", fmt_n(excl_res))),
   mk_box("X3", 0.72, 0.57, 0.99, 0.67, "#FADBD8",
-         sprintf("Não-ICSAP\n(excluídos da análise)\nn = %s (82,2%%)", fmt_n(N_NAICSAP))),
+         sprintf("Não classificadas como ICSAP\n(excluídas da análise)\nn = %s (82,2%%)", fmt_n(N_NAICSAP))),
   mk_box("X4", 0.72, 0.40, 0.99, 0.50, "#FAD7A0",
          sprintf("Sem geocodificação\n(MNAR — analisado)\nn = %s (13,6%%)", fmt_n(N_NGEO)))
 )
@@ -235,7 +236,8 @@ fig1 <- ggplot() +
   )
 
 ggsave(file.path(DIR_DOCS, "figura1_fluxograma_strobe.png"),
-       fig1, width = W_IN, height = W_IN * 1.1, dpi = DPI, bg = "white")
+       fig1, width = W_IN, height = W_IN * 1.1, dpi = DPI,
+       device = ragg::agg_png, bg = "white")
 cat("  ok figura1_fluxograma_strobe.png\n")
 
 # =============================================================================
@@ -366,7 +368,7 @@ p2c <- ggplot(ev, aes(x = data)) +
                expand = expansion(mult = 0.01)) +
   scale_y_continuous(labels = label_number(big.mark = ".", decimal.mark = ","),
                      expand = expansion(mult = c(0, 0.10))) +
-  labs(x = NULL,
+  labs(x = "Competência (mês/ano)",
        y = "Internações evitadas (n/mês)",
        title = "C") +
   theme_lancet() +
@@ -386,7 +388,7 @@ p2d <- ggplot(ev_pos, aes(x = data)) +
            y = max(ev_pos$custo_acum) * 0.75,
            label = "R$ 29,05 mi\n(IC95%: 11,04–51,17)",
            size = 2.1, hjust = 1, colour = "#1B5E20", fontface = "bold") +
-  scale_x_date(date_breaks = "3 months", date_labels = "%b/%Y",
+  scale_x_date(date_breaks = "6 months", date_labels = "%b/%Y",
                expand = expansion(mult = 0.01)) +
   scale_y_continuous(labels = label_number(accuracy = 0.1, big.mark = ".",
                                             decimal.mark = ",",
@@ -419,7 +421,8 @@ fig2 <- (p2a | p2b) / (p2c | p2d) +
   )
 
 ggsave(file.path(DIR_DOCS, "figura2_its_4paineis.png"),
-       fig2, width = W_IN, height = W_IN * 1.45, dpi = DPI, bg = "white")
+       fig2, width = W_IN, height = W_IN * 1.45, dpi = DPI,
+       device = ragg::agg_png, bg = "white")
 cat("  ok figura2_its_4paineis.png\n")
 
 # =============================================================================
@@ -631,14 +634,19 @@ p3d <- ggplot(sf_cs_map) +
 fig3 <- (p3a | p3b) / (p3c | p3d) +
   plot_annotation(
     caption = paste0(
-      "Figura 3. Distribuição espacial da taxa de internações por condições sensíveis à atenção primária (ICSAP) e das internações evitadas após a Portaria GM/MS nº 3.493/2024. ",
-      "Belo Horizonte, Minas Gerais, Brasil.\n",
-      "(A) Taxa ICSAP padronizada por idade por Regional Administrativa (média jan/2022–mar/2026, por 10.000 habitantes/mês; padronização direta, população padrão: BH, Censo 2022). ",
-      "(B) Internações ICSAP evitadas por Regional Administrativa (estimativa ITS-GLS AR[1], mai/2024–mar/2026).\n",
-      "(C) Taxa ICSAP padronizada por área de abrangência do Centro de Saúde (CS; n=153; média jan/2022–mar/2026, por 10.000 habitantes/mês). ",
-      "(D) Internações ICSAP evitadas por CS (mai/2024–mar/2026).\n",
-      "Classificação: quebras naturais (método de Jenks). ",
-      "Fonte: SIH/SUS – DATASUS; SMSA/PBH (áreas de abrangência, 2024); IBGE (Censo 2022). Elaboração própria."
+      "Figura 3. Distribuição espacial da taxa de internações por condições sensíveis à atenção primária (ICSAP) ",
+      "e das internações evitadas após a Portaria GM/MS nº 3.493/2024. ",
+      "Belo Horizonte, Minas Gerais, Brasil, janeiro de 2022 a março de 2026.\n",
+      "(A) Taxa ICSAP padronizada por idade (método direto, população padrão: Brasil, Censo 2022). ",
+      "Média mensal por 10.000 habitantes, por Regional Administrativa de saúde.\n",
+      "(B) Internações ICSAP evitadas por Regional Administrativa, no período pós-Portaria ",
+      "(maio/2024–março/2026). Estimativa baseada no modelo ITS-GLS AR(1).\n",
+      "(C) Taxa ICSAP padronizada por idade (mesmo método), por área de abrangência do Centro de Saúde (CS). ",
+      "Foram incluídos 153 CS com informação completa.\n",
+      "(D) Internações ICSAP evitadas por CS (detalhe ampliado para visualização). ",
+      "Classificação das cores por quebras naturais (método de Jenks).\n",
+      "Escala: 6 km (indicada nos mapas). Norte: seta indicativa.\n",
+      "Fontes: SIH/SUS – DATASUS; SMSA/PBH (áreas de abrangência, 2024); IBGE (Censo 2022). Elaboração própria."
     ),
     theme = theme(plot.caption = element_text(size = 6.3, colour = "grey35",
                                               hjust = 0, lineheight = 1.3))
@@ -646,7 +654,8 @@ fig3 <- (p3a | p3b) / (p3c | p3d) +
 
 suppressWarnings(
   ggsave(file.path(DIR_DOCS, "figura3_mapa_quadruplo.png"),
-         fig3, width = W_IN, height = W_IN * 1.15, dpi = DPI, bg = "white")
+         fig3, width = W_IN, height = W_IN * 1.15, dpi = DPI,
+         device = ragg::agg_png, bg = "white")
 )
 cat("  ok figura3_mapa_quadruplo.png\n")
 
@@ -681,7 +690,7 @@ grupo_labels <- lista_icsap |>
   summarise(label_grp = paste(unique(cond)[seq_len(min(2, n()))],
                                collapse = " / "),
             .groups = "drop") |>
-  mutate(label_grp = str_trunc(label_grp, 55))
+  mutate(label_grp = str_trunc(label_grp, 80))
 
 top5_gps <- ic |> count(grupo, sort = TRUE) |> slice_head(n = 5) |>
   left_join(grupo_labels, by = "grupo") |>
@@ -894,10 +903,10 @@ p_fmt_its <- function(p) if_else(p < 0.001, "<0,001", fmt_p(p))
 
 # Valores Joinpoint (IC95% da análise segmented — especificados pelo pesquisador)
 jp_ic <- list(
-  seg1 = list(apc = "+1,2%/ano", ic = "(IC95%: -3,1; 5,5)", p = "0,584"),
-  seg2 = list(apc = "+22,9%/ano", ic = "(IC95%: 15,3; 30,5)", p = "<0,001"),
-  seg3 = list(apc = "-11,2%/ano", ic = "(IC95%: -16,8; -5,6)", p = "<0,001"),
-  aapc = list(apc = "+0,7%/ano",  ic = "(IC95%: -1,2; 2,6)",   p = "0,452")
+  seg1 = list(apc = "+1,2%/ano", ic = "(-3,1; 5,5)", p = "0,584"),
+  seg2 = list(apc = "+22,9%/ano", ic = "(15,3; 30,5)", p = "<0,001"),
+  seg3 = list(apc = "-11,2%/ano", ic = "(-16,8; -5,6)", p = "<0,001"),
+  aapc = list(apc = "+0,7%/ano",  ic = "(-1,2; 2,6)",   p = "0,452")
 )
 
 tab2 <- tribble(
@@ -934,7 +943,7 @@ tab2 <- tribble(
 
   # Joinpoint
   "1. Interrupção de Série Temporal (ITS-GLS AR[1]) — BH Municipal",
-  sprintf("Joinpoint (2 inflexões)\nAAPC = %s %s (p=%s)",
+  sprintf("Joinpoint (2 inflexões)\nAAPC = %s %s (p = %s)",
           jp_ic$aapc$apc, jp_ic$aapc$ic, jp_ic$aapc$p),
   sprintf("Seg. 1: %s", jp_bh$periodo[1]),
   jp_ic$seg1$apc,
@@ -942,7 +951,7 @@ tab2 <- tribble(
   jp_ic$seg1$p,
 
   "1. Interrupção de Série Temporal (ITS-GLS AR[1]) — BH Municipal",
-  sprintf("Joinpoint (2 inflexões)\nAAPC = %s %s (p=%s)",
+  sprintf("Joinpoint (2 inflexões)\nAAPC = %s %s (p = %s)",
           jp_ic$aapc$apc, jp_ic$aapc$ic, jp_ic$aapc$p),
   sprintf("Seg. 2: %s", jp_bh$periodo[2]),
   jp_ic$seg2$apc,
@@ -950,7 +959,7 @@ tab2 <- tribble(
   jp_ic$seg2$p,
 
   "1. Interrupção de Série Temporal (ITS-GLS AR[1]) — BH Municipal",
-  sprintf("Joinpoint (2 inflexões)\nAAPC = %s %s (p=%s)",
+  sprintf("Joinpoint (2 inflexões)\nAAPC = %s %s (p = %s)",
           jp_ic$aapc$apc, jp_ic$aapc$ic, jp_ic$aapc$p),
   sprintf("Seg. 3: %s", jp_bh$periodo[3]),
   jp_ic$seg3$apc,
@@ -990,7 +999,7 @@ tab2 <- tribble(
   "Dose-resposta: nº equipes ESF vs. Q1 (1–4 equipes)",
   "Q3–Q4 (≥ 7 equipes) — IRR",
   "0,987",
-  "(IC95%: 0,962; 1,013)",
+  "(0,962; 1,013)",
   "0,287",
 
   # ---- Bloco 3: Impacto ----
@@ -1021,7 +1030,7 @@ tab2 <- tribble(
   "Diferença-em-diferenças ITS — BH vs. 6 capitais controle\nn = 357 obs. (51 meses × 7 capitais)",
   "θ médio (mudança de slope BH − controles)",
   "−0,3%/ano",
-  "(IC95%: −2,1; 1,5)",
+  "(−2,1; 1,5)",
   "0,423"
 )
 
