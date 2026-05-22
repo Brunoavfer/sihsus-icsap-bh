@@ -5,6 +5,7 @@
 [![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.XXXXXXX-blue)](https://zenodo.org)
 [![Licença MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-green)](LICENSE)
 [![Shiny App](https://img.shields.io/badge/painel-shinyapps.io-orange)](https://brunoavferreira.shinyapps.io/sihsus-icsap-bh/)
+[![Reprodutibilidade](https://img.shields.io/badge/reprodutibilidade-100%25-brightgreen)](https://github.com/Brunoavfer/sihsus-icsap-bh)
 
 Painel interativo e pipeline de dados para monitoramento das **Internações por Condições Sensíveis à Atenção Primária (ICSAP)** no município de Belo Horizonte, desagregadas por **regional administrativa** e **Centro de Saúde**.
 
@@ -99,6 +100,10 @@ FERREIRA, Bruno Ávila. **Painel ICSAP-BH: Internações por Condições Sensív
 Ferreira, B. A. (2026). *ICSAP-BH Dashboard: Hospitalizations for Ambulatory Care-Sensitive Conditions in Belo Horizonte* (Version 1.0.0) [Software and dataset]. GitHub. https://github.com/Brunoavfer/sihsus-icsap-bh
 
 O arquivo [`CITATION.cff`](CITATION.cff) na raiz do repositório permite citação automática pelo GitHub (botão "Cite this repository").
+
+## Citação e Arquivo Permanente
+
+Uma versão arquivada permanentemente estará disponível no Zenodo após a publicação do artigo (DOI a ser atualizado).
 
 ## Contribuições
 
