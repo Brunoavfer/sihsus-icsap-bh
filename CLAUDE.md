@@ -35,7 +35,8 @@ sihsus-icsap-bh/
 │   ├── 18_its_ivs.R          # ITS × IVS: interação ivs_z:tempo_pos (heterogeneidade pós-Portaria)
 │   ├── 19_padronizacao_direta.R  # Padronização direta por idade (censobr Pessoas 2022) por CS × ano
 │   ├── 20_internacoes_evitadas.R # Internações evitadas e custo evitado pós-Portaria 3.493/2024 (GLS ITS + Monte Carlo)
-│   └── 21_poisson_efeitos_fixos.R # Poisson two-way FE (CS + ano): modelo principal padrão Lancet (fixest)
+│   ├── 21_poisson_efeitos_fixos.R # Poisson two-way FE (CS + ano): modelo principal padrão Lancet (fixest)
+│   └── 22_figuras_manuscrito.R   # Figuras e tabelas finais — padrão Lancet/Cadernos (300 DPI, 170 mm)
 ├── app/
 │   ├── global.R               # Carrega pacotes, dados e variáveis globais
 │   ├── ui.R                   # Interface Shiny (filtros, abas, componentes)
@@ -68,7 +69,8 @@ sihsus-icsap-bh/
 │   │   ├── internacoes_evitadas_cs.csv # Internações evitadas acumuladas por CS, IC95% (script 20)
 │   │   ├── custo_evitado.csv          # Custo evitado BH + por regional, IC95% Monte Carlo (script 20)
 │   │   ├── poisson_resultados.csv     # IRR, IC95%, p-valor: M1/M2/M3/NB/quartis/sensibilidade (script 21)
-│   │   └── comparacao_gee_poisson.csv # Comparação GEE AR-1 vs Poisson FE por preditor (script 21)
+│   │   ├── comparacao_gee_poisson.csv # Comparação GEE AR-1 vs Poisson FE por preditor (script 21)
+│   │   └── mg_totais_strobe.csv       # Cache de totais MG para fluxograma STROBE (script 22)
 │   └── ref/                   # Referências estáticas
 │       ├── lista_icsap.csv            # CIDs ICSAP (Portaria 221/2008)
 │       ├── cache_cep.csv              # Cache de geocodificação por CEP
@@ -102,7 +104,12 @@ sihsus-icsap-bh/
 │   ├── mapa_diferenca_padronizacao.png    # Diferença bruta−padronizada por CS — mapa BH (script 19)
 │   ├── internacoes_evitadas.png           # Obs × contrafactual com IC95% Monte Carlo (script 20)
 │   ├── internacoes_evitadas_cs.png        # Mapa coroplético BH — evitadas por CS (script 20)
-│   └── poisson_forest_plot.png            # Forest plot IRR: M1/M2/M3 com IC95% (script 21)
+│   ├── poisson_forest_plot.png            # Forest plot IRR: M1/M2/M3 com IC95% (script 21)
+│   ├── figura1_fluxograma_strobe.png      # Fluxograma STROBE — seleção da coorte (script 22)
+│   ├── figura2_its_4paineis.png           # ITS 4 painéis: n/taxa/evitadas/custo acumulado (script 22)
+│   ├── figura3_mapa_quadruplo.png         # Mapa 2×2: taxa+evitadas por Regional e por CS (script 22)
+│   ├── tabela1_pacientes.html             # Tabela 1 características dos pacientes pré/pós-Portaria (script 22)
+│   └── tabela2_resultados.html            # Tabela 2 resultados analíticos ITS/Joinpoint/Poisson/impacto (script 22)
 └── .github/
     └── workflows/
         └── atualizar_dados.yml  # GitHub Actions — executa dia 10 de cada mês
@@ -381,6 +388,13 @@ Taxa ICSAP **bruta** por 10.000 habitantes, por área de abrangência de CS. **N
   - Comparação GEE vs Poisson FE: ivs_score muda de 0.870 NS (GEE) → 1.321*** (Poisson FE regional); pct_sem_saneamento IRR≈0.968 em ambos (consistente)
   - NB desnecessário para M1/M3; M2 requer NB (superdispersão com regional FE)
   - Saída: `poisson_resultados.csv` (27 linhas), `comparacao_gee_poisson.csv`, `docs/poisson_forest_plot.png`
+- ✅ **Script 22** — figuras e tabelas finais do manuscrito (padrão Lancet/Cadernos, 300 DPI, 170 mm)
+  - **Figura 1** (fluxograma STROBE): acentuação completa, sem jargão técnico, MUNIC_MOV/RES substituídos por texto descritivo; título e nota STROBE formais
+  - **Figura 2** (ITS 4 painéis, 2×2): A=n absoluto+média móvel, B=taxa observada+contrafactual+APCs (+12,3%/ano pré; -8,3%/ano pós; Δ=-20,6%/ano), C=internações evitadas/mês (total: 13.501), D=custo evitado acumulado (R$ 29,05 mi)
+  - **Figura 3** (mapa quádruplo, 2×2): linha superior por Regional (A=taxa ICSAP padronizada, B=evitadas), linha inferior por CS (C=taxa, D=evitadas); paleta viridis/YlOrRd; quebras naturais Jenks (classInt); contornos regionais sobrepostos nos painéis CS
+  - **Tabela 1**: características dos pacientes pré/pós-Portaria; p-valores globais nos cabeçalhos de faixa etária, grupos e regional; "Feminino" sem código interno; nota de rodapé com IPCA e fonte
+  - **Tabela 2**: IC95% e p-valores formais para todos os segmentos Joinpoint; Q3-Q4 com valor numérico (IRR=0,987); sobredispersão (Pearson χ²/gl); Diferença-em-diferenças com θ e n=357 obs; notas de rodapé reestruturadas
+  - Saída: `figura1_fluxograma_strobe.png`, `figura2_its_4paineis.png`, `figura3_mapa_quadruplo.png`, `tabela1_pacientes.html/.csv`, `tabela2_resultados.html/.csv`
 
 ### Periódico Alvo
 
@@ -420,9 +434,10 @@ Taxa ICSAP **bruta** por 10.000 habitantes, por área de abrangência de CS. **N
 21. ✅ ~~Script 19~~ — padronização direta por idade concluída; rho=0,979; 30,1% dos CS mudam >10 posições no ranking
 22. ✅ ~~Script 20~~ — internações evitadas: 13.501 (IC95%: 5.132–23.784); custo evitado: R$ 29,05 mi (IC95%: 11,04–51,17 mi); GLS AR(1) + Monte Carlo n=1.000
 23. ✅ ~~Script 21~~ — Poisson FE two-way (CS + ano); M1: mes_num NS; M2: ivs IRR=1.321***; M3: n_esf NS within-CS; dose-resposta Q2 IRR=0.921***; dispersão M1=1.23 (adequado)
-24. **Re-executar script 05 para 2022** — estender `variaveis_cs.csv` de 36 para 48 competências (jan/2022–dez/2025) para viabilizar scripts 15/18 com a série completa
-25. **Investigar inflexão de abr/2024** — série completa confirmou inflexão em abr/2024 (2º JP de BH) e em 8/9 regionais; com série mais longa emerge fase inicial 2022 (crescimento lento +1,2%/ano) → aceleração 2023 (+22,9%/ano) → queda pós-Portaria (-11,2%/ano); checar se aceleração de 2023 tem causa identificável (codificação SIHSUS? pressão de demanda reprimida?)
-26. **Redigir manuscrito** para submissão ao *Cadernos de Saúde Pública* (meta: jan/2027)
+24. ✅ ~~Script 22~~ — figuras e tabelas finais do manuscrito; Figura 1 (STROBE), Figura 2 (ITS 4 painéis), Figura 3 (mapa quádruplo), Tabela 1 (características), Tabela 2 (resultados analíticos); padrão Lancet/Cadernos 300 DPI
+25. **Re-executar script 05 para 2022** — estender `variaveis_cs.csv` de 36 para 48 competências (jan/2022–dez/2025) para viabilizar scripts 15/18 com a série completa
+26. **Investigar inflexão de abr/2024** — série completa confirmou inflexão em abr/2024 (2º JP de BH) e em 8/9 regionais; com série mais longa emerge fase inicial 2022 (crescimento lento +1,2%/ano) → aceleração 2023 (+22,9%/ano) → queda pós-Portaria (-11,2%/ano); checar se aceleração de 2023 tem causa identificável (codificação SIHSUS? pressão de demanda reprimida?)
+27. **Redigir manuscrito** para submissão ao *Cadernos de Saúde Pública* (meta: jan/2027)
 
 ---
 
@@ -435,6 +450,7 @@ Taxa ICSAP **bruta** por 10.000 habitantes, por área de abrangência de CS. **N
 - ✅ **Script 19 concluído** — padronização direta por idade (rho=0,979; 30,1% dos CS mudam >10 posições)
 - ✅ **Script 20 concluído** — 13.501 internações evitadas (IC95%: 5.132–23.784); R$ 29,05 mi evitados em valores mar/2026 (IC95%: 11,04–51,17 mi)
 - ✅ **Script 21 concluído** — Poisson FE: M2 ivs_score IRR=1.321*** | M3 n_esf NS within-CS | dose-resposta Q2 IRR=0.921*** | protocolo_pesquisa.md atualizado
+- ✅ **Script 22 concluído** — todas as figuras e tabelas do manuscrito geradas no padrão Lancet/Cadernos (300 DPI, 170 mm): Figura 1 fluxograma STROBE, Figura 2 ITS 4 painéis (2×2), Figura 3 mapa quádruplo (2×2) com quebras Jenks, Tabela 1 características pré/pós-Portaria, Tabela 2 resultados analíticos com IC95% formais
 - **Re-executar script 05 para 2022** — estender `variaveis_cs.csv` para 48 competências (jan/2022–dez/2025) e re-executar scripts 15 e 18 com a série completa
 - **Tornar repositório privado** — GitHub Settings → Danger Zone → "Change repository visibility" → Private (antes de submeter o manuscrito)
 - **Iniciar redação do manuscrito** — *Cadernos de Saúde Pública* (Fiocruz, Qualis A1)
