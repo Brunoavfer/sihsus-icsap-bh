@@ -60,3 +60,7 @@ data/raw/agsn2022.zip
 
 # Claude Code (configurações locais da sessão)
 .claude/
+
+# renv — biblioteca local de pacotes (não versionar; apenas renv.lock e renv/activate.R)
+.renv/
+renv/library/

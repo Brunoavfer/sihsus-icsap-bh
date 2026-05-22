@@ -270,6 +270,8 @@ message("  (média ponderada por volume, série completa 2022–2026)")
 
 message("\n=== 6. Monte Carlo (n=", N_MC, " iterações) ===")
 
+# Semente para reprodutibilidade (Monte Carlo)
+set.seed(2024)
 # Amostra coeficientes da distribuição assintótica multivariada
 coef_samples <- mvrnorm(N_MC, cf_fixed, vc_fixed)
 
