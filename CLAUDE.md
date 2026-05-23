@@ -322,12 +322,13 @@ O filtro de CS é dependente do filtro de regional — ao selecionar uma regiona
 - ✅ **Script 20** — Internações ICSAP evitadas e custo evitado pós-Portaria GM/MS 3.493/2024
   - Método: GLS AR(1) ITS idêntico ao script 11; contrafactual = tendência pré projetada sem intervenção
   - Período pós: 23 meses (mai/2024–mar/2026); MES_INTERV=29
-  - **Internações evitadas: 13.501 (IC95%: 5.132–23.784)**
-  - **Custo evitado: R$ 29,05 milhões em valores de mar/2026 (IC95%: R$ 11,04–51,17 mi)**
-  - Custo médio por internação ICSAP: R$ 2.151,61 (deflacionado pelo IPCA acumulado 26,4% de jan/2022 a mar/2026)
+  - **Internações evitadas: 13.501 (IC95%: 5.189–22.575)**
+  - **Custo evitado: R$ 29,05 milhões em valores de mar/2026 (IC95%: R$ 11,16–48,57 mi)**
+  - Custo médio por internação ICSAP: R$ 2.151,61 (deflação IPCA mensal específica por mês, jan/2022–mar/2026; equivale numericamente ao acumulado 26,4% dado que custos SUS são tabelados e uniformes)
   - Incerteza: Monte Carlo (n=1.000 iterações) via `MASS::mvrnorm(vcov(GLS))`; IC asimétrico reflete incerteza do slope pré
   - Por regional: Venda Nova (2.092 evitadas, R$ 4,50 mi) > Barreiro (1.852, R$ 3,99 mi) > Nordeste (1.809, R$ 3,89 mi)
-  - Nota técnica: SIDRA disponibiliza apenas 2 meses recentes — fallback automático para série IPCA histórica (IBGE); nlme/MASS mascaram `dplyr::select`, corrigido com `select <- dplyr::select`
+  - Nota técnica: call SIDRA corrigida para solicitar todos os meses (periodos_sidra via seq); fallback automático para série IPCA histórica (IBGE) quando SIDRA não cobre mar/2026; custo_medio lido dinamicamente do custo_evitado.csv no script 22 (antes hardcoded 2151.61); nlme/MASS mascaram `dplyr::select`, corrigido com `select <- dplyr::select`
+  - Auditoria 23/05/2026: IPCA mensal por internação confirmado correto; IC95% atualizado (Monte Carlo reprodutível com set.seed(2024))
   - Saída: `internacoes_evitadas.csv`, `custo_evitado.csv`, `docs/internacoes_evitadas.png`
 
 ### Infraestrutura
@@ -378,7 +379,7 @@ Taxa ICSAP **bruta** por 10.000 habitantes, por área de abrangência de CS. **N
 - **Alocação proporcional de CEPs** ✅ (script 14) — 3,31% das internações redistribuídas com buffer 100m; 32,3% CEPs limítrofes; impacto marginal mas methodologicamente relevante
 - **Joinpoint regression** ✅ (script 10) — série completa 51 meses (jan/2022–mar/2026); **BH: 2 joinpoints** (abr/2023 e abr/2024), AAPC=+0,7%/ano; 8/9 regionais bimodais (1 JP cada); Pampulha linear; joinpoints ~abr–jul/2024
 - **Padronização direta por idade** ✅ (script 19) — censobr "Pessoas" 2022; pop. padrão BH=2.310.259; rho bruta×pad=0,979; 30,1% dos CS mudam >10 posições no ranking; taxa pad sistematicamente ~7–8% > bruta (CS com pop. mais jovem que o padrão BH)
-- **Internações evitadas e custo evitado** ✅ (script 20) — GLS AR(1) ITS contrafactual; mai/2024–mar/2026; 13.501 internações evitadas (IC95%: 5.132–23.784); custo evitado R$ 29,05 mi (IC95%: 11,04–51,17 mi); Monte Carlo n=1.000 iterações; deflação IPCA 26,4% (jan/2022–mar/2026)
+- **Internações evitadas e custo evitado** ✅ (script 20) — GLS AR(1) ITS contrafactual; mai/2024–mar/2026; 13.501 internações evitadas (IC95%: 5.189–22.575); custo evitado R$ 29,05 mi (IC95%: 11,16–48,57 mi); Monte Carlo n=1.000 iterações; deflação IPCA mensal por internação (auditoria 23/05/2026)
 - **Poisson two-way FE** ✅ (script 21) — fixest 0.14.1; 7.803 obs (153 CS × 51 meses); offset: pop Censo 2022
   - M1_base (CS + ano FE): mes_num IRR=0.998 NS; cos12 IRR=0.937*** (sazonalidade); dispersão=1.23 (Poisson adequado)
   - M2_contextual (regional + ano FE): ivs_score IRR=1.321*** (p=0,0009); pct_sem_saneamento IRR=0.968** — dispersão=2.68 (superdispersão: regional FE menos eficiente que CS FE)
@@ -433,7 +434,7 @@ Taxa ICSAP **bruta** por 10.000 habitantes, por área de abrangência de CS. **N
 19. ✅ ~~Executar scripts 17 e 18~~ — **pipeline analítico 100% completo**
 20. ✅ ~~Ampliar série para jan/2022~~ — concluído; scripts 01–03 re-executados; 7 capitais controle; MES_INTERV=29 em scripts 11 e 12
 21. ✅ ~~Script 19~~ — padronização direta por idade concluída; rho=0,979; 30,1% dos CS mudam >10 posições no ranking
-22. ✅ ~~Script 20~~ — internações evitadas: 13.501 (IC95%: 5.132–23.784); custo evitado: R$ 29,05 mi (IC95%: 11,04–51,17 mi); GLS AR(1) + Monte Carlo n=1.000
+22. ✅ ~~Script 20~~ — internações evitadas: 13.501 (IC95%: 5.189–22.575); custo evitado: R$ 29,05 mi (IC95%: 11,16–48,57 mi); GLS AR(1) + Monte Carlo n=1.000; IPCA mensal por internação (auditoria 23/05/2026)
 23. ✅ ~~Script 21~~ — Poisson FE two-way (CS + ano); M1: mes_num NS; M2: ivs IRR=1.321***; M3: n_esf NS within-CS; dose-resposta Q2 IRR=0.921***; dispersão M1=1.23 (adequado)
 24. ✅ ~~Script 22~~ — figuras e tabelas finais; v3 (22/05/2026): correções de texto (diagnósticos completos, "Não classificadas como ICSAP", IC sem prefixo "IC95%:"), ragg para renderização Unicode, legenda Fig. 3 padrão CSP, "Brasil, Censo 2022"
 25. **Re-executar script 05 para 2022** — estender `variaveis_cs.csv` de 36 para 48 competências (jan/2022–dez/2025) para viabilizar scripts 15/18 com a série completa
@@ -449,7 +450,7 @@ Taxa ICSAP **bruta** por 10.000 habitantes, por área de abrangência de CS. **N
 **Pipeline analítico core (scripts 01–18) 100% completo** — série jan/2022–mar/2026, 7 capitais controle, MES_INTERV=29.
 
 - ✅ **Script 19 concluído** — padronização direta por idade (rho=0,979; 30,1% dos CS mudam >10 posições)
-- ✅ **Script 20 concluído** — 13.501 internações evitadas (IC95%: 5.132–23.784); R$ 29,05 mi evitados em valores mar/2026 (IC95%: 11,04–51,17 mi)
+- ✅ **Script 20 concluído** — 13.501 internações evitadas (IC95%: 5.189–22.575); R$ 29,05 mi evitados em valores mar/2026 (IC95%: 11,16–48,57 mi); deflação IPCA mensal correta; custo_medio lido dinamicamente no script 22
 - ✅ **Script 21 concluído** — Poisson FE: M2 ivs_score IRR=1.321*** | M3 n_esf NS within-CS | dose-resposta Q2 IRR=0.921*** | protocolo_pesquisa.md atualizado
 - ✅ **Script 22 concluído (v3 — 22/05/2026)** — todas as figuras e tabelas do manuscrito prontas para submissão: Figura 1 STROBE, Figura 2 ITS 4 painéis, Figura 3 mapa quádruplo Jenks, Tabela 1 diagnósticos completos, Tabela 2 IC sem prefixo redundante; `ragg::agg_png` resolve renderização de acentos no Windows
 - **Re-executar script 05 para 2022** — estender `variaveis_cs.csv` para 48 competências (jan/2022–dez/2025) e re-executar scripts 15 e 18 com a série completa

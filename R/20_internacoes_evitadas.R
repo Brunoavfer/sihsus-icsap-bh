@@ -45,6 +45,10 @@ MES_INTERV <- 29L   # jan/2022 = 1 → mai/2024 = 29
 N_MC       <- 1000L # iterações Monte Carlo
 set.seed(42L)
 
+# Valores anteriores (execução prévia com fator único acumulado 26,4%) — para comparação
+.CUSTO_MEDIO_ANTERIOR   <- 2151.61
+.CUSTO_EVITADO_ANT_MI   <- 29.05
+
 # =============================================================================
 # 1. Reconstrói série mensal BH (idêntico ao script 11)
 # =============================================================================
@@ -158,10 +162,15 @@ message("\n=== 4. Deflação pelo IPCA (mar/2026) ===")
 # Tenta baixar do SIDRA (tabela 1737, variável 63 = variação mensal %)
 ipca_df <- tryCatch({
   message("  Baixando IPCA do SIDRA (tabela 1737)...")
+  # Gera todos os períodos mensais jan/2022–mar/2026 (sidrar aceita vetor)
+  periodos_sidra <- format(
+    seq(as.Date("2022-01-01"), as.Date("2026-03-01"), by = "month"),
+    "%Y%m"
+  )
   raw <- sidrar::get_sidra(
     x        = 1737,
     variable = 63,
-    period   = c("202201", "202603"),
+    period   = periodos_sidra,
     geo      = "Brazil"
   )
   # sidrar retorna colunas: 'Mês (Código)', 'Valor', etc.
@@ -262,7 +271,16 @@ custo_medio_geral <- sum(custo_mes$val_tot_real, na.rm=TRUE) /
 
 message(sprintf("  Custo médio por internação ICSAP (mar/2026): R$ %.2f",
                 custo_medio_geral))
-message("  (média ponderada por volume, série completa 2022–2026)")
+message("  (média ponderada por volume × fator IPCA mensal específico, série 2022–2026)")
+
+# ── Comparação com valor anterior (fator único acumulado 26,4%) ──────────────
+message("\n--- COMPARAÇÃO IPCA: fator único × por mês (auditoria 23/05/2026) ---")
+message(sprintf("  Custo médio anterior (fator único 26,4%%): R$ %s",
+                format(.CUSTO_MEDIO_ANTERIOR, nsmall = 2, big.mark = ".")))
+message(sprintf("  Custo médio corrigido (IPCA mensal):      R$ %s",
+                format(round(custo_medio_geral, 2), nsmall = 2, big.mark = ".")))
+message(sprintf("  Diferença: %+.1f%%",
+                (custo_medio_geral / .CUSTO_MEDIO_ANTERIOR - 1) * 100))
 
 # =============================================================================
 # 6. Monte Carlo — IC 95% para internações e custo evitado
@@ -303,6 +321,12 @@ message(sprintf("\n  Custo evitado em valores de mar/2026:"))
 message(sprintf("    Central: R$ %.2f milhões",  custo_central / 1e6))
 message(sprintf("    IC 95%%:  R$ %.2f – %.2f milhões",
                 ic_custo[1] / 1e6, ic_custo[2] / 1e6))
+
+message("\n--- COMPARAÇÃO custo evitado: método anterior × IPCA mensal ---")
+message(sprintf("  Custo evitado anterior: R$ %.2f mi", .CUSTO_EVITADO_ANT_MI))
+message(sprintf("  Custo evitado corrigido: R$ %.2f mi", custo_central / 1e6))
+message(sprintf("  Diferença: %+.1f%%",
+                (custo_central / 1e6 / .CUSTO_EVITADO_ANT_MI - 1) * 100))
 
 # =============================================================================
 # 7. Por regional (distribuição proporcional)

@@ -256,7 +256,14 @@ ev <- read_csv(file.path(DIR_DATA, "internacoes_evitadas.csv"),
     ma3 = rollmean(n_icsap, k = 3, fill = NA, align = "center")
   )
 
-custo_medio <- 2151.61
+# Lê custo_medio dinamicamente do custo_evitado.csv (calculado pelo script 20
+# com deflação IPCA mensal específica por internação — auditoria 23/05/2026)
+custo_medio <- read_csv(file.path(DIR_DATA, "custo_evitado.csv"),
+                        show_col_types = FALSE) |>
+  filter(nivel == "BH Municipal") |>
+  pull(custo_medio_BRL)
+cat(sprintf("  custo_medio (IPCA mensal): R$ %.2f\n", custo_medio))
+
 ev_pos <- filter(ev, !is.na(taxa_cf)) |>
   mutate(
     custo_mes_central = evitadas_mes * custo_medio,
