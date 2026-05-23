@@ -163,11 +163,21 @@ p2b <- ggplot(ev, aes(x = data)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 6.5),
         plot.title  = element_text(size = 9, face = "bold"))
 
-# --- Painel C: internações evitadas por mês (valores mensais, não acumulados) ---
-p2c <- ggplot(ev, aes(x = data)) +
-  geom_col(aes(y = if_else(!is.na(taxa_cf) & evitadas_mes > 0,
-                             evitadas_mes, 0)),
-           fill = "#2E7D32", alpha = 0.80, width = 26, colour = NA) +
+# --- Painel C: internações evitadas por mês — v5.1: barra negativa mai/2024 ---
+# mai/2024: evitadas_mes = -115,6 (mais internações do que o contrafactual previa)
+ev_c <- ev |>
+  mutate(
+    evit_bar = if_else(!is.na(taxa_cf), evitadas_mes, 0),
+    bar_pos  = evit_bar >= 0   # TRUE = verde, FALSE = vermelho
+  )
+
+p2c <- ggplot(ev_c, aes(x = data)) +
+  geom_col(aes(y = evit_bar, fill = bar_pos),
+           alpha = 0.80, width = 26, colour = NA) +
+  scale_fill_manual(
+    values = c("TRUE" = "#2E7D32", "FALSE" = "#C62828"),
+    guide  = "none"
+  ) +
   geom_hline(yintercept = 0, colour = "grey40", linewidth = 0.3) +
   geom_vline(xintercept = d_int,
              linetype = "dashed", colour = "#C0392B", linewidth = 0.55) +
@@ -179,13 +189,16 @@ p2c <- ggplot(ev, aes(x = data)) +
   scale_x_date(date_breaks = "6 months", date_labels = "%b/%Y",
                expand = expansion(mult = 0.01)) +
   scale_y_continuous(labels = label_number(big.mark = ".", decimal.mark = ","),
-                     expand = expansion(mult = c(0, 0.10))) +
+                     expand = expansion(mult = c(0.12, 0.10))) +
   labs(x = "Competência (mês/ano)",
        y = "Internações evitadas (n/mês)",
-       title = "C") +
+       title = "C",
+       caption = "Barra vermelha (mai/2024): mais internações\nobservadas do que o contrafactual previu") +
   theme_lancet() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 6.5),
-        plot.title  = element_text(size = 9, face = "bold"))
+  theme(axis.text.x  = element_text(angle = 45, hjust = 1, size = 6.5),
+        plot.title   = element_text(size = 9, face = "bold"),
+        plot.caption = element_text(size = 5.5, colour = "grey50", hjust = 0,
+                                    margin = margin(t = 3)))
 
 # --- Painel D: custo evitado acumulado (R$ milhões, valores mar/2026) ---
 p2d <- ggplot(ev_pos, aes(x = data)) +
@@ -195,11 +208,13 @@ p2d <- ggplot(ev_pos, aes(x = data)) +
             colour = "#2E7D32", linewidth = 0.9) +
   geom_vline(xintercept = d_int,
              linetype = "dashed", colour = "#C0392B", linewidth = 0.55) +
-  annotate("text",
-           x = max(ev_pos$data),
-           y = max(ev_pos$custo_acum) * 0.75,
+  annotate("label",
+           x = max(ev_pos$data) - 60,
+           y = 21.8,
            label = "R$ 29,05 mi\n(IC95%: 11,16–48,57)",
-           size = 2.1, hjust = 1, colour = "#1B5E20", fontface = "bold") +
+           fill = "white", colour = "#2E7D32",
+           linewidth = 0.3, size = 2.5,
+           fontface = "bold") +
   scale_x_date(date_breaks = "6 months", date_labels = "%b/%Y",
                expand = expansion(mult = 0.01)) +
   scale_y_continuous(labels = label_number(accuracy = 0.1, big.mark = ".",
