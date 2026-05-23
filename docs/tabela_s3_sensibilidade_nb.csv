@@ -1,0 +1,5 @@
+modelo,variavel,irr,ic_inf,ic_sup,p_valor,variavel_label,irr_fmt,ic_fmt,p_fmt
+Poisson M2 (FE regional+ano),ivs_score,1.4988617036218679,1.483271866754443,1.5145955530411477,0,IVS-BH (por 1 ponto),"1,499","(1,483; 1,515)","<0,001"
+Poisson M2 (FE regional+ano),pct_sem_saneamento,0.9657729513704226,0.962397766872591,0.9691122455297363,7.537948783213217e-86,% sem saneamento básico (por 1 p.p.),"0,966","(0,962; 0,969)","<0,001"
+Binomial Negativo M2 (FE regional+ano),ivs_score,1.4851376319487852,1.4601403024951698,1.510570084765983,0,IVS-BH (por 1 ponto),"1,485","(1,460; 1,511)","<0,001"
+Binomial Negativo M2 (FE regional+ano),pct_sem_saneamento,0.9658307741169723,0.9609996648220939,0.9706858543612773,1.237570521062723e-41,% sem saneamento básico (por 1 p.p.),"0,966","(0,961; 0,971)","<0,001"

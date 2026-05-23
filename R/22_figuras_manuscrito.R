@@ -13,7 +13,8 @@ suppressPackageStartupMessages({
   library(ggspatial)
   library(classInt)
   library(zoo)
-  library(ragg)   # renderização de texto Unicode no Windows
+  library(ggrepel)  # anti-sobreposição de labels — auditoria 23/05/2026
+  library(ragg)     # renderização de texto Unicode no Windows
 })
 
 options(OutDec = ",", scipen = 999)
@@ -27,10 +28,16 @@ DIR_REF  <- "data/ref"
 
 # ---- Helpers ----------------------------------------------------------------
 fmt_n   <- function(n) formatC(round(n), format = "d", big.mark = ".")
-fmt_pct <- function(n, tot) sprintf("%s (%.1f%%)", fmt_n(n), n / tot * 100)
+# fmt_pct: usa formatC para garantir vírgula decimal em qualquer locale
+fmt_pct <- function(n, tot, d = 1) {
+  pct <- formatC(n / tot * 100, digits = d, format = "f", decimal.mark = ",")
+  sprintf("%s (%s%%)", fmt_n(n), pct)
+}
+# fmt_med: adiciona gsub para garantir vírgula (sprintf não respeita OutDec)
 fmt_med <- function(x) {
   q <- quantile(x, c(.25, .5, .75), na.rm = TRUE)
-  sprintf("%.1f [%.1f–%.1f]", q[2], q[1], q[3])
+  sprintf("%.1f [%.1f–%.1f]", q[2], q[1], q[3]) |>
+    gsub(".", ",", x = _, fixed = TRUE)
 }
 fmt_p <- function(p) {
   if (is.na(p) || length(p) == 0) return("—")
@@ -130,58 +137,60 @@ mk_box <- function(id, x0, y0, x1, y1, fill, lab, text_col = "black") {
          text_col = text_col)
 }
 
+# Layout com mais espaçamento entre caixas (auditoria 23/05/2026)
+# Caixas principais: altura 0.085, gap 0.07 entre elas
 boxes_main <- bind_rows(
-  mk_box("A", 0.10, 0.88, 0.68, 0.97, "#D6EAF8",
+  mk_box("A", 0.10, 0.890, 0.68, 0.975, "#D6EAF8",
          sprintf("Internações hospitalares — Minas Gerais\njaneiro de 2022 a março de 2026\nn = %s", fmt_n(N_MG))),
-  mk_box("B", 0.10, 0.73, 0.68, 0.82, "#AED6F1",
+  mk_box("B", 0.10, 0.745, 0.68, 0.830, "#AED6F1",
          sprintf("Internações ocorridas em BH\n(município de internação = 310620)\nn = %s", fmt_n(N_BH_MOV))),
-  mk_box("C", 0.10, 0.57, 0.68, 0.67, "#1B4F72",
+  mk_box("C", 0.10, 0.600, 0.68, 0.685, "#1B4F72",
          sprintf("Total de internações em BH\n(residentes e internados em BH)\nn = %s", fmt_n(N_BH)),
          "white"),
-  mk_box("D1", 0.10, 0.40, 0.68, 0.50, "#2874A6",
+  mk_box("D1", 0.10, 0.450, 0.68, 0.535, "#2874A6",
          sprintf("ICSAP — Internações por Condições Sensíveis à Atenção Primária\nPortaria SAS/MS nº 221/2008 — 479 CIDs\nn = %s (17,8%%)", fmt_n(N_ICSAP)),
          "white"),
-  mk_box("E1", 0.10, 0.23, 0.68, 0.33, "#2980B9",
+  mk_box("E1", 0.10, 0.295, 0.68, 0.380, "#2980B9",
          sprintf("CEP geocodificado (CS identificado)\nn = %s (86,4%%)", fmt_n(N_GEO)),
          "white")
 )
 
 boxes_analysis <- bind_rows(
-  mk_box("F1", 0.02, 0.04, 0.43, 0.15, "#1B4F72",
+  mk_box("F1", 0.02, 0.060, 0.43, 0.175, "#1B4F72",
          sprintf("Análise temporal\n(ITS-GLS AR[1] + Joinpoint)\nn = %s ICSAP | 51 meses", fmt_n(N_ICSAP)),
          "white"),
-  mk_box("F2", 0.45, 0.04, 0.99, 0.15, "#154360",
+  mk_box("F2", 0.45, 0.060, 0.99, 0.175, "#154360",
          sprintf("Análise espacial\n(Moran’s I + GEE AR[1] + Poisson FE)\n153 CS × 36–51 meses | n = %s", fmt_n(N_GEO)),
          "white")
 )
 
 boxes_excl <- bind_rows(
-  mk_box("X1", 0.72, 0.88, 0.99, 0.97, "#BDC3C7",
+  mk_box("X1", 0.72, 0.890, 0.99, 0.975, "#BDC3C7",
          sprintf("Excluídos:\nMunicípio de internação ≠ 310620\nn = %s", fmt_n(excl_mov))),
-  mk_box("X2", 0.72, 0.73, 0.99, 0.82, "#BDC3C7",
+  mk_box("X2", 0.72, 0.745, 0.99, 0.830, "#BDC3C7",
          sprintf("Excluídos:\nMunicípio de residência ≠ 310620\nn = %s", fmt_n(excl_res))),
-  mk_box("X3", 0.72, 0.57, 0.99, 0.67, "#FADBD8",
+  mk_box("X3", 0.72, 0.600, 0.99, 0.685, "#FADBD8",
          sprintf("Não classificadas como ICSAP\n(excluídas da análise)\nn = %s (82,2%%)", fmt_n(N_NAICSAP))),
-  mk_box("X4", 0.72, 0.40, 0.99, 0.50, "#FAD7A0",
+  mk_box("X4", 0.72, 0.450, 0.99, 0.535, "#FAD7A0",
          sprintf("Sem geocodificação\n(MNAR — analisado)\nn = %s (13,6%%)", fmt_n(N_NGEO)))
 )
 
 segs_v <- tribble(
-  ~x,    ~y,    ~xend, ~yend,
-  0.39,  0.88,  0.39,  0.825,
-  0.39,  0.73,  0.39,  0.675,
-  0.39,  0.57,  0.39,  0.505,
-  0.39,  0.40,  0.39,  0.335,
-  0.39,  0.23,  0.22,  0.155,
-  0.39,  0.23,  0.72,  0.155
+  ~x,    ~y,     ~xend, ~yend,
+  0.39,  0.890,  0.39,  0.832,
+  0.39,  0.745,  0.39,  0.687,
+  0.39,  0.600,  0.39,  0.537,
+  0.39,  0.450,  0.39,  0.382,
+  0.39,  0.295,  0.22,  0.177,
+  0.39,  0.295,  0.72,  0.177
 )
 
 segs_h <- tribble(
-  ~x,    ~y,    ~xend, ~yend,
-  0.68,  0.925, 0.72,  0.925,
-  0.68,  0.775, 0.72,  0.775,
-  0.68,  0.620, 0.72,  0.620,
-  0.68,  0.450, 0.72,  0.450
+  ~x,    ~y,     ~xend, ~yend,
+  0.68,  0.933,  0.72,  0.933,
+  0.68,  0.788,  0.72,  0.788,
+  0.68,  0.643,  0.72,  0.643,
+  0.68,  0.493,  0.72,  0.493
 )
 
 fig1 <- ggplot() +
@@ -213,7 +222,7 @@ fig1 <- ggplot() +
                aes(x = x, y = y, xend = xend, yend = yend),
                arrow = arrow(length = unit(1.5, "mm"), type = "closed"),
                colour = "grey40", linewidth = 0.35) +
-  coord_cartesian(xlim = c(0, 1), ylim = c(0.02, 1.01)) +
+  coord_cartesian(xlim = c(0, 1), ylim = c(0.04, 1.02)) +
   theme_void() +
   labs(
     title = paste0(
@@ -236,7 +245,7 @@ fig1 <- ggplot() +
   )
 
 ggsave(file.path(DIR_DOCS, "figura1_fluxograma_strobe.png"),
-       fig1, width = W_IN, height = W_IN * 1.1, dpi = DPI,
+       fig1, width = W_IN, height = W_IN * 1.35, dpi = DPI,
        device = ragg::agg_png, bg = "white")
 cat("  ok figura1_fluxograma_strobe.png\n")
 
@@ -369,7 +378,7 @@ p2c <- ggplot(ev, aes(x = data)) +
   annotate("text",
            x = as.Date("2025-04-01"),
            y = max(ev_pos$evitadas_mes, na.rm = TRUE) * 0.92,
-           label = "Total: 13.501\n(IC95%: 5.132–23.784)",
+           label = "Total: 13.501\n(IC95%: 5.189–22.575)",
            size = 2.1, hjust = 0.5, colour = "#1B5E20", fontface = "bold") +
   scale_x_date(date_breaks = "6 months", date_labels = "%b/%Y",
                expand = expansion(mult = 0.01)) +
@@ -393,7 +402,7 @@ p2d <- ggplot(ev_pos, aes(x = data)) +
   annotate("text",
            x = max(ev_pos$data),
            y = max(ev_pos$custo_acum) * 0.75,
-           label = "R$ 29,05 mi\n(IC95%: 11,04–51,17)",
+           label = "R$ 29,05 mi\n(IC95%: 11,16–48,57)",
            size = 2.1, hjust = 1, colour = "#1B5E20", fontface = "bold") +
   scale_x_date(date_breaks = "6 months", date_labels = "%b/%Y",
                expand = expansion(mult = 0.01)) +
@@ -479,22 +488,32 @@ cat(sprintf("  CS: taxa=%d, evitadas=%d (de %d)\n",
             sum(!is.na(sf_cs_map$evitadas_central)),
             nrow(sf_cs_map)))
 
-# Labels para CS
+# Labels para ggrepel — extrair coordenadas explicitamente (evita sobreposição)
 top3_taxa <- sf_cs_map |> st_drop_geometry() |>
-  slice_max(taxa_pad_media, n = 3) |>
+  slice_max(taxa_pad_media, n = 3, na_rm = TRUE) |>
   mutate(label_cs = str_remove(nome_cs, "^CENTRO DE SAUDE "))
 
 top5_evit <- sf_cs_map |> st_drop_geometry() |>
-  slice_max(evitadas_central, n = 5) |>
+  slice_max(evitadas_central, n = 5, na_rm = TRUE) |>
   mutate(label_cs = str_remove(nome_cs, "^CENTRO DE SAUDE "))
 
+# Centroides CS para top labels
 sf_lab3 <- suppressWarnings(
-  sf_cs_map |> filter(nome_cs %in% top3_taxa$nome_cs) |> st_centroid() |>
-    left_join(top3_taxa |> select(nome_cs, label_cs), by = "nome_cs"))
+  sf_cs_map |> filter(nome_cs %in% top3_taxa$nome_cs) |> st_centroid()) |>
+  mutate(X = st_coordinates(geometry)[, 1], Y = st_coordinates(geometry)[, 2]) |>
+  st_drop_geometry() |>
+  left_join(top3_taxa |> select(nome_cs, label_cs), by = "nome_cs")
 
 sf_lab5 <- suppressWarnings(
-  sf_cs_map |> filter(nome_cs %in% top5_evit$nome_cs) |> st_centroid() |>
-    left_join(top5_evit |> select(nome_cs, label_cs), by = "nome_cs"))
+  sf_cs_map |> filter(nome_cs %in% top5_evit$nome_cs) |> st_centroid()) |>
+  mutate(X = st_coordinates(geometry)[, 1], Y = st_coordinates(geometry)[, 2]) |>
+  st_drop_geometry() |>
+  left_join(top5_evit |> select(nome_cs, label_cs), by = "nome_cs")
+
+# Centroides regionais para ggrepel
+sf_reg_labels <- suppressWarnings(sf_reg_map |> st_centroid()) |>
+  mutate(X = st_coordinates(geometry)[, 1], Y = st_coordinates(geometry)[, 2]) |>
+  st_drop_geometry()
 
 # Quebras Jenks para cada variável
 brk_taxa_reg  <- jenks_breaks(sf_reg_map$taxa_pad_media_reg,  n = 5)
@@ -503,7 +522,8 @@ brk_taxa_cs   <- jenks_breaks(sf_cs_map$taxa_pad_media,       n = 5)
 brk_evit_cs   <- jenks_breaks(sf_cs_map$evitadas_central,     n = 5)
 
 fmt_brk <- function(b) {
-  vals <- round(b)
+  # Usa 1 casa decimal para evitar repetição do mesmo valor nos limites adjacentes
+  vals <- formatC(b, digits = 1, format = "f", decimal.mark = ",")
   paste0(vals[-length(vals)], "–", vals[-1])
 }
 
@@ -554,8 +574,13 @@ theme_mapa <- function() {
 p3a <- ggplot(sf_reg_map) +
   geom_sf(aes(fill = cl_taxa), colour = "grey70", linewidth = 0.3,
           na.rm = FALSE) +
-  geom_sf_text(aes(label = regional),
-               size = 1.7, colour = "black", check_overlap = TRUE) +
+  ggrepel::geom_label_repel(
+    data = sf_reg_labels, aes(x = X, y = Y, label = regional),
+    size = 2.0, force = 3, max.overlaps = 20,
+    fill = "white", alpha = 0.75, label.size = 0.1,
+    segment.color = "grey50", min.segment.length = 0.2,
+    inherit.aes = FALSE
+  ) +
   scale_fill_manual(
     name   = "Taxa ICSAP pad.\n(por 10.000 hab./mês)",
     values = setNames(pal_viridis(n_cls_taxa_reg),
@@ -575,8 +600,13 @@ p3a <- ggplot(sf_reg_map) +
 p3b <- ggplot(sf_reg_map) +
   geom_sf(aes(fill = cl_evit), colour = "grey70", linewidth = 0.3,
           na.rm = FALSE) +
-  geom_sf_text(aes(label = regional),
-               size = 1.7, colour = "black", check_overlap = TRUE) +
+  ggrepel::geom_label_repel(
+    data = sf_reg_labels, aes(x = X, y = Y, label = regional),
+    size = 2.0, force = 3, max.overlaps = 20,
+    fill = "white", alpha = 0.75, label.size = 0.1,
+    segment.color = "grey50", min.segment.length = 0.2,
+    inherit.aes = FALSE
+  ) +
   scale_fill_manual(
     name   = "Internações ICSAP\nevitadas (n)",
     values = setNames(pal_ylorrd(n_cls_evit_reg),
@@ -596,10 +626,13 @@ p3b <- ggplot(sf_reg_map) +
 p3c <- ggplot(sf_cs_map) +
   geom_sf(aes(fill = cl_taxa), colour = "grey80", linewidth = 0.1) +
   geom_sf(data = sf_reg_map, fill = NA, colour = "white", linewidth = 0.5) +
-  geom_sf_text(data = sf_lab3,
-               aes(label = label_cs),
-               size = 1.5, colour = "black", fontface = "bold",
-               check_overlap = TRUE) +
+  ggrepel::geom_label_repel(
+    data = sf_lab3, aes(x = X, y = Y, label = label_cs),
+    size = 1.8, force = 5, max.overlaps = 10,
+    fill = "white", alpha = 0.8, label.size = 0.1,
+    segment.color = "grey50", min.segment.length = 0.1,
+    fontface = "bold", inherit.aes = FALSE
+  ) +
   scale_fill_manual(
     name   = "Taxa ICSAP pad.\n(por 10.000 hab./mês)",
     values = setNames(pal_viridis(n_cls_taxa_cs),
@@ -619,10 +652,13 @@ p3c <- ggplot(sf_cs_map) +
 p3d <- ggplot(sf_cs_map) +
   geom_sf(aes(fill = cl_evit), colour = "grey80", linewidth = 0.1) +
   geom_sf(data = sf_reg_map, fill = NA, colour = "white", linewidth = 0.5) +
-  geom_sf_text(data = sf_lab5,
-               aes(label = label_cs),
-               size = 1.5, colour = "black", fontface = "bold",
-               check_overlap = TRUE) +
+  ggrepel::geom_label_repel(
+    data = sf_lab5, aes(x = X, y = Y, label = label_cs),
+    size = 1.8, force = 5, max.overlaps = 10,
+    fill = "white", alpha = 0.8, label.size = 0.1,
+    segment.color = "grey50", min.segment.length = 0.1,
+    fontface = "bold", inherit.aes = FALSE
+  ) +
   scale_fill_manual(
     name   = "Internações ICSAP\nevitadas (n)",
     values = setNames(pal_ylorrd(n_cls_evit_cs),
@@ -661,7 +697,7 @@ fig3 <- (p3a | p3b) / (p3c | p3d) +
 
 suppressWarnings(
   ggsave(file.path(DIR_DOCS, "figura3_mapa_quadruplo.png"),
-         fig3, width = W_IN, height = W_IN * 1.15, dpi = DPI,
+         fig3, width = 12, height = 10, dpi = DPI,
          device = ragg::agg_png, bg = "white")
 )
 cat("  ok figura3_mapa_quadruplo.png\n")
@@ -896,14 +932,11 @@ m_q2    <- poi |> filter(modelo == "M_dose_resposta", variavel == "n_esf_qQ2 (5-
 
 bh_imp  <- cus |> filter(nivel == "BH Municipal")
 
+# ic95: usa formatC + gsub para garantir vírgula decimal (sprint não segue OutDec)
 ic95 <- function(inf, sup, digits = 1) {
-  sprintf("(%.{digits}f; %.{digits}f)", inf, sup) |>
-    glue::glue(.envir = list(digits = digits, inf = inf, sup = sup)) |>
-    as.character()
-}
-ic95 <- function(inf, sup, digits = 1) {
-  fmt <- paste0("%.", digits, "f")
-  sprintf(paste0("(", fmt, "; ", fmt, ")"), inf, sup)
+  lo <- formatC(inf, digits = digits, format = "f", decimal.mark = ",")
+  hi <- formatC(sup, digits = digits, format = "f", decimal.mark = ",")
+  paste0("(", lo, "; ", hi, ")")
 }
 
 p_fmt_its <- function(p) if_else(p < 0.001, "<0,001", fmt_p(p))
@@ -990,8 +1023,8 @@ tab2 <- tribble(
 
   "2. Determinantes da taxa ICSAP — Poisson FE dois sentidos (153 CS)",
   "M2 — Efeitos fixos por regional + ano\nn = 7.803 obs. (153 CS × 51 meses)",
-  "Sobredispersão (Pearson χ²/gl) — M2 regional FE",
-  sprintf("%.2f", m2_ivs$dispersao_pearson),
+  "Sobredispersão (Pearson χ²/gl) — M2 regional FEᵍ",
+  sprintf("%.2f", m2_ivs$dispersao_pearson) |> gsub("\\.", ",", x = _),
   "—",
   "—",
 
@@ -1046,9 +1079,13 @@ write_csv(tab2, file.path(DIR_DOCS, "tabela2_resultados.csv"))
 rodape_tab2 <- list(
   md("^a^ Modelo ITS-GLS AR(1) conforme Bernal et al., *BMJ*, 2017;358:j5276."),
   md("^b^ Joinpoint regression — método de Muggeo (2003), pacote *segmented* (R)."),
-  md("^c^ Poisson com efeitos fixos por CS e por ano — pacote *fixest* (Bergé, 2023).^d^ Erros robustos clusterizados por CS."),
-  md(paste0("^e^ Valores deflacionados pelo IPCA (jan/2022–mar/2026; acumulado = 26,4%), expressos em Reais de março/2026. ",
+  md("^c^ Poisson com efeitos fixos por CS e por ano — pacote *fixest* (Bergé, 2023). ^d^ Erros padrão robustos clusterizados por CS."),
+  md(paste0("^e^ Valores deflacionados pelo IPCA mensal por competência (jan/2022–mar/2026; acumulado = 26,4%), expressos em Reais de março/2026. ",
             "^f^ IC95% por simulação Monte Carlo (n=1.000 iterações).")),
+  md(paste0("^g^ Modelo Poisson M2 (FE regional+ano) apresentou sobredispersão moderada (Pearson χ²/gl=2,68). ",
+            "Erros padrão corrigidos por clusterização por CS (fixest::vcov_cluster). ",
+            "Análise de sensibilidade com modelo binomial negativo produziu resultados consistentes ",
+            "(Tabela S3, material suplementar).")),
   md(paste0("Análises de determinantes (seção 2) incluíram 153 CS com informação completa. ",
             "Modelos ITS (seção 1) utilizaram série completa (n=51 meses, sem missing).")),
   md(paste0("ESF: Estratégia Saúde da Família. CS: Centro de Saúde. ",
@@ -1084,6 +1121,7 @@ gt2 <- tab2 |>
   tab_source_note(rodape_tab2[[5]]) |>
   tab_source_note(rodape_tab2[[6]]) |>
   tab_source_note(rodape_tab2[[7]]) |>
+  tab_source_note(rodape_tab2[[8]]) |>
   tab_style(
     style     = list(cell_fill(color = "#1A5276"),
                      cell_text(color = "white", weight = "bold")),
@@ -1119,7 +1157,168 @@ gt2 <- tab2 |>
 gtsave(gt2, file.path(DIR_DOCS, "tabela2_resultados.html"))
 cat("  ok tabela2_resultados.html + .csv\n")
 
+# =============================================================================
+# TABELA S3 — Sensibilidade: Binomial Negativo vs. Poisson (auditoria 23/05/2026)
+# =============================================================================
+cat("\nGerando Tabela S3 (sensibilidade NB — sobredispersão)...\n")
+
+suppressPackageStartupMessages(library(MASS))
+select <- dplyr::select  # MASS mascara dplyr::select
+
+icsap_r <- read_csv(file.path(DIR_DATA, "icsap_bh_regional.csv"),
+                    show_col_types = FALSE)
+ivs_cs  <- read_csv(file.path(DIR_REF,  "ivs_por_cs.csv"),
+                    show_col_types = FALSE)
+var_cs  <- read_csv(file.path(DIR_REF,  "variaveis_cs.csv"),
+                    show_col_types = FALSE)
+
+# Covariáveis CS-nível (Censo 2022, time-invariant)
+cov_cs <- var_cs |>
+  group_by(nome_cs) |>
+  summarise(
+    pct_sem_saneamento = mean(pct_sem_saneamento, na.rm = TRUE),
+    pop_total_censo    = first(pop_total_censo),
+    regional           = first(regional),
+    .groups = "drop"
+  )
+
+# Painel: n_icsap por CS × ano × mês
+painel_nb <- icsap_r |>
+  filter(!is.na(nome_cs)) |>
+  mutate(
+    ano_cmpt   = as.integer(ano_cmpt),
+    mes_cmpt_n = as.integer(mes_cmpt)
+  ) |>
+  group_by(nome_cs, ano_cmpt, mes_cmpt_n) |>
+  summarise(n_icsap = n(), .groups = "drop") |>
+  left_join(cov_cs,                                 by = "nome_cs") |>
+  left_join(ivs_cs |> select(nome_cs, ivs_score), by = "nome_cs") |>
+  filter(!is.na(pop_total_censo), !is.na(ivs_score), pop_total_censo > 0)
+
+cat(sprintf("  Painel NB: %d obs, %d CS únicos\n",
+            nrow(painel_nb), n_distinct(painel_nb$nome_cs)))
+
+# Modelo Poisson M2 — regional + ano FE
+mod_pois_m2 <- tryCatch(
+  glm(n_icsap ~ ivs_score + pct_sem_saneamento +
+        factor(regional) + factor(ano_cmpt),
+      family = poisson(link = "log"),
+      offset = log(pop_total_censo),
+      data   = painel_nb),
+  error = function(e) { cat("  ERRO Poisson:", conditionMessage(e), "\n"); NULL }
+)
+
+# Modelo Binomial Negativo M2 — regional + ano FE
+mod_nb_m2 <- tryCatch(
+  MASS::glm.nb(
+    n_icsap ~ ivs_score + pct_sem_saneamento +
+      factor(regional) + factor(ano_cmpt) + offset(log(pop_total_censo)),
+    data = painel_nb
+  ),
+  error = function(e) { cat("  ERRO NB:", conditionMessage(e), "\n"); NULL }
+)
+
+# Extrair IRR com IC95%
+extract_irr <- function(mod, modelo_nome) {
+  if (is.null(mod)) return(NULL)
+  s  <- summary(mod)$coefficients
+  ci <- tryCatch(suppressMessages(confint(mod)),
+                 error = function(e) {
+                   se <- s[, "Std. Error"]
+                   cbind(coef(mod) - 1.96 * se, coef(mod) + 1.96 * se)
+                 })
+  variaveis <- c("ivs_score", "pct_sem_saneamento")
+  purrr::map_dfr(variaveis, function(v) {
+    if (!v %in% rownames(s)) return(NULL)
+    b <- coef(mod)[v]
+    tibble(
+      modelo   = modelo_nome,
+      variavel = v,
+      irr      = exp(b),
+      ic_inf   = exp(ci[v, 1]),
+      ic_sup   = exp(ci[v, 2]),
+      p_valor  = s[v, ncol(s)]
+    )
+  })
+}
+
+res_pois <- extract_irr(mod_pois_m2, "Poisson M2 (FE regional+ano)")
+res_nb   <- extract_irr(mod_nb_m2,   "Binomial Negativo M2 (FE regional+ano)")
+
+disp_pois <- if (!is.null(mod_pois_m2)) {
+  p  <- sum(residuals(mod_pois_m2, "pearson")^2)
+  df <- mod_pois_m2$df.residual
+  formatC(p / df, digits = 2, format = "f", decimal.mark = ",")
+} else "—"
+
+theta_nb <- if (!is.null(mod_nb_m2)) {
+  formatC(mod_nb_m2$theta, digits = 2, format = "f", decimal.mark = ",")
+} else "—"
+
+cat(sprintf("  Pearson χ²/gl Poisson: %s | θ NB: %s\n", disp_pois, theta_nb))
+
+tab_s3_data <- bind_rows(res_pois, res_nb) |>
+  mutate(
+    variavel_label = case_when(
+      variavel == "ivs_score"          ~ "IVS-BH (por 1 ponto)",
+      variavel == "pct_sem_saneamento" ~ "% sem saneamento básico (por 1 p.p.)",
+      TRUE ~ variavel
+    ),
+    irr_fmt = formatC(irr,    digits = 3, format = "f", decimal.mark = ","),
+    ic_fmt  = paste0("(",
+                     formatC(ic_inf, digits = 3, format = "f", decimal.mark = ","),
+                     "; ",
+                     formatC(ic_sup, digits = 3, format = "f", decimal.mark = ","),
+                     ")"),
+    p_fmt   = if_else(p_valor < 0.001, "<0,001",
+                      formatC(p_valor, digits = 3, format = "f", decimal.mark = ","))
+  )
+
+write_csv(tab_s3_data, file.path(DIR_DOCS, "tabela_s3_sensibilidade_nb.csv"))
+
+if (nrow(tab_s3_data) > 0) {
+  gt_s3 <- tab_s3_data |>
+    select(modelo, variavel_label, irr_fmt, ic_fmt, p_fmt) |>
+    gt(groupname_col = "modelo") |>
+    cols_label(
+      variavel_label = "Preditor",
+      irr_fmt        = "IRR",
+      ic_fmt         = "IC 95%",
+      p_fmt          = md("*p*-valor")
+    ) |>
+    tab_header(
+      title    = "Tabela S3. Análise de sensibilidade — Binomial Negativo vs. Poisson",
+      subtitle = "Modelo M2: efeitos fixos por Regional e Ano (153 CS × 51 meses)"
+    ) |>
+    tab_source_note(md(paste0(
+      "Modelos equivalentes ao M2 do texto principal (Poisson FE regional+ano). ",
+      "IRR: Incidence Rate Ratio. IC: Intervalo de Confiança de 95%.\n",
+      sprintf("Dispersão Pearson χ²/gl — Poisson: %s. Parâmetro de forma θ (NB): %s.",
+              disp_pois, theta_nb),
+      " Consistência dos IRRs entre Poisson e NB confirma robustez das estimativas ",
+      "frente à sobredispersão moderada."
+    ))) |>
+    tab_style(
+      style = list(cell_fill(color = "#1A5276"),
+                   cell_text(color = "white", weight = "bold")),
+      locations = cells_row_groups()
+    ) |>
+    cols_align(align = "center", columns = c(irr_fmt, ic_fmt, p_fmt)) |>
+    cols_width(modelo ~ px(220), variavel_label ~ px(230),
+               irr_fmt ~ px(90), ic_fmt ~ px(140), p_fmt ~ px(70)) |>
+    tab_options(table.font.size = px(11), data_row.padding = px(4),
+                table.border.top.color = "black",
+                table.border.bottom.color = "black",
+                column_labels.font.weight = "bold")
+
+  gtsave(gt_s3, file.path(DIR_DOCS, "tabela_s3_sensibilidade_nb.html"))
+  cat("  ok tabela_s3_sensibilidade_nb.html\n")
+} else {
+  cat("  AVISO: modelos não convergiram — Tabela S3 não gerada\n")
+}
+
 cat("\n=== Todos os outputs gerados em docs/ ===\n")
 cat("Figuras: figura1_fluxograma_strobe.png, figura2_its_4paineis.png,",
     "figura3_mapa_quadruplo.png\n")
 cat("Tabelas: tabela1_pacientes.html/.csv, tabela2_resultados.html/.csv\n")
+cat("Suplementar: tabela_s3_sensibilidade_nb.html/.csv\n")
