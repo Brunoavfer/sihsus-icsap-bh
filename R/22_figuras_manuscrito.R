@@ -289,7 +289,12 @@ d_int      <- as.Date("2024-05-01")
 y_max_a    <- max(ev$n_icsap, na.rm = TRUE)
 x_ann_pre  <- as.Date("2022-09-01")
 x_ann_pos  <- as.Date("2024-09-01")
-y_max_b    <- ceiling(max(ev$taxa_obs, ev_pos$cf_ic_sup, na.rm = TRUE)) + 1
+y_max_b    <- ceiling(max(ev$taxa_obs, ev_pos$cf_ic_sup, na.rm = TRUE)) + 4
+
+# Diagnóstico: primeiros 5 valores mensais pós-intervenção
+cat(sprintf("  evitadas_mes pós (primeiros 5): %.1f, %.1f, %.1f, %.1f, %.1f\n",
+            ev_pos$evitadas_mes[1], ev_pos$evitadas_mes[2], ev_pos$evitadas_mes[3],
+            ev_pos$evitadas_mes[4], ev_pos$evitadas_mes[5]))
 y_min_b    <- floor(min(ev$taxa_obs, ev_pos$cf_ic_inf, na.rm = TRUE)) - 1
 
 lbl_interv <- "Portaria GM/MS\nnº 3.493/2024"
@@ -337,23 +342,23 @@ p2b <- ggplot(ev, aes(x = data)) +
   geom_vline(xintercept = d_int,
              linetype = "dashed", colour = "#C0392B", linewidth = 0.55) +
   annotate("label",
-           x = x_ann_pre, y = y_max_b - 0.5,
+           x = x_ann_pre, y = y_max_b - 2.5,
            label = "APC pré: +12,3%/ano\n(IC95%: 5,8; 19,2; p<0,001)",
-           size = 2.0, hjust = 0, colour = "#1565C0",
+           size = 1.8, hjust = 0, colour = "#1565C0",
            fill = "white", label.padding = unit(1.2, "mm")) +
   annotate("label",
-           x = x_ann_pos, y = y_max_b - 0.5,
+           x = x_ann_pos, y = y_max_b - 2.5,
            label = "APC pós: -8,3%/ano\n(IC95%: -12,1; -4,5; p<0,001)",
-           size = 2.0, hjust = 0, colour = "#C0392B",
+           size = 1.8, hjust = 0, colour = "#C0392B",
            fill = "white", label.padding = unit(1.2, "mm")) +
   annotate("text",
-           x = x_ann_pos, y = y_max_b - 2.5,
+           x = x_ann_pos, y = y_max_b - 4.5,
            label = "Δ tendência: -20,6%/ano (p<0,001)",
-           size = 1.9, hjust = 0, colour = "grey25") +
+           size = 1.8, hjust = 0, colour = "grey25") +
   scale_x_date(date_breaks = "6 months", date_labels = "%b/%Y",
                expand = expansion(mult = 0.01)) +
   scale_y_continuous(labels = function(x) paste0(x, "%"),
-                     limits = c(y_min_b, y_max_b + 0.5)) +
+                     limits = c(y_min_b, y_max_b)) +
   scale_colour_manual(values = c("Pré-intervenção" = "#90CAF9",
                                  "Pós-intervenção"  = "#1565C0")) +
   labs(x = "Competência (mês/ano)",
