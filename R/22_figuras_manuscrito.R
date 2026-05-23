@@ -414,9 +414,10 @@ p2d <- ggplot(ev_pos, aes(x = data)) +
   geom_vline(xintercept = d_int,
              linetype = "dashed", colour = "#C0392B", linewidth = 0.55) +
   annotate("label",
-           x = max(ev_pos$data) - 60,
+           x = max(ev_pos$data) - 15,
            y = 21.8,
            label = "R$ 29,05 mi\n(IC95%: 11,16–48,57)",
+           hjust = 1,
            fill = "white", colour = "#2E7D32",
            linewidth = 0.3, size = 2.5,
            fontface = "bold") +
