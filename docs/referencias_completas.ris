@@ -1,0 +1,604 @@
+TY  - BOOK
+AU  - Starfield, Barbara
+TI  - Primary care: concept, evaluation, and policy
+PY  - 1992
+CY  - New York
+PB  - Oxford University Press
+KW  - atenção primária; primary care; concept; evaluation; policy
+ER  -
+
+TY  - JOUR
+AU  - Billings, John
+AU  - Zeitel, Leonard
+AU  - Lukomnik, Joseph
+AU  - Carey, Timothy S.
+AU  - Blank, Anthony E.
+AU  - Newman, Lisa
+TI  - Impact of socioeconomic status on hospital use in New York City
+JO  - Health Affairs
+PY  - 1993
+VL  - 12
+IS  - 1
+SP  - 162
+EP  - 173
+DO  - 10.1377/hlthaff.12.1.162
+KW  - ACSC; ambulatory care sensitive conditions; preventable hospitalizations; socioeconomic status
+N1  - Artigo seminal que define o conceito de Ambulatory Care Sensitive Conditions (ACSC).
+ER  -
+
+TY  - JOUR
+AU  - Anselin, Luc
+TI  - Local indicators of spatial association — LISA
+JO  - Geographical Analysis
+PY  - 1995
+VL  - 27
+IS  - 2
+SP  - 93
+EP  - 115
+DO  - 10.1111/j.1538-4632.1995.tb00338.x
+KW  - LISA; autocorrelação espacial; Moran's I local; clustering espacial
+N1  - Base do Moran's I local implementado no script 08_autocorrelacao_espacial.R.
+ER  -
+
+TY  - RPRT
+AU  - Ahmad, Omar B.
+AU  - Boschi-Pinto, Cynthia
+AU  - Lopez, Alan D.
+AU  - Murray, Christopher J. L.
+AU  - Lozano, Rafael
+AU  - Inoue, Mie
+TI  - Age standardization of rates: a new WHO standard
+T2  - GPE Discussion Paper Series, No. 31
+PY  - 2001
+CY  - Geneva
+PB  - World Health Organization
+UR  - https://www.who.int/healthinfo/paper31.pdf
+KW  - padronização direta; age standardization; WHO standard; epidemiologia; taxas
+ER  -
+
+TY  - JOUR
+AU  - Caminal, Josefina
+AU  - Starfield, Barbara
+AU  - Sánchez, Emília
+AU  - Casanova, Carles
+AU  - Morales, Mercè
+TI  - The role of primary care in preventing ambulatory care sensitive conditions
+JO  - European Journal of Public Health
+PY  - 2004
+VL  - 14
+IS  - 3
+SP  - 246
+EP  - 251
+DO  - 10.1093/eurpub/14.3.246
+KW  - ACSC; ambulatory care sensitive conditions; primary care; prevention
+ER  -
+
+TY  - JOUR
+AU  - Mobley, Lee R.
+AU  - Root, Elisabeth D.
+AU  - Anselin, Luc
+AU  - Lozano-Gracia, Nancy
+AU  - Koschinsky, Julia
+TI  - Spatial analysis of elderly access to primary care services
+JO  - International Journal of Health Geographics
+PY  - 2006
+VL  - 5
+SP  - 19
+DO  - 10.1186/1476-072X-5-19
+KW  - ACSC; spatial access; primary care; elderly; geographic information systems
+ER  -
+
+TY  - GOVT
+AU  - Brasil. Ministério da Saúde
+TI  - Portaria SAS/MS nº 221, de 17 de abril de 2008. Lista Brasileira de Internações por Condições Sensíveis à Atenção Primária
+PY  - 2008
+CY  - Brasília
+PB  - Ministério da Saúde / Secretaria de Atenção à Saúde
+KW  - ICSAP; lista brasileira; condições sensíveis; atenção primária; portaria
+ER  -
+
+TY  - JOUR
+AU  - Alfradique, Maria Elmira
+AU  - Bonolo, Palmira de Fátima
+AU  - Dourado, Inês
+AU  - Lima-Costa, Maria Fernanda
+AU  - Macinko, James
+AU  - Mendonça, Claunara Schilling
+AU  - Oliveira, Veneza Berenice
+AU  - Sampaio, Luís Fernando Rolim
+AU  - De Simoni, Carmen
+AU  - Turci, Maria Aparecida
+TI  - Internações por condições sensíveis à atenção primária: a construção da lista brasileira como ferramenta para medir o desempenho do sistema de saúde (Projeto ICSAP — Brasil)
+JO  - Cadernos de Saúde Pública
+PY  - 2009
+VL  - 25
+IS  - 6
+SP  - 1337
+EP  - 1349
+DO  - 10.1590/S0102-311X2009000600016
+KW  - ICSAP; atenção primária; internações hospitalares; desempenho do sistema de saúde; lista brasileira
+N1  - Referência que estabelece a lista brasileira de condições sensíveis à atenção primária, base da Portaria SAS/MS nº 221/2008.
+ER  -
+
+TY  - JOUR
+AU  - Mendonça, Claunara Schilling
+AU  - Harzheim, Erno
+AU  - Duncan, Bruce B.
+AU  - Nunes, Luciana Neves
+AU  - Leyh, Werner
+TI  - Trends in hospitalizations for primary care sensitive conditions following the implementation of Family Health Teams in Belo Horizonte, Brazil
+JO  - Health Policy and Planning
+PY  - 2012
+VL  - 27
+IS  - 4
+SP  - 348
+EP  - 355
+DO  - 10.1093/heapol/czr043
+KW  - ICSAP; Estratégia Saúde da Família; Belo Horizonte; atenção primária; internações evitáveis
+ER  -
+
+TY  - JOUR
+AU  - Mendonça, Claunara Schilling
+TI  - Hospitalizations for primary care sensitive conditions: association with socioeconomic status and quality of family health teams in Belo Horizonte, Brazil
+JO  - Health Policy and Planning
+PY  - 2017
+VL  - 32
+IS  - 10
+SP  - 1368
+EP  - 1374
+DO  - 10.1093/heapol/czx103
+KW  - ICSAP; condições socioeconômicas; ESF; Belo Horizonte; qualidade da APS
+ER  -
+
+TY  - JOUR
+AU  - Bernal, James Lopez
+AU  - Cummins, Steven
+AU  - Gasparrini, Antonio
+TI  - Interrupted time series regression for the evaluation of public health interventions: a tutorial
+JO  - BMJ
+PY  - 2017
+VL  - 359
+SP  - j2981
+DO  - 10.1136/bmj.j2981
+KW  - interrupted time series; ITS; avaliação de intervenções; séries temporais; políticas de saúde
+N1  - Referência metodológica para a análise ITS implementada no script 11_its.R.
+ER  -
+
+TY  - JOUR
+AU  - Bernal, James Lopez
+AU  - Cummins, Steven
+AU  - Gasparrini, Antonio
+TI  - Interrupted time series regression for the evaluation of public health interventions: a tutorial
+JO  - International Journal of Epidemiology
+PY  - 2017
+VL  - 46
+IS  - 1
+SP  - 348
+EP  - 355
+DO  - 10.1093/ije/dyw098
+KW  - interrupted time series; ITS; avaliação de intervenções; séries temporais; políticas de saúde
+N1  - Versão publicada no International Journal of Epidemiology (distinta da versão BMJ j2981).
+ER  -
+
+TY  - JOUR
+AU  - Hone, Thomas
+AU  - Macinko, James
+AU  - Millett, Christopher
+TI  - Large reductions in amenable mortality associated with Brazil's primary care expansion
+JO  - Health Affairs
+PY  - 2017
+VL  - 36
+IS  - 1
+SP  - 149
+EP  - 158
+DO  - 10.1377/hlthaff.2016.0966
+KW  - Brazil; primary care; amenable mortality; Family Health Strategy; ESF
+ER  -
+
+TY  - JOUR
+AU  - Macinko, James
+AU  - Harris, Matthew J.
+AU  - Rocha, Marcelo Gonçalves
+TI  - Brazil's National Program for Improving Primary Care Access and Quality (PMAQ): fulfilling the potential of community health workers as the model for global primary care performance improvement
+JO  - Journal of Ambulatory Care Management
+PY  - 2017
+VL  - 40
+IS  - 2 Suppl
+SP  - S4
+EP  - S11
+DO  - 10.1097/JAC.0000000000000183
+KW  - PMAQ; atenção primária; qualidade; Brasil; agentes comunitários de saúde
+ER  -
+
+TY  - JOUR
+AU  - Macinko, James
+AU  - Dourado, Inês
+AU  - Aquino, Rosana
+AU  - Bonolo, Palmira de Fátima
+AU  - Lima-Costa, Maria Fernanda
+AU  - Medina, Maria Guadalupe
+AU  - Mota, Eduardo
+AU  - Turci, Maria Aparecida
+AU  - Guanais, Frederico C.
+TI  - Major expansion of primary care in Brazil linked to decline in unnecessary hospitalization
+JO  - Health Affairs
+PY  - 2018
+VL  - 37
+IS  - 1
+SP  - 78
+EP  - 85
+DO  - 10.1377/hlthaff.2017.0263
+KW  - Brazil; primary care; unnecessary hospitalization; ESF; ICSAP; ACSC
+ER  -
+
+TY  - GOVT
+AU  - Brasil. Ministério da Saúde
+TI  - Portaria GM/MS nº 2.436, de 21 de setembro de 2017. Aprova a Política Nacional de Atenção Básica, estabelecendo a revisão de diretrizes para a organização da Atenção Básica, no âmbito do Sistema Único de Saúde (SUS)
+PY  - 2017
+CY  - Brasília
+PB  - Ministério da Saúde
+KW  - Política Nacional de Atenção Básica; PNAB; atenção primária; SUS
+ER  -
+
+TY  - JOUR
+AU  - Mendes, Áquilas
+AU  - Carnut, Leonardo
+AU  - Guerra, Lucia Dias da Silva
+TI  - Reflexões acerca do financiamento federal da Atenção Básica no SUS
+JO  - Saúde em Debate
+PY  - 2018
+VL  - 42
+IS  - esp 1
+SP  - 224
+EP  - 243
+DO  - 10.1590/0103-11042018S115
+KW  - financiamento; atenção básica; SUS; repasse federal
+ER  -
+
+TY  - JOUR
+AU  - Rasella, Davide
+AU  - Basu, Sanjay
+AU  - Hone, Thomas
+AU  - Paes-Sousa, Rômulo
+AU  - Ocké-Reis, Carlos Octávio
+AU  - Millett, Christopher
+TI  - Child morbidity and mortality associated with alternative policy responses to the economic crisis in Brazil: a nationwide microsimulation study
+JO  - PLOS Medicine
+PY  - 2018
+VL  - 15
+IS  - 5
+SP  - e1002570
+DO  - 10.1371/journal.pmed.1002570
+KW  - Brazil; child mortality; economic crisis; primary care; health policy
+ER  -
+
+TY  - GOVT
+AU  - Brasil. Ministério da Saúde
+TI  - Portaria GM/MS nº 2.979, de 13 de novembro de 2019. Institui o Programa Previne Brasil, que estabelece novo modelo de financiamento de custeio da Atenção Primária à Saúde no âmbito do Sistema Único de Saúde
+PY  - 2019
+CY  - Brasília
+PB  - Ministério da Saúde
+UR  - https://bvsms.saude.gov.br/bvs/saudelegis/gm/2019/prt2979_13_11_2019.html
+KW  - Previne Brasil; financiamento; atenção primária; SUS
+ER  -
+
+TY  - JOUR
+AU  - Massuda, Adriano
+TI  - Mudanças no financiamento da Atenção Primária à Saúde no Sistema de Saúde Brasileiro: avanços e retrocessos
+JO  - Ciência e Saúde Coletiva
+PY  - 2020
+VL  - 25
+IS  - 4
+SP  - 1181
+EP  - 1188
+DO  - 10.1590/1413-81232020254.35452019
+KW  - financiamento; atenção primária; SUS; Previne Brasil; ESF
+ER  -
+
+TY  - JOUR
+AU  - Santos, Danielle Monteiro Alves
+TI  - Fatores associados às internações infantis por condições sensíveis à atenção primária no Brasil
+JO  - Revista Panamericana de Salud Pública
+PY  - 2022
+VL  - 46
+SP  - e63
+DO  - 10.26633/RPSP.2022.63
+KW  - ICSAP; crianças; atenção primária; Brasil; internações evitáveis
+ER  -
+
+TY  - JOUR
+AU  - Becker, Nora V.
+AU  - Karmakar, Monita
+AU  - Tipirneni, Renuka
+AU  - Ayanian, John Z.
+TI  - Trends in Hospitalizations for Ambulatory Care-Sensitive Conditions During the COVID-19 Pandemic
+JO  - JAMA Network Open
+PY  - 2022
+VL  - 5
+IS  - 3
+SP  - e222933
+DO  - 10.1001/jamanetworkopen.2022.2933
+KW  - ACSC; ambulatory care sensitive conditions; COVID-19; pandemic; preventable hospitalizations
+ER  -
+
+TY  - JOUR
+AU  - Rocha, João Victor Muniz
+AU  - Santana, Rui
+AU  - Tello, Juan E.
+TI  - Hospitalization for ambulatory care sensitive conditions: What conditions make inter-country comparisons possible?
+JO  - Health Policy Open
+PY  - 2021
+VL  - 2
+SP  - 100030
+DO  - 10.1016/j.hpopen.2021.100030
+KW  - ACSC; ambulatory care sensitive conditions; international comparison; primary care
+ER  -
+
+TY  - JOUR
+AU  - Kendzerska, Tetyana
+AU  - Zhu, David T.
+AU  - Pugliese, Michael
+AU  - Manuel, Douglas
+AU  - Sadatsafavi, Mohsen
+AU  - Povitz, Marcus
+AU  - Stukel, Therese A.
+AU  - To, Teresa
+AU  - Aaron, Shawn D.
+AU  - Mulpuru, Sunita
+AU  - Chin, Melanie
+AU  - Kendall, Claire E.
+AU  - Thavorn, Kednapa
+AU  - Robillard, Rebecca
+AU  - Gershon, Andrea S.
+TI  - Trends in outpatient and inpatient visits for separate ambulatory-care-sensitive conditions during the first year of the COVID-19 pandemic: a province-based study
+JO  - Frontiers in Public Health
+PY  - 2023
+VL  - 11
+SP  - 1251020
+DO  - 10.3389/fpubh.2023.1251020
+KW  - ACSC; ambulatory care sensitive conditions; COVID-19; pandemic; trends
+ER  -
+
+TY  - JOUR
+AU  - Loyd, Christine
+AU  - Blue, Kylie
+AU  - Turner, Laci
+AU  - Weber, Ashley
+AU  - Guy, Ashley
+AU  - Zhang, Yue
+AU  - Martin, Roy C.
+AU  - Kennedy, Richard E.
+AU  - Brown, Cynthia
+TI  - National Norms for Hospitalizations Due to Ambulatory Care Sensitive Conditions among Adults in the US
+JO  - Journal of General Internal Medicine
+PY  - 2023
+VL  - 38
+IS  - 13
+SP  - 2953
+EP  - 2959
+DO  - 10.1007/s11606-023-08161-z
+KW  - ACSC; ambulatory care sensitive conditions; national norms; United States
+ER  -
+
+TY  - JOUR
+AU  - Iba, Arisa
+AU  - Tomio, Jun
+AU  - Sugiyama, Takehiro
+AU  - Abe, Kazuhiro
+AU  - Yamada, Ikuho
+AU  - Kobayashi, Yasuki
+TI  - Association between spatial access and hospitalization for ambulatory care sensitive conditions: A retrospective cohort study using claims data
+JO  - SSM — Population Health
+PY  - 2023
+VL  - 25
+SP  - 101565
+DO  - 10.1016/j.ssmph.2023.101565
+KW  - ACSC; spatial access; geographic access; primary care; preventable hospitalizations
+ER  -
+
+TY  - JOUR
+AU  - Horta, Isabela Pinheiro Mendes
+TI  - Trend in hospitalizations due to ambulatory care-sensitive conditions in the Federal District, Brazil
+JO  - Revista Brasileira de Enfermagem
+PY  - 2023
+VL  - 76
+IS  - 2
+SP  - e20220351
+DO  - 10.1590/0034-7167-2022-0351
+KW  - ICSAP; Distrito Federal; série temporal; atenção primária; internações evitáveis
+ER  -
+
+TY  - JOUR
+AU  - Hone, Thomas
+AU  - Couceiro, Lucas
+AU  - Nascimento, Augusto
+AU  - Millett, Christopher
+AU  - Rasella, Davide
+TI  - The impact of primary care reform on avoidable hospitalisations in Brazil: a controlled interrupted time series
+JO  - BMJ Global Health
+PY  - 2024
+VL  - 9
+IS  - 3
+SP  - e014567
+DO  - 10.1136/bmjgh-2023-014567
+KW  - Brazil; primary care; avoidable hospitalizations; ITS; controlled interrupted time series
+ER  -
+
+TY  - JOUR
+AU  - Rodrigues, Gisele Voss
+TI  - Association between hospitalisations for ambulatory care-sensitive conditions and primary healthcare physician specialisation
+JO  - BMJ Open
+PY  - 2025
+VL  - 15
+SP  - e086694
+DO  - 10.1136/bmjopen-2024-086694
+KW  - ICSAP; ACSC; médicos de família; medicina de família; atenção primária; internações evitáveis
+ER  -
+
+TY  - JOUR
+AU  - Viguini, J. A.
+AU  - Cordeiro, T. O.
+AU  - Miranda, H. A.
+AU  - Caetano, R. B.
+AU  - Cordeiro, R. de O.
+TI  - Análise das internações por condições sensíveis à atenção primária (ICSAP) após o encerramento do Programa Mais Médicos (PMM) na mesorregião do Vale do Jequitinhonha no ano de 2019
+JO  - Brazilian Journal of Health Review
+PY  - 2023
+VL  - 6
+IS  - 5
+SP  - 23721
+EP  - 23734
+DO  - 10.34119/bjhrv6n5-427
+KW  - ICSAP; Programa Mais Médicos; Vale do Jequitinhonha; Minas Gerais; atenção primária
+ER  -
+
+TY  - JOUR
+AU  - Rubim, Larissa Daniele
+AU  - Bastos, Tassia Fraga
+AU  - Gomes, Marcos Costa Naves
+AU  - Almeida, Gabrielle Oliveira
+TI  - Internações por Condições Sensíveis à Atenção Primária (ICSAP), entre 2008 e 2023, no estado de São Paulo
+JO  - Research, Society and Development
+PY  - 2024
+VL  - 13
+IS  - 8
+SP  - e11913846659
+DO  - 10.33448/rsd-v13i8.46659
+KW  - ICSAP; pandemia; COVID-19; São Paulo; série temporal; atenção primária
+ER  -
+
+TY  - JOUR
+AU  - Bertelli, Ellen Vanuza Martins
+AU  - Carvalho, Gislayne Cristina Torreias de
+AU  - Guimarães, Raphael Mendonça
+AU  - Dutra, Viviane Gomes Parreira
+TI  - Time series of hospitalizations for primary care-sensitive conditions in children in the state of Roraima, Brazil, 2010 to 2023
+JO  - Revista Brasileira de Epidemiologia
+PY  - 2025
+VL  - 28
+SP  - e250016
+DO  - 10.1590/1980-549720250016
+KW  - ICSAP; crianças; Roraima; série temporal; internações hospitalares pediátricas
+ER  -
+
+TY  - JOUR
+AU  - Tocciillo, Guilherme Loureiro
+AU  - Carnut, Leonardo
+AU  - Mendes, Áquilas
+AU  - Melo, Marco Aurélio
+TI  - O novo modelo de alocação de recursos federais da APS 2024
+JO  - Saúde em Debate
+PY  - 2025
+VL  - 49
+IS  - 147
+SP  - e2514710205
+DO  - 10.1590/2358-2898202514710205P
+KW  - financiamento; APS; Previne Brasil; alocação de recursos; atenção primária
+ER  -
+
+TY  - GOVT
+AU  - Brasil. Ministério da Saúde
+TI  - Portaria GM/MS nº 3.493, de 10 de abril de 2024. Institui nova metodologia de cofinanciamento federal da Atenção Primária à Saúde no âmbito do Programa Previne Brasil
+PY  - 2024
+CY  - Brasília
+PB  - Ministério da Saúde
+UR  - https://www.in.gov.br/web/dou/-/portaria-gm-ms-n-3.493-de-10-de-abril-de-2024
+KW  - Portaria 3493; cofinanciamento federal; APS; Previne Brasil; ESF; indicadores de qualidade
+ER  -
+
+TY  - JOUR
+AU  - Castro, Marcia C.
+AU  - Massuda, Adriano
+AU  - Almeida, Gisele
+AU  - Menezes-Filho, Naercio A.
+AU  - Andrade, Monica V.
+AU  - Noronha, Kenya Valéria Micaela de Souza
+AU  - Rocha, Romero
+AU  - Macinko, James
+AU  - Hone, Thomas
+AU  - Tasca, Renato
+AU  - Giovanella, Lígia
+AU  - Malik, Ana Maria
+AU  - Werneck, Guilherme Loureiro
+AU  - Figueiredo, Ana Maria de Brito
+AU  - Hargreaves, James R.
+TI  - Brazil's unified health system: the first 30 years and prospects for the future
+JO  - Lancet
+PY  - 2019
+VL  - 394
+IS  - 10195
+SP  - 345
+EP  - 356
+DO  - 10.1016/S0140-6736(19)31243-7
+KW  - SUS; Brazil; universal health coverage; primary care; 30 years
+ER  -
+
+TY  - GOVT
+AU  - Instituto Brasileiro de Geografia e Estatística
+TI  - Censo Demográfico 2022: resultados do universo
+PY  - 2023
+CY  - Rio de Janeiro
+PB  - IBGE
+UR  - https://www.ibge.gov.br/estatisticas/sociais/populacao/22827-censo-demografico-2022.html
+KW  - Censo 2022; IBGE; população; Brasil; dados demográficos
+ER  -
+
+TY  - GOVT
+AU  - Instituto Brasileiro de Geografia e Estatística
+TI  - Aglomerados Subnormais 2022: polígonos de favelas e comunidades urbanas do Brasil
+PY  - 2022
+CY  - Rio de Janeiro
+PB  - IBGE
+UR  - https://geoftp.ibge.gov.br/organizacao_do_territorio/estrutura_territorial/aglomerados_subnormais/agsn2022/
+KW  - favelas; aglomerados subnormais; vulnerabilidade; IBGE; dados abertos; polígonos
+ER  -
+
+TY  - GOVT
+AU  - Ministério da Saúde
+AU  - DATASUS
+TI  - Cadastro Nacional de Estabelecimentos de Saúde (CNES): dados de profissionais e equipes
+PY  - 2025
+CY  - Brasília
+PB  - Ministério da Saúde
+UR  - http://cnes.datasus.gov.br/
+KW  - CNES; estabelecimentos de saúde; profissionais; equipes ESF; DATASUS
+ER  -
+
+TY  - RPRT
+AU  - Prefeitura de Belo Horizonte
+AU  - Secretaria Municipal de Saúde
+TI  - Índice de Vulnerabilidade Social de Belo Horizonte (IVS-BH)
+PY  - 2022
+CY  - Belo Horizonte
+PB  - Secretaria Municipal de Saúde de Belo Horizonte
+KW  - IVS; vulnerabilidade social; Belo Horizonte; setores censitários; SMSA
+ER  -
+
+TY  - RPRT
+AU  - Instituto de Pesquisa Econômica Aplicada
+TI  - Índice de Vulnerabilidade Social (IVS): metodologia e resultados 2024
+PY  - 2024
+CY  - Brasília
+PB  - IPEA
+UR  - https://www.ipea.gov.br/ivs/
+KW  - IVS; vulnerabilidade social; IPEA; Brasil; indicadores sociais
+ER  -
+
+TY  - THES
+AU  - Silva, Sara de Souza
+TI  - Internações por Condições Sensíveis à Atenção Primária (ICSAP) entre idosos no Estado de Minas Gerais, 2010 a 2015
+PY  - 2021
+CY  - Belo Horizonte, MG, Brasil
+PB  - Instituto René Rachou, Fundação Oswaldo Cruz
+UR  - https://www.arca.fiocruz.br/handle/icict/49585
+KW  - ICSAP; idosos; Minas Gerais; série temporal; envelhecimento populacional
+ER  -
+
+TY  - THES
+AU  - Melo, Marco Aurélio
+TI  - Críticas à nova forma de alocação dos recursos federais para a APS — Programa Previne Brasil
+PY  - 2024
+CY  - São Paulo
+PB  - Faculdade de Saúde Pública, Universidade de São Paulo
+KW  - Previne Brasil; financiamento; APS; alocação de recursos; crítica
+ER  -
