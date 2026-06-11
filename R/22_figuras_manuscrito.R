@@ -222,40 +222,40 @@ fig1 <- ggplot() +
                aes(x = x, y = y, xend = xend, yend = yend),
                arrow = arrow(length = unit(1.5, "mm"), type = "closed"),
                colour = "grey40", linewidth = 0.35) +
-  coord_cartesian(xlim = c(0, 1), ylim = c(0.04, 1.02)) +
+  annotate("text",
+           x = 0.01, y = 0.01,
+           hjust = 0, vjust = 1,
+           size = 2.1, lineheight = 1.45, colour = "grey30",
+           label = paste0(
+             "AR(1): estrutura autorregressiva de 1ª ordem. ",
+             "BH: Belo Horizonte. CEP: Código de Endereçamento Postal.\n",
+             "CID-10: Classificação Internacional de Doenças, 10ª revisão. ",
+             "CS: Centro de Saúde. GEE: Equações de Estimação Generalizada.\n",
+             "GLS: Mínimos Quadrados Generalizados. ",
+             "ICSAP: Internações por Condições Sensíveis à Atenção Primária.\n",
+             "ITS: Interrupção de Série Temporal. ",
+             "MNAR: dado ausente de forma não aleatória (Missing Not at Random).\n",
+             "STROBE: Von Elm et al., Lancet. 2007;370(9596):1453-7."
+           )) +
+  coord_cartesian(xlim = c(0, 1), ylim = c(-0.20, 1.02)) +
   theme_void() +
   labs(
     title = paste0(
       "Figura 1. Fluxo de seleção das internações por condições sensíveis\n",
       "à atenção primária (ICSAP). Belo Horizonte, Minas Gerais, Brasil,\n",
       "janeiro de 2022 a março de 2026."
-    ),
-    caption = paste0(
-      "AR(1): estrutura autorregressiva de primeira ordem. ",
-      "BH: Belo Horizonte. ",
-      "CEP: Código de Endereçamento Postal. ",
-      "CID-10: Classificação Internacional de Doenças, 10ª revisão. ",
-      "CS: Centro de Saúde. ",
-      "GEE: Equações de Estimação Generalizada. ",
-      "GLS: Mínimos Quadrados Generalizados. ",
-      "ICSAP: Internações por Condições Sensíveis à Atenção Primária. ",
-      "ITS: Interrupção de Série Temporal. ",
-      "MNAR: Missing Not at Random (dado ausente de forma não aleatória). ",
-      "STROBE: Von Elm et al., Lancet. 2007;370(9596):1453-7."
     )
   ) +
   theme(
     plot.title      = element_text(size = 9, face = "bold", hjust = 0,
                                    margin = margin(b = 2)),
-    plot.caption    = element_text(size = 6.5, colour = "grey35", hjust = 0,
-                                   margin = margin(t = 4), lineheight = 1.3),
-    plot.margin     = margin(6, 6, 6, 6, "mm"),
+    plot.margin     = margin(6, 6, 4, 6, "mm"),
     plot.background = element_rect(fill = "white", colour = NA)
   )
 
 ragg::agg_png(
   filename   = file.path(DIR_DOCS, "figura1_fluxograma_strobe.png"),
-  width      = 8.5, height = 11, units = "in",
+  width      = 8.5, height = 12, units = "in",
   res        = DPI, background = "white"
 )
 print(fig1)
