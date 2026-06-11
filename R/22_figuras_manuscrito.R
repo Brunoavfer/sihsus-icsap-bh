@@ -230,23 +230,24 @@ fig1 <- ggplot() +
       "à atenção primária (ICSAP). Belo Horizonte, Minas Gerais, Brasil,\n",
       "janeiro de 2022 a março de 2026."
     ),
-    subtitle = paste0(
-      "CS: Centro de Saúde. STROBE: Von Elm et al., Lancet, 2007;370:1453-7.\n",
-      "Fonte: SIH/SUS – DATASUS."
-    )
+    caption = "CS: Centro de Saúde. STROBE: Von Elm et al., Lancet. 2007;370(9596):1453-7."
   ) +
   theme(
     plot.title      = element_text(size = 9, face = "bold", hjust = 0,
                                    margin = margin(b = 2)),
-    plot.subtitle   = element_text(size = 6.5, colour = "grey35", hjust = 0,
-                                   margin = margin(b = 4), lineheight = 1.3),
+    plot.caption    = element_text(size = 6.5, colour = "grey35", hjust = 0,
+                                   margin = margin(t = 4), lineheight = 1.3),
     plot.margin     = margin(6, 6, 6, 6, "mm"),
     plot.background = element_rect(fill = "white", colour = NA)
   )
 
-ggsave(file.path(DIR_DOCS, "figura1_fluxograma_strobe.png"),
-       fig1, width = W_IN, height = W_IN * 1.35, dpi = DPI,
-       device = ragg::agg_png, bg = "white")
+ragg::agg_png(
+  filename   = file.path(DIR_DOCS, "figura1_fluxograma_strobe.png"),
+  width      = W_IN, height = W_IN * 1.35, units = "in",
+  res        = DPI, background = "white"
+)
+print(fig1)
+dev.off()
 cat("  ok figura1_fluxograma_strobe.png\n")
 
 # =============================================================================
@@ -331,8 +332,11 @@ p2a <- ggplot(ev, aes(x = data, y = n_icsap, fill = periodo)) +
   scale_fill_manual(
     values = c("Pré-intervenção" = "#90CAF9", "Pós-intervenção" = "#1565C0"),
     name = NULL) +
-  scale_x_date(date_breaks = "6 months", date_labels = "%b/%Y",
-               expand = expansion(mult = 0.02)) +
+  scale_x_date(
+    limits      = c(as.Date("2022-01-01"), as.Date("2026-04-01")),
+    breaks      = seq(as.Date("2022-01-01"), as.Date("2026-01-01"), by = "6 months"),
+    date_labels = "%b/%Y",
+    expand      = expansion(mult = 0.01)) +
   scale_y_continuous(
     labels = label_number(big.mark = ".", decimal.mark = ","),
     expand = expansion(mult = c(0, 0.10))) +
@@ -345,9 +349,11 @@ p2a <- ggplot(ev, aes(x = data, y = n_icsap, fill = periodo)) +
 
 # --- Painel B: taxa + contrafactual + APCs ---
 p2b <- ggplot(ev, aes(x = data)) +
-  geom_ribbon(data = ev_pos, aes(ymin = cf_ic_inf, ymax = cf_ic_sup),
+  geom_ribbon(data = filter(ev_pos, data <= as.Date("2026-03-01")),
+              aes(ymin = cf_ic_inf, ymax = cf_ic_sup),
               fill = "#FFCDD2", alpha = 0.60) +
-  geom_line(data = ev_pos, aes(y = taxa_cf), colour = "#C0392B",
+  geom_line(data = filter(ev_pos, data <= as.Date("2026-03-01")),
+            aes(y = taxa_cf), colour = "#C0392B",
             linetype = "dashed", linewidth = 0.9) +
   geom_line(aes(y = taxa_obs), colour = "#1565C0", linewidth = 1.0) +
   geom_point(aes(y = taxa_obs, colour = periodo), size = 1.2,
@@ -365,11 +371,14 @@ p2b <- ggplot(ev, aes(x = data)) +
            size = 2.2, hjust = 0, colour = "#C0392B", fill = "white",
            label.padding = unit(1.5, "mm"), label.size = 0.2) +
   annotate("text",
-           x = as.Date("2025-01-01"), y = y_max_b - 5.5,
+           x = as.Date("2024-06-01"), y = y_max_b - 5.5,
            label = "Δ tendência: -20,6%/ano (p<0,001)",
            size = 2.2, hjust = 0, colour = "grey30", fontface = "italic") +
-  scale_x_date(date_breaks = "6 months", date_labels = "%b/%Y",
-               expand = expansion(mult = 0.02)) +
+  scale_x_date(
+    limits      = c(as.Date("2022-01-01"), as.Date("2026-04-01")),
+    breaks      = seq(as.Date("2022-01-01"), as.Date("2026-01-01"), by = "6 months"),
+    date_labels = "%b/%Y",
+    expand      = expansion(mult = 0.01)) +
   scale_y_continuous(
     labels = function(x) paste0(x, "%"),
     limits = c(y_min_b, y_max_b),
@@ -405,8 +414,11 @@ p2c <- ggplot(ev_c, aes(x = data)) +
            x = as.Date("2025-04-01"), y = max_evit * 0.92,
            label = "Total evitado: 13.501\n(IC95%: 5.189–22.575)",
            size = 2.4, hjust = 0.5, colour = "#1B5E20", fontface = "bold") +
-  scale_x_date(date_breaks = "6 months", date_labels = "%b/%Y",
-               expand = expansion(mult = 0.02)) +
+  scale_x_date(
+    limits      = c(as.Date("2022-01-01"), as.Date("2026-04-01")),
+    breaks      = seq(as.Date("2022-01-01"), as.Date("2026-01-01"), by = "6 months"),
+    date_labels = "%b/%Y",
+    expand      = expansion(mult = 0.01)) +
   scale_y_continuous(
     labels = label_number(big.mark = ".", decimal.mark = ","),
     expand = expansion(mult = c(0.12, 0.10))) +
@@ -422,7 +434,7 @@ p2c <- ggplot(ev_c, aes(x = data)) +
 # --- Painel D: custo evitado acumulado ---
 p2d <- ggplot(ev_pos, aes(x = data)) +
   geom_ribbon(aes(ymin = custo_acum_inf, ymax = custo_acum_sup),
-              fill = "#A5D6A7", alpha = 0.35) +
+              fill = "#A5D6A7", alpha = 0.20) +
   geom_line(aes(y = custo_acum), colour = "#2E7D32", linewidth = 1.0) +
   geom_vline(xintercept = d_int, linetype = "dashed",
              colour = "#C0392B", linewidth = 0.7) +
@@ -431,10 +443,13 @@ p2d <- ggplot(ev_pos, aes(x = data)) +
            label = "R$ 29,05 milhões\n(IC95%: 11,16–48,57)",
            hjust = 0.5, fill = "white", colour = "#2E7D32",
            label.size = 0.25, size = 2.6, fontface = "bold") +
-  scale_x_date(date_breaks = "6 months", date_labels = "%b/%Y",
-               expand = expansion(mult = 0.02)) +
+  scale_x_date(
+    limits      = c(as.Date("2022-01-01"), as.Date("2026-04-01")),
+    breaks      = seq(as.Date("2022-01-01"), as.Date("2026-01-01"), by = "6 months"),
+    date_labels = "%b/%Y",
+    expand      = expansion(mult = 0.01)) +
   scale_y_continuous(
-    limits = c(0, max(ev_pos$custo_acum_sup, na.rm = TRUE) * 1.1),
+    limits = c(0, 45),
     labels = label_number(accuracy = 0.1, big.mark = ".", decimal.mark = ",")) +
   labs(x = "Competência (mês/ano)",
        y = "Custo evitado acumulado\n(R$ milhões, março/2026)", title = "D") +
@@ -444,20 +459,23 @@ p2d <- ggplot(ev_pos, aes(x = data)) +
 # --- Composição final ---
 fig2_final <- (p2a | p2b) / (p2c | p2d) +
   plot_annotation(
-    caption = paste0(
-      "Figura 2. Séries temporais de internações por condições sensíveis ",
-      "à atenção primária (ICSAP). Belo Horizonte, Minas Gerais, Brasil, ",
-      "janeiro de 2022 a março de 2026.\n",
-      "(A) Número absoluto de internações ICSAP por mês; linha azul escura = ",
-      "média móvel de 3 meses. (B) Taxa ICSAP observada (linha sólida azul) e ",
-      "contrafactual estimado (linha vermelha tracejada; faixa rosa = IC 95%). ",
-      "(C) Internações ICSAP evitadas por mês no período pós-Portaria ",
-      "(diferença entre contrafactual e observado). (D) Custo evitado ",
-      "acumulado (R$ milhões, valores de março/2026, deflacionados pelo IPCA).\n",
-      "A linha vertical tracejada indica o início da vigência da Portaria ",
-      "GM/MS nº 3.493/2024 (maio/2024). APC: Annual Percent Change. ",
-      "IC: Intervalo de Confiança de 95%. Modelo: ITS com GLS e correção AR(1).\n",
-      "Fonte: SIH/SUS – DATASUS. Elaboração própria."
+    caption = stringr::str_wrap(
+      paste0(
+        "Figura 2. Séries temporais de internações por condições sensíveis ",
+        "à atenção primária (ICSAP). Belo Horizonte, Minas Gerais, Brasil, ",
+        "janeiro de 2022 a março de 2026. ",
+        "(A) Número absoluto de internações ICSAP por mês; linha azul escura = ",
+        "média móvel de 3 meses. (B) Taxa ICSAP observada (linha sólida azul) e ",
+        "contrafactual estimado (linha vermelha tracejada; faixa rosa = IC 95%). ",
+        "(C) Internações ICSAP evitadas por mês no período pós-Portaria ",
+        "(diferença entre contrafactual e observado). (D) Custo evitado ",
+        "acumulado (R$ milhões, valores de março/2026, deflacionados pelo IPCA). ",
+        "A linha vertical tracejada indica o início da vigência da Portaria ",
+        "GM/MS nº 3.493/2024 (maio/2024). APC: Annual Percent Change. ",
+        "IC: Intervalo de Confiança de 95%. Modelo: ITS com GLS e correção AR(1). ",
+        "Fonte: SIH/SUS – DATASUS. Elaboração própria."
+      ),
+      width = 140
     ),
     theme = theme(
       plot.caption = element_text(size = 7.5, colour = "grey35", hjust = 0,
@@ -468,12 +486,12 @@ fig2_final <- (p2a | p2b) / (p2c | p2d) +
 
 ragg::agg_png(
   filename   = file.path(DIR_DOCS, "figura2_its_4paineis.png"),
-  width      = 12, height = 14, units = "in",
+  width      = 14, height = 14, units = "in",
   res        = 300, background = "white"
 )
 print(fig2_final)
 dev.off()
-cat("Figura 2 salva: 12\" x 14\" a 300 DPI\n")
+cat("Figura 2 salva: 14\" x 14\" a 300 DPI\n")
 
 # =============================================================================
 # FIGURA 3 — Mapa quádruplo (2×2)
@@ -585,7 +603,7 @@ n_cls_taxa_cs   <- nlevels(sf_cs_map$cl_taxa)
 n_cls_evit_cs   <- nlevels(sf_cs_map$cl_evit)
 
 pal_viridis <- function(n) viridis::viridis(n, direction = -1)
-pal_ylorrd  <- function(n) rev(RColorBrewer::brewer.pal(max(n, 3), "YlOrRd"))[seq_len(n)]
+pal_ylorrd  <- function(n) RColorBrewer::brewer.pal(max(n, 3), "YlOrRd")[seq_len(n)]
 if (!requireNamespace("RColorBrewer", quietly = TRUE)) {
   pal_ylorrd <- function(n) {
     cols <- c("#FFFFB2","#FECC5C","#FD8D3C","#F03B20","#BD0026")
@@ -737,11 +755,15 @@ fig3 <- (p3a | p3b) / (p3c | p3d) +
                                               hjust = 0, lineheight = 1.3))
   )
 
-suppressWarnings(
-  ggsave(file.path(DIR_DOCS, "figura3_mapa_quadruplo.png"),
-         fig3, width = 14, height = 12, dpi = DPI,
-         device = ragg::agg_png, bg = "white")
-)
+suppressWarnings({
+  ragg::agg_png(
+    filename   = file.path(DIR_DOCS, "figura3_mapa_quadruplo.png"),
+    width      = 14, height = 12, units = "in",
+    res        = DPI, background = "white"
+  )
+  print(fig3)
+  dev.off()
+})
 cat("  ok figura3_mapa_quadruplo.png\n")
 
 # =============================================================================
