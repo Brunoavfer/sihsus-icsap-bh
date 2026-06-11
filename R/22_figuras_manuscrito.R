@@ -277,7 +277,10 @@ custo_medio <- read_csv(file.path(DIR_DATA, "custo_evitado.csv"),
   pull(custo_medio_BRL)
 cat(sprintf("  custo_medio (IPCA mensal): R$ %.2f\n", custo_medio))
 
-ev_pos <- filter(ev, !is.na(taxa_cf)) |>
+ev_pos <- filter(ev,
+  !is.na(taxa_cf),
+  data <= as.Date("2026-03-01")
+) |>
   mutate(
     custo_mes_central = evitadas_mes * custo_medio,
     evit_inf = pmax(0, (cf_ic_inf - taxa_obs) * n_total / 100),
@@ -289,7 +292,10 @@ ev_pos <- filter(ev, !is.na(taxa_cf)) |>
 
 d_int   <- as.Date("2024-05-01")
 y_max_a <- max(ev$n_icsap, na.rm = TRUE)
-y_max_b <- ceiling(max(ev$taxa_obs, ev_pos$cf_ic_sup, na.rm = TRUE)) + 5
+y_max_b <- ceiling(max(
+  ev$taxa_obs[ev$data <= as.Date("2026-03-01")],
+  ev_pos$cf_ic_sup,
+  na.rm = TRUE)) + 5
 y_min_b <- floor(min(ev$taxa_obs, ev_pos$cf_ic_inf, na.rm = TRUE)) - 2
 
 theme_lancet_large <- function(base_size = 9) {
@@ -386,9 +392,12 @@ p2c <- ggplot(ev_c, aes(x = data)) +
   geom_col(aes(y = evit_bar, fill = bar_pos),
            alpha = 0.85, width = 26, colour = NA) +
   scale_fill_manual(
-    values = c("TRUE" = "#2E7D32", "FALSE" = "#C62828"),
-    labels = c("Internações evitadas", "Mais internações que o previsto"),
-    name = NULL) +
+    values = c("TRUE"  = "#2E7D32",
+               "FALSE" = "#C62828"),
+    labels = c("TRUE"  = "Internações evitadas",
+               "FALSE" = "Excesso em mai/2024"),
+    name   = NULL,
+    breaks = c("TRUE", "FALSE")) +
   geom_hline(yintercept = 0, colour = "grey40", linewidth = 0.4) +
   geom_vline(xintercept = d_int, linetype = "dashed",
              colour = "#C0392B", linewidth = 0.7) +
@@ -413,7 +422,7 @@ p2c <- ggplot(ev_c, aes(x = data)) +
 # --- Painel D: custo evitado acumulado ---
 p2d <- ggplot(ev_pos, aes(x = data)) +
   geom_ribbon(aes(ymin = custo_acum_inf, ymax = custo_acum_sup),
-              fill = "#A5D6A7", alpha = 0.50) +
+              fill = "#A5D6A7", alpha = 0.35) +
   geom_line(aes(y = custo_acum), colour = "#2E7D32", linewidth = 1.0) +
   geom_vline(xintercept = d_int, linetype = "dashed",
              colour = "#C0392B", linewidth = 0.7) +
@@ -425,8 +434,8 @@ p2d <- ggplot(ev_pos, aes(x = data)) +
   scale_x_date(date_breaks = "6 months", date_labels = "%b/%Y",
                expand = expansion(mult = 0.02)) +
   scale_y_continuous(
-    labels = label_number(accuracy = 0.1, big.mark = ".", decimal.mark = ","),
-    expand = expansion(mult = c(0, 0.12))) +
+    limits = c(0, max(ev_pos$custo_acum_sup, na.rm = TRUE) * 1.1),
+    labels = label_number(accuracy = 0.1, big.mark = ".", decimal.mark = ",")) +
   labs(x = "Competência (mês/ano)",
        y = "Custo evitado acumulado\n(R$ milhões, março/2026)", title = "D") +
   theme_lancet_large() +
@@ -457,10 +466,13 @@ fig2_final <- (p2a | p2b) / (p2c | p2d) +
     )
   )
 
-ggsave(file.path(DIR_DOCS, "figura2_its_4paineis.png"),
-       fig2_final,
-       width = 12, height = 14, dpi = DPI,
-       device = ragg::agg_png, bg = "white")
+ragg::agg_png(
+  filename   = file.path(DIR_DOCS, "figura2_its_4paineis.png"),
+  width      = 12, height = 14, units = "in",
+  res        = 300, background = "white"
+)
+print(fig2_final)
+dev.off()
 cat("Figura 2 salva: 12\" x 14\" a 300 DPI\n")
 
 # =============================================================================
