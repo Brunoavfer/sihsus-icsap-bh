@@ -13,18 +13,18 @@ AAPC = +0,7%/ano (-1,2; 2,6) (p = 0,452)",Seg. 1: jan/2022–abr/2023,"+1,2%/ano
 AAPC = +0,7%/ano (-1,2; 2,6) (p = 0,452)",Seg. 2: abr/2023–abr/2024,"+22,9%/ano","(15,3; 30,5)","<0,001"
 1. Interrupção de Série Temporal (ITS-GLS AR[1]) — BH Municipal,"Joinpoint (2 inflexões)
 AAPC = +0,7%/ano (-1,2; 2,6) (p = 0,452)",Seg. 3: abr/2024–mar/2026,"-11,2%/ano","(-16,8; -5,6)","<0,001"
-2. Determinantes da taxa ICSAP — Poisson FE dois sentidos (153 CS),"M2 — Efeitos fixos por regional + ano
+2. Determinantes da taxa ICSAP — Poisson FE dois sentidos (153 CS),"M2 — Efeitos fixos por Regional de Saúde (9 categorias) e Ano
 n = 7.803 obs. (153 CS × 51 meses)",Índice de Vulnerabilidade em Saúde (IVS-BH) — IRR por 1 ponto,1.321,"(1,121; 1,557)","<0,001"
-2. Determinantes da taxa ICSAP — Poisson FE dois sentidos (153 CS),"M2 — Efeitos fixos por regional + ano
+2. Determinantes da taxa ICSAP — Poisson FE dois sentidos (153 CS),"M2 — Efeitos fixos por Regional de Saúde (9 categorias) e Ano
 n = 7.803 obs. (153 CS × 51 meses)",% domicílios sem saneamento básico — IRR por 1 p.p.,0.968,"(0,945; 0,991)","0,007"
-2. Determinantes da taxa ICSAP — Poisson FE dois sentidos (153 CS),"M2 — Efeitos fixos por regional + ano
+2. Determinantes da taxa ICSAP — Poisson FE dois sentidos (153 CS),"M2 — Efeitos fixos por Regional de Saúde (9 categorias) e Ano
 n = 7.803 obs. (153 CS × 51 meses)",Sobredispersão (Pearson χ²/gl) — M2 regional FEᵍ,"2,68",—,—
 2. Determinantes da taxa ICSAP — Poisson FE dois sentidos (153 CS),Dose-resposta: nº equipes ESF vs. Q1 (1–4 equipes),Q2 (5–6 equipes) — IRR,0.921,"(0,897; 0,945)","<0,001"
 2. Determinantes da taxa ICSAP — Poisson FE dois sentidos (153 CS),Dose-resposta: nº equipes ESF vs. Q1 (1–4 equipes),Q3–Q4 (≥ 7 equipes) — IRR,"0,987","(0,962; 1,013)","0,287"
 3. Impacto estimado da Portaria GM/MS nº 3.493/2024 (mai/2024–mar/2026),"GLS AR(1) + Monte Carlo
 n = 1.000 iterações | n = 51 meses",Internações ICSAP evitadas em BH (n)ᵃ,13.501,(5.189; 22.575),—
 3. Impacto estimado da Portaria GM/MS nº 3.493/2024 (mai/2024–mar/2026),"GLS AR(1) + Monte Carlo
-n = 1.000 iterações | n = 51 meses",Custo evitado — BRL mar/2026 (R$ milhões)ᵃᵇ,R$ 29.05 mi,(R$ 11.16; R$ 48.57 mi),—
+n = 1.000 iterações | n = 51 meses",Custo evitado — R$ milhões (valores de março/2026)ᵃᵇ,R$ 29.05 mi,(R$ 11.16; R$ 48.57 mi),—
 3. Impacto estimado da Portaria GM/MS nº 3.493/2024 (mai/2024–mar/2026),"GLS AR(1) + Monte Carlo
 n = 1.000 iterações | n = 51 meses","Custo médio por internação ICSAP (deflacionado pelo IPCA, R$ mar/2026)ᵇ","R$ 2.151,61",—,—
 3. Impacto estimado da Portaria GM/MS nº 3.493/2024 (mai/2024–mar/2026),"Diferença-em-diferenças ITS — BH vs. 6 capitais controle
