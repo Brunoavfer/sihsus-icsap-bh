@@ -291,13 +291,15 @@ ev_pos <- filter(ev,
     custo_acum_sup    = cumsum(evit_sup * custo_medio) / 1e6
   )
 
+ev_pos_plot <- ev_pos |> filter(data <= as.Date("2026-03-01"))
+
 d_int   <- as.Date("2024-05-01")
 y_max_a <- max(ev$n_icsap, na.rm = TRUE)
 y_max_b <- ceiling(max(
   ev$taxa_obs[ev$data <= as.Date("2026-03-01")],
-  ev_pos$cf_ic_sup,
-  na.rm = TRUE)) + 5
-y_min_b <- floor(min(ev$taxa_obs, ev_pos$cf_ic_inf, na.rm = TRUE)) - 2
+  ev_pos_plot$cf_ic_sup,
+  na.rm = TRUE)) + 4
+y_min_b <- floor(min(ev$taxa_obs, ev_pos_plot$cf_ic_inf, na.rm = TRUE)) - 2
 
 theme_lancet_large <- function(base_size = 9) {
   theme_classic(base_size = base_size) +
@@ -349,10 +351,10 @@ p2a <- ggplot(ev, aes(x = data, y = n_icsap, fill = periodo)) +
 
 # --- Painel B: taxa + contrafactual + APCs ---
 p2b <- ggplot(ev, aes(x = data)) +
-  geom_ribbon(data = filter(ev_pos, data <= as.Date("2026-03-01")),
+  geom_ribbon(data = ev_pos_plot,
               aes(ymin = cf_ic_inf, ymax = cf_ic_sup),
               fill = "#FFCDD2", alpha = 0.60) +
-  geom_line(data = filter(ev_pos, data <= as.Date("2026-03-01")),
+  geom_line(data = ev_pos_plot,
             aes(y = taxa_cf), colour = "#C0392B",
             linetype = "dashed", linewidth = 0.9) +
   geom_line(aes(y = taxa_obs), colour = "#1565C0", linewidth = 1.0) +
@@ -371,12 +373,12 @@ p2b <- ggplot(ev, aes(x = data)) +
            size = 2.2, hjust = 0, colour = "#C0392B", fill = "white",
            label.padding = unit(1.5, "mm"), label.size = 0.2) +
   annotate("text",
-           x = as.Date("2024-06-01"), y = y_max_b - 5.5,
+           x = as.Date("2024-07-01"), y = y_max_b - 4.0,
            label = "Δ tendência: -20,6%/ano (p<0,001)",
-           size = 2.2, hjust = 0, colour = "grey30", fontface = "italic") +
+           size = 2.5, hjust = 0, colour = "grey30", fontface = "italic") +
   annotate("text",
            x = as.Date("2025-09-01"),
-           y = max(ev_pos$taxa_cf, na.rm = TRUE) * 0.85,
+           y = max(ev_pos_plot$taxa_cf, na.rm = TRUE) * 0.85,
            label = "Contrafactual:\ntendência\npré projetada",
            size = 1.8, colour = "#C0392B", hjust = 0.5, fontface = "italic") +
   scale_x_date(
