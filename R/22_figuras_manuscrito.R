@@ -289,7 +289,7 @@ d_int      <- as.Date("2024-05-01")
 y_max_a    <- max(ev$n_icsap, na.rm = TRUE)
 x_ann_pre  <- as.Date("2022-09-01")
 x_ann_pos  <- as.Date("2024-09-01")
-y_max_b    <- ceiling(max(ev$taxa_obs, ev_pos$cf_ic_sup, na.rm = TRUE)) + 4
+y_max_b    <- ceiling(max(ev$taxa_obs, ev_pos$cf_ic_sup, na.rm = TRUE)) + 6
 
 # Diagnóstico: primeiros 5 valores mensais pós-intervenção
 cat(sprintf("  evitadas_mes pós (primeiros 5): %.1f, %.1f, %.1f, %.1f, %.1f\n",
@@ -306,9 +306,9 @@ p2a <- ggplot(ev, aes(x = data, y = n_icsap, fill = periodo)) +
   geom_vline(xintercept = d_int,
              linetype = "dashed", colour = "#C0392B", linewidth = 0.55) +
   annotate("text",
-           x = d_int + 25, y = y_max_a * 0.96,
+           x = d_int, y = y_max_a * 0.96,
            label = lbl_interv,
-           size = 2.1, hjust = 0, colour = "#C0392B", lineheight = 1.1) +
+           size = 2.0, hjust = 0.5, colour = "#C0392B", lineheight = 1.1) +
   scale_fill_manual(
     values = c("Pré-intervenção" = "#90CAF9",
                "Pós-intervenção"  = "#1565C0"),
@@ -322,10 +322,11 @@ p2a <- ggplot(ev, aes(x = data, y = n_icsap, fill = periodo)) +
        y = "Internações ICSAP (n)",
        title = "A") +
   theme_lancet() +
-  theme(axis.text.x     = element_text(angle = 45, hjust = 1, size = 6.5),
-        legend.position  = c(0.13, 0.88),
+  theme(axis.text.x      = element_text(angle = 45, hjust = 1, size = 6.5),
+        legend.position   = c(0.13, 0.88),
         legend.background = element_blank(),
-        plot.title        = element_text(size = 9, face = "bold"))
+        plot.title        = element_text(size = 9, face = "bold"),
+        plot.margin       = margin(t=8, r=10, b=8, l=10, unit="mm"))
 
 # --- Painel B: taxa + contrafactual + APCs ---
 p2b <- ggplot(ev, aes(x = data)) +
@@ -342,12 +343,12 @@ p2b <- ggplot(ev, aes(x = data)) +
   geom_vline(xintercept = d_int,
              linetype = "dashed", colour = "#C0392B", linewidth = 0.55) +
   annotate("label",
-           x = x_ann_pre, y = y_max_b - 2.5,
+           x = x_ann_pre, y = y_max_b - 2.0,
            label = "APC pré: +12,3%/ano\n(IC95%: 5,8; 19,2; p<0,001)",
            size = 1.8, hjust = 0, colour = "#1565C0",
            fill = "white", label.padding = unit(1.2, "mm")) +
   annotate("label",
-           x = x_ann_pos, y = y_max_b - 2.5,
+           x = x_ann_pos, y = y_max_b - 2.0,
            label = "APC pós: -8,3%/ano\n(IC95%: -12,1; -4,5; p<0,001)",
            size = 1.8, hjust = 0, colour = "#C0392B",
            fill = "white", label.padding = unit(1.2, "mm")) +
@@ -363,10 +364,13 @@ p2b <- ggplot(ev, aes(x = data)) +
                                  "Pós-intervenção"  = "#1565C0")) +
   labs(x = "Competência (mês/ano)",
        y = "Taxa ICSAP (%)",
-       title = "B") +
+       title = "B",
+       subtitle = "Δ tendência: diferença entre APC pós e APC pré") +
   theme_lancet() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 6.5),
-        plot.title  = element_text(size = 9, face = "bold"))
+  theme(axis.text.x   = element_text(angle = 45, hjust = 1, size = 6.5),
+        plot.title    = element_text(size = 9, face = "bold"),
+        plot.subtitle = element_text(size = 6, colour = "grey35"),
+        plot.margin   = margin(t=8, r=10, b=8, l=10, unit="mm"))
 
 # --- Painel C: internações evitadas por mês — v5.1: barra negativa mai/2024 ---
 # mai/2024: evitadas_mes = -115,6 (mais internações do que o contrafactual previa)
@@ -391,6 +395,11 @@ p2c <- ggplot(ev_c, aes(x = data)) +
            y = max(ev_pos$evitadas_mes, na.rm = TRUE) * 0.92,
            label = "Total: 13.501\n(IC95%: 5.189–22.575)",
            size = 2.1, hjust = 0.5, colour = "#1B5E20", fontface = "bold") +
+  annotate("text",
+           x = as.Date("2024-05-15"),
+           y = -200,
+           label = "← maio/2024\n(efeito ainda\nnão estabelecido)",
+           size = 1.8, colour = "#C62828", hjust = 0) +
   scale_x_date(date_breaks = "6 months", date_labels = "%b/%Y",
                expand = expansion(mult = 0.01)) +
   scale_y_continuous(labels = label_number(big.mark = ".", decimal.mark = ","),
@@ -403,7 +412,8 @@ p2c <- ggplot(ev_c, aes(x = data)) +
   theme(axis.text.x  = element_text(angle = 45, hjust = 1, size = 6.5),
         plot.title   = element_text(size = 9, face = "bold"),
         plot.caption = element_text(size = 5.5, colour = "grey50", hjust = 0,
-                                    margin = margin(t = 3)))
+                                    margin = margin(t = 3)),
+        plot.margin  = margin(t=8, r=10, b=8, l=10, unit="mm"))
 
 # --- Painel D: custo evitado acumulado ---
 p2d <- ggplot(ev_pos, aes(x = data)) +
@@ -432,7 +442,8 @@ p2d <- ggplot(ev_pos, aes(x = data)) +
        title = "D") +
   theme_lancet() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 6.5),
-        plot.title  = element_text(size = 9, face = "bold"))
+        plot.title  = element_text(size = 9, face = "bold"),
+        plot.margin = margin(t=8, r=10, b=8, l=10, unit="mm"))
 
 fig2 <- (p2a | p2b) / (p2c | p2d) +
   plot_annotation(
@@ -507,10 +518,12 @@ cat(sprintf("  CS: taxa=%d, evitadas=%d (de %d)\n",
 
 # Labels para ggrepel — extrair coordenadas explicitamente (evita sobreposição)
 top3_taxa <- sf_cs_map |> st_drop_geometry() |>
+  filter(taxa_pad_media > quantile(taxa_pad_media, 0.95, na.rm = TRUE)) |>
   slice_max(taxa_pad_media, n = 3, na_rm = TRUE) |>
   mutate(label_cs = str_remove(nome_cs, "^CENTRO DE SAUDE "))
 
 top5_evit <- sf_cs_map |> st_drop_geometry() |>
+  filter(evitadas_central > quantile(evitadas_central, 0.95, na.rm = TRUE)) |>
   slice_max(evitadas_central, n = 3, na_rm = TRUE) |>
   mutate(label_cs = str_remove(nome_cs, "^CENTRO DE SAUDE "))
 
@@ -610,7 +623,7 @@ p3a <- ggplot(sf_reg_map) +
                          style = north_arrow_minimal(text_size = 6),
                          height = unit(0.65, "cm"), width = unit(0.45, "cm")) +
   coord_sf(expand = FALSE) +
-  labs(title = "A  Taxa ICSAP por Regional Administrativa") +
+  labs(title = "A — Taxa ICSAP por Regional Administrativa") +
   theme_mapa()
 
 # Painel B: evitadas por regional
@@ -636,7 +649,7 @@ p3b <- ggplot(sf_reg_map) +
                          style = north_arrow_minimal(text_size = 6),
                          height = unit(0.65, "cm"), width = unit(0.45, "cm")) +
   coord_sf(expand = FALSE) +
-  labs(title = "B  Internações evitadas por Regional") +
+  labs(title = "B — Internações evitadas por Regional") +
   theme_mapa()
 
 # Painel C: taxa por CS
@@ -663,6 +676,12 @@ p3c <- ggplot(sf_cs_map) +
                          height = unit(0.65, "cm"), width = unit(0.45, "cm")) +
   coord_sf(expand = FALSE) +
   labs(title = "C  Taxa ICSAP por Centro de Saúde (n = 153)") +
+  guides(fill = guide_legend(
+    title.position = "top",
+    title.hjust    = 0.5,
+    keywidth       = unit(6, "mm"),
+    keyheight      = unit(4, "mm")
+  )) +
   theme_mapa()
 
 # Painel D: evitadas por CS
@@ -823,7 +842,7 @@ tab1 <- bind_rows(
   build_row(ic$sexo_m, "  Masculino"),
   build_row(ic$sexo_f, "  Feminino"),
 
-  build_row(ic$idade, "Idade (anos) — mediana [IIQ]"),
+  build_row(ic$idade, "Idade (anos) — mediana [IQR]"),
 
   hdr(paste0("Faixa etária — n (%)"), p_fx),
   cat_rows("fx", levels(ic$fx)),
@@ -856,8 +875,8 @@ tab1 <- bind_rows(
   },
 
   build_row(ic$com_cs,    "Com CS identificado — n (%)"),
-  build_row(ic$dias_perm, "Dias de permanência — mediana [IIQ]"),
-  build_row(ic$val_tot,   "Custo por internação (BRL deflacionados, R$ mar/2026) — mediana [IIQ]")
+  build_row(ic$dias_perm, "Dias de permanência — mediana [IQR]"),
+  build_row(ic$val_tot,   "Custo por internação (BRL deflacionados, R$ mar/2026) — mediana [IQR]")
 )
 
 write_csv(tab1 |> select(-header), file.path(DIR_DOCS, "tabela1_pacientes.csv"))
@@ -1025,21 +1044,21 @@ tab2 <- tribble(
 
   # ---- Bloco 2: Poisson FE ----
   "2. Determinantes da taxa ICSAP — Poisson FE dois sentidos (153 CS)",
-  "M2 — Efeitos fixos por regional + ano\nn = 7.803 obs. (153 CS × 51 meses)",
+  "M2 — Efeitos fixos por Regional de Saúde (9 categorias) e Ano\nn = 7.803 obs. (153 CS × 51 meses)",
   "Índice de Vulnerabilidade em Saúde (IVS-BH) — IRR por 1 ponto",
   sprintf("%.3f", m2_ivs$irr),
   ic95(m2_ivs$ic_inf, m2_ivs$ic_sup, 3),
   if_else(m2_ivs$p_valor < 0.001, "<0,001", fmt_p(m2_ivs$p_valor)),
 
   "2. Determinantes da taxa ICSAP — Poisson FE dois sentidos (153 CS)",
-  "M2 — Efeitos fixos por regional + ano\nn = 7.803 obs. (153 CS × 51 meses)",
+  "M2 — Efeitos fixos por Regional de Saúde (9 categorias) e Ano\nn = 7.803 obs. (153 CS × 51 meses)",
   "% domicílios sem saneamento básico — IRR por 1 p.p.",
   sprintf("%.3f", m2_san$irr),
   ic95(m2_san$ic_inf, m2_san$ic_sup, 3),
   fmt_p(m2_san$p_valor),
 
   "2. Determinantes da taxa ICSAP — Poisson FE dois sentidos (153 CS)",
-  "M2 — Efeitos fixos por regional + ano\nn = 7.803 obs. (153 CS × 51 meses)",
+  "M2 — Efeitos fixos por Regional de Saúde (9 categorias) e Ano\nn = 7.803 obs. (153 CS × 51 meses)",
   "Sobredispersão (Pearson χ²/gl) — M2 regional FEᵍ",
   sprintf("%.2f", m2_ivs$dispersao_pearson) |> gsub("\\.", ",", x = _),
   "—",
@@ -1069,7 +1088,7 @@ tab2 <- tribble(
 
   "3. Impacto estimado da Portaria GM/MS nº 3.493/2024 (mai/2024–mar/2026)",
   "GLS AR(1) + Monte Carlo\nn = 1.000 iterações | n = 51 meses",
-  "Custo evitado — BRL mar/2026 (R$ milhões)ᵃᵇ",
+  "Custo evitado — R$ milhões (valores de março/2026)ᵃᵇ",
   sprintf("R$ %.2f mi", bh_imp$custo_central_BRL / 1e6),
   sprintf("(R$ %.2f; R$ %.2f mi)",
           bh_imp$custo_ic_inf_BRL / 1e6, bh_imp$custo_ic_sup_BRL / 1e6),
@@ -1107,7 +1126,7 @@ rodape_tab2 <- list(
             "Modelos ITS (seção 1) utilizaram série completa (n=51 meses, sem missing).")),
   md(paste0("ESF: Estratégia Saúde da Família. CS: Centro de Saúde. ",
             "IVS: Índice de Vulnerabilidade em Saúde. ",
-            "APC: *Annual Percent Change*. AAPC: *Average Annual Percent Change*. ",
+            "APC: *Annual Percent Change*. AAPC: *Average Annual Percent Change* (variação percentual anual média para todo o período). ",
             "IRR: *Incidence Rate Ratio*. IC: Intervalo de Confiança de 95%. ",
             "* p<0,05; ** p<0,01; *** p<0,001.")),
   md("Fonte: SIH/SUS – DATASUS. Elaboração própria.")

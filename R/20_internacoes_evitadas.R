@@ -19,6 +19,7 @@
 #   data/processed/custo_evitado.csv
 #   docs/internacoes_evitadas.png
 #
+# Fonte IPCA: SIDRA tabela 1737 quando disponível; fallback histórico IBGE em caso de erro
 # Semente: set.seed(2024) — reprodutível via renv.lock
 # =============================================================================
 
@@ -199,6 +200,9 @@ ipca_df <- tryCatch({
 .ipca_ok <- !is.null(ipca_df) && nrow(ipca_df) >= 50 &&
   min(ipca_df$ano_cmpt) <= 2022 &&
   any(ipca_df$ano_cmpt == 2026L & ipca_df$mes_cmpt_n == 3L)
+
+ipca_source <- if (.ipca_ok) "SIDRA (tabela 1737)" else "fallback estimado (IBGE histórico)"
+message(sprintf("  IPCA source: %s", ipca_source))
 
 if (!.ipca_ok) {
   if (!is.null(ipca_df) && nrow(ipca_df) > 0)
