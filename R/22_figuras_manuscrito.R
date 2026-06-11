@@ -166,9 +166,9 @@ boxes_analysis <- bind_rows(
 
 boxes_excl <- bind_rows(
   mk_box("X1", 0.72, 0.890, 0.99, 0.975, "#BDC3C7",
-         sprintf("Excluídos:\nMunicípio de internação ≠ 310620\nn = %s", fmt_n(excl_mov))),
+         sprintf("Excluídos:\nMunicípio de internação ≠ Belo Horizonte\n(código IBGE 310620)\nn = %s", fmt_n(excl_mov))),
   mk_box("X2", 0.72, 0.745, 0.99, 0.830, "#BDC3C7",
-         sprintf("Excluídos:\nMunicípio de residência ≠ 310620\nn = %s", fmt_n(excl_res))),
+         sprintf("Excluídos:\nMunicípio de residência ≠ Belo Horizonte\n(código IBGE 310620)\nn = %s", fmt_n(excl_res))),
   mk_box("X3", 0.72, 0.600, 0.99, 0.685, "#FADBD8",
          sprintf("Não classificadas como ICSAP\n(excluídas da análise)\nn = %s (82,2%%)", fmt_n(N_NAICSAP))),
   mk_box("X4", 0.72, 0.450, 0.99, 0.535, "#FAD7A0",
@@ -374,6 +374,11 @@ p2b <- ggplot(ev, aes(x = data)) +
            x = as.Date("2024-06-01"), y = y_max_b - 5.5,
            label = "Δ tendência: -20,6%/ano (p<0,001)",
            size = 2.2, hjust = 0, colour = "grey30", fontface = "italic") +
+  annotate("text",
+           x = as.Date("2025-09-01"),
+           y = max(ev_pos$taxa_cf, na.rm = TRUE) * 0.85,
+           label = "Contrafactual:\ntendência\npré projetada",
+           size = 1.8, colour = "#C0392B", hjust = 0.5, fontface = "italic") +
   scale_x_date(
     limits      = c(as.Date("2022-01-01"), as.Date("2026-04-01")),
     breaks      = seq(as.Date("2022-01-01"), as.Date("2026-01-01"), by = "6 months"),
@@ -444,10 +449,10 @@ p2d <- ggplot(ev_pos, aes(x = data)) +
            hjust = 0.5, fill = "white", colour = "#2E7D32",
            label.size = 0.25, size = 2.6, fontface = "bold") +
   scale_x_date(
-    limits      = c(as.Date("2022-01-01"), as.Date("2026-04-01")),
-    breaks      = seq(as.Date("2022-01-01"), as.Date("2026-01-01"), by = "6 months"),
+    limits      = c(as.Date("2024-05-01"), as.Date("2026-04-01")),
+    breaks      = seq(as.Date("2024-07-01"), as.Date("2026-01-01"), by = "3 months"),
     date_labels = "%b/%Y",
-    expand      = expansion(mult = 0.01)) +
+    expand      = expansion(mult = 0.02)) +
   scale_y_continuous(
     limits = c(0, 45),
     labels = label_number(accuracy = 0.1, big.mark = ".", decimal.mark = ",")) +
@@ -1072,21 +1077,21 @@ tab2 <- tribble(
 
   # ---- Bloco 2: Poisson FE ----
   "2. Determinantes da taxa ICSAP — Poisson FE dois sentidos (153 CS)",
-  "M2 — Efeitos fixos por Regional de Saúde (9 categorias) e Ano\nn = 7.803 obs. (153 CS × 51 meses)",
+  "M2 — FE Regional de Saúde (9 cat.) + Ano (fixest::feglm)\nn = 7.803 obs. (153 CS × 51 meses) — permite estimar preditores estáticos (IVS, saneamento)ᵍ",
   "Índice de Vulnerabilidade em Saúde (IVS-BH) — IRR por 1 ponto",
   sprintf("%.3f", m2_ivs$irr),
   ic95(m2_ivs$ic_inf, m2_ivs$ic_sup, 3),
   if_else(m2_ivs$p_valor < 0.001, "<0,001", fmt_p(m2_ivs$p_valor)),
 
   "2. Determinantes da taxa ICSAP — Poisson FE dois sentidos (153 CS)",
-  "M2 — Efeitos fixos por Regional de Saúde (9 categorias) e Ano\nn = 7.803 obs. (153 CS × 51 meses)",
+  "M2 — FE Regional de Saúde (9 cat.) + Ano (fixest::feglm)\nn = 7.803 obs. (153 CS × 51 meses) — permite estimar preditores estáticos (IVS, saneamento)ᵍ",
   "% domicílios sem saneamento básico — IRR por 1 p.p.",
   sprintf("%.3f", m2_san$irr),
   ic95(m2_san$ic_inf, m2_san$ic_sup, 3),
   fmt_p(m2_san$p_valor),
 
   "2. Determinantes da taxa ICSAP — Poisson FE dois sentidos (153 CS)",
-  "M2 — Efeitos fixos por Regional de Saúde (9 categorias) e Ano\nn = 7.803 obs. (153 CS × 51 meses)",
+  "M2 — FE Regional de Saúde (9 cat.) + Ano (fixest::feglm)\nn = 7.803 obs. (153 CS × 51 meses) — permite estimar preditores estáticos (IVS, saneamento)ᵍ",
   "Sobredispersão (Pearson χ²/gl) — M2 regional FEᵍ",
   sprintf("%.2f", m2_ivs$dispersao_pearson) |> gsub("\\.", ",", x = _),
   "—",
@@ -1146,10 +1151,15 @@ rodape_tab2 <- list(
   md("^c^ Poisson com efeitos fixos por CS e por ano — pacote *fixest* (Bergé, 2023). ^d^ Erros padrão robustos clusterizados por CS."),
   md(paste0("^e^ Valores deflacionados pelo IPCA mensal por competência (jan/2022–mar/2026; acumulado = 26,4%), expressos em Reais de março/2026. ",
             "^f^ IC95% por simulação Monte Carlo (n=1.000 iterações).")),
-  md(paste0("^g^ Modelo Poisson M2 (FE regional+ano) apresentou sobredispersão moderada (Pearson χ²/gl=2,68). ",
-            "Erros padrão corrigidos por clusterização por CS (fixest::vcov_cluster). ",
-            "Análise de sensibilidade com modelo binomial negativo produziu resultados consistentes ",
-            "(Tabela S3, material suplementar).")),
+  md(paste0("^g^ IRR do modelo M2 (FE por Regional de Saúde + Ano, *fixest::feglm*, 7.803 obs.). ",
+            "Este modelo permite estimação de preditores estáticos no nível do CS (IVS, saneamento), ",
+            "pois os efeitos fixos são por Regional (between-CS), não por CS. ",
+            "O modelo M3 (FE por CS + Ano) absorve toda a variação between-CS, ",
+            "tornando preditores estáticos não identificáveis. ",
+            "M2 apresentou sobredispersão moderada (Pearson χ²/gl = 2,68); ",
+            "erros padrão corrigidos por clusterização por CS (fixest::vcov_cluster). ",
+            "Análise de sensibilidade com modelo binomial negativo em *stats::glm* (7.784 obs.) ",
+            "produziu IRR e significância consistentes (Tabela S3, material suplementar).")),
   md(paste0("Análises de determinantes (seção 2) incluíram 153 CS com informação completa. ",
             "Modelos ITS (seção 1) utilizaram série completa (n=51 meses, sem missing).")),
   md(paste0("ESF: Estratégia Saúde da Família. CS: Centro de Saúde. ",
