@@ -391,7 +391,7 @@ Taxa ICSAP **bruta** por 10.000 habitantes, por área de abrangência de CS. **N
   - Comparação GEE vs Poisson FE: ivs_score muda de 0.870 NS (GEE) → 1.321*** (Poisson FE regional); pct_sem_saneamento IRR≈0.968 em ambos (consistente)
   - NB desnecessário para M1/M3; M2 requer NB (superdispersão com regional FE)
   - Saída: `poisson_resultados.csv` (27 linhas), `comparacao_gee_poisson.csv`, `docs/poisson_forest_plot.png`
-- ✅ **Script 22** — figuras e tabelas finais do manuscrito (padrão Lancet/Cadernos, 300 DPI, 170 mm) — **v3 aplicada em 22/05/2026**
+- ✅ **Script 22** — figuras e tabelas finais do manuscrito (padrão Lancet/Cadernos, 300 DPI, 170 mm) — vide abaixo (padrão Lancet/Cadernos, 300 DPI, 170 mm) — **v3 aplicada em 22/05/2026**
   - **Figura 1** (fluxograma STROBE): "Não classificadas como ICSAP" (corrigido de "Não-ICSAP"); acentuação completa; MUNIC_MOV/RES substituídos por texto descritivo; título e nota STROBE formais
   - **Figura 2** (ITS 4 painéis, 2×2): A=n absoluto+média móvel, B=taxa observada+contrafactual+APCs (+12,3%/ano pré; -8,3%/ano pós; Δ=-20,6%/ano), C=internações evitadas/mês com label eixo X, D=custo evitado acumulado com breaks 6 meses; `device=ragg::agg_png` em todos os painéis (resolve renderização de Unicode no Windows)
   - **Figura 3** (mapa quádruplo, 2×2): linha superior por Regional (A=taxa, B=evitadas), linha inferior por CS (C=taxa, D=evitadas); paleta viridis/YlOrRd; Jenks (classInt); legenda completa conforme padrão CSP; "população padrão: Brasil, Censo 2022"; `device=ragg::agg_png`
@@ -399,6 +399,16 @@ Taxa ICSAP **bruta** por 10.000 habitantes, por área de abrangência de CS. **N
   - **Tabela 2**: prefixo "IC95%:" removido das células de IC (5 ocorrências: Joinpoint seg.1–3, AAPC, Q3–Q4, DiD); cabeçalho da coluna já define o contexto
   - Saída: `figura1_fluxograma_strobe.png`, `figura2_its_4paineis.png`, `figura3_mapa_quadruplo.png`, `tabela1_pacientes.html/.csv`, `tabela2_resultados.html/.csv`
   - Nota técnica: `ragg::agg_png` como device padrão resolve corrupção de caracteres especiais (ã, ç, é) no Windows com R 4.5
+- ✅ **Scripts 24–26** — análises de sensibilidade adicionais (respostas a revisores, jun/2026)
+  - **Script 24** (`24_sensibilidade_saneamento.R`) — Poisson FE estratificado por tercil de densidade (pop_total_censo): IRR saneamento **NS em todos os 3 tercis** (T1 p=0,96; T2 p=0,35; T3 p=0,28) vs. significativo no modelo geral (p=0,007); confirma que o efeito contraintuitivo IRR<1 é artefato de confundimento ecológico (áreas periféricas: menor densidade + pior saneamento + menor acesso hospitalar); Saída: `sensibilidade_saneamento.csv`, `tabela_s5_saneamento_estratificado.html`
+  - **Script 25** (`25_its_por_grupo_icsap.R`) — ITS GLS AR(1) para grupos 09/10/13 separadamente (série jan/2022–mar/2026):
+    - **Grupo 09 (cardiovascular, n=35.123, 30,9%)**: APC pré=+9,5%/ano; APC pós=+2,1%/ano (IC95%: -4,2; +8,9); **p=0,093 NS**
+    - **Grupo 10 (respiratório, n=33.567, 29,5%)**: APC pré=-0,5%/ano; APC pós=-5,7%/ano (IC95%: -15,4; +5,0); **p=0,429 NS**
+    - **Grupo 13 (diabetes, n=12.024, 10,6%)**: APC pré=+15,1%/ano; APC pós=**-11,4%/ano** (IC95%: -20,3; -1,5); **p=0,0003 significativo**
+    - Interpretação: heterogeneidade clínica alinhada com indicadores de qualidade do ISF Previne Brasil (metas de controle metabólico do diabetes)
+    - Saída: `its_por_grupo.csv`, `docs/its_por_grupo.png`, `tabela_s4_its_grupos.html`
+  - **Script 26** (`26_tabelas_suplementares.R`) — gera Tabela S4 (ITS por grupo) e Tabela S5 (sensibilidade saneamento) com gt(); estilo uniforme às outras tabelas do manuscrito
+  - **IC APC pós corrigido (delta method)**: todos os 3 grupos usam `Var(β₁+β₃) = Var(β₁)+Var(β₃)+2·Cov(β₁,β₃)` — mesma correção aplicada ao BH municipal no script 11
 
 ### Periódico Alvo
 
@@ -439,7 +449,8 @@ Taxa ICSAP **bruta** por 10.000 habitantes, por área de abrangência de CS. **N
 22. ✅ ~~Script 20~~ — internações evitadas: 13.501 (IC95%: 5.189–22.575); custo evitado: R$ 29,05 mi (IC95%: 11,16–48,57 mi); GLS AR(1) + Monte Carlo n=1.000; IPCA mensal por internação (auditoria 23/05/2026)
 23. ✅ ~~Script 21~~ — Poisson FE two-way (CS + ano); M1: mes_num NS; M2: ivs IRR=1.321***; M3: n_esf NS within-CS; dose-resposta Q2 IRR=0.921***; dispersão M1=1.23 (adequado)
 24. ✅ ~~Script 22~~ — figuras e tabelas finais; v3 (22/05/2026): correções de texto (diagnósticos completos, "Não classificadas como ICSAP", IC sem prefixo "IC95%:"), ragg para renderização Unicode, legenda Fig. 3 padrão CSP, "Brasil, Censo 2022"
-25. **Re-executar script 05 para 2022** — estender `variaveis_cs.csv` de 36 para 48 competências (jan/2022–dez/2025) para viabilizar scripts 15/18 com a série completa
+25. ✅ ~~Scripts 24–26~~ — análises de sensibilidade adicionais (jun/2026): saneamento estratificado (NS em todos tercis → confundimento ecológico) + ITS por grupo clínico (diabetes APC pós=-11,4%/ano p=0,0003; cardiovascular e respiratório NS) + Tabelas S4 e S5
+26. **Re-executar script 05 para 2022** — estender `variaveis_cs.csv` de 36 para 48 competências (jan/2022–dez/2025) para viabilizar scripts 15/18 com a série completa
 26. **Investigar inflexão de abr/2024** — série completa confirmou inflexão em abr/2024 (2º JP de BH) e em 8/9 regionais; com série mais longa emerge fase inicial 2022 (crescimento lento +1,2%/ano) → aceleração 2023 (+22,9%/ano) → queda pós-Portaria (-11,2%/ano); checar se aceleração de 2023 tem causa identificável (codificação SIHSUS? pressão de demanda reprimida?)
 27. **Redigir manuscrito** para submissão ao *Cadernos de Saúde Pública* (meta: jan/2027)
 
@@ -455,6 +466,7 @@ Taxa ICSAP **bruta** por 10.000 habitantes, por área de abrangência de CS. **N
 - ✅ **Script 20 concluído** — 13.501 internações evitadas (IC95%: 5.189–22.575); R$ 29,05 mi evitados em valores mar/2026 (IC95%: 11,16–48,57 mi); deflação IPCA mensal correta; custo_medio lido dinamicamente no script 22
 - ✅ **Script 21 concluído** — Poisson FE: M2 ivs_score IRR=1.321*** | M3 n_esf NS within-CS | dose-resposta Q2 IRR=0.921*** | protocolo_pesquisa.md atualizado
 - ✅ **Script 22 concluído (v3 — 22/05/2026)** — todas as figuras e tabelas do manuscrito prontas para submissão: Figura 1 STROBE, Figura 2 ITS 4 painéis, Figura 3 mapa quádruplo Jenks, Tabela 1 diagnósticos completos, Tabela 2 IC sem prefixo redundante; `ragg::agg_png` resolve renderização de acentos no Windows
+- ✅ **Scripts 24–26 concluídos (jun/2026)** — análises de sensibilidade para revisores: saneamento estratificado por tercil de densidade (IRR NS em todos os estratos → confundimento ecológico confirmado); ITS por grupo clínico (diabetes APC pós = -11,4%/ano p=0,0003; cardiovascular e respiratório NS → heterogeneidade clínica real); Tabelas S4 e S5 em HTML+CSV
 - **Re-executar script 05 para 2022** — estender `variaveis_cs.csv` para 48 competências (jan/2022–dez/2025) e re-executar scripts 15 e 18 com a série completa
 - **Tornar repositório privado** — GitHub Settings → Danger Zone → "Change repository visibility" → Private (antes de submeter o manuscrito)
 - **Iniciar redação do manuscrito** — *Cadernos de Saúde Pública* (Fiocruz, Qualis A1)
