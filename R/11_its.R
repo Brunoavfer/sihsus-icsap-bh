@@ -37,6 +37,8 @@
 #   Bernal JL, Cummins S, Gasparrini A. BMJ. 2017;359:j2981.
 #   doi:10.1136/bmj.j2981
 #
+# Período ITS: jan/2022–mar/2026 (51 meses)
+#
 # Saídas:
 #   data/processed/its_resultados.csv — coeficientes, IC 95%, p-valor
 #   docs/its_bh.png                   — gráfico BH: observado, ajustado, contrafactual

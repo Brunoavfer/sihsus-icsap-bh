@@ -13,6 +13,10 @@
 # Referência: Bergé L (2023). fixest: Fast Fixed Effects Estimations.
 #   R package v0.11.x. DOI:10.1177/1536867X19874235
 #
+# Período: jan/2023–dez/2025 (36 meses)
+# Nota: restrito a 2023-2025 pela disponibilidade de
+#   variaveis_cs.csv (CNES + IVS + Censo 2022)
+#
 # Saídas:
 #   data/processed/poisson_resultados.csv
 #   docs/poisson_forest_plot.png
@@ -176,6 +180,30 @@ M2 <- feglm(
   vcov   = ~nome_cs
 )
 message(sprintf("    N = %s", format(nobs(M2), big.mark=",")))
+
+# NOTA METODOLÓGICA: pct_sem_saneamento apresenta
+# coeficiente negativo (IRR=0,966), contraintuitivo.
+# Hipótese 1: viés ecológico — áreas com pior
+#   saneamento têm subregistro de internações por
+#   menor acesso hospitalar
+# Hipótese 2: variável estática (Censo 2022) captura
+#   características locacionais não mensuradas
+#   (ruralidade, acesso geográfico)
+# Hipótese 3: correlação inversa com densidade
+#   populacional — áreas mais densas têm melhor
+#   saneamento E mais ICSAP por maior exposição
+# Este achado deve ser reportado como limitação
+# no manuscrito
+
+# VARIÁVEIS EXCLUÍDAS POR AUSÊNCIA DE VARIAÇÃO:
+# n_emulti: todos zeros nos arquivos EP do CNES
+#   (tipo equipe 76/77 não identificado no período)
+# n_acs: todos zeros nos arquivos EP do CNES
+# n_esb: todos zeros nos arquivos EP do CNES
+# Apenas n_esf apresentou variação suficiente
+# para inclusão nos modelos
+# Limitação: impossibilidade de testar hipótese
+# das eMulti como variável protetora
 
 # ── M3: estrutural — CS FE + n_esf time-varying (2023-2025) ──
 # Identifica efeito WITHIN-CS: quando CS X ganhou/perdeu equipes ESF,

@@ -20,6 +20,8 @@
 #   sin12/cos12 — sazonalidade Fourier
 #   pct_sem_saneamento — controle socioeconômico dentro do estrato
 #
+# Período: jan/2023–dez/2025 (36 meses)
+#
 # Saídas:
 #   data/processed/gee_subgrupos_ivs.csv  — coeficientes por estrato
 #   docs/subgrupos_ivs.png                — gráfico de forest plot

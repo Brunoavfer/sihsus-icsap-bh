@@ -29,6 +29,8 @@
 #   Kim HJ, et al. Permutation tests for joinpoint regression with applications
 #   to cancer rates. Stat Med. 2000;19(3):335–51.
 #
+# Período: jan/2022–mar/2026 (51 meses)
+#
 # Saídas:
 #   data/processed/joinpoint_bh.csv        — APC/AAPC nível municipal
 #   data/processed/joinpoint_regional.csv  — APC/AAPC por regional

@@ -29,6 +29,24 @@
 #   n_icsap_cs_mes_prop.csv  → n_icsap com alocação proporcional (script 14)
 #   variaveis_cs.csv         → pop_total_censo, ivs_score, pct_sem_saneamento
 #
+# NOTA: Aparente contradição com script 15:
+# Script 15 (GEE estratificado): IVS Muito Elevado
+#   não teve redução significativa de NÍVEL (β₂ NS,
+#   p=0,315) — heterogeneidade no choque imediato
+# Script 18 (ITS com interação contínua):
+#   ivs_z:tempo_pos NS (p=0,179) — sem heterogeneidade
+#   na TENDÊNCIA pós-intervenção
+# RESOLUÇÃO: Os dois resultados são complementares,
+#   não contraditórios:
+#   - Script 15 testa mudança de NÍVEL por estrato
+#   - Script 18 testa mudança de SLOPE pela interação
+#   - Conclusão: a Portaria não reduziu o NÍVEL das
+#     ICSAP nos CS mais vulneráveis (script 15), mas
+#     a TENDÊNCIA pós-Portaria foi homogênea entre
+#     todos os CS (script 18)
+#   - O achado relevante para o manuscrito é o
+#     script 15 (mudança de nível)
+#
 # Saídas:
 #   data/processed/its_ivs_resultados.csv
 #   docs/its_ivs.png

@@ -4,6 +4,7 @@
 # GEE AR-1 com família Gama (link log) para taxa ICSAP por CS × mês
 # Unidade de análise: Centro de Saúde (CS) × competência mensal
 # Período: jan/2023–dez/2025 (153 CS × 36 meses = 5.508 obs máximas)
+# Nota: restrito a 2023-2025 pela disponibilidade de variaveis_cs.csv
 #
 # Desfecho: taxa_cs = n_icsap_cs_mês / pop_ref_cs_mês × 10.000
 #   Denominador: populacao_referencia do e-Gestor AB por CS × mês

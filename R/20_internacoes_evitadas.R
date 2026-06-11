@@ -18,6 +18,8 @@
 #   data/processed/internacoes_evitadas.csv
 #   data/processed/custo_evitado.csv
 #   docs/internacoes_evitadas.png
+#
+# Semente: set.seed(2024) — reprodutível via renv.lock
 # =============================================================================
 
 suppressPackageStartupMessages({
@@ -43,7 +45,6 @@ DIR_DOCS <- "docs"
 
 MES_INTERV <- 29L   # jan/2022 = 1 → mai/2024 = 29
 N_MC       <- 1000L # iterações Monte Carlo
-set.seed(42L)
 
 # Valores anteriores (execução prévia com fator único acumulado 26,4%) — para comparação
 .CUSTO_MEDIO_ANTERIOR   <- 2151.61
@@ -288,7 +289,7 @@ message(sprintf("  Diferença: %+.1f%%",
 
 message("\n=== 6. Monte Carlo (n=", N_MC, " iterações) ===")
 
-# Semente para reprodutibilidade (Monte Carlo)
+# Semente única para reprodutibilidade (Monte Carlo)
 set.seed(2024)
 # Amostra coeficientes da distribuição assintótica multivariada
 coef_samples <- mvrnorm(N_MC, cf_fixed, vc_fixed)

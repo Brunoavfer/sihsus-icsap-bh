@@ -511,7 +511,7 @@ top3_taxa <- sf_cs_map |> st_drop_geometry() |>
   mutate(label_cs = str_remove(nome_cs, "^CENTRO DE SAUDE "))
 
 top5_evit <- sf_cs_map |> st_drop_geometry() |>
-  slice_max(evitadas_central, n = 5, na_rm = TRUE) |>
+  slice_max(evitadas_central, n = 3, na_rm = TRUE) |>
   mutate(label_cs = str_remove(nome_cs, "^CENTRO DE SAUDE "))
 
 # Centroides CS para top labels
@@ -593,10 +593,10 @@ p3a <- ggplot(sf_reg_map) +
           na.rm = FALSE) +
   ggrepel::geom_label_repel(
     data = sf_reg_labels, aes(x = X, y = Y, label = regional),
-    size = 2.0, force = 3, max.overlaps = 20,
+    size = 2.2, force = 3, max.overlaps = 20,
     fill = "white", alpha = 0.75, label.size = 0.1,
     segment.color = "grey50", min.segment.length = 0.2,
-    inherit.aes = FALSE
+    fontface = "bold", inherit.aes = FALSE
   ) +
   scale_fill_manual(
     name   = "Taxa ICSAP pad.\n(por 10.000 hab./mês)",
@@ -619,10 +619,10 @@ p3b <- ggplot(sf_reg_map) +
           na.rm = FALSE) +
   ggrepel::geom_label_repel(
     data = sf_reg_labels, aes(x = X, y = Y, label = regional),
-    size = 2.0, force = 3, max.overlaps = 20,
+    size = 2.2, force = 3, max.overlaps = 20,
     fill = "white", alpha = 0.75, label.size = 0.1,
     segment.color = "grey50", min.segment.length = 0.2,
-    inherit.aes = FALSE
+    fontface = "bold", inherit.aes = FALSE
   ) +
   scale_fill_manual(
     name   = "Internações ICSAP\nevitadas (n)",
@@ -714,7 +714,7 @@ fig3 <- (p3a | p3b) / (p3c | p3d) +
 
 suppressWarnings(
   ggsave(file.path(DIR_DOCS, "figura3_mapa_quadruplo.png"),
-         fig3, width = 12, height = 10, dpi = DPI,
+         fig3, width = 14, height = 12, dpi = DPI,
          device = ragg::agg_png, bg = "white")
 )
 cat("  ok figura3_mapa_quadruplo.png\n")
