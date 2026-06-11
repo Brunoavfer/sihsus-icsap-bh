@@ -809,14 +809,30 @@ ic <- read_csv(file.path(DIR_DATA, "icsap_bh_regional.csv"),
 
 lista_icsap <- read_csv(file.path(DIR_REF, "lista_icsap.csv"),
                         show_col_types = FALSE)
-grupo_labels <- lista_icsap |>
-  group_by(grupo, subgrupo) |>
-  summarise(cond = first(descricao), .groups = "drop") |>
-  group_by(grupo) |>
-  summarise(label_grp = paste(unique(cond)[seq_len(min(2, n()))],
-                               collapse = " / "),
-            .groups = "drop") |>
-  mutate(label_grp = str_trunc(label_grp, 80))
+# Nomes dos grupos conforme Portaria SAS/MS nº 221/2008.
+# O lista_icsap.csv usa 15 grupos; grupos 09 e 10 agregam múltiplos
+# grupos da Portaria (cardiovasculares e respiratórios, respectivamente).
+grupo_labels <- tibble(
+  grupo    = c("01","02","03","04","05","06","07","08",
+               "09","10","11","12","13","14","15"),
+  label_grp = c(
+    "Gastroenterites infecciosas e complicações",
+    "Tuberculose",
+    "Doenças preveníveis por imunização",
+    "Dengue",
+    "Doenças relacionadas ao HIV",
+    "Anemia",
+    "Diabetes mellitus",
+    "Deficiências nutricionais",
+    "Doenças cardiovasculares (hipertensão, angina, insuficiência cardíaca, acidente vascular cerebral)",
+    "Doenças respiratórias (infecções de vias aéreas superiores, pneumonias, bronquite, asma)",
+    "Úlcera gastrointestinal",
+    "Outras doenças do aparelho digestivo",
+    "Infecção do rim e trato urinário",
+    "Infecções na gravidez e puerpério",
+    "Infecções de pele e tecido subcutâneo"
+  )
+)
 
 top5_gps <- ic |> count(grupo, sort = TRUE) |> slice_head(n = 5) |>
   left_join(grupo_labels, by = "grupo") |>
