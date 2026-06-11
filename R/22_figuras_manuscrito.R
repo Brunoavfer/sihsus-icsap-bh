@@ -353,7 +353,7 @@ p2a <- ggplot(ev, aes(x = data, y = n_icsap, fill = periodo)) +
 p2b <- ggplot(ev, aes(x = data)) +
   geom_ribbon(data = ev_pos_plot,
               aes(ymin = cf_ic_inf, ymax = cf_ic_sup),
-              fill = "#FFCDD2", alpha = 0.60) +
+              fill = "#FFCDD2", alpha = 0.25) +
   geom_line(data = ev_pos_plot,
             aes(y = taxa_cf), colour = "#C0392B",
             linetype = "dashed", linewidth = 0.9) +
@@ -441,7 +441,7 @@ p2c <- ggplot(ev_c, aes(x = data)) +
 # --- Painel D: custo evitado acumulado ---
 p2d <- ggplot(ev_pos, aes(x = data)) +
   geom_ribbon(aes(ymin = custo_acum_inf, ymax = custo_acum_sup),
-              fill = "#A5D6A7", alpha = 0.20) +
+              fill = "#A5D6A7", alpha = 0.15) +
   geom_line(aes(y = custo_acum), colour = "#2E7D32", linewidth = 1.0) +
   geom_vline(xintercept = d_int, linetype = "dashed",
              colour = "#C0392B", linewidth = 0.7) +
@@ -1161,7 +1161,11 @@ rodape_tab2 <- list(
             "M2 apresentou sobredispersão moderada (Pearson χ²/gl = 2,68); ",
             "erros padrão corrigidos por clusterização por CS (fixest::vcov_cluster). ",
             "Análise de sensibilidade com modelo binomial negativo em *stats::glm* (7.784 obs.) ",
-            "produziu IRR e significância consistentes (Tabela S3, material suplementar).")),
+            "produziu IRR e significância consistentes (Tabela S3, material suplementar). ",
+            "Os intervalos de confiança da Tabela S3 são mais estreitos por utilizar erros padrão ",
+            "não clusterizados (*stats::glm* padrão). O modelo principal usa erros robustos ",
+            "clusterizados por CS via *fixest::feglm*, que produz ICs mais conservadores e ",
+            "metodologicamente adequados para dados em painel.")),
   md(paste0("Análises de determinantes (seção 2) incluíram 153 CS com informação completa. ",
             "Modelos ITS (seção 1) utilizaram série completa (n=51 meses, sem missing).")),
   md(paste0("ESF: Estratégia Saúde da Família. CS: Centro de Saúde. ",
