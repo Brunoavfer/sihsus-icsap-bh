@@ -1204,6 +1204,13 @@ rodape_tab2 <- list(
             "clusterização por CS (*fixest::vcov_cluster*).")),
   md(paste0("Análises de determinantes (seção 2) incluíram 153 CS com informação completa. ",
             "Modelos ITS (seção 1) utilizaram série completa (n=51 meses, sem missing).")),
+  md(paste0("^h^ Análises ITS desagregadas por Regional Administrativa (n=9) não atingiram significância ",
+            "estatística em nenhuma regional (todos p>0,05), consistente com poder estatístico reduzido ",
+            "(n=36 meses por regional vs. n=51 meses municipal; menor volume de internações por série). ",
+            "A Regional Pampulha apresentou IC muito amplo (APC pós=−47,8%/ano; IC95%: −75,6; 11,8; p=0,084), ",
+            "possivelmente relacionado a pico de internações nos dois meses imediatamente pré-intervenção ",
+            "(mar–abr/2024: n=213 e n=208), que distorce a estimativa da tendência pré pelo modelo GLS. ",
+            "Resultados completos em *its_resultados.csv*.")),
   md(paste0("ESF: Estratégia Saúde da Família. CS: Centro de Saúde. ",
             "IVS: Índice de Vulnerabilidade em Saúde. ",
             "APC: *Annual Percent Change*. AAPC: *Average Annual Percent Change* (variação percentual anual média para todo o período). ",
@@ -1238,6 +1245,7 @@ gt2 <- tab2 |>
   tab_source_note(rodape_tab2[[6]]) |>
   tab_source_note(rodape_tab2[[7]]) |>
   tab_source_note(rodape_tab2[[8]]) |>
+  tab_source_note(rodape_tab2[[9]]) |>
   tab_style(
     style     = list(cell_fill(color = "#1A5276"),
                      cell_text(color = "white", weight = "bold")),

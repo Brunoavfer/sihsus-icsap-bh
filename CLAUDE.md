@@ -273,11 +273,13 @@ O filtro de CS é dependente do filtro de regional — ao selecionar uma regiona
   - Diferença máxima por CS×mês: 7,9 internações; CS mais afetado: CS Paraúna/Venda Nova (88,5 total acumulado)
   - Saídas: `cep_pesos_cs.csv`, `n_icsap_cs_mes_prop.csv`, `alocacao_impacto.txt`
 - ✅ **Script 11** — ITS GLS AR(1) BH municipal + 9 regionais (Portaria GM/MS 3.493/2024) — **série ampliada jan/2022–mar/2026 (51 meses); MES_INTERV=29**
-  - **BH municipal**: nível -3,1% NS (p=0,516); APC pré=**+12,3%/ano** (p<0,001); APC pós líquida=**-8,3%/ano** (p=0,0003)
-  - **Todas as regionais**: nível NS; slope change pós com tendência de queda em todas (Pampulha p=0,084; Venda Nova p=0,140)
+  - **BH municipal**: nível -3,1% NS (p=0,516); APC pré=**+12,3%/ano** (IC95%: 5,8; 19,2; p<0,001); APC pós líquida=**-8,3%/ano** (IC95%: **-15,2; -0,8**; p=0,0003)
+  - **IC APC pós corrigido (jun/2026)**: fórmula anterior `sqrt(se_b1²+se_b3²)` ignorava Cov(β₁,β₃)=-0,724 e superestimava SE em 59%. Correção: delta method com `Var(β₁+β₃)=Var(β₁)+Var(β₃)+2·Cov(β₁,β₃)`. IC antigo (-19,1; 3,9) → IC correto (-15,2; -0,8). Mesma correção aplicada às 9 regionais. Figura 2 atualizada.
+  - **Todas as regionais**: nenhuma atingiu p<0,05 (todos p≥0,084); slope change com tendência de queda em 8/9 regionais; Norte (+2,7%/ano) e Oeste (-7,2%/ano) com p>0,80; poder estatístico reduzido (n=36 meses, menor volume por série)
+  - **Pampulha**: APC pós=-47,8%/ano (IC95%: -75,6; 11,8; p=0,084) — IC muito amplo por pico de internações em mar-abr/2024 (n=213 e n=208, imediatamente pré-intervenção), que distorce estimativa da tendência pré no GLS; volume médio=142 ICSAP/mês (adequado); instabilidade é estrutural do pré-período, não de volume baixo
   - **Redução do APC pré esperada**: inclusão de 2022 (taxas ~16,3%, mais baixas que 2023–2024) dilui a rampa pré-intervenção (+22,8% → +12,3%); β₃ permanece altamente significativo
   - Saída: `its_resultados.csv`, `docs/its_bh.png`, `docs/its_regional.png`
-  - Nota: `apc_pos` = APC líquida pós (β₁+β₃) — não só β₃; já calculado corretamente no CSV
+  - Nota: `apc_pos` = APC líquida pós (β₁+β₃) — não só β₃; p_pos = teste de β₃ isolado (slope change)
 - ✅ **Script 15** — GEE AR-1 estratificado por IVS (ITS com Portaria GM/MS 3.493/2024)
   - Modelo: taxa_cs ~ mes_num + interv + tempo_pos + sin12 + cos12 + pct_sem_saneamento
   - Portaria efetiva maio/2024 = mes_num 17 (interv=0→1; tempo_pos=ramp 0,0,...,1,2,...)
