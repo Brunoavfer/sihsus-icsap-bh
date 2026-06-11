@@ -381,7 +381,7 @@ p2b <- ggplot(ev, aes(x = data)) +
            label.padding = unit(1.5, "mm"), label.size = 0.2) +
   annotate("label",
            x = as.Date("2024-10-01"), y = y_max_b - 2,
-           label = "APC pós: -8,3%/ano\n(IC95%: -12,1; -4,5; p<0,001)",
+           label = "APC pós: -8,3%/ano\n(IC95%: -15,2; -0,8; p<0,001)",
            size = 2.2, hjust = 0, colour = "#C0392B", fill = "white",
            label.padding = unit(1.5, "mm"), label.size = 0.2) +
   annotate("text",
@@ -847,23 +847,25 @@ tot_pct <- function(cond) fmt_pct(sum(cond, na.rm = TRUE), N)
 pre_pct <- function(cond) fmt_pct(sum(cond[ic$periodo == "Pre"], na.rm = TRUE), Npr)
 pos_pct <- function(cond) fmt_pct(sum(cond[ic$periodo == "Pos"], na.rm = TRUE), Npo)
 
-build_row <- function(var, label) {
+build_row <- function(var, label, p_override = NULL) {
   if (is.logical(var)) {
+    pv <- if (!is.null(p_override)) p_override else fmt_p(chi_p(var, ic$periodo))
     tibble(
       Caracteristica = label,
       Total   = tot_pct(var),
       Pre     = pre_pct(var),
       Pos     = pos_pct(var),
-      p_valor = fmt_p(chi_p(var, ic$periodo)),
+      p_valor = pv,
       header  = FALSE
     )
   } else {
+    pv <- if (!is.null(p_override)) p_override else fmt_p(mw_p(var, ic$periodo))
     tibble(
       Caracteristica = label,
       Total   = fmt_med(var),
       Pre     = fmt_med(var[ic$periodo == "Pre"]),
       Pos     = fmt_med(var[ic$periodo == "Pos"]),
-      p_valor = fmt_p(mw_p(var, ic$periodo)),
+      p_valor = pv,
       header  = FALSE
     )
   }
@@ -892,18 +894,19 @@ cat_rows <- function(varname, grplevels = NULL) {
   })
 }
 
-p_fx  <- fmt_p(chi_p(as.character(ic$fx), ic$periodo))
-p_reg <- fmt_p(chi_p(ic$regional, ic$periodo))
-p_grp <- fmt_p(chi_p(ic$grupo %in% top5_gps$grupo, ic$periodo))
+p_fx   <- fmt_p(chi_p(as.character(ic$fx), ic$periodo))
+p_reg  <- fmt_p(chi_p(ic$regional, ic$periodo))
+p_grp  <- fmt_p(chi_p(ic$grupo %in% top5_gps$grupo, ic$periodo))
+p_sexo <- fmt_p(chi_p(ic$sexo_m, ic$periodo))
 
 tab1 <- bind_rows(
   tibble(Caracteristica = "Total de internações ICSAP",
          Total = fmt_n(N), Pre = fmt_n(Npr), Pos = fmt_n(Npo),
          p_valor = "—", header = FALSE),
 
-  hdr("Sexo — n (%)"),
-  build_row(ic$sexo_m, "  Masculino"),
-  build_row(ic$sexo_f, "  Feminino"),
+  hdr("Sexo — n (%)", p_sexo),
+  build_row(ic$sexo_m, "  Masculino", p_override = ""),
+  build_row(ic$sexo_f, "  Feminino",  p_override = ""),
 
   build_row(ic$idade, "Idade (anos) — mediana [IQR]"),
 
@@ -924,7 +927,7 @@ tab1 <- bind_rows(
     })
   },
 
-  hdr(paste0("Regional de saúde — n (%)"), p_reg),
+  hdr(paste0("Regional de saúde — n (%)^c^"), p_reg),
   {
     regs <- sort(unique(ic$regional[!is.na(ic$regional)]))
     map_dfr(regs, function(r) {
@@ -949,7 +952,9 @@ nota_filtro <- paste0(
 )
 nota_rodape <- paste0(
   "CS: Centro de Saúde. IQR: Intervalo Interquartil. \n",
-  "^a^Qui-quadrado de Pearson. ^b^Teste de Mann-Whitney.\n",
+  "^a^Qui-quadrado de Pearson. ^b^Teste de Mann-Whitney. ",
+  "^c^Distribuição por regional disponível apenas para internações com Centro de Saúde identificado ",
+  "(n = 98.192; 86,4% do total).\n",
   "Valores monetários deflacionados pelo IPCA (jan/2022–mar/2026; acumulado = 26,4%), ",
   "expressos em Reais de março/2026.\n",
   "Fonte: SIH/SUS – DATASUS. ", nota_filtro
@@ -1055,21 +1060,21 @@ tab2 <- tribble(
   "1. Interrupção de Série Temporal (ITS-GLS AR[1]) — BH Municipal",
   sprintf("ITS-GLS AR(1)\nn = 51 meses (jan/2022–mar/2026)"),
   "Tendência pré-Portaria (APC)",
-  sprintf("%+.1f%%/ano", bh1$apc_pre),
+  sprintf("%+.1f%%/ano", bh1$apc_pre) |> gsub("\\.", ",", x = _),
   ic95(bh1$apc_pre_inf, bh1$apc_pre_sup),
   p_fmt_its(bh1$p_pre),
 
   "1. Interrupção de Série Temporal (ITS-GLS AR[1]) — BH Municipal",
   sprintf("ITS-GLS AR(1)\nn = 51 meses (jan/2022–mar/2026)"),
   sprintf("Mudança de nível em mai/2024"),
-  sprintf("%+.1f%%", bh1$nivel_pct),
+  sprintf("%+.1f%%", bh1$nivel_pct) |> gsub("\\.", ",", x = _),
   ic95(bh1$nivel_ic_inf, bh1$nivel_ic_sup),
   fmt_p(bh1$p_nivel),
 
   "1. Interrupção de Série Temporal (ITS-GLS AR[1]) — BH Municipal",
   sprintf("ITS-GLS AR(1)\nn = 51 meses (jan/2022–mar/2026)"),
   "Mudança de tendência pós-Portaria (APC)",
-  sprintf("%+.1f%%/ano", bh1$apc_pos),
+  sprintf("%+.1f%%/ano", bh1$apc_pos) |> gsub("\\.", ",", x = _),
   ic95(bh1$apc_pos_inf, bh1$apc_pos_sup),
   p_fmt_its(bh1$p_pos),
 
@@ -1109,14 +1114,14 @@ tab2 <- tribble(
   "2. Determinantes da taxa ICSAP — Poisson FE dois sentidos (153 CS)",
   "M2 — FE Regional de Saúde (9 cat.) + Ano (fixest::feglm)\nn = 7.803 obs. (153 CS × 51 meses) — permite estimar preditores estáticos (IVS, saneamento)ᵍ",
   "Índice de Vulnerabilidade em Saúde (IVS-BH) — IRR por 1 ponto",
-  sprintf("%.3f", m2_ivs$irr),
+  sprintf("%.3f", m2_ivs$irr) |> gsub("\\.", ",", x = _),
   ic95(m2_ivs$ic_inf, m2_ivs$ic_sup, 3),
   if_else(m2_ivs$p_valor < 0.001, "<0,001", fmt_p(m2_ivs$p_valor)),
 
   "2. Determinantes da taxa ICSAP — Poisson FE dois sentidos (153 CS)",
   "M2 — FE Regional de Saúde (9 cat.) + Ano (fixest::feglm)\nn = 7.803 obs. (153 CS × 51 meses) — permite estimar preditores estáticos (IVS, saneamento)ᵍ",
   "% domicílios sem saneamento básico — IRR por 1 p.p.",
-  sprintf("%.3f", m2_san$irr),
+  sprintf("%.3f", m2_san$irr) |> gsub("\\.", ",", x = _),
   ic95(m2_san$ic_inf, m2_san$ic_sup, 3),
   fmt_p(m2_san$p_valor),
 
@@ -1130,7 +1135,7 @@ tab2 <- tribble(
   "2. Determinantes da taxa ICSAP — Poisson FE dois sentidos (153 CS)",
   "Dose-resposta: nº equipes ESF vs. Q1 (1–4 equipes)",
   "Q2 (5–6 equipes) — IRR",
-  sprintf("%.3f", m_q2$irr),
+  sprintf("%.3f", m_q2$irr) |> gsub("\\.", ",", x = _),
   ic95(m_q2$ic_inf, m_q2$ic_sup, 3),
   if_else(m_q2$p_valor < 0.001, "<0,001", fmt_p(m_q2$p_valor)),
 
@@ -1152,9 +1157,9 @@ tab2 <- tribble(
   "3. Impacto estimado da Portaria GM/MS nº 3.493/2024 (mai/2024–mar/2026)",
   "GLS AR(1) + Monte Carlo\nn = 1.000 iterações | n = 51 meses",
   "Custo evitado — R$ milhões (valores de março/2026)ᵃᵇ",
-  sprintf("R$ %.2f mi", bh_imp$custo_central_BRL / 1e6),
+  sprintf("R$ %.2f mi", bh_imp$custo_central_BRL / 1e6) |> gsub("\\.", ",", x = _),
   sprintf("(R$ %.2f; R$ %.2f mi)",
-          bh_imp$custo_ic_inf_BRL / 1e6, bh_imp$custo_ic_sup_BRL / 1e6),
+          bh_imp$custo_ic_inf_BRL / 1e6, bh_imp$custo_ic_sup_BRL / 1e6) |> gsub("\\.", ",", x = _),
   "—",
 
   "3. Impacto estimado da Portaria GM/MS nº 3.493/2024 (mai/2024–mar/2026)",

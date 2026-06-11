@@ -181,11 +181,17 @@ se_b3 <- se_cf["tempo_pos"]
 apc_pre  <- (exp(12 * b1) - 1) * 100
 apc_pos  <- (exp(12 * (b1 + b3)) - 1) * 100
 
-# IC 95% para APC (delta method: Var(12β) = 144·Var(β))
+# IC 95% para APC (delta method com covariância completa)
 apc_pre_inf <- (exp(12 * (b1 - 1.96 * se_b1)) - 1) * 100
 apc_pre_sup <- (exp(12 * (b1 + 1.96 * se_b1)) - 1) * 100
-apc_pos_inf <- (exp(12 * ((b1 + b3) - 1.96 * sqrt(se_b1^2 + se_b3^2))) - 1) * 100
-apc_pos_sup <- (exp(12 * ((b1 + b3) + 1.96 * sqrt(se_b1^2 + se_b3^2))) - 1) * 100
+# APC pós = β₁+β₃: Var(β₁+β₃) = Var(β₁)+Var(β₃)+2·Cov(β₁,β₃)
+# Usar sqrt(se_b1²+se_b3²) ignora a covariância negativa e superestima o SE
+V_bh        <- if (!is.null(mod_gls)) mod_gls$varBeta else vcov(mod_ols)
+var_pos     <- V_bh["mes_num","mes_num"] + V_bh["tempo_pos","tempo_pos"] +
+               2 * V_bh["mes_num","tempo_pos"]
+se_pos      <- sqrt(var_pos)
+apc_pos_inf <- (exp(12 * ((b1 + b3) - 1.96 * se_pos)) - 1) * 100
+apc_pos_sup <- (exp(12 * ((b1 + b3) + 1.96 * se_pos)) - 1) * 100
 
 # Mudança de nível: (exp(β₂) - 1) × 100
 nivel_pct     <- (exp(b2) - 1) * 100
