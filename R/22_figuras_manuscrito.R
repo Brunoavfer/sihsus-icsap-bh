@@ -289,93 +289,90 @@ ev_pos <- filter(ev, !is.na(taxa_cf)) |>
 
 d_int   <- as.Date("2024-05-01")
 y_max_a <- max(ev$n_icsap, na.rm = TRUE)
-y_max_b <- ceiling(max(ev$taxa_obs, ev_pos$cf_ic_sup, na.rm = TRUE)) + 4
-y_min_b <- floor(min(ev$taxa_obs, ev_pos$cf_ic_inf, na.rm = TRUE)) - 1
+y_max_b <- ceiling(max(ev$taxa_obs, ev_pos$cf_ic_sup, na.rm = TRUE)) + 5
+y_min_b <- floor(min(ev$taxa_obs, ev_pos$cf_ic_inf, na.rm = TRUE)) - 2
 
-theme_lancet_corrected <- function(base_size = 8) {
+theme_lancet_large <- function(base_size = 9) {
   theme_classic(base_size = base_size) +
     theme(
-      text = element_text(colour = "black", family = "sans"),
-      axis.text = element_text(size = base_size - 1, colour = "black"),
-      axis.title = element_text(size = base_size),
-      plot.title = element_text(size = base_size + 2, face = "bold", hjust = 0.5),
-      plot.subtitle = element_text(size = base_size - 1, colour = "grey40",
-                                   hjust = 0.5),
-      legend.text = element_text(size = base_size - 1),
-      legend.title = element_text(size = base_size, face = "bold"),
-      legend.key.size = unit(3.5, "mm"),
-      panel.grid.major.y = element_line(colour = "grey92", linewidth = 0.25),
-      panel.grid.minor = element_blank(),
-      axis.line = element_line(colour = "black", linewidth = 0.3),
-      axis.ticks = element_line(colour = "black", linewidth = 0.3),
-      strip.background = element_blank(),
-      strip.text = element_text(size = base_size, face = "bold"),
-      plot.margin = margin(10, 12, 8, 8, "mm"),
-      plot.caption = element_text(size = 6.5, colour = "grey40", hjust = 0,
-                                  margin = margin(t = 6, b = 2))
+      text            = element_text(colour = "black", family = "sans"),
+      axis.text       = element_text(size = base_size, colour = "black"),
+      axis.title      = element_text(size = base_size + 1),
+      plot.title      = element_text(size = base_size + 3, face = "bold",
+                                     hjust = 0.5),
+      legend.text     = element_text(size = base_size - 1),
+      legend.title    = element_text(size = base_size, face = "bold"),
+      legend.key.size = unit(4, "mm"),
+      panel.grid.major.y = element_line(colour = "grey92", linewidth = 0.3),
+      panel.grid.minor   = element_blank(),
+      axis.line  = element_line(colour = "black", linewidth = 0.4),
+      axis.ticks = element_line(colour = "black", linewidth = 0.4),
+      plot.margin = margin(12, 15, 10, 10, "mm")
     )
 }
 
 # --- Painel A: n absoluto + média móvel ---
 p2a <- ggplot(ev, aes(x = data, y = n_icsap, fill = periodo)) +
-  geom_col(width = 26, colour = NA, alpha = 0.80) +
-  geom_line(aes(y = ma3), colour = "#0D3349", linewidth = 0.9, na.rm = TRUE) +
-  geom_vline(xintercept = d_int, linetype = "dashed", colour = "#C0392B",
-             linewidth = 0.6) +
+  geom_col(width = 26, colour = NA, alpha = 0.85) +
+  geom_line(aes(y = ma3), colour = "#0D3349", linewidth = 1.0, na.rm = TRUE) +
+  geom_vline(xintercept = d_int, linetype = "dashed",
+             colour = "#C0392B", linewidth = 0.7) +
   annotate("text",
-           x = as.Date("2024-06-15"), y = y_max_a * 0.92,
-           label = "Portaria GM/MS\nnº 3.493/2024",
-           size = 2.3, hjust = 0, colour = "#C0392B", lineheight = 1.1,
-           fontface = "bold") +
+           x = as.Date("2024-07-01"), y = y_max_a * 0.90,
+           label = "Portaria GM/MS nº 3.493/2024",
+           size = 3.0, hjust = 0, colour = "#C0392B",
+           lineheight = 1.2, fontface = "bold") +
   scale_fill_manual(
     values = c("Pré-intervenção" = "#90CAF9", "Pós-intervenção" = "#1565C0"),
-    name = NULL
-  ) +
+    name = NULL) +
   scale_x_date(date_breaks = "6 months", date_labels = "%b/%Y",
                expand = expansion(mult = 0.02)) +
-  scale_y_continuous(labels = label_number(big.mark = ".", decimal.mark = ","),
-                     expand = expansion(mult = c(0, 0.08))) +
+  scale_y_continuous(
+    labels = label_number(big.mark = ".", decimal.mark = ","),
+    expand = expansion(mult = c(0, 0.10))) +
   labs(x = NULL, y = "Internações ICSAP (n)", title = "A") +
-  theme_lancet_corrected() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 6.5),
-        legend.position = c(0.12, 0.88),
+  theme_lancet_large() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 7),
+        legend.position = c(0.12, 0.85),
         legend.background = element_blank(),
-        legend.key.size = unit(2.5, "mm"))
+        legend.key.size = unit(3, "mm"))
 
 # --- Painel B: taxa + contrafactual + APCs ---
 p2b <- ggplot(ev, aes(x = data)) +
   geom_ribbon(data = ev_pos, aes(ymin = cf_ic_inf, ymax = cf_ic_sup),
-              fill = "#FFCDD2", alpha = 0.65) +
+              fill = "#FFCDD2", alpha = 0.60) +
   geom_line(data = ev_pos, aes(y = taxa_cf), colour = "#C0392B",
-            linetype = "dashed", linewidth = 0.8) +
-  geom_line(aes(y = taxa_obs), colour = "#1565C0", linewidth = 0.9) +
-  geom_point(aes(y = taxa_obs, colour = periodo), size = 1.0, shape = 16,
-             show.legend = FALSE) +
-  geom_vline(xintercept = d_int, linetype = "dashed", colour = "#C0392B",
-             linewidth = 0.6) +
+            linetype = "dashed", linewidth = 0.9) +
+  geom_line(aes(y = taxa_obs), colour = "#1565C0", linewidth = 1.0) +
+  geom_point(aes(y = taxa_obs, colour = periodo), size = 1.2,
+             shape = 16, show.legend = FALSE) +
+  geom_vline(xintercept = d_int, linetype = "dashed",
+             colour = "#C0392B", linewidth = 0.7) +
   annotate("label",
-           x = as.Date("2023-01-15"), y = y_max_b - 1.5,
+           x = as.Date("2023-02-01"), y = y_max_b - 2,
            label = "APC pré: +12,3%/ano\n(IC95%: 5,8; 19,2; p<0,001)",
-           size = 1.9, hjust = 0, colour = "#1565C0", fill = "white",
-           label.padding = unit(1.2, "mm"), label.size = 0.2) +
+           size = 2.2, hjust = 0, colour = "#1565C0", fill = "white",
+           label.padding = unit(1.5, "mm"), label.size = 0.2) +
   annotate("label",
-           x = as.Date("2024-09-15"), y = y_max_b - 1.5,
+           x = as.Date("2024-10-01"), y = y_max_b - 2,
            label = "APC pós: -8,3%/ano\n(IC95%: -12,1; -4,5; p<0,001)",
-           size = 1.9, hjust = 0, colour = "#C0392B", fill = "white",
-           label.padding = unit(1.2, "mm"), label.size = 0.2) +
+           size = 2.2, hjust = 0, colour = "#C0392B", fill = "white",
+           label.padding = unit(1.5, "mm"), label.size = 0.2) +
   annotate("text",
-           x = as.Date("2024-10-01"), y = y_max_b - 4.2,
+           x = as.Date("2025-01-01"), y = y_max_b - 5.5,
            label = "Δ tendência: -20,6%/ano (p<0,001)",
-           size = 1.9, hjust = 0, colour = "grey30", fontface = "italic") +
+           size = 2.2, hjust = 0, colour = "grey30", fontface = "italic") +
   scale_x_date(date_breaks = "6 months", date_labels = "%b/%Y",
                expand = expansion(mult = 0.02)) +
-  scale_y_continuous(labels = function(x) paste0(x, "%"),
-                     limits = c(y_min_b, y_max_b)) +
+  scale_y_continuous(
+    labels = function(x) paste0(x, "%"),
+    limits = c(y_min_b, y_max_b),
+    breaks = seq(floor(y_min_b / 5) * 5, ceiling(y_max_b / 5) * 5, by = 5)) +
   scale_colour_manual(
     values = c("Pré-intervenção" = "#90CAF9", "Pós-intervenção" = "#1565C0")) +
   labs(x = "Competência (mês/ano)", y = "Taxa ICSAP (%)", title = "B") +
-  theme_lancet_corrected() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 6.5))
+  theme_lancet_large() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 7))
 
 # --- Painel C: internações evitadas por mês ---
 ev_c <- ev |>
@@ -383,90 +380,88 @@ ev_c <- ev |>
     evit_bar = if_else(!is.na(taxa_cf), evitadas_mes, 0),
     bar_pos  = evit_bar >= 0
   )
+max_evit <- max(ev_pos$evitadas_mes, na.rm = TRUE)
 
 p2c <- ggplot(ev_c, aes(x = data)) +
-  geom_col(aes(y = evit_bar, fill = bar_pos), alpha = 0.85, width = 26,
-           colour = NA) +
+  geom_col(aes(y = evit_bar, fill = bar_pos),
+           alpha = 0.85, width = 26, colour = NA) +
   scale_fill_manual(
     values = c("TRUE" = "#2E7D32", "FALSE" = "#C62828"),
     labels = c("Internações evitadas", "Mais internações que o previsto"),
-    name = NULL
-  ) +
-  geom_hline(yintercept = 0, colour = "grey40", linewidth = 0.3) +
-  geom_vline(xintercept = d_int, linetype = "dashed", colour = "#C0392B",
-             linewidth = 0.6) +
+    name = NULL) +
+  geom_hline(yintercept = 0, colour = "grey40", linewidth = 0.4) +
+  geom_vline(xintercept = d_int, linetype = "dashed",
+             colour = "#C0392B", linewidth = 0.7) +
   annotate("text",
-           x = as.Date("2025-04-01"),
-           y = max(ev_pos$evitadas_mes, na.rm = TRUE) * 0.92,
+           x = as.Date("2025-04-01"), y = max_evit * 0.92,
            label = "Total evitado: 13.501\n(IC95%: 5.189–22.575)",
-           size = 2.2, hjust = 0.5, colour = "#1B5E20", fontface = "bold") +
-  annotate("text",
-           x = as.Date("2024-06-15"), y = -150,
-           label = "▲ Excesso de internações\nem mai/2024",
-           size = 1.8, hjust = 0, colour = "#C62828", fontface = "italic") +
+           size = 2.4, hjust = 0.5, colour = "#1B5E20", fontface = "bold") +
   scale_x_date(date_breaks = "6 months", date_labels = "%b/%Y",
                expand = expansion(mult = 0.02)) +
-  scale_y_continuous(labels = label_number(big.mark = ".", decimal.mark = ","),
-                     expand = expansion(mult = c(0.12, 0.10))) +
-  labs(x = "Competência (mês/ano)", y = "Internações evitadas (n/mês)",
-       title = "C") +
-  theme_lancet_corrected() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 6.5),
-        legend.position = c(0.25, 0.88),
+  scale_y_continuous(
+    labels = label_number(big.mark = ".", decimal.mark = ","),
+    expand = expansion(mult = c(0.12, 0.10))) +
+  labs(x = "Competência (mês/ano)",
+       y = "Internações evitadas (n/mês)", title = "C") +
+  theme_lancet_large() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 7),
+        legend.position = c(0.20, 0.88),
         legend.background = element_blank(),
-        legend.key.size = unit(2.5, "mm"),
-        legend.text = element_text(size = 5.5))
+        legend.key.size = unit(3, "mm"),
+        legend.text = element_text(size = 6))
 
 # --- Painel D: custo evitado acumulado ---
 p2d <- ggplot(ev_pos, aes(x = data)) +
   geom_ribbon(aes(ymin = custo_acum_inf, ymax = custo_acum_sup),
-              fill = "#A5D6A7", alpha = 0.55) +
-  geom_line(aes(y = custo_acum), colour = "#2E7D32", linewidth = 0.9) +
-  geom_vline(xintercept = d_int, linetype = "dashed", colour = "#C0392B",
-             linewidth = 0.6) +
+              fill = "#A5D6A7", alpha = 0.50) +
+  geom_line(aes(y = custo_acum), colour = "#2E7D32", linewidth = 1.0) +
+  geom_vline(xintercept = d_int, linetype = "dashed",
+             colour = "#C0392B", linewidth = 0.7) +
   annotate("label",
-           x = as.Date("2025-02-01"), y = 32,
-           label = "R$ 29,05 mi\n(IC95%: 11,16–48,57)",
+           x = as.Date("2025-03-01"), y = 35,
+           label = "R$ 29,05 milhões\n(IC95%: 11,16–48,57)",
            hjust = 0.5, fill = "white", colour = "#2E7D32",
-           label.size = 0.25, size = 2.4, fontface = "bold") +
+           label.size = 0.25, size = 2.6, fontface = "bold") +
   scale_x_date(date_breaks = "6 months", date_labels = "%b/%Y",
                expand = expansion(mult = 0.02)) +
   scale_y_continuous(
     labels = label_number(accuracy = 0.1, big.mark = ".", decimal.mark = ","),
     expand = expansion(mult = c(0, 0.12))) +
   labs(x = "Competência (mês/ano)",
-       y = "Custo evitado acumulado\n(R$ milhões, mar/2026)", title = "D") +
-  theme_lancet_corrected() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 6.5))
+       y = "Custo evitado acumulado\n(R$ milhões, março/2026)", title = "D") +
+  theme_lancet_large() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 7))
 
 # --- Composição final ---
 fig2_final <- (p2a | p2b) / (p2c | p2d) +
   plot_annotation(
     caption = paste0(
-      "Figura 2. Séries temporais de internações por condições sensíveis à ",
-      "atenção primária (ICSAP). Belo Horizonte, Minas Gerais, Brasil, ",
+      "Figura 2. Séries temporais de internações por condições sensíveis ",
+      "à atenção primária (ICSAP). Belo Horizonte, Minas Gerais, Brasil, ",
       "janeiro de 2022 a março de 2026.\n",
       "(A) Número absoluto de internações ICSAP por mês; linha azul escura = ",
       "média móvel de 3 meses. (B) Taxa ICSAP observada (linha sólida azul) e ",
       "contrafactual estimado (linha vermelha tracejada; faixa rosa = IC 95%). ",
       "(C) Internações ICSAP evitadas por mês no período pós-Portaria ",
-      "(diferença entre contrafactual e observado). (D) Custo evitado acumulado ",
-      "(R$ milhões, valores de março/2026, deflacionados pelo IPCA).\n",
-      "A linha vertical tracejada indica o início da vigência da Portaria GM/MS ",
-      "nº 3.493/2024 (maio/2024). APC: Annual Percent Change. ",
+      "(diferença entre contrafactual e observado). (D) Custo evitado ",
+      "acumulado (R$ milhões, valores de março/2026, deflacionados pelo IPCA).\n",
+      "A linha vertical tracejada indica o início da vigência da Portaria ",
+      "GM/MS nº 3.493/2024 (maio/2024). APC: Annual Percent Change. ",
       "IC: Intervalo de Confiança de 95%. Modelo: ITS com GLS e correção AR(1).\n",
       "Fonte: SIH/SUS – DATASUS. Elaboração própria."
     ),
     theme = theme(
-      plot.caption = element_text(size = 6.8, colour = "grey35", hjust = 0,
-                                  lineheight = 1.35, margin = margin(t = 8, b = 2))
+      plot.caption = element_text(size = 7.5, colour = "grey35", hjust = 0,
+                                  lineheight = 1.4,
+                                  margin = margin(t = 10, b = 5))
     )
   )
 
 ggsave(file.path(DIR_DOCS, "figura2_its_4paineis.png"),
-       fig2_final, width = 7.5, height = 9, dpi = DPI,
+       fig2_final,
+       width = 12, height = 14, dpi = DPI,
        device = ragg::agg_png, bg = "white")
-cat("  ok figura2_its_4paineis.png\n")
+cat("Figura 2 salva: 12\" x 14\" a 300 DPI\n")
 
 # =============================================================================
 # FIGURA 3 — Mapa quádruplo (2×2)
