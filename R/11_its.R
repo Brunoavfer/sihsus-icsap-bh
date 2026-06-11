@@ -312,6 +312,12 @@ its_regional <- lapply(regionais, function(reg) {
   b1m <- cf_m["mes_num"];  b3m <- cf_m["tempo_pos"];  b2m <- cf_m["interv"]
   se1 <- se_m["mes_num"];  se3 <- se_m["tempo_pos"]
 
+  # delta method com covariância completa para APC pós regional
+  V_r     <- if (inherits(m, "gls")) m$varBeta else vcov(m)
+  var_pos_r <- V_r["mes_num","mes_num"] + V_r["tempo_pos","tempo_pos"] +
+               2 * V_r["mes_num","tempo_pos"]
+  se_pos_r  <- sqrt(var_pos_r)
+
   tibble(
     regional      = reg,
     modelo        = if (inherits(m, "gls")) "GLS-AR1" else "OLS",
@@ -322,15 +328,15 @@ its_regional <- lapply(regionais, function(reg) {
     nivel_ic_inf  = round((exp(b2m - 1.96 * se_m["interv"]) - 1) * 100, 1),
     nivel_ic_sup  = round((exp(b2m + 1.96 * se_m["interv"]) - 1) * 100, 1),
     p_nivel       = round(p_m["interv"], 4),
-    # APC pré
+    # APC pré (β₁ isolado — sem covariância)
     apc_pre       = round((exp(12 * b1m) - 1) * 100, 1),
     apc_pre_inf   = round((exp(12 * (b1m - 1.96 * se1)) - 1) * 100, 1),
     apc_pre_sup   = round((exp(12 * (b1m + 1.96 * se1)) - 1) * 100, 1),
     p_pre         = round(p_m["mes_num"], 4),
-    # APC pós
+    # APC pós (β₁+β₃): delta method com Cov(β₁,β₃)
     apc_pos       = round((exp(12 * (b1m + b3m)) - 1) * 100, 1),
-    apc_pos_inf   = round((exp(12 * ((b1m + b3m) - 1.96 * sqrt(se1^2 + se3^2))) - 1) * 100, 1),
-    apc_pos_sup   = round((exp(12 * ((b1m + b3m) + 1.96 * sqrt(se1^2 + se3^2))) - 1) * 100, 1),
+    apc_pos_inf   = round((exp(12 * ((b1m + b3m) - 1.96 * se_pos_r)) - 1) * 100, 1),
+    apc_pos_sup   = round((exp(12 * ((b1m + b3m) + 1.96 * se_pos_r)) - 1) * 100, 1),
     p_pos         = round(p_m["tempo_pos"], 4)
   )
 })
