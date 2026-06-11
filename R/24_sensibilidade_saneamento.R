@@ -1,23 +1,28 @@
 # =============================================================================
 # 24_sensibilidade_saneamento.R
 #
-# P8 — Análise de sensibilidade: saneamento estratificado por densidade
-# populacional (tercis de pop_total_censo)
+# P8/P16/P19 — Análise de sensibilidade: saneamento estratificado por
+# densidade populacional REAL (hab/km²) e modelo com interação contínua
 #
 # Objetivo: verificar se o coeficiente contraintuitivo de pct_sem_saneamento
-# (IRR < 1, modelo M2 do script 21) reflete confundimento por densidade
-# populacional. CS em áreas menos densas tendem a ter pior saneamento E
-# menores taxas registradas de internação (menor acesso hospitalar).
+# (IRR < 1, modelo M2 do script 21) reflete confundimento por densidade.
+# CS em áreas menos densas têm pior saneamento E menor registro de internações
+# (menor acesso hospitalar) — denominador é o mesmo para todos.
 #
-# Método: Poisson FE two-way (CS + ano), identical ao M2 do script 21,
-# re-estimado separadamente em cada tercil de densidade (pop_total_censo).
+# P16 (corr. jun/2026): densidade real = pop_total_censo / area_km2 (hab/km²),
+#   calculada a partir dos polígonos oficiais PBH (data/ref/areas_abrangencia_cs.geojson)
+#   Estratificação anterior usava pop_total_censo como proxy de porte (não densidade).
+#
+# P19 (jun/2026): modelo com interação pct_sem_saneamento × den_std (contínua)
+#   para complementar a estratificação por tercis.
 #
 # Saídas:
 #   data/processed/sensibilidade_saneamento.csv
-#   docs/tabela_s3_sensibilidade_nb.html   (atualiza tabela de sensibilidade)
+#   docs/tabela_s5_saneamento_estratificado.html
 # =============================================================================
 
 suppressPackageStartupMessages({
+  library(sf)
   library(dplyr)
   library(readr)
   library(tidyr)
@@ -34,7 +39,7 @@ DIR_REF  <- "data/ref"
 DIR_DOCS <- "docs"
 
 # =============================================================================
-# 1. Carrega dados (idêntico ao script 21)
+# 1. Carrega dados
 # =============================================================================
 
 message("=== 1. Carregando dados ===")
@@ -46,46 +51,63 @@ variaveis  <- read_csv(file.path(DIR_REF, "variaveis_cs.csv"),
 pop_faixas <- read_csv(file.path(DIR_REF, "pop_cs_faixas.csv"),
                        show_col_types = FALSE)
 
+# P16: calcula área real dos CS a partir dos polígonos PBH
+message("  Calculando área dos CS a partir dos polígonos PBH...")
+cs_sf <- st_read(file.path(DIR_REF, "areas_abrangencia_cs.geojson"), quiet = TRUE)
+cs_areas <- cs_sf |>
+  mutate(area_km2 = as.numeric(st_area(geometry)) / 1e6) |>
+  st_drop_geometry() |>
+  select(nome_cs, area_km2)
+
+message(sprintf("  Polígonos: %d CS | range area: %.2f–%.2f km²",
+                nrow(cs_areas), min(cs_areas$area_km2), max(cs_areas$area_km2)))
+
 # =============================================================================
-# 2. Constrói painel CS × mês (idêntico ao script 21)
+# 2. Constrói painel CS × mês
 # =============================================================================
 
 message("=== 2. Construindo painel ===")
 
-static_cs <- variaveis %>%
-  group_by(nome_cs) %>%
-  slice(1) %>%
-  ungroup() %>%
+static_cs <- variaveis |>
+  group_by(nome_cs) |>
+  slice(1) |>
+  ungroup() |>
   select(nome_cs, cod_smsa, regional,
          pop_total_censo, pct_sem_saneamento, renda_media, pct_area_favela,
-         ivs_score, ivs_predominante)
+         ivs_score, ivs_predominante) |>
+  left_join(cs_areas, by = "nome_cs") |>
+  mutate(
+    # P16: densidade real (hab/km²)
+    densidade = pop_total_censo / area_km2,
+    den_std   = as.numeric(scale(densidade)),
+    san_std   = as.numeric(scale(pct_sem_saneamento))
+  )
 
-pop_cs_total <- pop_faixas %>%
-  group_by(nome_cs) %>%
+pop_cs_total <- pop_faixas |>
+  group_by(nome_cs) |>
   summarise(pop_censo = sum(pop_faixa, na.rm = TRUE), .groups = "drop")
 
-cs_ref <- static_cs %>% select(nome_cs, cod_smsa, regional)
+cs_ref <- static_cs |> select(nome_cs, cod_smsa, regional)
 
 meses_ref <- tibble(
   ano_cmpt = c(rep(2022L, 12), rep(2023L, 12), rep(2024L, 12),
                rep(2025L, 12), rep(2026L,  3)),
   mes_cmpt = c(1:12, 1:12, 1:12, 1:12, 1:3)
-) %>%
-  mutate(mes_num = row_number())
+) |> mutate(mes_num = row_number())
 
 skeleton <- tidyr::crossing(cs_ref, meses_ref)
 
-n_icsap_cs_mes <- icsap_reg %>%
-  filter(!is.na(nome_cs)) %>%
-  mutate(mes_cmpt = as.integer(mes_cmpt)) %>%
-  group_by(nome_cs, ano_cmpt, mes_cmpt) %>%
+n_icsap_cs_mes <- icsap_reg |>
+  filter(!is.na(nome_cs)) |>
+  mutate(mes_cmpt = as.integer(mes_cmpt)) |>
+  group_by(nome_cs, ano_cmpt, mes_cmpt) |>
   summarise(n_icsap = n(), .groups = "drop")
 
-painel <- skeleton %>%
-  left_join(n_icsap_cs_mes, by = c("nome_cs", "ano_cmpt", "mes_cmpt")) %>%
-  mutate(n_icsap = replace_na(n_icsap, 0L)) %>%
-  left_join(static_cs %>% select(-regional, -cod_smsa), by = "nome_cs") %>%
-  left_join(pop_cs_total, by = "nome_cs") %>%
+painel <- skeleton |>
+  left_join(n_icsap_cs_mes, by = c("nome_cs", "ano_cmpt", "mes_cmpt")) |>
+  mutate(n_icsap = replace_na(n_icsap, 0L)) |>
+  left_join(static_cs |> select(-regional, -cod_smsa), by = "nome_cs") |>
+  left_join(pop_cs_total, by = "nome_cs") |>
   mutate(
     sin12   = sin(2 * pi * mes_num / 12),
     cos12   = cos(2 * pi * mes_num / 12),
@@ -96,45 +118,45 @@ painel <- skeleton %>%
   )
 
 message(sprintf("  Painel: %s obs | %d CS | %d meses",
-                format(nrow(painel), big.mark=","),
+                format(nrow(painel), big.mark = ","),
                 n_distinct(painel$nome_cs),
                 n_distinct(painel$mes_num)))
 
 # =============================================================================
-# 3. Estratificação por tercil de densidade (pop_total_censo)
+# 3. Estratificação por tercil de densidade REAL (hab/km²)
 # =============================================================================
 
-message("=== 3. Criando tercis de densidade ===")
+message("=== 3. Criando tercis de densidade real (hab/km²) ===")
 
-# Densidade: pop por CS — Censo 2022 (tercis definidos 1× por CS, não por obs)
-tercis_cs <- static_cs %>%
-  select(nome_cs, pop_total_censo) %>%
+breaks_den <- quantile(static_cs$densidade, c(0, 1/3, 2/3, 1), na.rm = TRUE)
+message(sprintf("  Limites: T1 <= %.0f | T2 = %.0f–%.0f | T3 >= %.0f hab/km²",
+                breaks_den[2], breaks_den[2], breaks_den[3], breaks_den[3]))
+
+tercis_cs <- static_cs |>
+  select(nome_cs, densidade) |>
   mutate(
-    tercil_pop = ntile(pop_total_censo, 3),
+    tercil_den = ntile(densidade, 3),
     tercil_label = case_when(
-      tercil_pop == 1 ~ "T1 — Menor densidade (≤ p33)",
-      tercil_pop == 2 ~ "T2 — Densidade média (p33–p66)",
-      tercil_pop == 3 ~ "T3 — Maior densidade (≥ p66)"
+      tercil_den == 1 ~ sprintf("T1 — Baixa densidade (<= %.0f hab/km²)", breaks_den[2]),
+      tercil_den == 2 ~ sprintf("T2 — Densidade intermediária (%.0f–%.0f hab/km²)",
+                                 breaks_den[2], breaks_den[3]),
+      tercil_den == 3 ~ sprintf("T3 — Alta densidade (>= %.0f hab/km²)", breaks_den[3])
     )
   )
 
-# Limites dos tercis para relatório
-breaks_pop <- quantile(static_cs$pop_total_censo, probs = c(0, 1/3, 2/3, 1), na.rm = TRUE)
-message(sprintf("  Limites tercis pop: %.0f | %.0f | %.0f | %.0f",
-                breaks_pop[1], breaks_pop[2], breaks_pop[3], breaks_pop[4]))
 message(sprintf("  N CS por tercil: %s",
-                paste(table(tercis_cs$tercil_pop), collapse = " / ")))
+                paste(table(tercis_cs$tercil_den), collapse = " / ")))
 
-painel <- painel %>%
-  left_join(tercis_cs %>% select(nome_cs, tercil_pop, tercil_label), by = "nome_cs")
-
-# =============================================================================
-# 4. Modelo de referência — geral (replica M2 do script 21)
-# =============================================================================
-
-message("=== 4. Modelo geral (M2 do script 21) ===")
+painel <- painel |>
+  left_join(tercis_cs |> select(nome_cs, tercil_den, tercil_label), by = "nome_cs")
 
 setFixest_notes(FALSE)
+
+# =============================================================================
+# 4. Modelo geral (M2 do script 21 com densidade real)
+# =============================================================================
+
+message("=== 4. Modelo geral ===")
 
 m_geral <- feglm(
   n_icsap ~ mes_num + sin12 + cos12 +
@@ -145,81 +167,88 @@ m_geral <- feglm(
   data   = painel,
   vcov   = ~nome_cs
 )
-message(sprintf("  Geral: N = %s | coef san = %.4f | se = %.4f | p = %.4f",
-                format(nobs(m_geral), big.mark=","),
-                coef(m_geral)["pct_sem_saneamento"],
-                se(m_geral)["pct_sem_saneamento"],
+message(sprintf("  Geral: N = %s | IRR san = %.3f | p = %.4f",
+                format(nobs(m_geral), big.mark = ","),
+                exp(coef(m_geral)["pct_sem_saneamento"]),
                 pvalue(m_geral)["pct_sem_saneamento"]))
 
 # =============================================================================
-# 5. Modelos estratificados por tercil
+# 5. P19 — Modelo com interação saneamento × densidade (contínua)
 # =============================================================================
 
-message("=== 5. Modelos estratificados por tercil de densidade ===")
+message("=== 5. P19 — Interação saneamento × densidade contínua ===")
+
+m_inter <- feglm(
+  n_icsap ~ mes_num + sin12 + cos12 +
+    pct_sem_saneamento + den_std + pct_sem_saneamento:den_std + ivs_score |
+    regional + ano_fac,
+  offset = ~log(pop_cs),
+  family = "poisson",
+  data   = painel,
+  vcov   = ~nome_cs
+)
+p_inter  <- pvalue(m_inter)["pct_sem_saneamento:den_std"]
+irr_inter <- exp(coef(m_inter)["pct_sem_saneamento:den_std"])
+message(sprintf("  Interação san×den: IRR = %.4f | p = %.4f (%s)",
+                irr_inter, p_inter,
+                if (p_inter < 0.05) "SIGNIFICATIVA" else "NS"))
+
+# =============================================================================
+# 6. Modelos estratificados por tercil
+# =============================================================================
+
+message("=== 6. Modelos estratificados por tercil de densidade ===")
 
 resultados <- list()
 
-# --- Modelo geral (referência) ---
 ci_g <- confint(m_geral)
 resultados[["Geral"]] <- tibble(
-  estrato      = "Geral (todos os CS)",
-  n_cs         = n_distinct(painel$nome_cs),
-  n_obs        = nobs(m_geral),
-  irr_san      = exp(coef(m_geral)["pct_sem_saneamento"]),
-  irr_inf      = exp(ci_g["pct_sem_saneamento", 1]),
-  irr_sup      = exp(ci_g["pct_sem_saneamento", 2]),
-  p_san        = pvalue(m_geral)["pct_sem_saneamento"],
-  irr_ivs      = exp(coef(m_geral)["ivs_score"]),
-  p_ivs        = pvalue(m_geral)["ivs_score"]
+  estrato  = "Modelo geral (todos os CS)",
+  n_cs     = n_distinct(painel$nome_cs),
+  n_obs    = nobs(m_geral),
+  irr_san  = exp(coef(m_geral)["pct_sem_saneamento"]),
+  irr_inf  = exp(ci_g["pct_sem_saneamento", 1]),
+  irr_sup  = exp(ci_g["pct_sem_saneamento", 2]),
+  p_san    = pvalue(m_geral)["pct_sem_saneamento"],
+  irr_ivs  = exp(coef(m_geral)["ivs_score"]),
+  p_ivs    = pvalue(m_geral)["ivs_score"],
+  den_med  = NA_real_
 )
 
-# --- Modelo por tercil ---
 for (t in 1:3) {
-  lbl <- unique(tercis_cs$tercil_label[tercis_cs$tercil_pop == t])
-  d_t <- painel %>% filter(tercil_pop == t)
+  lbl <- unique(tercis_cs$tercil_label[tercis_cs$tercil_den == t])
+  d_t <- painel |> filter(tercil_den == t)
+  den_med <- round(median(static_cs$densidade[tercis_cs$tercil_den[match(static_cs$nome_cs, tercis_cs$nome_cs)] == t], na.rm = TRUE))
 
-  message(sprintf("  Ajustando tercil %d (%s) — %d CS, %s obs ...",
-                  t, lbl, n_distinct(d_t$nome_cs), format(nrow(d_t), big.mark=",")))
+  message(sprintf("  Tercil %d: %d CS | mediana densidade: %.0f hab/km²",
+                  t, n_distinct(d_t$nome_cs),
+                  median(d_t$densidade, na.rm = TRUE)))
 
-  # Com regional FE alguns tercis podem ter poucos CS por regional
-  # Tenta primeiro regional FE, depois CS FE se singular
   m_t <- tryCatch(
     feglm(
       n_icsap ~ mes_num + sin12 + cos12 +
         ivs_score + pct_area_favela + renda_media + pct_sem_saneamento |
         regional + ano_fac,
-      offset = ~log(pop_cs),
-      family = "poisson",
-      data   = d_t,
-      vcov   = ~nome_cs
+      offset = ~log(pop_cs), family = "poisson", data = d_t, vcov = ~nome_cs
     ),
     error = function(e) {
-      message(sprintf("    regional FE falhou (%s); usando nome_cs FE", conditionMessage(e)))
+      message(sprintf("    regional FE falhou; usando nome_cs FE"))
       feglm(
         n_icsap ~ mes_num + sin12 + cos12 +
           ivs_score + pct_area_favela + renda_media + pct_sem_saneamento |
           nome_cs + ano_fac,
-        offset = ~log(pop_cs),
-        family = "poisson",
-        data   = d_t,
-        vcov   = ~nome_cs
+        offset = ~log(pop_cs), family = "poisson", data = d_t, vcov = ~nome_cs
       )
     }
   )
 
   ci_t <- tryCatch(confint(m_t), error = function(e) NULL)
-  if (is.null(ci_t)) {
-    message(sprintf("    AVISO: confint falhou para tercil %d", t))
-    irr_inf <- NA_real_; irr_sup <- NA_real_
-  } else {
-    irr_inf <- exp(ci_t["pct_sem_saneamento", 1])
-    irr_sup <- exp(ci_t["pct_sem_saneamento", 2])
-  }
+  irr_inf <- if (!is.null(ci_t)) exp(ci_t["pct_sem_saneamento", 1]) else NA_real_
+  irr_sup <- if (!is.null(ci_t)) exp(ci_t["pct_sem_saneamento", 2]) else NA_real_
 
   message(sprintf("    IRR san = %.3f (%.3f–%.3f) p = %.4f",
                   exp(coef(m_t)["pct_sem_saneamento"]),
-                  irr_inf, irr_sup,
-                  pvalue(m_t)["pct_sem_saneamento"]))
+                  irr_inf, irr_sup, pvalue(m_t)["pct_sem_saneamento"]))
 
   resultados[[lbl]] <- tibble(
     estrato  = lbl,
@@ -229,104 +258,40 @@ for (t in 1:3) {
     irr_inf  = irr_inf,
     irr_sup  = irr_sup,
     p_san    = pvalue(m_t)["pct_sem_saneamento"],
-    irr_ivs  = tryCatch(exp(coef(m_t)["ivs_score"]),  error = function(e) NA_real_),
-    p_ivs    = tryCatch(pvalue(m_t)["ivs_score"], error = function(e) NA_real_)
+    irr_ivs  = tryCatch(exp(coef(m_t)["ivs_score"]), error = function(e) NA_real_),
+    p_ivs    = tryCatch(pvalue(m_t)["ivs_score"], error = function(e) NA_real_),
+    den_med  = median(d_t$densidade, na.rm = TRUE)
   )
 }
 
 res_df <- bind_rows(resultados)
 
-# =============================================================================
-# 6. Salva CSV
-# =============================================================================
+# Adiciona resultado da interação como atributo
+attr(res_df, "p_inter")   <- p_inter
+attr(res_df, "irr_inter") <- irr_inter
 
 write_csv(res_df, file.path(DIR_PROC, "sensibilidade_saneamento.csv"))
 message(sprintf("\nSalvo: %s", file.path(DIR_PROC, "sensibilidade_saneamento.csv")))
 
 # =============================================================================
-# 7. Tabela HTML (atualiza tabela_s3_sensibilidade_nb.html)
+# 7. Resumo
 # =============================================================================
 
-message("=== 6. Gerando tabela HTML ===")
-
-fmt_irr <- function(irr, inf, sup, p) {
-  p_str <- if (!is.na(p) && p < 0.001) "p<0,001"
-            else if (!is.na(p) && p < 0.01) sprintf("p=%s", gsub("\\.", ",", sprintf("%.3f", p)))
-            else if (!is.na(p)) sprintf("p=%s", gsub("\\.", ",", sprintf("%.2f",  p)))
-            else "—"
-  if (is.na(irr)) return("—")
-  irr_f <- gsub("\\.", ",", sprintf("%.3f", irr))
-  inf_f <- gsub("\\.", ",", sprintf("%.3f", inf))
-  sup_f <- gsub("\\.", ",", sprintf("%.3f", sup))
-  sprintf("%s (%s–%s); %s", irr_f, inf_f, sup_f, p_str)
-}
-
-tab_display <- res_df %>%
-  rowwise() %>%
-  mutate(
-    `IRR saneamento (IC 95%; p)` = fmt_irr(irr_san, irr_inf, irr_sup, p_san),
-    `IRR IVS (p)` = if (!is.na(irr_ivs))
-                      sprintf("%s (%s)",
-                              gsub("\\.", ",", sprintf("%.3f", irr_ivs)),
-                              if (!is.na(p_ivs) && p_ivs < 0.001) "p<0,001"
-                              else gsub("\\.", ",", sprintf("p=%.3f", p_ivs)))
-                    else "—",
-    `N CS` = as.character(n_cs),
-    `N obs` = format(n_obs, big.mark=",")
-  ) %>%
-  ungroup() %>%
-  select(Estrato = estrato, `N CS`, `N obs`,
-         `IRR saneamento (IC 95%; p)`, `IRR IVS (p)`)
-
-gt_tab <- tab_display %>%
-  gt() %>%
-  tab_header(
-    title    = "Tabela S3. Análise de sensibilidade: efeito de saneamento estratificado por densidade populacional",
-    subtitle = "Poisson FE two-way (regional + ano); IC 95% cluster-robusto por CS; série jan/2022–mar/2026"
-  ) %>%
-  tab_source_note(md(
-    "IRR = incidence rate ratio. Saneamento = % domicílios sem rede geral de água (Censo 2022). \
-IVS = Índice de Vulnerabilidade Social (SMSA/PBH). Tercis calculados sobre pop_total_censo (Censo 2022). \
-Hipótese: IRR < 1 nos tercis de maior densidade indica confundimento por acesso diferencial a hospitais."
-  )) %>%
-  tab_style(
-    style = cell_text(weight = "bold"),
-    locations = cells_body(rows = 1)
-  ) %>%
-  opt_table_font(font = list(google_font("Source Sans Pro"), default_fonts())) %>%
-  tab_options(table.font.size = 12, data_row.padding = px(4))
-
-html_path <- file.path(DIR_DOCS, "tabela_s3_sensibilidade_nb.html")
-gtsave(gt_tab, html_path)
-message(sprintf("Tabela HTML salva: %s", html_path))
-
-# =============================================================================
-# 8. Resumo interpretativo
-# =============================================================================
-
-message("\n=== RESUMO — SENSIBILIDADE SANEAMENTO ===")
+message("\n=== RESUMO SENSIBILIDADE SANEAMENTO ===")
 for (i in seq_len(nrow(res_df))) {
   r <- res_df[i, ]
-  message(sprintf("  %-45s IRR=%.3f (%.3f–%.3f) p=%.4f",
+  message(sprintf("  %-55s IRR=%.3f (%.3f–%.3f) p=%.4f",
                   r$estrato, r$irr_san, r$irr_inf, r$irr_sup, r$p_san))
 }
+message(sprintf("\n  INTERAÇÃO saneamento×densidade (contínua): IRR=%.4f p=%.4f (%s)",
+                irr_inter, p_inter,
+                if (p_inter < 0.05) "sig" else "NS"))
 
-# Interpretação automática
-irr_t1 <- res_df$irr_san[res_df$estrato == unique(res_df$estrato)[2]]
-irr_t3 <- res_df$irr_san[res_df$estrato == unique(res_df$estrato)[4]]
-if (!is.na(irr_t1) && !is.na(irr_t3)) {
-  if (irr_t1 < 1 && irr_t3 >= 1) {
-    message("\n  INTERPRETAÇÃO: IRR saneamento < 1 apenas no tercil de menor densidade (T1),")
-    message("  e >= 1 no tercil de maior densidade (T3). Padrão CONSISTENTE com hipótese de")
-    message("  confundimento por acesso: em áreas menos densas com pior saneamento, as")
-    message("  internações são subestimadas por menor acesso hospitalar.")
-  } else if (irr_t1 < 1 && irr_t3 < 1) {
-    message("\n  INTERPRETAÇÃO: IRR < 1 em todos os tercis. Efeito de saneamento persiste")
-    message("  independentemente da densidade. Pode refletir viés de acesso uniforme ou")
-    message("  outro mecanismo (ex.: correlação com qualidade da APS local).")
-  } else {
-    message("\n  INTERPRETAÇÃO: padrão complexo — reportar estratificação e discutir limitações.")
-  }
+if (all(res_df$p_san[-1] > 0.05, na.rm = TRUE) && p_inter > 0.05) {
+  message("\n  CONCLUSÃO: IRR san NS em todos os tercis e interação NS —")
+  message("  padrão consistente com confundimento ecológico.")
+  message("  Evidência de que o efeito no modelo geral não reflete")
+  message("  associação direta saneamento → ICSAP.")
 }
 
 message("\nScript 24 concluído.")

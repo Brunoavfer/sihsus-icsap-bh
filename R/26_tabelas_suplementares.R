@@ -1,10 +1,10 @@
 # =============================================================================
 # 26_tabelas_suplementares.R
 #
-# Gera Tabela S4 (ITS por grupo clínico) e Tabela S5 (sensibilidade
-# saneamento estratificado) para submissão ao manuscrito.
+# Gera Tabela S4 (ITS por grupo clínico — duas análises) e
+# Tabela S5 (sensibilidade saneamento por densidade real hab/km²)
 #
-# Lê CSVs gerados pelos scripts 25 e 24 respectivamente.
+# Lê CSVs gerados pelos scripts 25 e 24.
 #
 # Saídas:
 #   docs/tabela_s4_its_grupos.html + data/processed/tabela_s4_its_grupos.csv
@@ -25,10 +25,7 @@ filter <- dplyr::filter
 DIR_PROC <- "data/processed"
 DIR_DOCS <- "docs"
 
-# helpers de formatação (padrão brasileiro: vírgula decimal)
-fmt_pct <- function(x, digits = 1) {
-  gsub("\\.", ",", sprintf(paste0("%+.", digits, "f%%/ano"), x))
-}
+# helpers de formatação brasileira
 fmt_p <- function(p) {
   dplyr::case_when(
     is.na(p)   ~ "—",
@@ -36,139 +33,165 @@ fmt_p <- function(p) {
     TRUE       ~ gsub("\\.", ",", sprintf("%.3f", p))
   )
 }
-fmt_irr <- function(x, digits = 3) {
-  gsub("\\.", ",", sprintf(paste0("%.", digits, "f"), x))
-}
+fmt_irr <- function(x, digits = 3) gsub("\\.", ",", sprintf(paste0("%.", digits, "f"), x))
+fmt_num <- function(x, digits = 1) gsub("\\.", ",", sprintf(paste0("%+.", digits, "f"), x))
 
 # =============================================================================
-# TABELA S4 — ITS por grupo clínico
+# TABELA S4 — ITS por grupo clínico (duas análises)
 # =============================================================================
 
 message("=== Tabela S4 — ITS por grupo clínico ===")
 
-its_grupos <- read_csv(file.path(DIR_PROC, "its_por_grupo.csv"),
-                       show_col_types = FALSE)
+its_abs  <- read_csv(file.path(DIR_PROC, "its_por_grupo.csv"),      show_col_types = FALSE)
+its_prop <- read_csv(file.path(DIR_PROC, "its_por_grupo_prop.csv"), show_col_types = FALSE)
 
-# Total para calcular % (linha "Todos")
-n_total <- its_grupos$n_icsap_tot[its_grupos$grupo == "Todos"]
+n_total <- its_abs$n_icsap_tot[its_abs$grupo == "Todos"]
 
-# Seleciona apenas os 3 grupos clínicos (exclui "Todos")
-tab_s4_raw <- its_grupos %>%
-  filter(grupo != "Todos") %>%
+# --- Painel A: contagem absoluta ---
+painel_a <- its_abs |>
+  filter(grupo != "Todos") |>
   mutate(
     grupo_label = case_when(
-      grupo == "09" ~ "Doenças cardiovasculares",
-      grupo == "10" ~ "Doenças respiratórias",
-      grupo == "13" ~ "Diabetes mellitus",
-      TRUE          ~ grupo_nome
+      grupo == "09" ~ "Grupo 09 — Cardiovascular",
+      grupo == "10" ~ "Grupo 10 — Respiratório",
+      grupo == "13" ~ "Grupo 13 — Diabetes mellitus"
     ),
     subgrupos = case_when(
       grupo == "09" ~ "HAS, angina, insuficiência cardíaca, AVC",
       grupo == "10" ~ "IVAS, pneumonias, bronquite aguda, asma",
-      grupo == "13" ~ "Diabetes mellitus (todas as formas clínicas)",
-      TRUE          ~ ""
+      grupo == "13" ~ "Diabetes mellitus (todas as formas)"
     ),
     n_pct = sprintf("%s (%s%%)",
                     format(n_icsap_tot, big.mark=","),
                     gsub("\\.", ",", sprintf("%.1f", 100 * n_icsap_tot / n_total))),
-    col_apc_pre  = sprintf("%s (IC95%%: %s; %s)",
-                           fmt_pct(apc_pre),
-                           fmt_pct(apc_pre_inf),
-                           fmt_pct(apc_pre_sup)),
-    col_apc_pos  = fmt_pct(apc_pos),
-    col_ic_pos   = sprintf("(%s; %s)",
-                           fmt_pct(apc_pos_inf),
-                           fmt_pct(apc_pos_sup)),
-    col_p        = fmt_p(p_pos)
-  ) %>%
+    col_apc_pre = sprintf("%s%% (IC: %s; %s)",
+                          fmt_num(apc_pre), fmt_num(apc_pre_inf), fmt_num(apc_pre_sup)),
+    col_apc_pos = sprintf("%s%% (IC: %s; %s)",
+                          fmt_num(apc_pos), fmt_num(apc_pos_inf), fmt_num(apc_pos_sup)),
+    col_p = fmt_p(p_pos)
+  ) |>
   select(Grupo = grupo_label, `CIDs incluídos` = subgrupos,
          `n (% do total)` = n_pct,
-         `APC pré-Portaria` = col_apc_pre,
-         `APC pós-Portaria` = col_apc_pos,
-         `IC 95%` = col_ic_pos,
+         `APC pré (%/ano)` = col_apc_pre,
+         `APC pós (%/ano, IC 95%)` = col_apc_pos,
          `p-valor` = col_p)
 
-# CSV exportável (versão tidy com colunas numéricas)
-csv_s4 <- its_grupos %>%
-  filter(grupo != "Todos") %>%
-  select(grupo, grupo_nome, n_icsap_tot,
-         apc_pre, apc_pre_inf, apc_pre_sup,
-         apc_pos, apc_pos_inf, apc_pos_sup, p_pos, phi_ar1, modelo)
+# --- Painel B: proporção (p.p./ano) ---
+painel_b <- its_prop |>
+  mutate(
+    grupo_label = case_when(
+      grupo == "09" ~ "Grupo 09 — Cardiovascular",
+      grupo == "10" ~ "Grupo 10 — Respiratório",
+      grupo == "13" ~ "Grupo 13 — Diabetes mellitus"
+    ),
+    col_slope_pre = sprintf("%s pp/ano (IC: %s; %s)",
+                            fmt_num(apc_pre, 2), fmt_num(apc_pre_inf, 2), fmt_num(apc_pre_sup, 2)),
+    col_slope_pos = sprintf("%s pp/ano (IC: %s; %s)",
+                            fmt_num(apc_pos, 2), fmt_num(apc_pos_inf, 2), fmt_num(apc_pos_sup, 2)),
+    col_p = fmt_p(p_pos),
+    interpretacao = dplyr::case_when(
+      grupo == "09" ~ "NS vol. abs. / sig. prop.",
+      grupo == "10" ~ "NS vol. abs. / sig. prop.",
+      grupo == "13" ~ "Sig. vol. abs. / NS prop."
+    )
+  ) |>
+  select(Grupo = grupo_label,
+         `Slope pré (pp/ano)` = col_slope_pre,
+         `Slope pós (pp/ano, IC 95%)` = col_slope_pos,
+         `p-valor` = col_p,
+         Interpretação = interpretacao)
 
+# CSV combinado
+csv_s4 <- bind_rows(
+  its_abs  |> filter(grupo != "Todos") |> mutate(analise = "absoluta"),
+  its_prop |> mutate(analise = "proporcional")
+)
 write_csv(csv_s4, file.path(DIR_PROC, "tabela_s4_its_grupos.csv"))
 message(sprintf("  CSV salvo: %s", file.path(DIR_PROC, "tabela_s4_its_grupos.csv")))
 
-# Tabela gt
-gt_s4 <- tab_s4_raw %>%
-  gt() %>%
+# gt — Painel A
+gt_a <- painel_a |>
+  gt() |>
   tab_header(
-    title    = md("**Tabela S4.** ITS GLS AR(1) por grupo clínico de ICSAP — efeito da Portaria GM/MS 3.493/2024"),
-    subtitle = "BH municipal, jan/2022–mar/2026 (51 meses); intervenção: maio/2024 (mes_num = 29)"
-  ) %>%
-  tab_spanner(
-    label   = md("**Mudança de tendência pós-Portaria**"),
-    columns = c(`APC pós-Portaria`, `IC 95%`, `p-valor`)
-  ) %>%
-  tab_source_note(md(
-    "APC = Annual Percentage Change (% ao ano). IC 95% via método delta (Var(β₁+β₃) = Var(β₁) + \
-Var(β₃) + 2·Cov(β₁,β₃)). Modelo: GLS com estrutura de correlação AR(1) (nlme). \
-Grupos clínicos conforme Portaria SAS/MS nº 221/2008. \
-O efeito da Portaria 3.493/2024 é heterogêneo entre grupos: Diabetes mellitus apresenta \
-a maior redução de tendência (APC pós = −11,4%/ano, p<0,001), consistente com os indicadores \
-de qualidade do ISF Previne Brasil voltados ao controle metabólico. Cardiovascular e \
-respiratório não atingem significância estatística no slope change (p>0,05)."
-  )) %>%
+    title    = md("**Tabela S4A.** ITS GLS AR(1) — Contagem absoluta por grupo clínico"),
+    subtitle = "APC = Annual Percentage Change (%/ano); BH municipal, jan/2022–mar/2026; intervenção: maio/2024"
+  ) |>
+  tab_style(
+    style     = cell_text(weight = "bold", color = "#c0392b"),
+    locations = cells_body(rows = `p-valor` == "<0,001",
+                           columns = c(`APC pós (%/ano, IC 95%)`, `p-valor`))
+  ) |>
   cols_align(align = "center",
-             columns = c(`n (% do total)`, `APC pré-Portaria`,
-                         `APC pós-Portaria`, `IC 95%`, `p-valor`)) %>%
-  cols_align(align = "left", columns = c(Grupo, `CIDs incluídos`)) %>%
+             columns = c(`n (% do total)`, `APC pré (%/ano)`, `APC pós (%/ano, IC 95%)`, `p-valor`)) |>
+  cols_align(align = "left", columns = c(Grupo, `CIDs incluídos`)) |>
+  tab_source_note(md(
+    "IC 95% via método delta (Var(β₁+β₃) = Var(β₁)+Var(β₃)+2·Cov(β₁,β₃)). \
+APC pós = mudança de tendência no volume absoluto do grupo — **não implica efeito clínico seletivo** \
+(ver Tabela S4B para análise proporcional)."
+  )) |>
+  opt_table_font(font = list(google_font("Source Sans Pro"), default_fonts())) |>
+  tab_options(table.font.size=12, data_row.padding=px(5),
+              column_labels.font.weight="bold", source_notes.font.size=10)
+
+# gt — Painel B
+gt_b <- painel_b |>
+  gt() |>
+  tab_header(
+    title    = md("**Tabela S4B.** ITS GLS AR(1) — Composição proporcional (% do total ICSAP)"),
+    subtitle = "GLS linear (outcome: % do grupo no total ICSAP municipal por mês); slope em p.p./ano"
+  ) |>
+  tab_source_note(md(
+    "Slope pós = (β₁+β₃)×12, IC 95% via método delta. \
+**Interpretação crítica (P17/P21):** Diabetes mellitus apresenta redução significativa no \
+volume absoluto (Tabela S4A, p<0,001) mas sem mudança significativa na composição proporcional \
+(p=0,571). Isso indica que a redução de diabetes acompanha proporcionalmente a redução geral de ICSAP, \
+sem evidência de efeito clínico seletivo da Portaria 3.493/2024 sobre esse grupo. \
+Cardiovascular e respiratório sem redução absoluta significativa, mas com aumento de participação \
+proporcional (p<0,01 e p=0,035), reflexo do declínio mais acentuado de outros grupos. \
+A interpretação causal deve ser moderada: 23 meses de seguimento (mai/2024–mar/2026) \
+podem ser insuficientes para atribuir causalidade isolada à Portaria, dada a possível \
+influência de fatores concorrentes (melhora no manejo ambulatorial pós-pandemia, \
+mudanças na codificação SIHSUS). Ausência de padronização etária é limitação adicional."
+  )) |>
   tab_style(
     style     = cell_text(weight = "bold"),
-    locations = cells_body(
-      rows   = `p-valor` == "<0,001",
-      columns = c(`APC pós-Portaria`, `IC 95%`, `p-valor`)
-    )
-  ) %>%
-  tab_style(
-    style     = cell_text(color = "#c0392b", weight = "bold"),
-    locations = cells_body(
-      rows    = `p-valor` == "<0,001",
-      columns = `p-valor`
-    )
-  ) %>%
-  opt_table_font(font = list(google_font("Source Sans Pro"), default_fonts())) %>%
-  tab_options(
-    table.font.size      = 12,
-    data_row.padding     = px(5),
-    column_labels.font.weight = "bold",
-    heading.subtitle.font.size = 11,
-    source_notes.font.size     = 10
-  )
+    locations = cells_body(rows = Grupo == "Grupo 13 — Diabetes mellitus",
+                           columns = c(`Slope pós (pp/ano, IC 95%)`, `p-valor`, Interpretação))
+  ) |>
+  cols_align(align = "center",
+             columns = c(`Slope pré (pp/ano)`, `Slope pós (pp/ano, IC 95%)`, `p-valor`, Interpretação)) |>
+  cols_align(align = "left", columns = Grupo) |>
+  opt_table_font(font = list(google_font("Source Sans Pro"), default_fonts())) |>
+  tab_options(table.font.size=12, data_row.padding=px(5),
+              column_labels.font.weight="bold", source_notes.font.size=10)
 
+# Salva ambos no mesmo arquivo HTML concatenando
+html_a <- as_raw_html(gt_a)
+html_b <- as_raw_html(gt_b)
 html_s4 <- file.path(DIR_DOCS, "tabela_s4_its_grupos.html")
-gtsave(gt_s4, html_s4)
+writeLines(c(html_a, "<br><br>", html_b), html_s4)
 message(sprintf("  HTML salvo: %s", html_s4))
 
 # =============================================================================
-# TABELA S5 — Sensibilidade saneamento estratificado por densidade
+# TABELA S5 — Sensibilidade saneamento (densidade real hab/km²)
 # =============================================================================
 
-message("=== Tabela S5 — Sensibilidade saneamento por tercil de densidade ===")
+message("=== Tabela S5 — Sensibilidade saneamento ===")
 
 san_df <- read_csv(file.path(DIR_PROC, "sensibilidade_saneamento.csv"),
                    show_col_types = FALSE)
 
-tab_s5_raw <- san_df %>%
+# Detecta limites de densidade dos rótulos dos estratos
+tab_s5_raw <- san_df |>
   mutate(
     estrato_fmt = case_when(
-      str_detect(estrato, "Geral")   ~ "Modelo geral (todos os CS)",
-      str_detect(estrato, "T1")      ~ "T1 — Menor densidade (≤ p33)",
-      str_detect(estrato, "T2")      ~ "T2 — Densidade intermediária (p33–p66)",
-      str_detect(estrato, "T3")      ~ "T3 — Maior densidade (≥ p66)",
-      TRUE                           ~ estrato
+      str_detect(estrato, "^Modelo geral") ~ "Modelo geral (todos os 153 CS)",
+      str_detect(estrato, "T1")            ~ estrato,
+      str_detect(estrato, "T2")            ~ estrato,
+      str_detect(estrato, "T3")            ~ estrato,
+      TRUE                                 ~ estrato
     ),
     col_n_cs  = as.character(n_cs),
-    col_n_obs = format(n_obs, big.mark=","),
     col_irr   = fmt_irr(irr_san),
     col_ic    = sprintf("(%s; %s)", fmt_irr(irr_inf), fmt_irr(irr_sup)),
     col_p     = fmt_p(p_san),
@@ -176,58 +199,69 @@ tab_s5_raw <- san_df %>%
       !is.na(irr_ivs),
       sprintf("%s (%s)", fmt_irr(irr_ivs), fmt_p(p_ivs)),
       "—"
-    )
-  ) %>%
-  select(Estrato = estrato_fmt,
-         `N CS`  = col_n_cs,
-         `N obs` = col_n_obs,
-         `IRR saneamento` = col_irr,
-         `IC 95%` = col_ic,
-         `p-valor` = col_p,
-         `IRR IVS (p)` = col_irr_ivs)
+    ),
+    sig = p_san < 0.05
+  ) |>
+  select(Estrato = estrato_fmt, `N CS` = col_n_cs,
+         `IRR saneamento` = col_irr, `IC 95%` = col_ic,
+         `p-valor` = col_p, `IRR IVS (p)` = col_irr_ivs, sig)
 
-# CSV exportável
 write_csv(san_df, file.path(DIR_PROC, "tabela_s5_saneamento_estratificado.csv"))
 message(sprintf("  CSV salvo: %s", file.path(DIR_PROC, "tabela_s5_saneamento_estratificado.csv")))
 
-# Tabela gt
-gt_s5 <- tab_s5_raw %>%
-  gt() %>%
+gt_s5 <- tab_s5_raw |>
+  select(-sig) |>
+  gt() |>
   tab_header(
-    title    = md("**Tabela S5.** Análise de sensibilidade: efeito de saneamento por tercil de densidade populacional"),
-    subtitle = "Poisson FE two-way (regional + ano); IC 95% cluster-robusto por CS; série jan/2022–mar/2026"
-  ) %>%
+    title    = md("**Tabela S5.** Efeito de saneamento estratificado por densidade populacional real"),
+    subtitle = "Densidade = pop_total_censo / área_km² (polígonos PBH); Poisson FE (regional + ano); IC 95% cluster-robusto por CS"
+  ) |>
   tab_row_group(
-    label = md("**Modelos estratificados**"),
+    label = md("**Modelos estratificados por tercil de densidade (hab/km²)**"),
     rows  = str_starts(Estrato, "T")
-  ) %>%
+  ) |>
   tab_row_group(
     label = md("**Referência**"),
     rows  = str_starts(Estrato, "Modelo")
-  ) %>%
-  row_group_order(groups = c("**Referência**", "**Modelos estratificados**")) %>%
-  tab_source_note(md(
-    "IRR = incidence rate ratio. Saneamento = % domicílios sem rede geral de água (Censo 2022). \
-IVS = Índice de Vulnerabilidade Social (SMSA/PBH). Tercis calculados sobre \
-população total por CS (Censo 2022): T1 ≤ 11.323 hab; T2 = 11.323–15.696 hab; T3 ≥ 15.696 hab. \
-O IRR de saneamento torna-se não significativo em todos os estratos de densidade (p = 0,28–0,96), \
-contrariamente ao modelo geral (p = 0,007). Este padrão é consistente com confundimento \
-ecológico: a associação observada entre pior saneamento e menor ICSAP reflete, provavelmente, \
-a correlação entre áreas periféricas (menor densidade, pior saneamento) e menor acesso \
-hospitalar — e não um efeito protetor direto do saneamento inadequado."
-  )) %>%
+  ) |>
+  row_group_order(groups = c("**Referência**",
+                             "**Modelos estratificados por tercil de densidade (hab/km²)**")) |>
   tab_style(
     style     = cell_text(weight = "bold"),
     locations = cells_body(rows = str_starts(Estrato, "Modelo"))
-  ) %>%
+  ) |>
   tab_style(
-    style     = cell_fill(color = "#f8f9fa"),
-    locations = cells_body(rows = str_starts(Estrato, "Modelo"))
-  ) %>%
+    style     = cell_fill(color = "#fff3cd"),  # amarelo para sig inesperado
+    locations = cells_body(
+      rows    = `p-valor` < "0,050" & str_starts(Estrato, "T1"),
+      columns = everything()
+    )
+  ) |>
+  tab_style(
+    style     = cell_text(color = "#c0392b", weight = "bold"),
+    locations = cells_body(
+      rows    = str_starts(Estrato, "T1"),
+      columns = `p-valor`
+    )
+  ) |>
   cols_align(align = "center",
-             columns = c(`N CS`, `N obs`, `IRR saneamento`, `IC 95%`, `p-valor`, `IRR IVS (p)`)) %>%
-  cols_align(align = "left", columns = Estrato) %>%
-  opt_table_font(font = list(google_font("Source Sans Pro"), default_fonts())) %>%
+             columns = c(`N CS`, `IRR saneamento`, `IC 95%`, `p-valor`, `IRR IVS (p)`)) |>
+  cols_align(align = "left", columns = Estrato) |>
+  tab_source_note(md(
+    "IRR = incidence rate ratio. Saneamento = % domicílios sem rede geral de água (Censo 2022). \
+IVS = Índice de Vulnerabilidade Social (SMSA/PBH). Densidade real (hab/km²) calculada \
+a partir dos polígonos oficiais de área de abrangência dos CS (PBH/SMSA). \
+**T1 (baixa densidade, ≤ 7.828 hab/km²): IRR = 0,943 (p<0,001) — associação significativa, \
+confirmando a hipótese de confundimento ecológico.** Em áreas pouco densas, pior saneamento \
+coexiste com menor acesso hospitalar, produzindo menor registro de internações. \
+T2 e T3 (densidade intermediária e alta): IRR não significativo (p>0,28). \
+Interação saneamento×densidade (contínua): IRR = 1,014; p = 0,051 (marginalmente NS). \
+Esses resultados sugerem que a associação observada no modelo geral é mediada pela \
+concentração do efeito em áreas de baixa densidade, consistente com viés de acesso diferencial, \
+mas análises adicionais com dados de utilização hospitalar são necessárias para confirmar \
+o mecanismo."
+  )) |>
+  opt_table_font(font = list(google_font("Source Sans Pro"), default_fonts())) |>
   tab_options(
     table.font.size           = 12,
     data_row.padding          = px(5),
