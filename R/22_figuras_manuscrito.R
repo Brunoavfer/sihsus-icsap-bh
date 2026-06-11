@@ -148,19 +148,19 @@ boxes_main <- bind_rows(
          sprintf("Total de internações em BH\n(residentes e internados em BH)\nn = %s", fmt_n(N_BH)),
          "white"),
   mk_box("D1", 0.10, 0.450, 0.68, 0.535, "#2874A6",
-         sprintf("ICSAP — Internações por Condições Sensíveis à Atenção Primária\nPortaria SAS/MS nº 221/2008 — 479 CIDs\nn = %s (17,8%%)", fmt_n(N_ICSAP)),
+         sprintf("ICSAP — Internações por Condições Sensíveis à Atenção Primária\nPortaria SAS/MS nº 221/2008 — 479 códigos CID-10\nn = %s (17,8%%)", fmt_n(N_ICSAP)),
          "white"),
   mk_box("E1", 0.10, 0.295, 0.68, 0.380, "#2980B9",
-         sprintf("CEP geocodificado (CS identificado)\nn = %s (86,4%%)", fmt_n(N_GEO)),
+         sprintf("CEP geocodificado — Centro de Saúde (CS) identificado\nn = %s (86,4%%)", fmt_n(N_GEO)),
          "white")
 )
 
 boxes_analysis <- bind_rows(
   mk_box("F1", 0.02, 0.060, 0.43, 0.175, "#1B4F72",
-         sprintf("Análise temporal\n(ITS-GLS AR[1] + Joinpoint)\nn = %s ICSAP | 51 meses", fmt_n(N_ICSAP)),
+         sprintf("Análise temporal\n(ITS-GLS AR(1) + Joinpoint regression)\nn = %s ICSAP | 51 meses", fmt_n(N_ICSAP)),
          "white"),
   mk_box("F2", 0.45, 0.060, 0.99, 0.175, "#154360",
-         sprintf("Análise espacial\n(Moran’s I + GEE AR[1] + Poisson FE)\n153 CS × 36–51 meses | n = %s", fmt_n(N_GEO)),
+         sprintf("Análise espacial\n(Índice de Moran + GEE AR(1) + Poisson com efeitos fixos)\n153 CS × 36–51 meses | n = %s", fmt_n(N_GEO)),
          "white")
 )
 
@@ -172,7 +172,7 @@ boxes_excl <- bind_rows(
   mk_box("X3", 0.72, 0.600, 0.99, 0.685, "#FADBD8",
          sprintf("Não classificadas como ICSAP\n(excluídas da análise)\nn = %s (82,2%%)", fmt_n(N_NAICSAP))),
   mk_box("X4", 0.72, 0.450, 0.99, 0.535, "#FAD7A0",
-         sprintf("Sem geocodificação\n(MNAR — analisado)\nn = %s (13,6%%)", fmt_n(N_NGEO)))
+         sprintf("Sem geocodificação de CEP\n(padrão MNAR — analisado separadamente)\nn = %s (13,6%%)", fmt_n(N_NGEO)))
 )
 
 segs_v <- tribble(
@@ -230,7 +230,19 @@ fig1 <- ggplot() +
       "à atenção primária (ICSAP). Belo Horizonte, Minas Gerais, Brasil,\n",
       "janeiro de 2022 a março de 2026."
     ),
-    caption = "CS: Centro de Saúde. STROBE: Von Elm et al., Lancet. 2007;370(9596):1453-7."
+    caption = paste0(
+      "AR(1): estrutura autorregressiva de primeira ordem. ",
+      "BH: Belo Horizonte. ",
+      "CEP: Código de Endereçamento Postal. ",
+      "CID-10: Classificação Internacional de Doenças, 10ª revisão. ",
+      "CS: Centro de Saúde. ",
+      "GEE: Equações de Estimação Generalizada. ",
+      "GLS: Mínimos Quadrados Generalizados. ",
+      "ICSAP: Internações por Condições Sensíveis à Atenção Primária. ",
+      "ITS: Interrupção de Série Temporal. ",
+      "MNAR: Missing Not at Random (dado ausente de forma não aleatória). ",
+      "STROBE: Von Elm et al., Lancet. 2007;370(9596):1453-7."
+    )
   ) +
   theme(
     plot.title      = element_text(size = 9, face = "bold", hjust = 0,
@@ -243,7 +255,7 @@ fig1 <- ggplot() +
 
 ragg::agg_png(
   filename   = file.path(DIR_DOCS, "figura1_fluxograma_strobe.png"),
-  width      = W_IN, height = W_IN * 1.35, units = "in",
+  width      = 8.5, height = 11, units = "in",
   res        = DPI, background = "white"
 )
 print(fig1)
