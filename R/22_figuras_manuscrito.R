@@ -1141,7 +1141,7 @@ tab2 <- tribble(
 
   "2. Determinantes da taxa ICSAP — Poisson FE dois sentidos (153 CS)",
   "Dose-resposta: nº equipes ESF vs. Q1 (1–4 equipes)",
-  "Q3–Q4 (≥ 7 equipes) — IRR",
+  "Q3–Q4 (≥ 7 equipes) — IRRʲ",
   "0,987",
   "(0,962; 1,013)",
   "0,287",
@@ -1219,6 +1219,11 @@ rodape_tab2 <- list(
   md(paste0("^i^ Análise estratificada por densidade real (hab/km²) mostrou IRR<1 significativo ",
             "apenas em CS de baixa densidade (T1: IRR=0,943; p<0,001), sugerindo confundimento ",
             "por acessibilidade hospitalar. Ver Tabela S5 para detalhes.")),
+  md(paste0("^j^ O efeito protetor da cobertura ESF não persiste em CS com ≥7 equipes ",
+            "(Q3: IRR=0,950; IC 95%: 0,848–1,065; p=0,378; Q4: IRR=1,075; 0,909–1,270; p=0,399). ",
+            "A não-linearidade pode refletir confundimento residual: CS com ≥7 equipes tendem a ser ",
+            "maiores, com maior demanda reprimida e perfil epidemiológico distinto, o que atenua o ",
+            "efeito protetor linear da cobertura ESF sobre a taxa ICSAP.")),
   md("Fonte: SIH/SUS – DATASUS. Elaboração própria.")
 )
 
@@ -1248,8 +1253,9 @@ gt2 <- tab2 |>
   tab_source_note(rodape_tab2[[6]]) |>
   tab_source_note(rodape_tab2[[7]]) |>
   tab_source_note(rodape_tab2[[8]]) |>
-  tab_source_note(rodape_tab2[[9]]) |>
+  tab_source_note(rodape_tab2[[9]])  |>
   tab_source_note(rodape_tab2[[10]]) |>
+  tab_source_note(rodape_tab2[[11]]) |>
   tab_style(
     style     = list(cell_fill(color = "#1A5276"),
                      cell_text(color = "white", weight = "bold")),
