@@ -54,16 +54,18 @@ mw_p <- function(x, grp) {
            error = function(e) NA_real_)
 }
 
-# Quebras de Jenks para mapas (deduplicadas para evitar erros no cut())
-jenks_breaks <- function(x, n = 5) {
-  x_valid <- x[!is.na(x)]
-  n <- min(n, length(unique(x_valid)))
-  if (n < 2) return(c(min(x_valid) - 1, max(x_valid) + 1))
+# Quebras de Jenks para mapas (robusta: deduplicada, filtra NA e Inf)
+jenks_breaks_safe <- function(x, n = 5) {
+  x_valid <- x[!is.na(x) & is.finite(x)]
+  if (length(unique(x_valid)) < 2) {
+    return(c(min(x_valid, na.rm = TRUE) - 1e-6,
+             max(x_valid, na.rm = TRUE) + 1e-6))
+  }
+  n    <- min(n, length(unique(x_valid)))
   brks <- classIntervals(x_valid, n = n, style = "jenks")$brks
   brks <- unique(brks)
-  # Garante que min e max estejam cobertos com pequena margem
-  brks[1]          <- min(x_valid) - 1e-6
-  brks[length(brks)] <- max(x_valid) + 1e-6
+  brks[1]             <- min(x_valid) - 1e-6
+  brks[length(brks)]  <- max(x_valid) + 1e-6
   brks
 }
 
@@ -529,6 +531,7 @@ cat("Figura 2 salva: 14\" x 14\" a 300 DPI\n")
 cat("Gerando Figura 3 (mapa quádruplo)...\n")
 
 sf_cs <- st_read(file.path(DIR_REF, "areas_abrangencia_cs.geojson"), quiet = TRUE) |>
+  st_make_valid() |>
   st_transform(4326)
 
 sf_reg <- sf_cs |>
@@ -600,32 +603,35 @@ top5_evit <- sf_cs_map |> st_drop_geometry() |>
 
 # Centroides CS para top labels
 sf_lab3 <- suppressWarnings(
-  sf_cs_map |> filter(nome_cs %in% top3_taxa$nome_cs) |> st_centroid()) |>
+  sf_cs_map |> filter(nome_cs %in% top3_taxa$nome_cs) |>
+    st_transform(31983) |> st_point_on_surface() |> st_transform(4326)) |>
   mutate(X = st_coordinates(geometry)[, 1], Y = st_coordinates(geometry)[, 2]) |>
   st_drop_geometry() |>
   left_join(top3_taxa |> select(nome_cs, label_cs), by = "nome_cs")
 
 sf_lab5 <- suppressWarnings(
-  sf_cs_map |> filter(nome_cs %in% top5_evit$nome_cs) |> st_centroid()) |>
+  sf_cs_map |> filter(nome_cs %in% top5_evit$nome_cs) |>
+    st_transform(31983) |> st_point_on_surface() |> st_transform(4326)) |>
   mutate(X = st_coordinates(geometry)[, 1], Y = st_coordinates(geometry)[, 2]) |>
   st_drop_geometry() |>
   left_join(top5_evit |> select(nome_cs, label_cs), by = "nome_cs")
 
-# Centroides regionais para ggrepel
-sf_reg_labels <- suppressWarnings(sf_reg_map |> st_centroid()) |>
+# Pontos dentro dos polígonos regionais para ggrepel
+sf_reg_labels <- suppressWarnings(
+  sf_reg_map |> st_transform(31983) |> st_point_on_surface() |> st_transform(4326)) |>
   mutate(X = st_coordinates(geometry)[, 1], Y = st_coordinates(geometry)[, 2]) |>
   st_drop_geometry()
 
 # Quebras Jenks para cada variável
-brk_taxa_reg  <- jenks_breaks(sf_reg_map$taxa_pad_media_reg,  n = 5)
-brk_evit_reg  <- jenks_breaks(sf_reg_map$evitadas_reg,        n = 5)
-brk_taxa_cs   <- jenks_breaks(sf_cs_map$taxa_pad_media,       n = 5)
-brk_evit_cs   <- jenks_breaks(sf_cs_map$evitadas_central,     n = 5)
+brk_taxa_reg  <- jenks_breaks_safe(sf_reg_map$taxa_pad_media_reg,  n = 5)
+brk_evit_reg  <- jenks_breaks_safe(sf_reg_map$evitadas_reg,        n = 5)
+brk_taxa_cs   <- jenks_breaks_safe(sf_cs_map$taxa_pad_media,       n = 5)
+brk_evit_cs   <- jenks_breaks_safe(sf_cs_map$evitadas_central,     n = 5)
 
 fmt_brk <- function(b) {
   # Usa 1 casa decimal para evitar repetição do mesmo valor nos limites adjacentes
   vals <- formatC(b, digits = 1, format = "f", decimal.mark = ",")
-  paste0(vals[-length(vals)], "–", vals[-1])
+  paste0(vals[-length(vals)], "-", vals[-1])
 }
 
 sf_reg_map <- sf_reg_map |>
@@ -809,8 +815,8 @@ fig3 <- (p3a | p3b) / (p3c | p3d) +
 suppressWarnings({
   ragg::agg_png(
     filename   = file.path(DIR_DOCS, "figura3_mapa_quadruplo.png"),
-    width      = 14, height = 12, units = "in",
-    res        = DPI, background = "white"
+    width      = 10, height = 8.5, units = "in",
+    res        = 150, background = "white"          # teste; aumentar para 14×12 res=300
   )
   print(fig3)
   dev.off()
