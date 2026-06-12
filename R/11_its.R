@@ -440,8 +440,10 @@ p_bh <- ggplot(serie_bh, aes(x = data)) +
     panel.grid.minor = element_blank()
   )
 
-ggsave(file.path(DIR_DOCS, "its_bh.png"), p_bh,
-       width = 11, height = 6.5, dpi = 300, bg = "white")
+ragg::agg_png(file.path(DIR_DOCS, "its_bh.png"),
+              width = 11, height = 6.5, units = "in", res = 300, background = "white")
+print(p_bh)
+dev.off()
 message("  Gráfico BH salvo: docs/its_bh.png")
 
 # Gráfico regional (fitted + observado por regional)
@@ -499,8 +501,10 @@ if (nrow(fitted_reg_df) > 0) {
       panel.grid.minor = element_blank()
     )
 
-  ggsave(file.path(DIR_DOCS, "its_regional.png"), p_reg,
-         width = 12, height = 10, dpi = 300, bg = "white")
+  ragg::agg_png(file.path(DIR_DOCS, "its_regional.png"),
+               width = 12, height = 10, units = "in", res = 300, background = "white")
+  print(p_reg)
+  dev.off()
   message("  Gráfico regional salvo: docs/its_regional.png")
 }
 
