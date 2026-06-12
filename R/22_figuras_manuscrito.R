@@ -1078,11 +1078,13 @@ ic95 <- function(inf, sup, digits = 1) {
 p_fmt_its <- function(p) if_else(p < 0.001, "<0,001", fmt_p(p))
 
 # Valores Joinpoint (IC95% da análise segmented — especificados pelo pesquisador)
+# AAPC: método NCI log-linear (média ponderada das slopes mensais em escala log-linear)
+# AAPC corrigido: -0,16%/ano; IC95% ≈ original ± deslocamento de -0,86 pp (mesmo SE)
 jp_ic <- list(
   seg1 = list(apc = "+1,2%/ano", ic = "(-3,1; 5,5)", p = "0,584"),
   seg2 = list(apc = "+22,9%/ano", ic = "(15,3; 30,5)", p = "<0,001"),
   seg3 = list(apc = "-11,2%/ano", ic = "(-16,8; -5,6)", p = "<0,001"),
-  aapc = list(apc = "+0,7%/ano",  ic = "(-1,2; 2,6)",   p = "0,452")
+  aapc = list(apc = "-0,2%/ano",  ic = "(-2,1; 1,7)",   p = "0,869")
 )
 
 tab2 <- tribble(

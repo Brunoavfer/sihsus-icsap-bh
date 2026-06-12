@@ -131,11 +131,11 @@ fit_joinpoint <- function(df, y_col = "log_taxa", x_col = "mes_num",
     APC        = round((exp(12 * slopes) - 1) * 100, 2)
   )
 
-  # AAPC: média ponderada dos APCs pelo comprimento do segmento
+  # AAPC: média ponderada das slopes mensais (escala log-linear, padrão NCI)
+  # AAPC = (exp(12 × Σ(βₖ × wₖ) / Σwₖ) - 1) × 100
   comprimentos <- segmentos$mes_fim - segmentos$mes_inicio
-  aapc <- round(
-    sum(segmentos$APC * comprimentos) / sum(comprimentos), 2
-  )
+  slope_medio  <- sum(segmentos$slope * comprimentos) / sum(comprimentos)
+  aapc <- round((exp(12 * slope_medio) - 1) * 100, 2)
 
   list(
     modelo     = best_mod,
