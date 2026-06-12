@@ -231,6 +231,7 @@ message("\n=== 4. IRR e IC 95% ===")
 extrai_irr <- function(mod, nome_modelo) {
   cf  <- coef(mod)
   ci  <- confint(mod, level = 0.95)
+  ci  <- ci[names(cf), , drop = FALSE]   # NB: confint inclui theta extra — alinha com coef()
   pv  <- pvalue(mod)
   tibble(
     modelo   = nome_modelo,
