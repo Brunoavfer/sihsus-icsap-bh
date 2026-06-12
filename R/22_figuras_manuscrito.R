@@ -1360,114 +1360,28 @@ cat("\nGerando Tabela S3 (sensibilidade NB — sobredispersão)...\n")
 suppressPackageStartupMessages(library(MASS))
 select <- dplyr::select  # MASS mascara dplyr::select
 
-icsap_r <- read_csv(file.path(DIR_DATA, "icsap_bh_regional.csv"),
-                    show_col_types = FALSE)
-ivs_cs  <- read_csv(file.path(DIR_REF,  "ivs_por_cs.csv"),
-                    show_col_types = FALSE)
-var_cs  <- read_csv(file.path(DIR_REF,  "variaveis_cs.csv"),
-                    show_col_types = FALSE)
+# Lê M2 (Poisson) e M2_NB diretamente de poisson_resultados.csv — MESMA especificação
+poi_s3 <- read_csv(file.path(DIR_DATA, "poisson_resultados.csv"), show_col_types = FALSE)
 
-# Covariáveis CS-nível (Censo 2022, time-invariant)
-cov_cs <- var_cs |>
-  group_by(nome_cs) |>
-  summarise(
-    pct_sem_saneamento = mean(pct_sem_saneamento, na.rm = TRUE),
-    pop_total_censo    = first(pop_total_censo),
-    regional           = first(regional),
-    .groups = "drop"
-  )
-
-# Painel: n_icsap por CS × ano × mês
-painel_nb <- icsap_r |>
-  filter(!is.na(nome_cs)) |>
+tab_s3_data <- poi_s3 |>
+  filter(modelo %in% c("M2_contextual", "M2_NB"),
+         variavel %in% c("ivs_score", "pct_sem_saneamento")) |>
   mutate(
-    ano_cmpt   = as.integer(ano_cmpt),
-    mes_cmpt_n = as.integer(mes_cmpt)
-  ) |>
-  group_by(nome_cs, ano_cmpt, mes_cmpt_n) |>
-  summarise(n_icsap = n(), .groups = "drop") |>
-  left_join(cov_cs,                                 by = "nome_cs") |>
-  left_join(ivs_cs |> select(nome_cs, ivs_score), by = "nome_cs") |>
-  filter(!is.na(pop_total_censo), !is.na(ivs_score), pop_total_censo > 0)
-
-cat(sprintf("  Painel NB: %d obs, %d CS únicos\n",
-            nrow(painel_nb), n_distinct(painel_nb$nome_cs)))
-
-# Modelo Poisson M2 — regional + ano FE
-mod_pois_m2 <- tryCatch(
-  glm(n_icsap ~ ivs_score + pct_sem_saneamento +
-        factor(regional) + factor(ano_cmpt),
-      family = poisson(link = "log"),
-      offset = log(pop_total_censo),
-      data   = painel_nb),
-  error = function(e) { cat("  ERRO Poisson:", conditionMessage(e), "\n"); NULL }
-)
-
-# Modelo Binomial Negativo M2 — regional + ano FE
-mod_nb_m2 <- tryCatch(
-  MASS::glm.nb(
-    n_icsap ~ ivs_score + pct_sem_saneamento +
-      factor(regional) + factor(ano_cmpt) + offset(log(pop_total_censo)),
-    data = painel_nb
-  ),
-  error = function(e) { cat("  ERRO NB:", conditionMessage(e), "\n"); NULL }
-)
-
-# Extrair IRR com IC95%
-extract_irr <- function(mod, modelo_nome) {
-  if (is.null(mod)) return(NULL)
-  s  <- summary(mod)$coefficients
-  ci <- tryCatch(suppressMessages(confint(mod)),
-                 error = function(e) {
-                   se <- s[, "Std. Error"]
-                   cbind(coef(mod) - 1.96 * se, coef(mod) + 1.96 * se)
-                 })
-  variaveis <- c("ivs_score", "pct_sem_saneamento")
-  purrr::map_dfr(variaveis, function(v) {
-    if (!v %in% rownames(s)) return(NULL)
-    b <- coef(mod)[v]
-    tibble(
-      modelo   = modelo_nome,
-      variavel = v,
-      irr      = exp(b),
-      ic_inf   = exp(ci[v, 1]),
-      ic_sup   = exp(ci[v, 2]),
-      p_valor  = s[v, ncol(s)]
-    )
-  })
-}
-
-res_pois <- extract_irr(mod_pois_m2, "Poisson M2 (FE regional+ano)")
-res_nb   <- extract_irr(mod_nb_m2,   "Binomial Negativo M2 (FE regional+ano)")
-
-disp_pois <- if (!is.null(mod_pois_m2)) {
-  p  <- sum(residuals(mod_pois_m2, "pearson")^2)
-  df <- mod_pois_m2$df.residual
-  formatC(p / df, digits = 2, format = "f", decimal.mark = ",")
-} else "—"
-
-theta_nb <- if (!is.null(mod_nb_m2)) {
-  formatC(mod_nb_m2$theta, digits = 2, format = "f", decimal.mark = ",")
-} else "—"
-
-cat(sprintf("  Pearson χ²/gl Poisson: %s | θ NB: %s\n", disp_pois, theta_nb))
-
-tab_s3_data <- bind_rows(res_pois, res_nb) |>
-  mutate(
-    variavel_label = case_when(
-      variavel == "ivs_score"          ~ "IVS-BH (por 1 ponto)",
-      variavel == "pct_sem_saneamento" ~ "% sem saneamento básico (por 1 p.p.)",
-      TRUE ~ variavel
-    ),
-    irr_fmt = formatC(irr,    digits = 3, format = "f", decimal.mark = ","),
-    ic_fmt  = paste0("(",
-                     formatC(ic_inf, digits = 3, format = "f", decimal.mark = ","),
-                     "; ",
-                     formatC(ic_sup, digits = 3, format = "f", decimal.mark = ","),
-                     ")"),
+    modelo = recode(modelo,
+                    "M2_contextual" = "Poisson M2 (FE regional+ano)",
+                    "M2_NB"         = "Binomial Negativo M2 (FE regional+ano)"),
+    variavel_label = recode(variavel,
+                    "ivs_score"          = "IVS-BH (por 1 ponto)",
+                    "pct_sem_saneamento" = "% sem saneamento básico (por 1 p.p.)"),
+    irr_fmt = formatC(irr, digits = 3, format = "f", decimal.mark = ","),
+    ic_fmt  = sprintf("(%s; %s)",
+                      formatC(ic_inf, digits = 3, format = "f", decimal.mark = ","),
+                      formatC(ic_sup, digits = 3, format = "f", decimal.mark = ",")),
     p_fmt   = if_else(p_valor < 0.001, "<0,001",
                       formatC(p_valor, digits = 3, format = "f", decimal.mark = ","))
-  )
+  ) |>
+  select(modelo, variavel, irr, ic_inf, ic_sup, p_valor,
+         variavel_label, irr_fmt, ic_fmt, p_fmt)
 
 write_csv(tab_s3_data, file.path(DIR_DOCS, "tabela_s3_sensibilidade_nb.csv"))
 
@@ -1486,12 +1400,11 @@ if (nrow(tab_s3_data) > 0) {
       subtitle = "Modelo M2: efeitos fixos por Regional e Ano (153 CS × 51 meses)"
     ) |>
     tab_source_note(md(paste0(
-      "Modelos equivalentes ao M2 do texto principal (Poisson FE regional+ano). ",
-      "IRR: Incidence Rate Ratio. IC: Intervalo de Confiança de 95%.\n",
-      sprintf("Dispersão Pearson χ²/gl — Poisson: %s. Parâmetro de forma θ (NB): %s.",
-              disp_pois, theta_nb),
-      " Consistência dos IRRs entre Poisson e NB confirma robustez das estimativas ",
-      "frente à sobredispersão moderada."
+      "Poisson e Binomial Negativo ajustados sob a mesma especificação do M2 (contextual): ",
+      "FE Regional + Ano, offset log(pop), sazonalidade harmônica e covariáveis contextuais ",
+      "(IVS, área de favela, renda, saneamento), erros padrão clusterizados por CS. ",
+      "O IRR do Poisson reproduz o do texto principal.\n",
+      "IRR: Incidence Rate Ratio. IC: Intervalo de Confiança de 95%."
     ))) |>
     tab_style(
       style = list(cell_fill(color = "#1A5276"),

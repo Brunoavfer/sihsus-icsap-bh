@@ -347,6 +347,32 @@ if (disp_M1 > 1.5) {
   message(sprintf("  Dispersão M1 = %.2f ≤ 1.5 → Poisson adequado, NB desnecessário", disp_M1))
 }
 
+# -----------------------------------------------------------------------------
+# 6b. Sensibilidade NB para o M2_contextual (mesma especificação do texto principal)
+#     Objetivo: comparar Poisson vs NB SOB A MESMA fórmula/painel/offset do M2.
+# -----------------------------------------------------------------------------
+message("\n=== 6b. Sensibilidade NB — M2_contextual ===")
+
+res_M2_nb <- NULL
+M2_nb     <- NULL
+
+tryCatch({
+  M2_nb <- femlm(
+    n_icsap ~ mes_num + sin12 + cos12 +
+      ivs_score + pct_area_favela + renda_media + pct_sem_saneamento +
+      offset(log(pop_cs)) | regional + ano_fac,
+    family = "negbin",
+    data   = painel,
+    vcov   = ~nome_cs
+  )
+  res_M2_nb <- extrai_irr(M2_nb, "M2_NB")
+  imprime_mod(res_M2_nb, "M2_NB")
+  message(sprintf("  M2_NB: IVS IRR = %.3f | theta = %.2f",
+                  exp(coef(M2_nb)["ivs_score"]), M2_nb$theta))
+}, error = function(e) {
+  message("  AVISO: femlm NB para M2 falhou (", conditionMessage(e), ")")
+})
+
 # =============================================================================
 # 7. Dose-resposta n_esf (quartis pré-especificados)
 # =============================================================================
@@ -609,7 +635,8 @@ resultados_all <- bind_rows(
   res_dr,
   res_cnes_ok,
   res_geo_ok,
-  if (!is.null(res_nb)) res_nb
+  if (!is.null(res_nb))    res_nb,
+  if (!is.null(res_M2_nb)) res_M2_nb
 ) %>%
   mutate(
     n_obs = case_when(
@@ -619,6 +646,7 @@ resultados_all <- bind_rows(
       modelo == "M_dose_resposta"  ~ nobs(M_dr),
       modelo == "M3_cnes_completo" ~ nobs(M3_cnes_ok),
       modelo == "M1_geo_70pct"     ~ nobs(M1_geo_ok),
+      modelo == "M2_NB"            ~ tryCatch(nobs(M2_nb), error = function(e) NA_integer_),
       TRUE                         ~ NA_integer_
     ),
     dispersao_pearson = case_when(
