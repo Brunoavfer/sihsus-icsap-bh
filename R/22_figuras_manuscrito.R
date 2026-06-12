@@ -715,7 +715,7 @@ p3b <- ggplot(sf_reg_map) +
     fontface = "bold", inherit.aes = FALSE
   ) +
   scale_fill_manual(
-    name   = "Internações ICSAP\nevitadas (n)",
+    name   = "Evitadas (n)",
     values = setNames(pal_ylorrd(n_cls_evit_reg),
                       levels(sf_reg_map$cl_evit)),
     na.value = "grey85", drop = FALSE
@@ -727,7 +727,8 @@ p3b <- ggplot(sf_reg_map) +
                          height = unit(0.65, "cm"), width = unit(0.45, "cm")) +
   coord_sf(expand = FALSE) +
   labs(title = "B — Internações evitadas por Regional") +
-  theme_mapa()
+  theme_mapa() +
+  theme(legend.key.width = unit(8, "mm"))
 
 # Painel C: taxa por CS
 p3c <- ggplot(sf_cs_map) +
@@ -773,7 +774,7 @@ p3d <- ggplot(sf_cs_map) +
     fontface = "bold", inherit.aes = FALSE
   ) +
   scale_fill_manual(
-    name   = "Internações ICSAP\nevitadas (n)",
+    name   = "Evitadas (n)",
     values = setNames(pal_ylorrd(n_cls_evit_cs),
                       levels(sf_cs_map$cl_evit)),
     na.value = "grey85", drop = FALSE
@@ -785,7 +786,14 @@ p3d <- ggplot(sf_cs_map) +
                          height = unit(0.65, "cm"), width = unit(0.45, "cm")) +
   coord_sf(expand = FALSE) +
   labs(title = "D  Internações evitadas por CS") +
-  theme_mapa()
+  theme_mapa() +
+  theme(
+    legend.key.width  = unit(8, "mm"),
+    legend.key.height = unit(5, "mm"),
+    legend.box.margin = margin(0, 15, 0, 5, "mm"),
+    legend.text       = element_text(size = 5.5),
+    legend.title      = element_text(size = 6.5, face = "bold")
+  )
 
 fig3 <- (p3a | p3b) / (p3c | p3d) +
   plot_annotation(
