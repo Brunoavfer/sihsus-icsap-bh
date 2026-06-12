@@ -343,6 +343,12 @@ p2a <- ggplot(ev, aes(x = data, y = n_icsap, fill = periodo)) +
            label = "Portaria GM/MS nº 3.493/2024",
            size = 3.0, hjust = 0, colour = "#C0392B",
            lineheight = 1.2, fontface = "bold") +
+  annotate("text",
+           x = as.Date("2024-03-01"),
+           y = max(ev$n_icsap) * 0.92,
+           label = "Epidemia\ndengue 2024",
+           size = 2.0, colour = "#8B0000",
+           hjust = 0.5, fontface = "italic") +
   scale_fill_manual(
     values = c("Pré-intervenção" = "#90CAF9", "Pós-intervenção" = "#1565C0"),
     name = NULL) +
@@ -492,6 +498,11 @@ fig2_final <- (p2a | p2b) / (p2c | p2d) +
         "A linha vertical tracejada indica o início da vigência da Portaria ",
         "GM/MS nº 3.493/2024 (maio/2024). APC: Annual Percent Change. ",
         "IC: Intervalo de Confiança de 95%. Modelo: ITS com GLS e correção AR(1). ",
+        "O pico de internações em abril/2024 foi atribuído à epidemia de dengue ",
+        "(grupo G04: +3.570% vs média mensal de 2023). Análise de sensibilidade ",
+        "excluindo março–abril/2024 produziu APC pós = −10,1%/ano ",
+        "(IC 95%: −14,1 a −5,9), indicando que a epidemia atenuou, não criou, ",
+        "o efeito estimado da Portaria (ver Tabela S6). ",
         "Fonte: SIH/SUS – DATASUS. Elaboração própria."
       ),
       width = 140
@@ -1228,14 +1239,20 @@ rodape_tab2 <- list(
             "CS de média e alta densidade: IRR não significativo (p>0,28). ",
             "A direção contraintuitiva (menor saneamento → menos ICSAP registradas) pode refletir ",
             "sub-registro em áreas periféricas por menor acesso hospitalar diferencial.")),
-  md(paste0("^j^ Q3–Q4 (≥7 equipes ESF): n=51 CS (Q3=29 CS; Q4=22 CS; 44,8% dos 116 CS com dados CNES). ",
-            "O efeito protetor não persiste nessa faixa ",
+  md(paste0("^j^ Q3–Q4 (≥7 equipes ESF): n=51 CS (Q3=29; Q4=22; 44,8% dos 116 CS com dados CNES). ",
+            "O efeito protetor não se mantém nessa faixa ",
             "(Q3: IRR=0,950; IC 95%: 0,848–1,065; p=0,378; ",
-            "Q4: IRR=1,075; IC 95%: 0,909–1,270; p=0,399). ",
-            "Dois fatores concorrentes: (1) menor poder estatístico em Q4 (n=22 CS); ",
-            "(2) possível confundimento — CS com ≥7 equipes tendem a atender populações em ",
-            "áreas de maior densidade urbana, com maior proximidade a hospitais, ",
-            "o que pode atenuar o efeito protetor real das equipes adicionais.")),
+            "Q4: IRR=1,075; IC 95%: 0,909–1,270; p=0,399), ",
+            "indicando não-linearidade da dose-resposta. ",
+            "A hipótese de confundimento por densidade urbana não tem suporte nos dados: ",
+            "CS em Q2 (5–6 equipes) e Q3–Q4 (≥7 equipes) apresentam densidades ",
+            "populacionais semelhantes (medianas 9.346 vs 9.362 hab/km²; ",
+            "Spearman ρ=0,127 entre n_esf e densidade; p=0,17 NS). ",
+            "Interpretação alternativa: CS em Q2 podem representar a faixa de cobertura ",
+            "adequada às suas populações; CS em Q3–Q4 tendem a servir populações com ",
+            "maior complexidade clínica e social, atenuando o benefício marginal de ",
+            "equipes adicionais. Poder estatístico reduzido em Q4 (n=22 CS) ",
+            "também limita as conclusões.")),
   md("Fonte: SIH/SUS – DATASUS. Elaboração própria.")
 )
 

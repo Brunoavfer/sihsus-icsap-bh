@@ -68,12 +68,20 @@ tab_s6_clean <- raw |>
       TRUE            ~ gsub("\\.", ",", sprintf("%.4f", p_beta3))
     ),
     col_phi = gsub("\\.", ",", sprintf("%.3f", phi_AR1)),
+    causa = dplyr::case_when(
+      Especificação == "Modelo base (n=51 meses)"     ~ "—",
+      Especificação == "Sem abr/2024 (n=50 meses)"    ~ "Pico da epidemia de dengue 2024 (abr/2024: n=3.615, +3.570% vs 2023)",
+      Especificação == "Sem mar–abr/2024 (n=49 meses)"~ "Início + pico da epidemia de dengue (mar/2024: n=3.128; abr/2024: n=3.615)",
+      Especificação == "Sem jan–abr/2024 (n=47 meses)"~ "Período de alta circulação de dengue (jan–abr/2024: acima da média histórica)",
+      TRUE ~ "—"
+    ),
     sig = p_beta3 < 0.01,
     negativo = APC_pos < 0
   ) |>
   select(
     `Especificação do modelo`               = Especificação,
     `N meses`                               = n_meses,
+    `Causa da exclusão`                     = causa,
     `APC pós — absoluta (%/ano, IC 95%)`    = col_apc_pos,
     `p(β₃)`                                 = col_p,
     `φ AR(1)`                               = col_phi,
@@ -111,18 +119,24 @@ gt_s6 <- tab_s6_clean |>
   ) |>
   cols_align(align = "center",
              columns = c(`N meses`, `APC pós — absoluta (%/ano, IC 95%)`, `p(β₃)`, `φ AR(1)`)) |>
-  cols_align(align = "left", columns = `Especificação do modelo`) |>
+  cols_align(align = "left",
+             columns = c(`Especificação do modelo`, `Causa da exclusão`)) |>
+  cols_width(`Causa da exclusão` ~ px(240)) |>
   tab_source_note(md(
     paste0(
+      "**Contexto do pico:** O aumento atípico de internações em março–abril/2024 foi causado pela ",
+      "epidemia de dengue de 2024 — a maior da história do Brasil (Grupo G04 da lista ICSAP: ",
+      "+3.570% em abril/2024 vs média mensal de 2023). ",
+      "Análises complementares (Script 23) excluindo o Grupo G04 de todos os meses produziram ",
+      "APC pós = −6,15%/ano (IC 95%: −10,6; −1,4), cujo IC se sobrepõe ao das especificações ",
+      "por exclusão de meses (−8,3% a −10,1%/ano), confirmando consistência entre as duas abordagens. ",
       "APC pós = (β₁+β₃)×12 = variação percentual anual líquida pós-intervenção (tendência pré + slope change). ",
       "β₃ = coeficiente de mudança de slope (tempo_pos): mede exclusivamente a diferença de inclinação pós vs. pré. ",
-      "Meses excluídos: abr/2024 (taxa=24,1%; n_icsap=3.615), mar/2024 (taxa=23,8%; n_icsap=3.128). ",
       "**Resultado-chave:** A APC pós permanece negativa e altamente significativa em todas as especificações ",
-      "(−8,3% a −10,1%/ano; p≤0,0003), com ICs que excluem o zero e se estreitam à medida que os meses de pico são removidos. ",
-      "Isso confirma que o efeito estimado da Portaria 3.493/2024 não é artefato do pico de internações pré-intervenção: ",
-      "ao contrário, a exclusão dos meses de pico torna a queda pós-Portaria mais precisa e robusta. ",
-      "A redução do φ AR(1) de 0,634 para 0,202 com a exclusão dos 4 meses indica que os picos de ",
-      "abr/2024 são a principal fonte de autocorrelação residual na série."
+      "(−8,3% a −10,1%/ano; p≤0,0003). A exclusão dos meses de pico estreita os ICs e reduz o φ AR(1) de ",
+      "0,634 para 0,202, indicando que esses meses são a principal fonte de autocorrelação residual. ",
+      "O efeito estimado da Portaria 3.493/2024 é robusto à epidemia de dengue: a dengue atenuou, ",
+      "não criou, a queda pós-Portaria."
     )
   )) |>
   opt_table_font(font = list(google_font("Source Sans Pro"), default_fonts())) |>
