@@ -1216,6 +1216,9 @@ rodape_tab2 <- list(
             "APC: *Annual Percent Change*. AAPC: *Average Annual Percent Change* (variação percentual anual média para todo o período). ",
             "IRR: *Incidence Rate Ratio*. IC: Intervalo de Confiança de 95%. ",
             "* p<0,05; ** p<0,01; *** p<0,001.")),
+  md(paste0("^i^ Análise estratificada por densidade real (hab/km²) mostrou IRR<1 significativo ",
+            "apenas em CS de baixa densidade (T1: IRR=0,943; p<0,001), sugerindo confundimento ",
+            "por acessibilidade hospitalar. Ver Tabela S5 para detalhes.")),
   md("Fonte: SIH/SUS – DATASUS. Elaboração própria.")
 )
 
@@ -1246,6 +1249,7 @@ gt2 <- tab2 |>
   tab_source_note(rodape_tab2[[7]]) |>
   tab_source_note(rodape_tab2[[8]]) |>
   tab_source_note(rodape_tab2[[9]]) |>
+  tab_source_note(rodape_tab2[[10]]) |>
   tab_style(
     style     = list(cell_fill(color = "#1A5276"),
                      cell_text(color = "white", weight = "bold")),

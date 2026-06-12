@@ -16,7 +16,7 @@ AAPC = +0,7%/ano (-1,2; 2,6) (p = 0,452)",Seg. 3: abr/2024–mar/2026,"-11,2%/an
 2. Determinantes da taxa ICSAP — Poisson FE dois sentidos (153 CS),"M2 — FE Regional de Saúde (9 cat.) + Ano (fixest::feglm)
 n = 7.803 obs. (153 CS × 51 meses) — permite estimar preditores estáticos (IVS, saneamento)ᵍ",Índice de Vulnerabilidade em Saúde (IVS-BH) — IRR por 1 ponto,"1,321","(1,121; 1,557)","<0,001"
 2. Determinantes da taxa ICSAP — Poisson FE dois sentidos (153 CS),"M2 — FE Regional de Saúde (9 cat.) + Ano (fixest::feglm)
-n = 7.803 obs. (153 CS × 51 meses) — permite estimar preditores estáticos (IVS, saneamento)ᵍ",% domicílios sem saneamento básico — IRR por 1 p.p.,"0,968","(0,945; 0,991)","0,007"
+n = 7.803 obs. (153 CS × 51 meses) — permite estimar preditores estáticos (IVS, saneamento)ᵍ",% domicílios sem saneamento básico — IRR por 1 p.p.ⁱ,"0,968","(0,945; 0,991)","0,007"
 2. Determinantes da taxa ICSAP — Poisson FE dois sentidos (153 CS),"M2 — FE Regional de Saúde (9 cat.) + Ano (fixest::feglm)
 n = 7.803 obs. (153 CS × 51 meses) — permite estimar preditores estáticos (IVS, saneamento)ᵍ",Sobredispersão (Pearson χ²/gl) — M2 regional FEᵍ,"2,68",—,—
 2. Determinantes da taxa ICSAP — Poisson FE dois sentidos (153 CS),Dose-resposta: nº equipes ESF vs. Q1 (1–4 equipes),Q2 (5–6 equipes) — IRR,"0,921","(0,897; 0,945)","<0,001"

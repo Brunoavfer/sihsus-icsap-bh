@@ -40,16 +40,23 @@ fmt_num <- function(x, digits = 1) gsub("\\.", ",", sprintf(paste0("%+.", digits
 # TABELA S4 — ITS por grupo clínico (duas análises)
 # =============================================================================
 
-message("=== Tabela S4 — ITS por grupo clínico ===")
+message("=== Tabela S4 — ITS por grupo clínico (tabela unificada) ===")
 
 its_abs  <- read_csv(file.path(DIR_PROC, "its_por_grupo.csv"),      show_col_types = FALSE)
 its_prop <- read_csv(file.path(DIR_PROC, "its_por_grupo_prop.csv"), show_col_types = FALSE)
 
 n_total <- its_abs$n_icsap_tot[its_abs$grupo == "Todos"]
 
-# --- Painel A: contagem absoluta ---
-painel_a <- its_abs |>
+tab_s4 <- its_abs |>
   filter(grupo != "Todos") |>
+  left_join(
+    its_prop |> select(grupo,
+                       apc_pos_prop     = apc_pos,
+                       apc_pos_inf_prop = apc_pos_inf,
+                       apc_pos_sup_prop = apc_pos_sup,
+                       p_pos_prop       = p_pos),
+    by = "grupo"
+  ) |>
   mutate(
     grupo_label = case_when(
       grupo == "09" ~ "Grupo 09 — Cardiovascular",
@@ -62,46 +69,33 @@ painel_a <- its_abs |>
       grupo == "13" ~ "Diabetes mellitus (todas as formas)"
     ),
     n_pct = sprintf("%s (%s%%)",
-                    format(n_icsap_tot, big.mark=","),
+                    format(n_icsap_tot, big.mark = ","),
                     gsub("\\.", ",", sprintf("%.1f", 100 * n_icsap_tot / n_total))),
-    col_apc_pre = sprintf("%s%% (IC: %s; %s)",
-                          fmt_num(apc_pre), fmt_num(apc_pre_inf), fmt_num(apc_pre_sup)),
-    col_apc_pos = sprintf("%s%% (IC: %s; %s)",
-                          fmt_num(apc_pos), fmt_num(apc_pos_inf), fmt_num(apc_pos_sup)),
-    col_p = fmt_p(p_pos)
-  ) |>
-  select(Grupo = grupo_label, `CIDs incluídos` = subgrupos,
-         `n (% do total)` = n_pct,
-         `APC pré (%/ano)` = col_apc_pre,
-         `APC pós (%/ano, IC 95%)` = col_apc_pos,
-         `p-valor` = col_p)
-
-# --- Painel B: proporção (p.p./ano) ---
-painel_b <- its_prop |>
-  mutate(
-    grupo_label = case_when(
-      grupo == "09" ~ "Grupo 09 — Cardiovascular",
-      grupo == "10" ~ "Grupo 10 — Respiratório",
-      grupo == "13" ~ "Grupo 13 — Diabetes mellitus"
-    ),
-    col_slope_pre = sprintf("%s pp/ano (IC: %s; %s)",
-                            fmt_num(apc_pre, 2), fmt_num(apc_pre_inf, 2), fmt_num(apc_pre_sup, 2)),
-    col_slope_pos = sprintf("%s pp/ano (IC: %s; %s)",
-                            fmt_num(apc_pos, 2), fmt_num(apc_pos_inf, 2), fmt_num(apc_pos_sup, 2)),
-    col_p = fmt_p(p_pos),
-    interpretacao = dplyr::case_when(
-      grupo == "09" ~ "NS vol. abs. / sig. prop.",
-      grupo == "10" ~ "NS vol. abs. / sig. prop.",
-      grupo == "13" ~ "Sig. vol. abs. / NS prop."
+    col_apc_abs  = sprintf("%s%% (IC: %s; %s)",
+                           fmt_num(apc_pos), fmt_num(apc_pos_inf), fmt_num(apc_pos_sup)),
+    col_p_abs    = fmt_p(p_pos),
+    col_apc_prop = sprintf("%s pp/ano (IC: %s; %s)",
+                           fmt_num(apc_pos_prop, 2),
+                           fmt_num(apc_pos_inf_prop, 2),
+                           fmt_num(apc_pos_sup_prop, 2)),
+    col_p_prop   = fmt_p(p_pos_prop),
+    interpretacao = case_when(
+      grupo == "09" ~ "Participação relativa aumentou",
+      grupo == "10" ~ "Participação relativa aumentou",
+      grupo == "13" ~ "Queda proporcional ao total"
     )
   ) |>
-  select(Grupo = grupo_label,
-         `Slope pré (pp/ano)` = col_slope_pre,
-         `Slope pós (pp/ano, IC 95%)` = col_slope_pos,
-         `p-valor` = col_p,
-         Interpretação = interpretacao)
+  select(
+    `Grupo ICSAP`                          = grupo_label,
+    `CIDs incluídos`                       = subgrupos,
+    `n (% do total)`                       = n_pct,
+    `APC pós — absoluta (%/ano, IC 95%)`   = col_apc_abs,
+    `p (absoluta)`                         = col_p_abs,
+    `APC pós — proporção (pp/ano, IC 95%)` = col_apc_prop,
+    `p (proporcional)`                     = col_p_prop,
+    `Interpretação`                        = interpretacao
+  )
 
-# CSV combinado
 csv_s4 <- bind_rows(
   its_abs  |> filter(grupo != "Todos") |> mutate(analise = "absoluta"),
   its_prop |> mutate(analise = "proporcional")
@@ -109,67 +103,56 @@ csv_s4 <- bind_rows(
 write_csv(csv_s4, file.path(DIR_PROC, "tabela_s4_its_grupos.csv"))
 message(sprintf("  CSV salvo: %s", file.path(DIR_PROC, "tabela_s4_its_grupos.csv")))
 
-# gt — Painel A
-gt_a <- painel_a |>
+gt_s4 <- tab_s4 |>
   gt() |>
   tab_header(
-    title    = md("**Tabela S4A.** ITS GLS AR(1) — Contagem absoluta por grupo clínico"),
-    subtitle = "APC = Annual Percentage Change (%/ano); BH municipal, jan/2022–mar/2026; intervenção: maio/2024"
+    title    = md("**Tabela S4.** ITS GLS AR(1) — Efeito da Portaria 3.493/2024 por grupo clínico ICSAP"),
+    subtitle = "BH municipal, jan/2022–mar/2026 (51 meses); intervenção: maio/2024; IC 95% via método delta"
   ) |>
   tab_style(
     style     = cell_text(weight = "bold", color = "#c0392b"),
-    locations = cells_body(rows = `p-valor` == "<0,001",
-                           columns = c(`APC pós (%/ano, IC 95%)`, `p-valor`))
+    locations = cells_body(
+      rows    = `Grupo ICSAP` == "Grupo 13 — Diabetes mellitus",
+      columns = c(`APC pós — absoluta (%/ano, IC 95%)`, `p (absoluta)`)
+    )
   ) |>
-  cols_align(align = "center",
-             columns = c(`n (% do total)`, `APC pré (%/ano)`, `APC pós (%/ano, IC 95%)`, `p-valor`)) |>
-  cols_align(align = "left", columns = c(Grupo, `CIDs incluídos`)) |>
-  tab_source_note(md(
-    "IC 95% via método delta (Var(β₁+β₃) = Var(β₁)+Var(β₃)+2·Cov(β₁,β₃)). \
-APC pós = mudança de tendência no volume absoluto do grupo — **não implica efeito clínico seletivo** \
-(ver Tabela S4B para análise proporcional)."
-  )) |>
-  opt_table_font(font = list(google_font("Source Sans Pro"), default_fonts())) |>
-  tab_options(table.font.size=12, data_row.padding=px(5),
-              column_labels.font.weight="bold", source_notes.font.size=10)
-
-# gt — Painel B
-gt_b <- painel_b |>
-  gt() |>
-  tab_header(
-    title    = md("**Tabela S4B.** ITS GLS AR(1) — Composição proporcional (% do total ICSAP)"),
-    subtitle = "GLS linear (outcome: % do grupo no total ICSAP municipal por mês); slope em p.p./ano"
-  ) |>
-  tab_source_note(md(
-    "Slope pós = (β₁+β₃)×12, IC 95% via método delta. \
-**Interpretação crítica (P17/P21):** Diabetes mellitus apresenta redução significativa no \
-volume absoluto (Tabela S4A, p<0,001) mas sem mudança significativa na composição proporcional \
-(p=0,571). Isso indica que a redução de diabetes acompanha proporcionalmente a redução geral de ICSAP, \
-sem evidência de efeito clínico seletivo da Portaria 3.493/2024 sobre esse grupo. \
-Cardiovascular e respiratório sem redução absoluta significativa, mas com aumento de participação \
-proporcional (p<0,01 e p=0,035), reflexo do declínio mais acentuado de outros grupos. \
-A interpretação causal deve ser moderada: 23 meses de seguimento (mai/2024–mar/2026) \
-podem ser insuficientes para atribuir causalidade isolada à Portaria, dada a possível \
-influência de fatores concorrentes (melhora no manejo ambulatorial pós-pandemia, \
-mudanças na codificação SIHSUS). Ausência de padronização etária é limitação adicional."
-  )) |>
   tab_style(
-    style     = cell_text(weight = "bold"),
-    locations = cells_body(rows = Grupo == "Grupo 13 — Diabetes mellitus",
-                           columns = c(`Slope pós (pp/ano, IC 95%)`, `p-valor`, Interpretação))
+    style     = cell_text(weight = "bold", color = "#1a5276"),
+    locations = cells_body(
+      rows    = `Grupo ICSAP` != "Grupo 13 — Diabetes mellitus",
+      columns = c(`APC pós — proporção (pp/ano, IC 95%)`, `p (proporcional)`)
+    )
   ) |>
   cols_align(align = "center",
-             columns = c(`Slope pré (pp/ano)`, `Slope pós (pp/ano, IC 95%)`, `p-valor`, Interpretação)) |>
-  cols_align(align = "left", columns = Grupo) |>
+             columns = c(`n (% do total)`,
+                         `APC pós — absoluta (%/ano, IC 95%)`, `p (absoluta)`,
+                         `APC pós — proporção (pp/ano, IC 95%)`, `p (proporcional)`,
+                         `Interpretação`)) |>
+  cols_align(align = "left", columns = c(`Grupo ICSAP`, `CIDs incluídos`)) |>
+  tab_source_note(md(
+    paste0(
+      "APC pós (absoluta) = (β₁+β₃)×12, modelo GLS log-linear; ",
+      "IC 95% via método delta [Var(β₁+β₃) = Var(β₁)+Var(β₃)+2·Cov(β₁,β₃)]. ",
+      "APC pós (proporção) = slope pós em modelo GLS linear com desfecho = ",
+      "% do grupo no total ICSAP municipal mensal. ",
+      "**Interpretação:** A análise por contagem absoluta reflete variações no volume total de ICSAP, ",
+      "não necessariamente efeitos seletivos por grupo. ",
+      "A análise proporcional testa se a composição das ICSAP mudou após a Portaria 3.493/2024. ",
+      "O grupo **diabetes** — que apresentou a maior redução absoluta (−11,4%/ano; p<0,001) — ",
+      "não mostrou mudança significativa na proporção relativa (p=0,571), ",
+      "indicando ausência de efeito clínico seletivo da Portaria sobre esse grupo. ",
+      "Grupos **cardiovascular** e **respiratório** apresentaram aumento relativo significativo ",
+      "(p<0,01 e p=0,04), reflexo de queda absoluta menos pronunciada nesses grupos comparada ao total. ",
+      "**Conclusão:** a Portaria 3.493/2024 reduziu o volume global de ICSAP de forma proporcional ",
+      "entre os grupos clínicos analisados; não há evidência de efeito seletivo sobre nenhum grupo."
+    )
+  )) |>
   opt_table_font(font = list(google_font("Source Sans Pro"), default_fonts())) |>
-  tab_options(table.font.size=12, data_row.padding=px(5),
-              column_labels.font.weight="bold", source_notes.font.size=10)
+  tab_options(table.font.size = 12, data_row.padding = px(5),
+              column_labels.font.weight = "bold", source_notes.font.size = 10)
 
-# Salva ambos no mesmo arquivo HTML concatenando
-html_a <- as_raw_html(gt_a)
-html_b <- as_raw_html(gt_b)
 html_s4 <- file.path(DIR_DOCS, "tabela_s4_its_grupos.html")
-writeLines(c(html_a, "<br><br>", html_b), html_s4)
+gtsave(gt_s4, html_s4)
 message(sprintf("  HTML salvo: %s", html_s4))
 
 # =============================================================================
@@ -248,18 +231,21 @@ gt_s5 <- tab_s5_raw |>
              columns = c(`N CS`, `IRR saneamento`, `IC 95%`, `p-valor`, `IRR IVS (p)`)) |>
   cols_align(align = "left", columns = Estrato) |>
   tab_source_note(md(
-    "IRR = incidence rate ratio. Saneamento = % domicílios sem rede geral de água (Censo 2022). \
-IVS = Índice de Vulnerabilidade Social (SMSA/PBH). Densidade real (hab/km²) calculada \
-a partir dos polígonos oficiais de área de abrangência dos CS (PBH/SMSA). \
-**T1 (baixa densidade, ≤ 7.828 hab/km²): IRR = 0,943 (p<0,001) — associação significativa, \
-confirmando a hipótese de confundimento ecológico.** Em áreas pouco densas, pior saneamento \
-coexiste com menor acesso hospitalar, produzindo menor registro de internações. \
-T2 e T3 (densidade intermediária e alta): IRR não significativo (p>0,28). \
-Interação saneamento×densidade (contínua): IRR = 1,014; p = 0,051 (marginalmente NS). \
-Esses resultados sugerem que a associação observada no modelo geral é mediada pela \
-concentração do efeito em áreas de baixa densidade, consistente com viés de acesso diferencial, \
-mas análises adicionais com dados de utilização hospitalar são necessárias para confirmar \
-o mecanismo."
+    paste0(
+      "IRR = incidence rate ratio. Saneamento = % domicílios sem rede geral de água (Censo 2022). ",
+      "IVS = Índice de Vulnerabilidade Social (SMSA/PBH). ",
+      "Densidade calculada como população adscrita / área de abrangência do CS (km²), ",
+      "obtida dos polígonos oficiais SMSA/PBH (2024). ",
+      "**T1 (baixa densidade, ≤7.828 hab/km²): IRR=0,943 (p<0,001) — único estrato com ",
+      "associação significativa.** T2 e T3: IRR não significativo (p>0,28). ",
+      "Interação saneamento×densidade (contínua): p=0,051 (marginalmente NS). ",
+      "O IRR<1 significativo concentra-se nos CS de baixa densidade (T1), consistente com a ",
+      "hipótese de menor acesso hospitalar em áreas periféricas: em regiões menos densas, ",
+      "domicílios sem saneamento podem ter menor acesso ao hospital, reduzindo artificialmente ",
+      "as internações registradas. ",
+      "**O efeito observado no modelo geral (IRR=0,968; p=0,007) é provavelmente artefato de ",
+      "confundimento ecológico por acessibilidade hospitalar, não associação causal.**"
+    )
   )) |>
   opt_table_font(font = list(google_font("Source Sans Pro"), default_fonts())) |>
   tab_options(
