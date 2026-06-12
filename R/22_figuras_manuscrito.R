@@ -797,27 +797,26 @@ p3d <- ggplot(sf_cs_map) +
 
 fig3 <- (p3a | p3b) / (p3c | p3d) +
   plot_annotation(
-    caption = paste0(
-      "Figura 3. Distribuição espacial da taxa de internações por condições sensíveis à atenção primária (ICSAP) ",
-      "e das internações evitadas após a Portaria GM/MS nº 3.493/2024. ",
-      "Belo Horizonte, Minas Gerais, Brasil, janeiro de 2022 a março de 2026.\n",
-      "(A) Taxa ICSAP padronizada por idade (método direto, população padrão: Brasil, Censo 2022). ",
-      "Média mensal por 10.000 habitantes, por Regional Administrativa de saúde.\n",
-      "(B) Internações ICSAP evitadas por Regional Administrativa, no período pós-Portaria ",
-      "(maio/2024–março/2026). Estimativa baseada no modelo ITS-GLS AR(1).\n",
-      "(C) Taxa ICSAP padronizada por idade (mesmo método), por área de abrangência do Centro de Saúde (CS). ",
-      "Foram incluídos 153 CS com informação completa.\n",
-      "(D) Internações ICSAP evitadas por CS. ",
-      "Estimativa descritiva obtida pela distribuição proporcional do total BH ao período pós-Portaria ",
-      "(mai/2024–mar/2026), usando como peso a participação histórica de cada CS no total de ICSAP ",
-      "geocodificadas no mesmo período. Não representa modelo ITS independente por CS — ",
-      "séries individuais por CS têm poder estatístico insuficiente para inferência causal isolada. ",
-      "Classificação das cores por quebras naturais (método de Jenks).\n",
-      "Escala: 6 km (indicada nos mapas). Norte: seta indicativa.\n",
-      "Fontes: SIH/SUS – DATASUS; SMSA/PBH (áreas de abrangência, 2024); IBGE (Censo 2022). Elaboração própria."
+    caption = paste(
+      stringr::str_wrap(
+        c(
+          "Figura 3. Distribuição espacial da taxa de internações por condições sensíveis à atenção primária (ICSAP) e das internações evitadas após a Portaria GM/MS nº 3.493/2024. Belo Horizonte, Minas Gerais, Brasil, janeiro de 2022 a março de 2026.",
+          "(A) Taxa ICSAP padronizada por idade (método direto, população padrão: Brasil, Censo 2022). Média mensal por 10.000 habitantes, por Regional Administrativa de saúde.",
+          "(B) Internações ICSAP evitadas por Regional Administrativa, no período pós-Portaria (maio/2024–março/2026). Estimativa baseada no modelo ITS-GLS AR(1).",
+          "(C) Taxa ICSAP padronizada por idade (mesmo método), por área de abrangência do Centro de Saúde (CS). Foram incluídos 153 CS com informação completa.",
+          "(D) Internações ICSAP evitadas por CS. Estimativa descritiva obtida pela distribuição proporcional do total BH ao período pós-Portaria (mai/2024–mar/2026), usando como peso a participação histórica de cada CS no total de ICSAP geocodificadas no mesmo período. Não representa modelo ITS independente por CS — séries individuais por CS têm poder estatístico insuficiente para inferência causal isolada. Classificação das cores por quebras naturais (método de Jenks).",
+          "Escala: 6 km (indicada nos mapas). Norte: seta indicativa.",
+          "Fontes: SIH/SUS – DATASUS; SMSA/PBH (áreas de abrangência, 2024); IBGE (Censo 2022). Elaboração própria."
+        ),
+        width = 160
+      ),
+      collapse = "\n"
     ),
-    theme = theme(plot.caption = element_text(size = 6.3, colour = "grey35",
-                                              hjust = 0, lineheight = 1.3))
+    theme = theme(
+      plot.caption = element_text(size = 6.3, colour = "grey35",
+                                  hjust = 0, lineheight = 1.3),
+      plot.caption.position = "plot"
+    )
   )
 
 suppressWarnings({
