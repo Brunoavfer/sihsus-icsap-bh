@@ -160,7 +160,7 @@ boxes_analysis <- bind_rows(
          sprintf("Análise temporal\n(ITS-GLS AR(1) + Joinpoint regression)\nn = %s ICSAP | 51 meses", fmt_n(N_ICSAP)),
          "white"),
   mk_box("F2", 0.45, 0.060, 0.99, 0.175, "#154360",
-         sprintf("Análise espacial\n(Índice de Moran + GEE AR(1) + Poisson com efeitos fixos)\n153 CS × 36–51 meses | n = %s", fmt_n(N_GEO)),
+         sprintf("Análise espacial\n(Índice de Moran + GEE AR(1) + Poisson com efeitos fixos)\n153 CS × 51 meses | n = %s", fmt_n(N_GEO)),
          "white")
 )
 
@@ -570,16 +570,33 @@ cat(sprintf("  CS: taxa=%d, evitadas=%d (de %d)\n",
             sum(!is.na(sf_cs_map$evitadas_central)),
             nrow(sf_cs_map)))
 
+# Função para corrigir acentuação dos nomes (GeoJSON usa caixa alta sem diacríticos)
+fix_accents_cs <- function(x) {
+  x |>
+    str_replace_all("AARAO", "AARÃO") |>
+    str_replace_all("\\bSAO\\b", "SÃO") |>
+    str_replace_all("CRISTOVAO", "CRISTÓVÃO") |>
+    str_replace_all("\\bJOAO\\b", "JOÃO") |>
+    str_replace_all("\\bJOSE\\b", "JOSÉ") |>
+    str_replace_all("\\bOPERARIO\\b", "OPERÁRIO") |>
+    str_replace_all("\\bNAZARE\\b", "NAZARÉ") |>
+    str_replace_all("\\bGLORIA\\b", "GLÓRIA") |>
+    str_replace_all("\\bGOIANIA\\b", "GOIÂNIA") |>
+    str_replace_all("\\bEUSTAQUIO\\b", "EUSTÁQUIO") |>
+    str_replace_all("\\bTARCISIO\\b", "TARCÍSIO") |>
+    str_replace_all("\\bCICERO\\b", "CÍCERO")
+}
+
 # Labels para ggrepel — extrair coordenadas explicitamente (evita sobreposição)
 top3_taxa <- sf_cs_map |> st_drop_geometry() |>
   filter(taxa_pad_media > quantile(taxa_pad_media, 0.95, na.rm = TRUE)) |>
   slice_max(taxa_pad_media, n = 3, na_rm = TRUE) |>
-  mutate(label_cs = str_remove(nome_cs, "^CENTRO DE SAUDE "))
+  mutate(label_cs = fix_accents_cs(str_remove(nome_cs, "^CENTRO DE SAUDE ")))
 
 top5_evit <- sf_cs_map |> st_drop_geometry() |>
   filter(evitadas_central > quantile(evitadas_central, 0.95, na.rm = TRUE)) |>
   slice_max(evitadas_central, n = 3, na_rm = TRUE) |>
-  mutate(label_cs = str_remove(nome_cs, "^CENTRO DE SAUDE "))
+  mutate(label_cs = fix_accents_cs(str_remove(nome_cs, "^CENTRO DE SAUDE ")))
 
 # Centroides CS para top labels
 sf_lab3 <- suppressWarnings(

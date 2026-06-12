@@ -133,7 +133,8 @@ gt_s6 <- tab_s6_clean |>
       "APC pós = (β₁+β₃)×12 = variação percentual anual líquida pós-intervenção (tendência pré + slope change). ",
       "β₃ = coeficiente de mudança de slope (tempo_pos): mede exclusivamente a diferença de inclinação pós vs. pré. ",
       "**Resultado-chave:** A APC pós permanece negativa e altamente significativa em todas as especificações ",
-      "(−8,3% a −10,1%/ano; p≤0,0003). A exclusão dos meses de pico estreita os ICs e reduz o φ AR(1) de ",
+      "(−8,3% a −10,1%/ano). Valores exatos de p(β₃): modelo completo p=0,0003; modelos com exclusão p<0,0001 ",
+      "(precisão numérica esgotada). A exclusão dos meses de pico estreita os ICs e reduz o φ AR(1) de ",
       "0,634 para 0,202, indicando que esses meses são a principal fonte de autocorrelação residual. ",
       "O efeito estimado da Portaria 3.493/2024 é robusto à epidemia de dengue: a dengue atenuou, ",
       "não criou, a queda pós-Portaria."

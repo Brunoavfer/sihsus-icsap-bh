@@ -80,9 +80,9 @@ tab_s4 <- its_abs |>
                            fmt_num(apc_pos_sup_prop, 2)),
     col_p_prop   = fmt_p(p_pos_prop),
     interpretacao = case_when(
-      grupo == "09" ~ "Participação relativa aumentou",
-      grupo == "10" ~ "Participação relativa aumentou",
-      grupo == "13" ~ "Queda proporcional ao total"
+      grupo == "09" ~ "Queda absoluta NS; proporção aumentou (queda < média total — grupo caiu menos que os demais)",
+      grupo == "10" ~ "Queda absoluta NS; proporção aumentou (queda < média total — grupo caiu menos que os demais)",
+      grupo == "13" ~ "Queda absoluta significativa; proporção estável (queda proporcional ao total — sem efeito seletivo)"
     )
   ) |>
   select(
