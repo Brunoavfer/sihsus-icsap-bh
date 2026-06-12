@@ -808,7 +808,7 @@ fig3 <- (p3a | p3b) / (p3c | p3d) +
           "Escala: 6 km (indicada nos mapas). Norte: seta indicativa.",
           "Fontes: SIH/SUS – DATASUS; SMSA/PBH (áreas de abrangência, 2024); IBGE (Censo 2022). Elaboração própria."
         ),
-        width = 160
+        width = 210
       ),
       collapse = "\n"
     ),
@@ -822,8 +822,8 @@ fig3 <- (p3a | p3b) / (p3c | p3d) +
 suppressWarnings({
   ragg::agg_png(
     filename   = file.path(DIR_DOCS, "figura3_mapa_quadruplo.png"),
-    width      = 10, height = 8.5, units = "in",
-    res        = 150, background = "white"          # teste; aumentar para 14×12 res=300
+    width      = 14, height = 12, units = "in",
+    res        = 300, background = "white"
   )
   print(fig3)
   dev.off()
